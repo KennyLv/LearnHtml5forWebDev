@@ -1,0 +1,145 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+<script type="text/javascript">
+
+var  defaultApps = [
+	    {"appId" : 1, "appName" : "home", "appDisplayName": "Home", "appPath": "home", "appCategory" : "AQ_COMMON"},
+		{"appId" : 100, "appName" : "test1", "appDisplayName": "test1", "appPath": "test1", "appCategory" : "AQ_COMMON"},
+		{"appId" : 3, "appName" : "test2", "appDisplayName": "test2", "appPath": "test2", "appCategory" : "AQ_COMMON"}
+	];
+
+	var newApps = [
+		{"appName" : "test3", "appDisplayName": "test3", "appPath": "test3", "appCategory" : "AQ_COMMON"},
+		{"appName" : "test4", "appDisplayName": "test4", "appPath": "test4", "appCategory" : "AQ_COMMON"}
+	];
+	var updateApps = [
+		{"appName" : "home", "appDisplayName": "Home", "appPath": "home", "appCategory" : "AQ_COMMON"},
+		{"appName" : "test1", "appDisplayName": "test1", "appPath": "test1", "appCategory" : "AQ_COMMON"}
+	];
+	var availableApps = [
+		{"appName" : "home", "appDisplayName": "Home", "appPath": "home", "appCategory" : "AQ_COMMON"},
+		{"appName" : "test1", "appDisplayName": "test1", "appPath": "test1", "appCategory" : "AQ_COMMON"},
+		{"appName" : "test3", "appDisplayName": "test3", "appPath": "test3", "appCategory" : "AQ_COMMON"},
+		{"appName" : "test4", "appDisplayName": "test4", "appPath": "test4", "appCategory" : "AQ_COMMON"}
+	];
+
+var aqAppResponseMap = {
+		"COM.CLEARCHANNEL.IHEARTRADIO" : "iheartradio",
+		"PANDORA" : "pandora"
+	};
+
+	
+	console.log( aqAppResponseMap["PANDORA"]  );
+	console.log( aqAppResponseMap["HAP"]  );
+	
+	
+	function updateConstantsAppList(apps,status,isCleanUp){
+	    /*{"appId": 1,"appName": "home","appDisplayName": "Home","appPath": "home","appCategory": "AQ_COMMON"}*/
+		//Mark all the app in contants as "REMOVING"
+		for(var i = 0; i < defaultApps.length; i++){
+			defaultApps[i].appStatus = "REMOVING";
+		}
+		//Update all the contants with READY/UPGRATING/DOWNLOADING
+		for(var i = 0; i < apps.length; i++){
+			//CASE 1 : ignore "aq"
+			if(apps[i].appName.toUpperCase() == "AQ"){
+				continue;
+			}
+			//CASE 2 : ID for Home is 1
+			var Id = this.getAppId(apps[i].appName);
+			if(Id == 1 && apps[i].appName.toUpperCase() != "HOME"){
+				//New app
+				Id = this.generateNewAppId(defaultApps);
+				defaultApps.push({ 
+					"appId" : Id,
+					"appName" : apps[i].appName, 
+					"appDisplayName": apps[i].appDisplayName, 
+					"appPath": apps[i].appPath, 
+					"appCategory" : apps[i].appCategory,
+					"appStatus" : status
+				});
+			}else{
+				//exist app (Home = 1)
+				this.updateContantsAppsById(Id, apps[i],status);
+			}
+			
+		}
+		//When update finished, clean up the list , remove the deleted one.
+		if(isCleanUp){
+			for(var i = 0; i < defaultApps.length; i++){
+				if(	defaultApps[i].appStatus == "REMOVING" && defaultApps[i].appName.toUpperCase() != "HOME"){
+					defaultApps.splice(i , 1);
+					//after splic, the length will smaller
+					i--;
+				}
+			}
+		}
+	}
+	
+	function getAppId(appName)
+	{
+		for(var i=0; i< defaultApps.length;i++)
+		{
+			if( defaultApps[i].appName == appName)
+			{
+				return defaultApps[i].appId;
+			}
+		}
+		return 1;
+	}
+	
+	function generateNewAppId(array){
+		//Sort all the exist Id
+		var idArr = [];
+		for(var i = 0; i < array.length; i++){
+			idArr.push(array[i].appId);
+		}
+		idArr.sort(function sortNumber(a,b){return a - b});
+		//generat the none exist Id using Interpolation
+		/*for(var index = 0; index < idArr.length; index++){
+			if(idArr[index+1] != idArr[index] && idArr[index+1] != idArr[index] +1){
+				return idArr[index] +1;
+			}
+		}
+		return idArr[idArr.length-1] + 1;
+		*/
+		return idArr[idArr.length-1] + 1;
+	}
+	
+	function updateContantsAppsById(Id,app,appStatus){
+		for(var i = 0; i < defaultApps.length; i++){
+			if(defaultApps[i].appId == Id ){
+				defaultApps[i].appName = app.appName;
+				defaultApps[i].appDisplayName = app.appDisplayName;
+				defaultApps[i].appPath = app.appPath;
+				defaultApps[i].appCategory = app.appCategory;
+				defaultApps[i].appStatus = appStatus;
+			}
+		}
+		return;
+	}
+	/*
+	this.updateConstantsAppList(updateApps,"Updateding", false);
+	log(defaultApps);
+	console.log("------------------------------------------------------------------------");
+	
+	this.updateConstantsAppList(newApps,"Downloading", false);
+	log(defaultApps);
+	console.log("------------------------------------------------------------------------");
+	this.updateConstantsAppList(availableApps,"READY", true);
+	log(defaultApps);
+	console.log("-------------------------------------------------------------------------");
+	
+	function log(array){
+		for(var i = 0; i < array.length; i++){
+			console.log(array[i].appId + "===" + array[i].appName + "====" + array[i].appStatus);
+		}
+	}
+	*/
+</script>
+</head>
+<body>
+</body>
+</html>

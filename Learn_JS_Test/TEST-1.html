@@ -1,0 +1,71 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+<script type="text/javascript" src="jquery-1.9.0.min.js" ></script>
+</head>
+<body>
+
+<div id="test_value" style="font-size: 50pt;" >--</div>
+<script type="text/javascript">
+
+	var appName = true ;
+	
+	
+	if( appName){
+		$("#test_value").html( "(HH)");
+	}else{
+		$("#test_value").html( "(DD)");
+	}
+	
+	
+</script>
+<script type="text/javascript">
+/*
+	var appName;
+	
+	var iosAppContainerMap = {
+		"com.nissan.NissanConnect" : "home",
+		"nissanoem" : "home",
+		"com.clearchannel.iheartradio" : "iheartradio",       
+		"com.airbiquity.ihr" : "iheartradio",
+		"pandora" : "pandora"
+	}
+	try{
+		appName = iosAppContainerMap[ "nissanoem"];
+	}catch(ex){
+		appName = "home";
+	}
+	
+	console.log(appName);
+	
+	if(typeof appName == "undefined"){
+		appName = "home undefined";
+	}
+	
+	$("#test_value").html( "(" + appName + ")");
+*/
+</script>
+<script type="text/javascript">
+/*
+var result = true;
+if(result == 1){
+$("#test_value").html("true == 1");
+}else{
+$("#test_value").html("true != 1");
+}
+*/
+</script>
+
+<script type="text/javascript">
+/*
+var result = "...";
+result += "[platform ]" + navigator.platform;
+result += "[userAgent]" + navigator.userAgent;
+console.log(navigator);
+$("#test_value").html(result);
+*/
+</script>
+
+</body>
+</html>

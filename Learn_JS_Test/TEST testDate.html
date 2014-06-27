@@ -1,0 +1,168 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+<script type="text/javascript" src="jquery-1.9.0.min.js" ></script>
+<script type="text/javascript">
+
+
+	var result = "";
+
+function formatDate(arg)
+{
+	var obj = null;
+
+	try{
+		//var iso8601SplitReplace = /[- :T\.Z\+]/;
+		arg = arg.replace(/-/g, '/');
+		arg = arg.replace(/T/, " ");
+		arg = arg.replace(/\+/, "  +");
+		//argArray = arg.split(this.iso8601SplitReplace);
+	}catch(e){}
+
+	obj = new Date(arg);
+	
+	if(typeof obj == "undefined" || obj == null)
+	{
+		obj = new Date(parseInt(arg) * 1000);
+	}
+
+	if( obj.toString() == "Invalid Date" )
+	{
+		return "";
+	}
+	
+	var diff = parseInt( (new Date()).getTime() - obj.getTime() )/1000;
+	
+	var months =[
+        "Jan",
+        "Feb",
+        "Mar",
+        "Apr",
+        "May",
+        "Jun",
+        "Jul",
+        "Aug",
+        "Sep",
+        "Oct",
+        "Nov",
+        "Dec"
+    ];
+	
+	var month = months[ obj.getMonth() ];
+	var days = "week_Days";
+	var day = days[ obj.getDay() ];
+	var date = obj.getDate();
+	var year = obj.getFullYear();
+	var hour = obj.getHours();
+	var minute = obj.getMinutes();
+
+	if(hour > 12){
+		hour -= 12;
+		var timePostfix =  "pm";
+	}else if(hour == 12){
+		var timePostfix =  "pm";
+	}else{
+		var timePostfix =  "am";
+	}
+
+	if(minute < 10){
+		minute = "0" + minute;
+	}
+
+	if( diff < 0 )
+	{
+		console.log("FACEBOOK TIME IS IN FUTURE: "+ obj.toString() );
+	}
+		
+	if( diff < 10 ){ //10 seconds
+
+		return "just_Now";
+
+	}else if( diff < 60 ){ //1 minute
+
+		return "1 min ago";
+
+	}else if( diff < 3600 ){ //60 minutes
+
+		return parseInt( diff / 60 ) + "min ago";
+
+	}
+	else if( diff < 3600*24 ){ //24 hours
+
+		return parseInt( diff / 3600 ) + "min ago";
+
+	}else if( diff < 3600*24*6 ){ //6 days
+
+		return day;
+
+	}else if( year == (new Date()).getFullYear() ){ //the same year
+		return month + " " + date;
+	}else{
+		return month + " " + date + ", " + year;
+	}
+};
+</script>
+
+</head>
+<body>
+
+<div id="test_value" style="font-size: 50pt;" >--</div>
+<script type="text/javascript">
+	/*
+	2013-10-15T22:55:49+0000
+	2013-10-15T22:55:49+0000
+	2013-10-16T02:29:12+0000
+	2013-10-15T21:51:29+0000	
+	*/
+	
+	//var str = '2013-12-18';
+	//var str = new Date(parseInt(1322764086) * 1000)
+	
+	var testDateTime = "2013-10-15T22:55:49+0000";
+	//var result = "--";
+	//result = formatDate(str);
+	
+	var testdate = 	[
+		"2013-12-18",
+		"2013-09-29T09:00:00+0800",
+		"2013-10-01T23:00:00-0700",
+		"2013-09-29T23:00:00+0800",
+		"2013-09-29T17:00:00+0800",
+		"2013-09-29",
+		"2013-09-29T09:00:00+0800",
+		"2013-09-26T08:00:00-0700",
+		"2013-09-25T23:00:00-0700",
+		"2013-10-24T17:00:00-0700",
+		"2013-09-19T13:00:00-0700",
+		"2013-10-25T15:00:00-0700",
+		"2013-09-16T12:00:00-0700"
+	];
+	
+	
+	result = formatDate(testDateTime);
+	
+	
+	
+	/*
+	for(var i = 0; i < testdate.length; i++){
+	
+		var str = testdate[i].split("T")[0];
+	
+		var eventTime = new Date(str);
+		
+		console.log("eventTime : "+ i + " is :" + eventTime);
+		
+		var obj = new Date();
+
+		if( eventTime > new Date() )
+		{
+			result += "\n" + testdate[i] ;//+ "=====" + obj.toString() ;
+		}
+	}*/
+	
+	$("#test_value").html(result);
+	
+</script>
+</body>
+</html>

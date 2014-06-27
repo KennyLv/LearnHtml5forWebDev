@@ -1,0 +1,110 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+<script type="text/javascript">
+
+var items = [ {
+        "uid": 100000404970289,
+        "name": "Albert Smith",
+        "birthday_date": "09/24/1977",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/369200_100000404970289_1660681118_t.jpg"
+    },{
+        "uid": 100000404970289,
+        "name": "Albert Smith",
+        "birthday_date": "09/27/1977",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/369200_100000404970289_1660681118_t.jpg"
+    },{
+        "uid": 100000404970289,
+        "name": "Albert Smith",
+        "birthday_date": "06/27/1977",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/369200_100000404970289_1660681118_t.jpg"
+    },
+    {
+        "uid": 1117403632,
+        "name": "Allyson Valentine Schrier",
+        "birthday_date": "09/22/1960",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/41646_1117403632_183_t.jpg"
+    },
+    {
+        "uid": 100006703869043,
+        "name": "Andrew Tester",
+        "birthday_date": "09/13/1979",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/1115868_100006703869043_247733588_t.jpg"
+    },
+    {
+        "uid": 100006703869043,
+        "name": "Andrew Tester",
+        "birthday_date": "09/21/1979",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/1115868_100006703869043_247733588_t.jpg"
+    },
+    {
+        "uid": 100006703869043,
+        "name": "Andrew Tester",
+        "birthday_date": "09/20/1979",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/1115868_100006703869043_247733588_t.jpg"
+    }];
+	
+ /*
+	var sort_by = function(field, reverse, primer){ 
+		reverse = (reverse) ? -1 : 1;
+		return function(a,b){
+			a = a[field];
+			b = b[field];
+			if (typeof(primer) != 'undefined'){ 
+				//a = primer(a);
+				//b = primer(b);
+				
+				a = a.substring(0,1);
+				b = b.substring(0,1);
+				
+			} 
+			if (a<b){
+				return reverse * -1; 
+			}
+			if (a>b) {
+				return reverse * 1; 
+			}
+			return 0; 
+		} 
+	}
+*/
+////按sort的大小来排序数组
+//items.sort(sort_by('name',false,parseInt));
+
+
+
+var Today = new Date("09/22/2013");
+
+for(var i=0;i<items.length;i++){
+	var mmddyy = items[i].birthday_date.split("/");
+	//console.log( items[i].birthday_date + " == "  + mmddyy[0] + "/"  + mmddyy[1]  + "/" + Today.getFullYear() );
+	
+	var dateTimeS = new Date(mmddyy[0] + "/"  + mmddyy[1]  + "/" + Today.getFullYear())-Today;
+	if(dateTimeS <0){
+		//Past birthday:
+		dateTimeS += 365*24*3600000 + dateTimeS;
+	}
+	//console.log( dateTimeS/24/3600000);
+	 items[i].dateSpan = dateTimeS/24/3600000;
+}
+
+items.sort(function(a,b){
+		a = a["dateSpan"];
+		b = b["dateSpan"];
+		if (a<b){
+			return -1; 
+		}
+		if (a>b) {
+			return 1; 
+		}
+		return 0; 
+});
+for(var i=0;i<items.length;i++){
+	console.log( items[i].birthday_date );	
+}
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+<script type="text/javascript">
+
+console.log("十进制转其他");  
+var x= 126;
+console.log(x);  
+console.log(x.toString(2));  
+console.log(x.toString(8));  
+console.log(x.toString(10));  
+console.log(x.toString(32));  
+console.log(x.toString(16));  
+//其他转十进制  
+console.log("其他转十进制");  
+var x='1111110'; 
+console.log(parseInt(x,2));  
+console.log(parseInt(x,8));  
+console.log(parseInt(x,16));  
+//其他转其他  
+//先用parseInt转成十进制再用toString转到目标进制  
+console.log(String.fromCharCode(parseInt(141,8)))  
+console.log(parseInt('ff',16).toString(2));   
+
+
+	
+</script>
+</head>
+<body>
+</body>
+</html>

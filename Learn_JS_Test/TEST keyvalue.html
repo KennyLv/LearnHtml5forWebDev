@@ -1,0 +1,43 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+<script type="text/javascript">
+
+var  data = [];
+	
+	function add(key,value){
+		
+		this.data[key]=value;
+	}
+	
+	function get(key)
+	{
+		return this.data[key];
+	}
+	
+	function remove(key){
+		this.data.splice(key,1);
+	}
+	
+	function test1(data){
+	console.log("test1:" + data);
+	};
+	function test2(data){
+	console.log("test2" + data);
+	};
+	
+	this.add("4", this.test1);
+	console.log(data);
+	
+	this.add("7",this.test2);
+	console.log(data);
+	var functions = this.get(-1);
+	console.log(functions);
+	
+	
+</script>
+</head>
+<body>
+</body>
+</html>

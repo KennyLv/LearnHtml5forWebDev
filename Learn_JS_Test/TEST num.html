@@ -1,0 +1,135 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+<script type="text/javascript">
+
+	//get numbers from text
+    //check with the expression and return an array
+	
+	function splitTextbyidenty(text){
+		return text.split(" ");
+	}
+	
+	
+	function parseNumFromText(text){
+        //var text  = "sdc2065506522,(206)5506533ldsfskjdfaskdfadfs(206)550-6544fchueufaskdfadfs(206)550 6555dua";
+		var arrayList = text.split(" ");
+        var nums=[];
+		
+		
+        for(var j=0; j<arrayList.length; j++){
+			
+			var num = "";
+			for(var i=0; i<arrayList[j].length; i++){
+				var currentChar = arrayList[j].charAt(i);
+				if(!isNaN(currentChar) || currentChar == "(" || currentChar == ")" || currentChar == "-"|| currentChar == "+"){
+					if(currentChar!="(" && currentChar!=")" && currentChar!="-" && currentChar!="+"){
+						num += currentChar;
+					}
+				}else{
+					if(num!=""){
+						//TODO : Check and format those numbers
+						if(num.length>2){
+							nums.push(num);
+						}
+						/*
+						var args = {
+							phoneNumber : num,
+							regionCode : "US" //TODO : map with language code
+						}
+						var formatedNum = FB.Util.parsePhoneNumber(args);
+						if(formatedNum!=null && formatedNum!=""){
+							nums.push(formatedNum);
+						}
+						*/
+						num = "";
+					}
+				}
+			}
+			if(num!=""){
+				//TODO : Check and format those numbers
+				nums.push(num);
+			}//last char is num
+			
+		}
+		
+
+        return nums;
+    }
+	
+	
+	
+	/* Parses phone numbers out of a string of indefinite size. Returns an array of number string without any separators. */
+	function parsePhoneNumbers(s) {
+	 var WHITESPACE_TERMINAL_DISTANCE = 2; //more than two whitespaces means it's a different phone number 
+	 var PHONE_NUM_SIZE = 6; 
+	 var arr = s.split(""); 
+	 var phones = [];
+	 var curDigitQueue = [];
+	 var letters =  /^[a-zA-Z]+$/;
+	 var whitespaceCount = 0;
+
+	 //going through each character and seeing if we choke or not
+	 for(var i = 0; i < arr.length; i++) 
+	 {
+	   var cur = arr[i];
+
+	   //check if current number is a digit and if it is put into current temp phone # queu
+	   if(false == isNaN(cur) && " " != cur)
+	   {
+		   curDigitQueue.push(cur);
+		   //console.log(cur);
+	   }
+
+	   //let's count up our whitespaces
+	   if(" " == cur) { whitespaceCount++; }
+	   //or nullify them
+	   if(" " != cur) { whitespaceCount = 0; }
+
+	   //choking on a letter.. imagine: "(253) 555-4921 is" we would choke on i
+	   //alternatively, end of string would faciliate queue check too
+	   if(cur.match(letters) || (i == arr.length-1)) 
+	   {
+		   //now we have two strategies, depending on if we thinking we might have a number (queue is above a certain size)
+		   
+		   //#1. Have working queue
+		   if(curDigitQueue.length > PHONE_NUM_SIZE)
+		   {
+		   //push this to phones
+		  var curPhone = curDigitQueue.join(""); //have to specify emptiness, as join has comma by-def
+		  phones.push(curPhone);
+		   }
+		   //#2. Don't have a queue (just skip ahead)
+
+		   //kill current queue to refresh it
+		   curDigitQueue = [];
+		   //refresh whitespace count 
+		   whitespaceCount = 0;
+		
+	   }
+
+
+		 //if cur is anything but letter, digits or whitespace we just keep going (say it's whitespace or dot or dash)
+
+		 if(i == arr.length-1)
+		 {
+			 console.log("final");
+		 }
+
+	 }
+		return phones;
+	}
+
+	console.log(splitTextbyidenty("2065506522 (206)5506533 206-550-6533"));
+	
+	console.log(parseNumFromText("sdc2065506522"));
+	console.log(parseNumFromText("2065506522 (206)5506533 206-550-6533"));
+	console.log(parseNumFromText("sdc2065506522,(206)5506533ldsfskjdfaskdfadfs(206)550-6544fchueufaskdfadfs(206)550 6555dua"));
+	console.log(parseNumFromText("sdc2065506522,(206)5506533ldsfskjdfaskdfadfs(206)550-6544fchueufaskdfadfs(206)550 6555dua"));
+	
+</script>
+</head>
+<body>
+</body>
+</html>

@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+<script type="text/javascript" src="jquery-1.9.0.min.js" ></script>
+</head>
+<body>
+
+<div id="test_value" style="font-size: 50pt;" >--</div>
+
+<script type="text/javascript">
+
+var items = [
+    {
+        "uid": 100000404970289,
+        "name": "Albert Smith",
+        "birthday_date": "07/06/1977",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-frc3/369200_100000404970289_1660681118_t.jpg"
+    },
+    {
+        "uid": 1117403632,
+        "name": "Allyson Valentine Schrier",
+        "birthday_date": "02/13/1960",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/41646_1117403632_183_t.jpg"
+    },
+    {
+        "uid": 100006703869043,
+        "name": "Andrew Tester",
+        "birthday_date": "02/19/1979",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/1115868_100006703869043_247733588_t.jpg"
+    },
+    {
+        "uid": 1055869191,
+        "name": "Anita Mallant Irons",
+        "birthday_date": "03/31/1968",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/1116656_1055869191_995911152_t.jpg"
+    },
+    {
+        "uid": 100002452708560,
+        "name": "Ben Irons",
+        "birthday_date": "05/02/1963",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/49039_100002452708560_1878800861_t.jpg"
+    },
+    {
+        "uid": 1187446498,
+        "name": "Betsy Fisher Gray",
+        "birthday_date": "07/26",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash1/369627_1187446498_93398015_t.jpg"
+    },
+    {
+        "uid": 817673467,
+        "name": "Bob Brooks",
+        "birthday_date": "12/16",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/1118948_817673467_2067122330_t.jpg"
+    },
+    {
+        "uid": 1045861993,
+        "name": "Bob Tanac",
+        "birthday_date": "07/24",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash1/260943_1045861993_447347843_t.jpg"
+    },
+    {
+        "uid": 1015447226,
+        "name": "Bobbi Dykema",
+        "birthday_date": "07/08",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/1118416_1015447226_321888855_t.jpg"
+    },
+    {
+        "uid": 100000815625092,
+        "name": "Cam Dahl",
+        "birthday_date": "01/01/1990",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/1116537_100000815625092_1918936007_t.jpg"
+    },
+    {
+        "uid": 1504765589,
+        "name": "Catherine Oberg",
+        "birthday_date": "03/04",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash2/1086328_1504765589_1923468957_t.jpg"
+    },
+    {
+        "uid": 100003341003305,
+        "name": "Cathleen Martin",
+        "birthday_date": "05/07/1959",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/195700_100003341003305_2011929374_t.jpg"
+    },
+    {
+        "uid": 1584807293,
+        "name": "Curt Steeb",
+        "birthday_date": "12/29/1963",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn1/48590_1584807293_7314_t.jpg"
+    },
+    {
+        "uid": 1167926364,
+        "name": "DEbbie Neuts",
+        "birthday_date": "09/22",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/27426_1167926364_1597862633_t.jpg"
+    },
+    {
+        "uid": 1683705894,
+        "name": "Dan Perkins",
+        "birthday_date": "09/16/1958",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-ash3/23219_1683705894_531_t.jpg"
+    },
+    {
+        "uid": 611603017,
+        "name": "David L Stevens",
+        "birthday_date": "09/04/1962",
+        "pic_small": "https://fbcdn-profile-a.akamaihd.net/hprofile-ak-prn2/273783_611603017_142148072_t.jpg"
+    }
+];
+
+
+
+var result = "";
+
+for(var i=0;i<items.length;i++){
+	result += items[i].birthday_date + "\r\n";	
+	
+	console.log(items[i].birthday_date);
+}
+
+$("#test_value").html(result);
+</script>
+
+</body>
+</html>

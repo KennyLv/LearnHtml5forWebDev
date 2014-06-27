@@ -1,0 +1,126 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml"1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+<script type="text/javascript">
+function AQPaginationArray()
+{
+    this._dataStorage = [];
+	this._currentPageIndex = 0; //Start from 1.
+	this._totalPageSize = 4;//include "Next" and "Previous" if have multi-pages. should be bigger than 3
+	this._currentStartIndex = 0;
+
+    this._getData = function(){
+		var temp = [];
+		
+		var hasPrevious = (this._currentPageIndex > 1)? true : false;
+		var hasNext = false;
+		
+		var _startIndex = 0;
+		var _endindex = 0;
+		
+		if(hasPrevious){
+			_startIndex = this._currentStartIndex;//(this._currentPageIndex-1) * (this._totalPageSize-2) + 1;
+			
+			var remainItemsCount = this._dataStorage.length - _startIndex;
+			
+			if(remainItemsCount <= this._totalPageSize-2){
+				//Last page, 19 items or less
+				hasNext = false;
+				_endindex = this._dataStorage.length;
+			}else{
+				//Not First, Not Last, 18 items
+				hasNext = true;
+				_endindex = _startIndex + this._totalPageSize - 2;
+			}
+		}else{
+			//First Page
+			_startIndex = 0;
+			if(this._dataStorage.length <= this._totalPageSize){
+				hasNext = false;
+				_endindex = this._dataStorage.length ; //20 items or less
+			}else{
+				hasNext = true;
+				_endindex = this._totalPageSize - 2; //19 items
+			}
+		}
+		console.log("START" + _startIndex + ";END" + _endindex);
+		
+		for(var i = _startIndex; i< _endindex; i++){
+			temp.push(this._dataStorage[i]);
+		}
+		
+		this._currentStartIndex = _endindex;
+		
+		return {
+			"data" : temp,
+			"hasNext" : hasNext,
+			"hasPrevious" : hasPrevious
+		};
+    };
+	
+	this.setPageSize = function(size){
+		this._totalPageSize = size;
+    };
+	
+    this.initData= function(dataArray){
+		this._dataStorage = dataArray;
+		this._currentPageIndex = 0;
+		this._currentStartIndex = 0;
+		return ;
+    };
+	
+    this.getNext= function(){
+		this._currentPageIndex += 1;
+		return this._getData();
+    };
+	
+	this.getPrevious= function(){
+		this._currentPageIndex -= 1; 
+		return this._getData();
+    };
+	
+	this.getAll = function(){
+		return this._dataStorage;
+	};
+	
+	this.getByPageIndex= function(index){
+		var pageCount = Math.ceil(this._dataStorage.length/this._totalPageSize);
+		if(index > pageCount){
+			this._currentPageIndex = pageCount;
+		}else{
+			this._currentPageIndex = index;
+		}
+		return this._getData();
+	};
+}
+
+var testArray = new AQPaginationArray();
+
+console.log(testArray);
+
+var testData = ["1","2"];
+
+testArray.initData(testData);
+
+for(var i=0; i<3; i++){
+
+	var page = testArray.getNext();
+	var result = "" + page.hasPrevious + "-";	
+	for(var j=0; j<page.data.length;j++){
+		result += page.data[j] + "-";
+	}
+	result += "" + page.hasNext + "";
+	
+	
+	console.log("=" + result + "=");
+	
+}
+
+
+	
+</script>
+</head>
+<body>
+</body>
+</html>
