@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+		<script type="text/javascript"></script>
+	</head>
+	<body>
+		<div>
+			<!--	SVG中渲染图片 - 　SVG中的image元素可以直接支持显示光栅图片，使用很简单。
+				这里需要注意几点：
+						1.如果没有设置x或y坐标，则默认是0。
+						2.如果没有设置width或height，则默认也是0.
+						3.如果显式的设置width或height为0，则会禁止渲染这幅图片。
+						4.图片的格式支持png,jpeg,jpg,svg等等，所以svg是支持嵌套svg的。 
+						5.image与其他元素一样，是svg的常规元素，所以它支持所有的裁剪，蒙板，滤镜，旋转等效果。
+			-->
+			<svg width="15cm" height="14cm" style="background-color: red;">
+				<image xlink:href="xiaofanku.jpg" x="10" y="10" height="350px" width="350px"/>
+			</svg>
+
+		</div>
+	</body>
+</html>
