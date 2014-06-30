@@ -1,0 +1,41 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>SVG DOM通过path绘制五角星</title>
+    <style>
+        #myline{
+            border: 1px solid red;
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+    <script>
+        function createLine(){
+            var root=document.getElementById("myline");
+            var SVG="http://www.w3.org/2000/svg";
+            //创建我们的SVG元素
+            var svg= document.createElementNS(SVG,"svg");
+            svg.setAttribute("width","100");
+            svg.setAttribute("height","100");
+
+            var path2=document.createElementNS(SVG,"path");
+            for(var i=0;i<10;i+=2){
+                var x=Math.sin(Math.PI*2/5*i)*50+50;
+                var y=Math.cos(Math.PI*2/5*i)*50+50;
+                var p= (i==0)? path2.createSVGPathSegMovetoAbs(x,y): path2.createSVGPathSegLinetoAbs(x,y);
+                path2.pathSegList.appendItem(p);
+            }
+            //关闭path2
+            path2.pathSegList.appendItem(path2.createSVGPathSegClosePath());
+
+            svg.appendChild(path2);
+            root.appendChild(svg);
+        }
+    </script>
+</head>
+<body onload="createLine()">
+<h4>SVG DOM通过path绘制五角星</h4>
+<div id="myline"></div>
+</body>
+</html>

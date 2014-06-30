@@ -84,6 +84,9 @@
       }).to({
         left: cloudEnd
       }, time).onUpdate(function() {
+			if(isNaN(this.left)){
+				return;
+			}
         return cloud1.setAttribute('transform', "translate(" + this.left + ")");
       }).repeat(9999999).start({
         progress: .65
@@ -93,6 +96,9 @@
       }).to({
         left: cloudEnd
       }, time).onUpdate(function() {
+			if(isNaN(this.left)){
+				return;
+			}
         return cloud11.setAttribute('transform', "translate(" + this.left + ")");
       }).repeat(9999999).delay(time / 2).start({
         progress: .65
@@ -105,6 +111,9 @@
       }).to({
         left: cloudEnd
       }, time).onUpdate(function() {
+			if(isNaN(this.left)){
+				return;
+			}
         return cloud2.setAttribute('transform', "translate(" + this.left + ")");
       }).repeat(9999999).start({
         progress: .25
@@ -114,6 +123,9 @@
       }).to({
         left: cloudEnd
       }, time).onUpdate(function() {
+			if(isNaN(this.left)){
+				return;
+			}
         return cloud21.setAttribute('transform', "translate(" + this.left + ")");
       }).repeat(9999999).delay(time / 2).start({
         progress: .25
@@ -126,6 +138,9 @@
       }).to({
         left: cloudEnd
       }, time).onUpdate(function() {
+			if(isNaN(this.left)){
+				return;
+			}
         return cloud3.setAttribute('transform', "translate(" + this.left + ")");
       }).repeat(9999999).start({
         progress: .75
@@ -135,6 +150,9 @@
       }).to({
         left: cloudEnd
       }, time).onUpdate(function() {
+			if(isNaN(this.left)){
+				return;
+			}
         return cloud31.setAttribute('transform', "translate(" + this.left + ")");
       }).repeat(9999999).delay(time / 2).start({
         progress: .75
@@ -147,6 +165,9 @@
       }).to({
         left: cloudEnd
       }, time).onUpdate(function() {
+			if(isNaN(this.left)){
+				return;
+			}
         return cloud4.setAttribute('transform', "translate(" + this.left + ")");
       }).repeat(9999999).start();
       return this.cloud41Tween = new TWEEN.Tween({
@@ -154,6 +175,9 @@
       }).to({
         left: cloudEnd
       }, time).onUpdate(function() {
+			if(isNaN(this.left)){
+				return;
+			}
         return cloud41.setAttribute('transform', "translate(" + this.left + ")");
       }).repeat(9999999).delay(time / 2).start();
     };

@@ -1,0 +1,180 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+	</head>
+	<body>
+		<div>
+			<!--	　
+				SVG和canvas中是一样的，都是使用标准的HTML/CSS中的颜色表示方法，这些颜色都可以用于fill和stroke属性。基本有下面这些定义颜色的方式：
+					1. 颜色名字： 直接使用颜色名字red, blue, black...
+					2. rgba/rgb值： 这个也很好理解，例如#ff0000,rgba(255,100,100,0.5)。
+					3. 十六进制值： 用十六进制定义的颜色，例如#ffffff。
+					4. 渐变值：这个也与canvas中一样，支持两种渐变色：线性渐变，环形渐变。如下图所示：
+					5. 图案填充：使用自定义的图案作为填充色。
+			-->
+			<!--  
+				线性渐变　　使用linearGradient元素即可定义线性渐变，每一个渐变色成分使用stop元素定义。
+				1. 渐变色元素必须要放到defs元素中；
+				2. 需要给渐变色元素设置id值，否则的话，别的元素无法使用这个渐变色。
+				3. 渐变色的成员使用stop定义，它的属性也可以使用CSS定义；它支持class，id这种标准HTML都支持的属性。
+				其它常用属性如下：
+					offset属性：这个定义了该成员色的作用范围，该属性取值从0%到100%(或者是0到1)；通常第一种颜色都是设置成0%，最后一种设置成100%。
+					stop-color属性：这个很简单，定义了该成员色的颜色。
+					stop-opacity属性：定义了成员色的透明度。
+					x1,y1,x2,y2属性：这两个点定义了渐变的方向，默认不写的话是水平渐变，上面例子中同时也创建了一个垂直渐变。
+				4. 渐变色的使用，如例子中所示，直接用url(#id)的形式赋值给fill或者stroke就可以了。
+				5. 渐变色成员的复用：你也可以使用xlink:href引用定义过的渐变色成员
+			-->
+			<svg width="300" height="600">  
+			 <defs>  
+				<linearGradient id="Gradient1">  
+				  <stop class="stop1" offset="0%"/>  
+				  <stop class="stop2" offset="50%"/>  
+				  <stop class="stop3" offset="100%"/>  
+				</linearGradient>  
+				<linearGradient id="Gradient2" x1="0" x2="0" y1="0" y2="1">  
+				  <stop offset="0%" stop-color="red"/>  
+				  <stop offset="50%" stop-color="black" stop-opacity="0"/>  
+				  <stop offset="100%" stop-color="blue"/>  
+				</linearGradient>  
+				<linearGradient id="Gradient3" x1="0" x2="0" y1="0" y2="1" xlink:href="#Gradient1"/>
+				<style type="text/css">
+				<![CDATA[  
+				   #rect1 { fill: url(#Gradient1); }  
+				   .stop1 { stop-color: yellow; }  
+				   .stop2 { stop-color: black; stop-opacity: 0; }  
+				   .stop3 { stop-color: blue; }  
+				 ]]>
+				</style>  
+			  </defs>  
+				
+			  <rect id="rect1" x="10" y="10" rx="15" ry="15" width="100" height="100"/>  
+			  <rect x="10" y="120" rx="15" ry="15" width="100" height="100" fill="url(#Gradient2)"/>     
+			  <rect x="10" y="220" rx="15" ry="15" width="100" height="100" fill="url(#Gradient3)"/>     
+			</svg>  
+			
+			<!--
+			 环形渐变 　　使用radialGradient元素定义环形渐变，还是使用stop定义成员色
+			 除了元素名字和一些特别的成员，其他的所有都和线性渐变一样，包括stop的定义，必须放到defs中，必须给它设置id，使用url(#id)去赋值等。这些特别的成员如下：
+			offset属性：这个和线性渐变的值是一样，但是含义不一样。在环形渐变中，0%代表圆心处，这个很好理解。
+			cx,cy,r属性：其实也很好理解，环形渐变，当然要定义环的圆心和半径了，体会一下上面例子中圆的大小和位置就能理解了。
+			fx,fy属性：定义颜色中心(焦点)处的位置，也就是渐变色最浓处的坐标，在上面例子中，红色最红的是圆心，这是默认效果；如果想改变一下，就可以设置fx,fy坐标值。
+			
+			不过这里需要注意一下上面cx,cy,r,fx,fy的值，你会发现它们都是小数，那么单位是什么呢？
+			这个需要先了解另外一个相关的属性：gradientUnits，它定义了定义渐变色使用的坐标单位。
+			这个属性有2个可用值：userSpaceOnUse和objectBoundingBox。
+				objectBoundingBox是默认值，它使用的坐标都是相对于对象包围盒的(方形包围盒，不是方形包围盒的情况比较复杂，略过)，取值范围是0到1。
+				例如上例中的cx,cy的坐标值(0.25,0.25)。意味着这个圆心是在包围盒的左上角1/4处，半径0.25意味着半径长是对象方形包围盒长的1/4，就像你们图中看到的那样。
+				userSpaceOnUse表示使用的是绝对坐标，使用这个设置的时候，你必须要保证渐变色和填充的对象要保持在一个位置。
+				
+			还有渐变色元素还有一些变换的属性，如gradientTransform，
+			另外一个可能用到的属性是spreadMethod属性，这个属性定义了渐变色到达它的终点时应该采取的行为。该属性有3个可选值：pad(默认值),reflect,repeat。
+				pad不用说了，属于自然过渡，渐变色结束以后，使用最后一个成员色直接渲染对象剩下的部分。
+				refect会让渐变色继续，只不过渐变色会反向继续渲染，从最后一个颜色开始到第一个颜色这个顺序渲染；等到再次到达渐变色终点时，再反序，如此这般指导对象填充完毕。
+				repeat也会让渐变色继续渲染，但是不会反序，还是一遍一遍从第一种颜色到最后一种颜色渲染
+			-->
+			<svg width="120" height="600">
+			  <defs>
+				  <radialGradient id="Gradient3">
+					<stop offset="0%" stop-color="red"/>
+					<stop offset="100%" stop-color="blue"/>
+				  </radialGradient>
+				  <radialGradient id="Gradient4" cx="0.25" cy="0.25" r="0.25">
+					<stop offset="0%" stop-color="red"/>
+					<stop offset="100%" stop-color="blue"/>
+				  </radialGradient>
+				  <radialGradient id="Gradient5"
+						cx="0.5" cy="0.5" r="0.5" fx="0.25" fy="0.25">
+					<stop offset="0%" stop-color="red"/>
+					<stop offset="100%" stop-color="blue"/>
+				  </radialGradient>
+				<radialGradient id="Gradient" 	cx="0.5" cy="0.5" r="0.25" fx=".25" fy=".25"	spreadMethod="repeat">
+					<stop offset="0%" stop-color="red"/>
+					<stop offset="100%" stop-color="blue"/>
+				</radialGradient>
+			  </defs>
+			 
+			  <rect x="10" y="10" rx="15" ry="15" width="100" height="100" fill="url(#Gradient3)"/> 
+			  <rect x="10" y="120" rx="15" ry="15" width="100" height="100" fill="url(#Gradient4)"/> 
+			  <rect x="10" y="220" rx="15" ry="15" width="100" height="100"	fill="url(#Gradient5)" stroke="black" stroke-width="2"/>
+
+			  <circle cx="60" cy="60" r="50" fill="transparent" stroke="white" stroke-width="2"/>
+			  <circle cx="35" cy="35" r="2" fill="white" stroke="white"/>
+			  <circle cx="60" cy="60" r="2" fill="white" stroke="white"/>
+			  <text x="38" y="40" fill="white" font-family="sans-serif" font-size="10pt">(fx,fy)</text>
+			  <text x="63" y="63" fill="white" font-family="sans-serif" font-size="10pt">(cx,cy)</text> 
+			  
+			  <rect x="10" y="350" rx="15" ry="15" width="100" height="100"     fill="url(#Gradient)"/>
+			</svg>
+			
+			<!--
+			纹理填充　　纹理填充也是一种流行的填充方式，在SVG中，可以使用pattern创建一个纹理，然后用这个pattern去填充别的对象
+				1. 不同的浏览器填充这个pattern的时候效果不一样。
+				2. pattern也需要定义id。
+				3. pattern也必须要定义在defs中。
+				4. pattern的使用也是把url(#id)直接赋值给fill或stroke。
+			
+			重点看一下例子中的坐标表示情况，坐标在pattern中比较复杂。pattern中包含两个相关属性：patternUnits和patternContentUnits属性；
+				这两个属性的取值都还是只有2个：objectBoundingBox和userSpaceOnUse，这两个值的含义上面以及讲过了。
+				这里容易混淆的是这两个属性的默认值不同，但是当你理解这么做的原因以后，你又会发现这么做还真是有道理。
+				1. patternUnits属性　　这个属性与Gradient的gradientUnits属性是一样的，默认采用objectBoundingBox。
+					受这个属性影响的属性有x,y,width,height，这4个属性分别定义了pattern的起点，宽高度。
+					它们都采用了相对值，例子中想要在水平和竖直方向上都填充4次，所以width和height都设为了0.25。
+				2. patternContentUnits属性　　这个属性的默认值正好相反，采用userSpaceOnUse。这个属性描述了pattern中绘制的形状(比如上面的rect,circle)的坐标系统。
+					也就是说在默认情况下，你在pattern中绘制的形状和pattern自身的大小/位置使用了不一样的坐标系。
+					考虑上面例子中的情况，我们想填充一个200*200的矩形，而且每个方向重复4次。这就意味着每个pattern是50*50的，那么pattern里面的两个矩形和一个圆形就是画在这个50*50的矩形中。
+					这样我们就能理解上面pattern中的矩形和圆的坐标了。
+					此外，这个例子中的pattern为了居中，需要偏移10px后开始渲染，而这个值是受patternUnits属性制约的，所以默认情况下，x,y值就为：10/200=0.05。
+			那么pattern为什么要这么设置两个属性的默认值呢？这是由用户的使用决定的(以上面的例子来讨论)：
+				第一种pattern样式：我想这是大多数情况，所以处理成默认值：pattern是会随着外面的图形缩放而被拉伸，不管外围方形是多大，pattern始终在两个方向上都会被填充4次。
+						但是pattern中包含的图形是不会随着外面被填充的方形缩放而进行拉伸的。虽然比较牵强，但就这么理解吧。
+				第二种pattern样式：pattern中的形状也随着外围的形状缩放进行拉伸。
+						我们可以显示的把patternContentUnits属性的值也设为objectBoundingBox达到这个效果。
+						修改后，当改变被填充的矩形的大小时，pattern中的形状也会进行拉伸。
+						而且修改后改成了相对外围对象的坐标，所以不再需要pattern的x和y坐标了，pattern会始终调整以适合被填充的形状。
+				第三种pattern的样式：pattern的形状和大小都是固定了，不管外围对象怎么缩放。
+
+			-->
+			<svg width="420" height="880">
+			  <defs>
+				<linearGradient id="Gradient6">
+				  <stop offset="0%" stop-color="white"/>
+				  <stop offset="100%" stop-color="blue"/>
+				</linearGradient>
+				<linearGradient id="Gradient7" x1="0" x2="0" y1="0" y2="1">
+				  <stop offset="0%" stop-color="red"/>
+				  <stop offset="100%" stop-color="orange"/>
+				</linearGradient>
+			  </defs>
+			  
+			  <defs>
+				<pattern id="Pattern1" x=".05" y=".05" width=".25" height=".25">
+				  <rect x="0" y="0" width="50" height="50" fill="skyblue"/>
+				  <rect x="0" y="0" width="25" height="25" fill="url(#Gradient7)"/>
+				  <circle cx="25" cy="25" r="20" fill="url(#Gradient6)" fill-opacity="0.5"/>
+				</pattern> 
+				<pattern id="Pattern2" width=".25" height=".25" patternContentUnits="objectBoundingBox">
+				   <rect x="0" y="0" width=".25" height=".25" fill="skyblue"/>
+				   <rect x="0" y="0" width=".125" height=".125" fill="url(#Gradient2)"/>
+				   <circle cx=".125" cy=".125" r=".1" fill="url(#Gradient1)" fill-opacity="0.5"/>
+				 </pattern>
+				<pattern id="Pattern3" x="10" y="10" width="50" height="50" patternUnits="userSpaceOnUse">
+				   <rect x="0" y="0" width="50" height="50" fill="skyblue"/>
+				   <rect x="0" y="0" width="25" height="25" fill="url(#Gradient2)"/>
+				   <circle cx="25" cy="25" r="20" fill="url(#Gradient1)" fill-opacity="0.5"/>
+				 </pattern>
+			  </defs>
+			  
+			  <rect fill="url(#Pattern1)" stroke="black" x="0" y="0" width="200" height="200"/>
+			  <rect fill="url(#Pattern1)" stroke="black" x="210" y="0" width="200" height="250"/>
+			  <rect fill="url(#Pattern2)" stroke="black" x="0" y="260" width="200" height="200"/>
+			  <rect fill="url(#Pattern2)" stroke="black" x="210" y="260" width="200" height="250"/>
+			  <rect fill="url(#Pattern3)" stroke="black" x="0" y="520" width="200" height="200"/>
+			  <rect fill="url(#Pattern3)" stroke="black" x="210" y="520" width="200" height="250"/>
+			</svg>
+			
+		</div>
+	</body>
+</html>

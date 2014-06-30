@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+		<style type="text/css">
+		#myRect:hover {
+		   stroke: black;
+		   fill: blue;
+		 }
+		 </style>
+	</head>
+	<body>
+		<div>
+			<!--
+			1. 如果不提供fill属性，则默认会使用黑色填充,如果要取消填充，需要设置成none。
+			2. 可以设置填充的透明度，就是fill-opacity，值的范围是0到1。
+			3. 稍微复杂一点的是fill-rule属性。这个属性定义了判断点是不是属于填充范围的算法；
+				inherit:
+				nonzero：这个值采用的算法是：从需要判定的点向任意方向发射线，然后计算图形与线段交点的处的走向；
+					计算结果从0开始，每有一个交点处的线段是从左到右的，就加1；
+					每有一个交点处的线段是从右到左的，就减1；
+					这样计算完所有交点后，如果这个计算的结果不等于0，则该点在图形内，需要填充；
+					如果该值等于0，则在图形外，不需要填充。
+				evenodd：这个值采用的算法是：从需要判定的点向任意方向发射线，然后计算图形与线段交点的个数，
+					个数为奇数则改点在图形内，需要填充；
+					个数为偶数则点在图形外，不需要填充。
+			-->
+			<svg  width="120px" height="200px" >
+				<rect x="10" y="10" width="100" height="100" stroke="blue" fill="red" fill-opacity="0.5" stroke-opacity="0.8"/>
+			</svg>
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="300px" height="200px" >
+				<polygon points="100,10 40,180 190,60 10,60 160,180"	style="fill:black;stroke:red;stroke-width:1;fill-rule:nonzero;" />
+			</svg>
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="300px" height="200px" >
+				<polygon points="100,10 40,180 190,60 10,60 160,180"	style="fill:black;stroke:red;stroke-width:1;fill-rule:evenodd;" />
+			</svg>
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="300px" height="200px" >
+				<circle cx="75" cy="75" r="50" stroke="red" fill="blue" stroke-width="5" fill-rule="evenodd;"/>
+				<circle cx="75" cy="75" r="20" stroke="red" fill="yellow" stroke-width="5"/>
+			</svg>
+			
+			<!--
+			边框色 - stroke属性
+			1. 如果不提供stroke属性，则默认不绘制图形边框。
+			2. 可以设置边的透明度，就是stroke-opacity，值的范围是0到1。
+			线的端点 - stroke-linecap属性 ---- 这个属性定义了线段端点的风格，这个属性可以使用butt,square,round三个值。
+			线的连接 - stroke-linejoin属性 ---- 这个属性定义了线段连接处的风格，这个属性可以使用miter,round,bevel三个值。
+			线的虚实 - stroke-dasharray属性 ---- 这个属性可以设置线段采用何种虚实线。
+				设置一列数字，数字是逗号隔开的, 属性中当然可以包含空格，但是空格不作为分隔符。每个数字定义了实线段的长度，分别是按照绘制、不绘制这个顺序循环下去。
+			stroke-miterlimit：这个和canvas中的一样，它处理什么时候画和不画线连接处的miter效果。
+			stroke-dashoffset：这个属性设置开始画虚线的位置。			
+			-->
+			<svg width="220px" height="200px" >
+			  <line x1="40" x2="120" y1="20" y2="20" stroke="black" stroke-width="20" stroke-linecap="butt"/>
+			  <line x1="40" x2="120" y1="60" y2="60" stroke="black" stroke-width="20" stroke-linecap="square"/>
+			  <line x1="40" x2="120" y1="100" y2="100" stroke="black" stroke-width="20" stroke-linecap="round"/>
+			</svg>				
+			<svg width="220px" height="200px" >
+			  <polyline points="40 60 80 20 120 60" stroke="black" stroke-width="20" stroke-linecap="butt" fill="transparent" stroke-linejoin="miter"/>
+			  <polyline points="40 140 80 100 120 140" stroke="black" stroke-width="20" stroke-linecap="round" fill="transparent" stroke-linejoin="round"/>
+			  <polyline points="40 220 80 180 120 220" stroke="black" stroke-width="20" stroke-linecap="square" fill="transparent" stroke-linejoin="bevel"/>
+			</svg>
+			<svg width="200px" height="150px" >
+				<path d="M 10 75 Q 50 10 100 75 T 190 75" stroke="black" stroke-linecap="round" stroke-dasharray="5,10,28" fill="none"/>
+				<path d="M 10 75 L 190 75"  stroke-width="1" stroke="red"	stroke-linecap="round" stroke-dasharray="5,5" fill="none"/>
+			</svg>
+			
+		</div>
+	</body>
+</html>
