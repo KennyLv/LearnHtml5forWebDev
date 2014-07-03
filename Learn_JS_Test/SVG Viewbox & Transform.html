@@ -1,0 +1,214 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+	</head>
+	<body>
+		<div>
+			<!--	坐标系统
+			SVG存在两套坐标系统：视窗坐标系与用户坐标系。
+					默认情况下，用户坐标系与视窗坐标系的点是一一对应的，都为原点在视窗的左上角，x轴水平向右，y轴竖直向下；
+					SVG的视窗位置一般是由CSS指定，尺寸由SVG元素的属性width和height设置，
+					但是如果SVG是存储在embedded对象中(例如object元素，或者其他SVG元素)，而且包含SVG的文档是用CSS或者XSL格式化的，
+					并且这些外围对象的CSS或者其他指定尺寸的值已经可以计算出视窗的尺寸了，则此时会使用外围对象的尺寸。
+
+			这里需要区分视窗，视窗坐标系，用户坐标系的概念：
+					视窗：指的是网页上面可视的矩形局域，长度和宽度都是有限的，这个区域一般与外围对象的尺寸有关。
+					视窗坐标系：本质是一个坐标系，有原点，x轴与y轴；而且在两个方向上是无限延伸的。默认情况下，原点在视窗的左上角，x轴水平向右，y轴竖直向下。可以对这个坐标系的点进行变换。
+					用户坐标系：本质是一个坐标系，有原点，x轴与y轴；而且在两个方向上是无限延伸的。默认情况下，原点在视窗的左上角，x轴水平向右，y轴竖直向下。可以对这个坐标系的点进行变换。
+			默认情况下，视窗坐标系与用户坐标系是重合的，但是这里需要注意，视窗坐标系属于的是创建视窗的元素，视窗坐标系确定好以后，整个视窗的坐标基调就确定了。
+			但是用户坐标系是属于每个图形元素的，只要图形进行了坐标变换，就会创建新的用户坐标系，这个元素中所有的坐标和尺寸都使用这个新的用户坐标系。
+			简单点说：视窗坐标系描述了视窗中所有元素的初始坐标概况，用户坐标系描述了每个元素的坐标概况，默认情况下，所有元素都使用默认的与视窗坐标系重合的那个用户坐标系。
+			-->
+			
+			<!--  坐标空间变换
+				Canvas用户坐标的变换是通过平移，缩放，旋转函数实现的；每次变换后对以后绘制的图形都起作用，除非再次进行变换，这是"当前"用户坐标系统的概念。canvas只有唯一一个用户坐标系。
+				在SVG中，情况完全不同：
+					SVG本身作为一种向量图元素，它的两个坐标系统本质上都可以算作"用户坐标系统"；
+					SVG的两个坐标空间都是可以变换的：视窗空间变换和用户空间变换。
+					视窗空间变换由相关元素(这些元素创建了新的视窗)的属性viewBox控制；
+					用户空间变换由图形元素的transform属性控制。
+					视窗空间变换应用于对应的整个视窗，用户空间变换应用于当前元素及其子元素。
+			-->
+			<!-- 视窗变换 - viewBox属性
+					所有的能建立一个视窗的元素(看下一节)，再加上marker,pattern,view元素，都有一个viewBox属性。
+					viewBox属性值的格式为(x0,y0,u_width,u_height)，每个值之间用逗号或者空格隔开，它们共同确定了视窗显示的区域：视窗左上角坐标设为(x0,y0)、视窗的宽设为u_width，高为u_height；
+					这个变换对整个视窗都起作用。这里一定不要混淆：
+							视窗的大小和位置已经由创建视窗的元素和外围的元素共同确定了(例如最外层的svg元素建立的视窗由CSS，width和height确定)，
+							这里的viewBox其实是设置这个确定的区域能显示视窗坐标系的哪个部分。
+					viewBox的设置其实是包含了视窗空间的缩放和平移两种变换。
+					变换的计算也很简单：假设svg的宽与长设置为width,height，viewBox的设置为(x0,y0,u_width,u_height)，则绘制的图形，宽和高的缩放比例分别为：width/u_width, height/u_height。
+
+				嵌套视窗
+				创建新的视窗的时候，也会创建新的视窗坐标系和用户坐标系，当然也包括裁减路径也会创建新的。 下列是能建立新视窗的元素列表：
+						svg：svg支持嵌套。
+						symbol：当被use元素实例化的时候创建新的视窗。
+						image：引用svg元素时会创建新视窗。
+						foreignObject：创建新视窗去渲染里面的对象。
+
+				保持缩放的比例 - preserveAspectRatio属性
+				有些时候，我们期望图形占据整个视窗，而不是两个方向上按相同的比例缩放。有些时候，我们却是希望图形两个方向是按照固定的比例缩放的。使用属性preserveAspectRatio就可以达到控制这个的目的。
+						  这个属性是所有能建立一个新视窗的元素，再加上image,marker,pattern,view元素都有的。而且preserveAspectRatio属性只有在该元素设置了viewBox以后才会起作用。
+						  如果没有设置viewBox，则preserveAspectRatio属性会被忽略。
+						  属性的语法如下：preserveAspectRatio="[defer] <align> [<meetOrSlice>]" （注意3个参数之间需要使用空格隔开。）
+							defer:可选参数，只对image元素有效，
+									如果image元素中preserveAspectRatio属性的值以"defer"开头，则意味着image元素使用引用图片的缩放比例，
+									如果被引用的图片没有缩放比例，则忽略"defer"。
+									所有其他的元素都忽略这个字符串。
+							align:该参数决定了统一缩放的对齐方式，可以取下列值：
+									none - 不强制统一缩放，这样图形能完整填充整个viewport。
+									xMinYMin - 强制统一缩放，并且把viewBox中设置的<min-x>和<min-y>对齐到viewport的最小X值和Y值处。
+									xMidYMin - 强制统一缩放，并且把vivewBox中X方向上的中点对齐到viewport的X方向中点处，简言之就是X方向中点对齐，Y方向与上面相同。
+									xMaxYMin - 强制统一缩放，并且把viewBox中设置的<min-x> + <width>对齐到viewport的X值最大处。
+									类似的还有其他类型的值：xMinYMid,xMidYMid,xMaxYMid,xMinYMax,xMidYMax,xMaxYMax。这些组合的含义与上面的几种情况类似。
+							meetOrSlice：可选参数，可以去下列值：
+									meet - 默认值，统一缩放图形，让图形全部显示在viewport中。
+									slice - 统一缩放图形，让图形充满viewport，超出的部分被剪裁掉。
+			-->
+			<svg width="200" height="200" viewBox="0 0 200 200">
+				 <rect x="0" y="0" width="200" height="200" fill="Red" />
+				 <rect x="0" y="0" width="100" height="100" fill="Green" />
+			</svg>
+			<svg width="200" height="200" viewBox="0 0 100 100">
+				 <rect x="0" y="0" width="200" height="200" fill="Red" />
+				 <rect x="0" y="0" width="100" height="100" fill="Green" />
+			</svg>
+			<svg width="200" height="200" viewBox="0 0 400 400">
+				 <rect x="0" y="0" width="200" height="200" fill="Red" />
+				 <rect x="0" y="0" width="100" height="100" fill="Green" />
+			</svg>
+			
+			<!--用户坐标系的变换 - transform属性
+				transform属性设置的元素的变换，只影响该元素及其子元素，与别的元素无关，不影响别的元素。
+				
+				平移 - translate
+						平移变换把相关的坐标值平移到指定的位置，该变换需要传入两个轴上平移的量。这个变换第二个参数可以省略，默认当0处理。
+
+				旋转 - rotate
+						旋转一个元素也是一个很常见的任务，我们可以使用rotate变换实现，该变换需要传入旋转的角度参数。有几点注意：
+								1.这里的变换是以角度值为参数的。
+								2.旋转指的是相对于x轴的旋转。
+								3.旋转是围绕用户坐标系的原点(0,0)展开的。
+
+				倾斜 - skew
+						transform还支持倾斜变换，可以是沿着x轴的(左右倾斜，正角度为向右倾斜，其实是倾斜了y轴)，或者是沿着y轴的(上下倾斜，正角度为向下倾斜，其实是倾斜了x轴)倾斜；
+						该变换需要传入一个角度参数，这个角度参数会决定倾斜的角度。
+						注意矩形的起始位置都已经改变了，这是因为在新的坐标系统中，已经在不同的位置了。
+
+				缩放 - scale
+						缩放对象由缩放变换完成，该变换接受2个参数，分别指定在水平和竖直上的缩放比例，如果第二个参数省略则与第一个参数取相同的值。
+				
+				变换矩阵 - matrix
+						学过图形学的都知道，所有的变换其实都是由矩阵表征的，所以上面的变换其实都可以用一个3*3矩阵去表示：
+									a c e
+									b d f
+									0 0 1
+							由于只有6个值用到了，所以也简写成[a b c d e f]。
+							把matrix(a,b,c,d,e,f)赋给transfrom就可以实施相应的变换。
+							变换会把坐标和长度都转换成新的尺寸。
+						
+						上面各种变换对应的矩阵如下：
+
+								平移变换[1 0 1 0 tx ty]：
+									1 0 tx       
+									0 1 ty
+									0 0 1
+
+								缩放变换[sx 0 0 sy 0 0]：
+									sx 0 0
+									0 sy 0
+									0  0 1
+									
+								旋转变换[cos(a) sin(a) -sin(a) cos(a) 0 0]：
+									cos(a) -sin(a) 0
+									sin(a) cos(a)  0
+									 0      0     1
+
+								沿X轴的倾斜[1 0 tan(a) 1 0 0]：
+									1 tan(a) 0
+									0   1    0
+									0   0    1
+
+								沿Y轴的倾斜[1 tan(a) 0 1 0 0]：
+									1      1 0
+									tan(a) 1 0
+									0      0 1
+				变换链
+					transform属性支持设置多个变换，这些变换只要中间用空格分开，然后一起放到属性中就可以了。
+					执行效果跟按顺序独立执行这些变换是一样的。
+			-->
+			<svg width="100" height="100">
+					<rect x="0" y="0" width="10" height="10" transform="translate(30,40)" />
+			</svg>
+			<svg width="100" height="100">
+					<rect x="20" y="20" width="20" height="20" transform="rotate(45)" />
+			</svg>
+			<svg width="100" height="100">
+					<rect x="0" y="0" width="100" height="100" fill="green" />
+					<circle cx="15" cy="15" r="15" fill="red" />
+					<circle cx="15" cy="15" r="15" fill="yellow" transform="skewX(45)" />
+					<rect x="30" y="30" width="20" height="20"  />
+					<rect x="30" y="30" width="20" height="20" transform="skewX(45)"  />
+					<rect x="30" y="30" width="20" height="20" transform="skewY(45)"  />
+			</svg>
+			<svg width="500" height="500">
+					<text x="20" y="20" font-size="20">ABC (scale)</text>
+					<text x="50" y="50" font-size="20" transform="scale(1.5)">ABC (scale)</text>
+			</svg>
+			
+			<svg width="500" height="500">
+				<g transform="translate(-10,-20) scale(2) rotate(45) translate(5,10)">
+				  <!-- graphics elements go here -->
+				</g>
+				<g transform="translate(-10,-20)">
+				  <g transform="scale(2)">
+					<g transform="rotate(45)">
+					  <g transform="translate(5,10)">
+						<!-- graphics elements go here -->
+					  </g>
+					</g>
+				  </g>
+				</g>
+			</svg>
+			<!--
+			变换本质
+				  前面我们总结canvas的时候，我们知道各种变换都是作用在用户坐标系上的。 在SVG中，所有的变换也都是针对两个坐标系(本质上都是"用户坐标系")的。
+				  当给容器对象或图形对象指定"transform"属性，或者给"svg,symbol,marker,pattern,view"指定"viewBox"属性以后，
+						  SVG会根据当前的用户坐标系统进行变换，去创建新的用户坐标系，并作用于当前的对象以及它的子对象。
+						  该对象中指定的坐标和长度的单位不再是1:1的对应到外围的坐标系，而是随着变形，转换到新的用户坐标系中；
+						  这个新的用户坐标系是只作用于当前的元素及其子元素。
+			-->
+			<!--
+			单位    最后说一下单位，任何坐标和长度都可以带和不带单位。
+					不带单位的情况
+							不带单位的值被认为带的是"用户单位"，就是当前用户坐标系的单位值。
+					带单位的情况
+						svg中相关单位与CSS中是一样的：em,ex,px,pt,pc,cm,mm和in。长度还可以使用"%"。
+							相对度量单位：em和ex也与CSS中一样，是相对于当前字体的font-size和x-height来说的。
+							绝对度量单位：一个px是等于一个"用户单位"的，也就是"5px"与"5"是一样的。但是一个px是不是对应一个像素，那就看有没有进行过一些变换了。
+							其他的几个单位基本都是px的倍数：1pt=1.25px,1pc=15px,1mm=3.543307px,1cm=35.43307px,1in=90px。
+					如果最外层的SVG元素的width和height没有指定单位(也就是"用户单位")，则这些值会被认为单位是px。
+			-->
+			<!--
+			其实只要记住“图形元素的坐标和长度指的是，经过视窗坐标系变换和用户坐标系变换双重变换后，新用户坐标系的坐标和长度”就可以了。
+			-->
+		</div>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

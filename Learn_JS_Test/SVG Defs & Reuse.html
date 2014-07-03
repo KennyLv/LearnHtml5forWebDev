@@ -1,0 +1,166 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+	</head>
+	<body>
+		<div>
+			<!--	
+				SVG元素的重用
+			-->
+			<!--	 组合 - g元素  
+				g元素是一种容器，它组合一组相关的图形元素成为一个整体；这样，我们就可以对这个整体进行操作。
+				这个元素通常可以和desc和title元素配合使用，提供文档的结构信息。结构良好的文档通常可读性和渲染效率都不错。注意几点：
+						1. xmlns="http://www.w3.org/2000/svg"表明了整个svg元素默认的命名空间是svg。
+								这个在无歧义的时候可以省略。
+								这里由于svg文档是一个XML文档，XML命名空间的相关规则这里都是适用的。
+								例如可以给svg显示的指定命名空间，给命名空间提供别名等。
+						2. g元素是可以嵌套的。
+						3. 组合起来的图形元素就和单个的元素一样，可以给id值，这样，需要的时候(例如动画和重用一组元素)只用引用这个id值就可以了。
+						4. 组合一组图形元素可以统一设置这组元素的相关属性(fill,stroke,transform等)，这也是使用组合的一种场景。 
+			-->
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="5cm" height="5cm">
+				<desc>Two groups, each of two rectangles</desc>
+				<g id="group1" fill="red">
+					<rect x="1cm" y="1cm" width="1cm" height="1cm"/>
+					<rect x="3cm" y="1cm" width="1cm" height="1cm"/>
+				</g>
+				<g id="group2" fill="blue">
+					<rect x="1cm" y="3cm" width="1cm" height="1cm"/>
+					<rect x="3cm" y="3cm" width="1cm" height="1cm"/>
+				</g>
+				<!-- Show outline of canvas using 'rect' element -->
+				<rect x=".01cm" y=".01cm" width="4.98cm" height="4.98cm" fill="none" stroke="blue" stroke-width=".02cm"/>
+			</svg>
+			
+			<!-- 模板 - symbol元素
+					symbol元素用于定义图形模板(模板可以包含很多图形)，这个模板可以被use元素实例化。
+					模板的功能与g元素很相似，都是提供一组图形对象，但是也有一些区别。与g元素不同的地方是：
+							1.symbol元素本身是不会被渲染的，只有symbol模板的实例会被渲染。
+							2.symbol元素可以拥有属性viewBox和preserveAspectRatio，这些允许symbol缩放图形元素。
+					从渲染角度来说，与symbol元素相似的元素是marker(定义箭头和标号)和pattern(定义颜色)元素；
+							这些元素不会直接被渲染；
+							他们的使用方式基本都是由use元素去实例化。
+							正是这个原因，对于symbol来说，'display'属性是没有意义的。
+			-->
+			<svg xmlns="http://www.w3.org/2000/svg"  xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="5cm" height="5cm">
+				  <desc>Two groups, each of two rectangles</desc>
+				  <symbol id="group1" fill="red">
+						<rect x="1cm" y="1cm" width="1cm" height="1cm"/>
+						<rect x="3cm" y="1cm" width="1cm" height="1cm"/>
+				  </symbol>
+				  <g id="group2" fill="blue">
+						<rect x="1cm" y="3cm" width="1cm" height="1cm"/>
+						<rect x="3cm" y="3cm" width="1cm" height="1cm"/>
+				  </g>
+				  <use xlink:href="#group1" target="_blank" rel="nofollow">
+				  <!-- Show outline of canvas using 'rect' element -->
+				  <rect x=".02cm" y=".02cm" width="4.96cm" height="4.96cm" fill="none" stroke="blue" stroke-width=".02cm"/>
+			</svg>
+			<!--定义 - defs元素
+				SVG允许定义一组对象，然后重用这组对象(注意，不仅仅是图形对象)。
+				最常见的例子如定义渐变色，然后再其他的图形对象中赋给fill属性。渐变色定义的时候是不会渲染的，所以这类型的对象可以放到任何地方。
+				重用对于图形对象中也是经常存在的，而且我们也不希望定义的时候直接渲染，而是想在引用的地方渲染，这个可以用defs元素实现。
+
+				通常情况下，推荐的做法是：
+						只要有可能，就把被引用的对象放到defs元素中。
+						这些对象通常是：altGlyphDef,clipPath,cursor,filter, marker,mask,pattern,linearGradient,radialGradient，symbol和图形对象等。
+						把这些对象定义在defs元素中很容易理解，所以就提高了可访问性。
+				其实作为容器对象的g元素、symbol元素、defs元素都不同程度上提供了重用的作用，只不过每个元素的特性可能少许不同：
+						g元素是直接渲染的，
+						symbol和defs不会直接渲染，
+						symbol含有viewBox属性，会创建新的视窗。
+				
+				通常都会给在defs中定义的元素赋予id属性，并在用到的地方直接使用。根据元素的不同，这些定义可以用到不同地方。
+				图形相关元素的定义可以用use元素链接到文档， 
+				在这里请注意xlink名称空间的使用。尽管大多数查看器没有它也将正确显示这一项，但为了保持一致，xlink名称空间应该在<svg></svg>元素上定义。
+			-->
+			<svg width="8cm" height="3cm" xmlns="http://www.w3.org/2000/svg" version="1.1">
+				  <desc>Local URI references within ancestor's 'defs' element.</desc>
+				  <defs>
+					<linearGradient id="Gradient01">
+					  <stop offset="20%" stop-color="#39F" />
+					  <stop offset="90%" stop-color="#F3F" />
+					</linearGradient>
+				  </defs>
+				  <rect x="1cm" y="1cm" width="6cm" height="1cm"    fill="url(#Gradient01)"  />
+			</svg>
+			
+			<svg width="10cm" height="3cm" viewBox="0 0 100 30" version="1.1"  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				  <desc>Example Use01 - Simple case of 'use' on a 'rect'</desc>
+				  <defs>
+					<rect id="MyRect" width="60" height="10"/>
+				  </defs>
+				  <rect x=".1" y=".1" width="99.8" height="29.8" fill="none" stroke="blue" stroke-width=".2" />
+				  <use x="20" y="10" xlink:href="#MyRect" />
+			</svg>
+			
+			<!--引用 - use元素
+				任何svg, symbol, g, 单个的图形元素和use元素本质上都可以作为模板对象被use元素引用(例如初始化)。
+				use引用的图形内容会在指定的位置渲染。
+				与image元素不同，use元素不能引用整个文档。
+				use元素也有x, y, width和height属性，这些属性可以省略，如果不省略的话，会将被引用的图形内容坐标或长度映射到当前的用户坐标空间来。
+						
+				use元素的作用过程就相当于把被引用的对象深拷贝一份到独立的非公开的DOM树中；这棵树的父节点是use元素。
+					  虽然是非公开的DOM节点，但是本质上还是DOM节点，所以被引用对象的所有属性值、动画、事件、CSS的相关设置等都会拷贝多来并都还是会起作用，
+					  而且这些节点也会继承use元素和use祖先的相关属性(注意引用元素是深拷贝，这些拷贝过来的元素与原来的元素已经无关系了，所以这里不会继承被引用元素祖先节点的属性)，
+					  如果这些节点本身有相关(CSS)属性，还会覆盖继承来的属性，这些与普通的DOM节点是一致的，所以对use元素使用"visibility:hidden"时要小心，并不一定会起作用。
+					  但是由于这部分节点是非公开的，在DOM操作中，也只能看到use元素，所以也只能操作到use元素。
+	  
+				从视觉效果来看，use元素更像是占位符，渲染完成后的视觉效果就和直接用被引用对象渲染是一样的：
+						1. use元素引用一个symbol元素 -- 这种情况下，视觉效果就相当于：
+								(1) 把use元素换成g元素；
+								(2) 把use的除x,y,width,height,xlink:href外的属性全部移到g元素；
+								(3) 把use的x,y属性变成translate(x,y)，追加到g元素的transform属性最后；
+								(4) 把引用的symbol元素换成svg元素，这个svg元素会显式使用use元素的width和height属性(use元素没有这些属性则是100%)；
+								(5) 把引用的symbol元素的图形内容深拷贝到替换的svg中。
+						2. use元素引用一个svg元素 -- 这种情况下，视觉效果就相当于：
+								(1) 把use元素换成g元素；
+								(2) 把use的除x,y,width,height,xlink:href外的属性全部移到g元素；
+								(3) 把use的x,y属性变成translate(x,y)，追加到g元素的transform属性最后；
+								(4) 把引用的svg元素包括内容拷贝过来，这个svg元素会显式使用use元素的width和height属性(use元素没有这些属性则使用原来的值)；
+						3. 其他情况 -- 这些情况下的视觉效果就相当于：
+								(1) 把use元素换成g元素；
+								(2) 把use的除x,y,width,height,xlink:href外的属性全部移到g元素；
+								(3) 把use的x,y属性变成translate(x,y)，追加到g元素的transform属性最后；
+								(4) 把引用元素拷贝过来；
+			-->
+			<br/>
+			<svg width="10cm" height="3cm" viewBox="0 0 100 30" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				  <desc>Example Use03 - 'use' with a 'transform' attribute</desc>
+				  <defs>
+						<rect id="MyRect" x="0" y="0" width="60" height="10"/>
+				  </defs>
+				  <rect x=".1" y=".1" width="99.8" height="29.8" fill="none" stroke="blue" stroke-width=".2" />
+				  <use xlink:href="#MyRect" transform="translate(20,2.5) rotate(10)" />
+			</svg>
+
+			<span>的图和->_->的图外观是一样的</span>
+
+			<svg width="10cm" height="3cm" viewBox="0 0 100 30" xmlns="http://www.w3.org/2000/svg" version="1.1">
+				  <desc>Example Use03-'use' with a 'transform' attribute</desc>
+				  <rect x=".1" y=".1" width="99.8" height="29.8" fill="none" stroke="blue" stroke-width=".2" />
+				  <g transform="translate(20,2.5) rotate(10)">
+						<rect x="0" y="0" width="60" height="10"/>
+				  </g>
+			</svg>
+		</div>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

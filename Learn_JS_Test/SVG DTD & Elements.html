@@ -1,0 +1,191 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+	</head>
+	<body>
+		<div>
+			<!--	 SVG文档结构
+				SVG文档的元素基本可以分为以下几类：
+						动画元素：animate, animateColor, animateMotion, animateTransform, set；
+						解释元素：desc, metadata, title；
+						图形元素：circle, ellipse, line, path, polygon, polyline, rect；
+						结构元素：defs, g, svg, symbol, use；
+						渐变元素：linearGradient, radialGradient；
+						其他元素：a,altGlyphDef,clipPath,color-profile,cursor,filter,font,font-face,foreignObject,image,marker,mask,pattern,script,style,switch,text,view等。
+				其中图形元素，渐变元素，文本，图像元素和组合等都介绍过了，下面介绍另外几个与结构相关的元素。
+			-->
+			<!--	视窗 - svg元素
+					可以在svg元素中以任何顺序放置任何的其他元素，包括嵌套svg元素。
+					svg元素支持的属性常用的也就是id,class,x,y,width,height,viewBox,preserveAspectRatio,以及fill和stroke的相关属性。
+					svg元素支持的事件也是常用的onload, onmouseover, onmousemove, onmousedown, onmouseup, onclick, onfocusin, onfocusout, onresize, onscroll, onunload等。
+					svg元素就不多说了，完整的属性和事件列表参看后面的官方文档。
+			-->
+			<!--解释性元素 - desc元素与title元素
+				  每个容器元素(可以包含其他容器元素或者图形元素的元素，和图形元素都可以包含desc和title元素，这两个元素都是辅助性的元素，用于解释相关情境；它们的内容都是文本。
+				  当SVG文档被渲染的时候，这2个元素不会被渲染到图形中。
+				  这个2个元素之间差别不是太大，title在有些实现中是作为提示信息出现的，所以通常title是放到父元素的第一个位置上。
+				  通常，最外层的svg元素要配以title说明，这样程序可读性更好。
+			-->
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="4in" height="3in">
+				  <g>
+						<title>Company sales by region</title>
+						<desc>
+						  This is a bar chart which shows 
+						  company sales by region.
+						</desc>
+						<!-- Bar chart defined as vector data -->
+				  </g>
+			</svg>
+			
+			<!-- 标记 - marker元素
+				  标记定义了附加到一个或者多个顶点(path,line,polyline或者polygon的顶点)上的图形元素(箭头和多点标记)。
+						  箭头可以通过把一个标记附加到path,line或者polyline的起点或者终点上。
+						  多点标记可以把一个标记附加到path,line,polyline或者polygon的所有顶点上。
+				  标记是由marker元素定义的，然后在path,line,polyline或者polygon中设置相关的属性(marker,marker-start,marker-mid,和marker-end)就可以了。
+				  
+				下面详细看看marker的相关知识：
+						1. marker是容器元素，可以存放任意顺序的图形元素，容器元素，动画，渐变元素等。
+						2. marker元素可以创建新的视窗：设置viewBox的值。
+						3. marker比较重要的属性
+								markerUnits --- 这个属性定义了属性markerWidth,markerHeight和marker的内容使用的坐标系统。这个属性有2个值可选 ：markerUnits = "strokeWidth | userSpaceOnUse"
+											第一个值strokeWidth是默认值， 代表属性markerWidth,markerHeight和marker的内容使用的坐标系统的单位等于引用该marker的图形元素的stroke-width设置的值，
+														mark元素中的path使用的坐标是viewBox设置的新的用户坐标系。
+											该属性另外一个取值userSpaceOnUse，代表属性markerWidth,markerHeight和marker的内容使用引用该marker的图形元素的坐标系统。
+								refX,refY：定义了引用的点与marker对齐的位置坐标。
+											例子中，引用的点是终点，要把它对齐到marker的(0,5)位置。
+											注意refX,refY使用的是经过viewBox变换过的最终用户坐标系。
+								markerWidth,markerHeight：marker视窗的宽和高，这个很好理解。
+								orient：定义了marker旋转的角度。可以指定一个角度或者直接赋值auto。
+								auto代表x轴正方向按照下列规则旋转：
+										a. 如果marker所在的点只属于一个path，则marker的x轴正向与path走向相同。参看上面例子。
+										b. 如果marker所在的点属于两个不同的path，则marker的x轴正向与两个path的夹角的角等分线走向一致。
+						4. 图形元素的marker属性
+								图形元素要引用一个marker则需要使用相关的属性，主要是这3个：
+										marker-start(把引用的marker放到起点), 
+										marker-mid(把引用的marker放到除起点和终点外的所有点), 
+										marker-end(把引用的marker放到终点)。
+								这3个属性的取值可能是none(代表不引用marker),marker的引用(引用某marker)，inherit(这个不用多说了)。
+		  -->
+			<svg width="4in" height="2in"  viewBox="0 0 4000 2000" version="1.1" xmlns="http://www.w3.org/2000/svg">
+				  <defs>
+						<marker id="Triangle"
+						  viewBox="0 0 10 10" refX="0" refY="5" 
+						  markerUnits="strokeWidth"
+						  markerWidth="4" markerHeight="3"
+						  orient="auto">
+						  <path d="M 0 0 L 10 5 L 0 10 z" />
+						</marker>
+				  </defs>
+				  <desc>Placing an arrowhead at the end of a path.
+				  </desc>
+				  <path d="M 1000 750 L 2000 750 L 2500 1250" fill="none" stroke="black" stroke-width="100"  marker-end="url(#Triangle)"  />
+			</svg>
+
+			<!--  脚本与样式 - script元素与style元素
+					  实际上，基本上所有的属性(对于所有元素，不仅是文本)都可以用CSS与一个元素关联，并且所有CSS属性都在SVG图像中可用。
+					  可以直接用样式属性设计元素的样式，或者引用样式表设计元素的样式。
+					  对XML文件来说不应该解析样式表(因为它们偶尔包含会引起问题的字符)，因此需要将它们置于XML CDATA节。
+					  脚本也是同样的道理，需要放到XML CDATA节中。
+			-->
+			<svg width="400" height="200" xmlns="http://www.w3.org/2000/svg">   
+			  <desc>Text</desc> <defs>   
+				<style type="text/css">      
+				  <![CDATA[      
+					.abbreviation { text-decoration: underline; }      
+				  ]]>                     
+				</style> 
+			  </defs>   
+			  <g>      
+				<text x="20" y="50" font-size="30">Colors can be specified</text>     
+				<text x="20" y="100" font-size="30">by their        
+				  <tspan fill="rgb(255,0,0)" class="abbreviation">R</tspan>        
+				  <tspan fill="rgb(0,255,0)" class="abbreviation">G</tspan>        
+				  <tspan fill="rgb(0,0,255)" class="abbreviation">B</tspan>     values</text>     
+				<text x="20" y="150" font-size="30">or by keywords such as</text>     
+				<text x="20" y="200">        
+				   <tspan style="fill: lightsteelblue; font-size:30">lightsteelblue</tspan>,     
+				</text>
+			  </g>
+			</svg>
+
+			<svg width="500" height="300" xmlns="http://www.w3.org/2000/svg">
+			 <desc>Scripting the onclick event</desc>
+			 <defs>
+				<script type="text/ecmascript"> 
+				<![CDATA[
+				  function hideReveal(evt) {
+					var imageTarget = evt.target;
+					var theFill = imageTarget.getAttribute("fill");
+					if (theFill == 'white')
+					  imageTarget.setAttribute("fill", "url(#notes)");
+					else
+					  imageTarget.setAttribute("fill", "white");
+				  }
+				]]> 
+				</script>  
+				<pattern id="notes" x="0" y="0" width="50" height="75" 
+							   patternTransform="rotate(15)" 
+							   patternUnits="userSpaceOnUse">
+					 <ellipse cx="10" cy="30" rx="10" ry="5"/>
+					 <line x1="20" y1="30" x2="20" y2="0" 
+							   stroke-width="3" stroke="black"/>
+					 <line x1="20" y1="0" x2="30" y2="5" 
+							   stroke-width="3" stroke="black"/>
+				 </pattern>
+			   </defs>
+			 <ellipse onclick="hideReveal(evt)" cx="175" cy="100" rx="125" ry="60"
+					   fill="url(#notes)" stroke="black" stroke-width="5"/>
+			</svg>
+			<!-- 条件处理 - switch元素
+					  条件处理属性是能控制所在元素渲染与否的属性。
+					  基本上大多数的元素(特别是图形元素)都可以指定条件处理属性。
+					  条件处理属性有3个：requiredFeatures, requiredExtensions和systemLanguage。
+					  这些属性就是一组测试，都允许指定一个值列表(前面两个属性是空格隔开的，语言这个属性是使用逗号隔开的)，默认值都为true。
+			  
+			  SVG的switch元素提供了按指定条件渲染的能力。
+					  switch元素是一个容器元素，可以包含图形元素，解释性元素，动画元素，a, foreignObject,g,image,svg,switch,text,use等元素。
+					  switch元素会按顺序检查直接子元素的条件处理属性，然后渲染满足自身条件的的第一个子元素，其他的子元素都会被忽略。
+			  这些属性与display属性一样，只会影响直接使用这些属性的元素的渲染，不会影响引用的元素(比如use引用的元素)。
+					  简单的说，这3个属性会影响a, altGlyph, foreignObject, textPath, tref, tspan ,animate, animateColor, animateMotion, animateTransform, set等元素，
+					  不会影响defs,cursor, mask, clipPath, pattern等元素(这些元素那么不是可渲染的，要么就是引用别的元素)。 
+			  注意：子元素的display和visibility属性值并不影响switch元素条件判断的结果。
+			  条件处理属性的取值列表参看官方文档。
+			  -->
+			  <svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="5cm" height="5cm">
+					<switch> 
+						<rect   requiredFeatures= "http://www.w3.org/TR/SVG11/feature#Filter "   
+							 x= "10 "   y= "10 "   width= "322 "   height= "502 "   opacity= "0.6 " 
+							 fill= "black "   stroke= "none "   filter= "url(#gblurshadow) "   /> 
+						<rect   x= "10 "   y= "10 "   width= "322 "   height= "502 "   opacity= "0.6 " 
+								fill= "black "   stroke= "none "   /> 
+					</switch> 
+			</svg>
+			
+			<svg xmlns="http://www.w3.org/2000/svg" version="1.1" width="5cm" height="5cm">
+			  <switch> 
+				<text x='10' y='20' systemLanguage="de">de - HAHA</text> 
+				<text x='10' y='20' systemLanguage="en">en - haha</text> 
+			  </switch> 
+			</svg>
+
+		</div>
+	</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
