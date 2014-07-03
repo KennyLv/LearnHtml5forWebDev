@@ -9,3 +9,7 @@ New feature in HTML5
 
 > Audio
 
+
+
+###### Reference:
+http://www.cnblogs.com/dxy1982/category/349848.html
