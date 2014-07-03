@@ -1,0 +1,150 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+	</head>
+	<body>
+		<div>
+			<!--	SVG支持的蒙板类型：
+					1. 裁剪路径(cliping path)
+							裁剪路径是由path, text或者基本图形组成的图形。所有在裁剪路径内的图形都可见，所有在裁剪路径外的图形都不可见。
+					2. 遮罩/蒙板(mask)
+							蒙板是一种容器，它定义了一组图形并将它们作为半透明的媒介，可以用来组合前景对象和背景。
+							裁剪路径和其他的蒙板一个重要的区别就是：
+									裁剪路径是1位蒙板，也就是说裁剪路径覆盖的对象要么就是全透明(可见的，位于裁剪路径内部)，要么就是全不透明(不可见，位于裁剪路径外部)。
+									而蒙板可以指定不同位置的透明度。
+			-->
+			<!-- 裁剪路径
+			
+			视窗的裁剪路径 - overflow和clip属性     
+				HTML元素的overflow属性和clip属性共同设置了该元素对内容的剪裁行为。同样的，在SVG中，这2个属性还可以使用。
+					1， overflow = visible | hidden | scroll | auto | inherit
+						overflow属性定义了当元素的内容超过元素的边框的时候采取的行为。
+						这个属性可以用于能创建新视窗的元素(svg,symbol,image,foreignObject),pattern和marker元素。这个属性的取值含义如下：
+								  visible：显示所有内容，即使是内容已经在元素的边框外边，这个是默认值。
+								  hidden：隐藏超出裁剪路径的内容。裁剪路径由clip属性指定。
+								  scroll：采用滚动条的形式，呈现超出的内容。
+								  auto：采用浏览器定义的行为，这个似乎不太可靠。
+						这个属性和CSS2中的同名属性基本相同，只不过在SVG中，有一些不同的处理过程：
+								  1.overflow属性对于除了创建新视窗的元素(svg,symbol,image,foreignObject),pattern和marker元素外的元素都没有效果。
+								  2.裁剪路径与视窗是对应的，创建了新的视窗，就创建了新的裁剪路径。默认的裁剪路径就是视窗边界。
+					2， clip = <shape> | auto | inherit
+						clip属性用于设置当前视窗的裁剪路径。
+						这个属性可以用于能创建新视窗的元素(svg,symbol,image,foreignObject),pattern和marker元素。
+						这个属性和CSS2中同名属性有一样的参数。
+						auto代表裁剪路径与视窗边框是一致的。
+						当使用图形作为参数时(设置裁剪矩形的top,right,bottom和left的值)， 可以使用用户坐标值(即不带单位的坐标)。
+				默认情况下(overflow和clip都取默认值)，裁剪路径是与视窗的边框是一致的。
+					当设置了viewBox和preserveAspectRatio以后，通常也需要把clip裁剪路径的四边映射成viewBox的四边，这样才能保证某些显示效果还是一样的(如果都是默认值就不用设了)。
+
+					P { clip: rect(5px, 10px, 10px, 5px); }
+
+					
+			对象的裁剪路径 - clipPath元素
+				裁剪路径使用clipPath元素定义，然后使用clip-path属性引用。
+				clipPath可以包含path元素，text元素，基本的图形元素(circle等)和use元素。如果是use元素，则它必须是直接引用path,text或者基本图形元素，不能引用的是其他的元素。
+				注意裁剪路径只是一位的遮罩层，该路径是包含的所有的元素的并集。
+						在这个集合中的对象就可以显示，不在这个范围内的对象就不显示。
+						具体判定点在不在范围内的算法由"clip-rule"属性指定。
+						对于图形对象，裁剪路径等于自己clip-path设置的裁剪路径与所有外层元素的裁剪路径(包括clip-path和overflow设置的裁剪路径)的并集。注意几点：
+								1.clipPath元素自身并不会从外层节点继承clipPath定义的裁剪路径。
+								2.clipPath元素自身可以设置clip-path属性。效果是两个路径的交集。
+								3.clipPath元素的子元素可以设置clip-path属性：效果是两个路径的并集。
+								4.空裁剪路径会裁掉元素内所有的内容。
+				下面看看几种重要的属性：
+						clipPathUnits = "userSpaceOnUse(默认值) | objectBoundingBox"
+								这个属性定义了clipPath元素使用的坐标系统，这两个值我们都很熟悉了，分别是采用引用当前裁剪路径的元素的用户坐标系统和包围盒比例值。
+						clip-path = “<url(#裁剪路径名)> | none inherit”
+								clipPath元素从来不直接渲染，都是通过clip-path被引用，所以设置clipPath元素的display属性没有作用。
+								这个属性不用多说了，用于引用裁剪路径，
+								这里需要注意的是，所有的容器元素，基本图形元素和clipPath元素都可以使用这个属性。
+						clip-rule = "nonzero(默认值) | evenodd | inherit"
+								这个属性用于确定哪些点是属于裁剪路劲内部的点。
+								clip-rule属性只能用于clipPath元素的内部图形元素， 如果元素不在clipPath中是不起作用的。
+								对于简单的封闭图形，这个很好判定，但是对于复杂的内部有洞的图形，就有区别了。
+								这个属性的取值与fill-rule的取值含义是一样的：
+										nonzero：这个值采用的算法是：
+												从需要判定的点向任意方向发射线，然后计算图形与线段交点的处的走向；
+												计算结果从0开始，每有一个交点处的线段是从左到右的，就加1；
+												每有一个交点处的线段是从右到左的，就减1；
+												这样计算完所有交点后，如果这个计算的结果不等于0，则该点在图形内，需要填充；
+												如果该值等于0，则在图形外，不需要填充。
+										evenodd：这个值采用的算法是：
+												从需要判定的点向任意方向发射线，然后计算图形与线段交点的个数，个数为奇数则改点在图形内，需要填充；
+												个数为偶数则点在图形外，不需要填充。
+				-->
+				<svg width="100px" height="100px" xmlns="http://www.w3.org/2000/svg" version="1.1">
+						<g>
+						  <clipPath id="MyClip">
+							<path d="M 10,10 L 10,20 L 20,20 L 20,10 Z" clip-rule="evenodd" />
+						  </clipPath>
+						  <rect clip-path="url(#MyClip)" />
+						</g>
+				</svg>
+				<svg width="100px" height="100px" xmlns="http://www.w3.org/2000/svg" version="1.1">
+						<g clip-rule="nonzero">
+						  <clipPath id="MyClip">
+							<path d="M 10,10 L 10,20 L 20,20 L 20,10 Z" />
+						  </clipPath>
+						  <rect clip-path="url(#MyClip)" clip-rule="evenodd" />
+						</g>
+				</svg>
+				<svg width="100px" height="100px" xmlns="http://www.w3.org/2000/svg" version="1.1">
+				  <g>
+					<clipPath id="MyClip">
+					  <path d="M 10,10 L 10,20 L 20,20 L 20,10 Z" clip-rule="evenodd" />
+					</clipPath>
+				  </g>
+				  <rect clip-path="url(#MyClip)" x="10" y="10" width="80" height="80" fill="Red" />
+				</svg>
+				
+				<!--  蒙板- mask元素
+					在SVG中，你可以为渲染的对象指定任何的图形元素或者g元素作为蒙板，来将渲染对象组合到背景中。
+					蒙板用mask元素定义，使用蒙板的时候只需要在对象的mask属性中引用蒙板就可以了。mask元素可以包含任何的图形元素和容器元素(例如g)。
+					蒙板的效果其实大家也比较清楚，基本就是根据蒙板中每个点的颜色和透明度计算出一个最终的透明度，然后在渲染对象的时候，在对象上面罩上这个带有不同透明度的蒙板层，体现出蒙板的遮挡效果。
+					
+					对于渲染对象来说，只有在蒙版内的部分会按照蒙板上点的透明度来渲染，不在蒙板内的部分不显示。
+					裁剪路径只不过是一种特殊的蒙板(每个点的透明度要么是0，要么是1)。
+					
+					蒙板的定义和使用已经介绍了，下面看几个重要的属性：
+							maskUnits = "userSpaceOnUse | objectBoundingBox(默认值)"
+									定义了mask元素中坐标(x,y)和长度(width,height)的坐标系统：
+											使用引用该蒙板的元素的用户坐标系，或者是使用相对于引用蒙板的元素的包围盒的相对值。
+											这个值的含义与前面章节中的单位含义是相同的。
+							maskContentUnits = "userSpaceOnUse(默认值) | objectBoundingBox"
+									定义了mask元素中子元素的坐标系统。
+							x, y, width, height
+									定义了蒙板的位置和大小，在默认的objectBoundingBox坐标下，默认值分别为-10%,-10%,120%,120%。
+
+					此外要注意：蒙板不会直接渲染，只会在引用的地方起作用，所以display,opacity等属性对于mask元素来说都是不起作用的。
+				-->
+				<svg width="8cm" height="3cm" viewBox="0 0 800 300" version="1.1"     xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+				  <defs>
+					<linearGradient id="Gradient" gradientUnits="userSpaceOnUse"
+									x1="0" y1="0" x2="800" y2="0">
+					  <stop offset="0" stop-color="white" stop-opacity="0" />
+					  <stop offset="1" stop-color="white" stop-opacity="1" />
+					</linearGradient>
+					<mask id="Mask" maskUnits="userSpaceOnUse"
+						  x="0" y="0" width="800" height="300">
+					  <rect x="0" y="0" width="800" height="300" fill="url(#Gradient)"  />
+					</mask>
+					<text id="Text" x="400" y="200" 
+						  font-family="Verdana" font-size="100" text-anchor="middle" >
+					  Masked text
+					</text>
+				  </defs>
+
+				  <!-- 视窗的背景 -->
+				  <rect x="0" y="0" width="800" height="300" fill="#FF8080" />
+				  
+				  <!-- 第一步绘制一个带有蒙板的Text，可以看到蒙板的透明度效果已经应用到字上了.
+					   第二步是绘制一个不带蒙板的Text，来作为第一步Text的轮廓 -->
+				  <use xlink:href="#Text" fill="blue" mask="url(#Mask)" />
+				  <use xlink:href="#Text" fill="none" stroke="black" stroke-width="2" />
+				</svg>
+				
+			</div>
+	</body>
+</html>

@@ -1,0 +1,213 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+	</head>
+	<body>
+		<div>
+			<!--	SVG 滤镜
+				滤镜称得上是SVG最强大的功能了，它允许你给图形(图形元素和容器元素)添加各种专业软件中才有的滤镜特效。
+				这样你就很容易在客户端生成和修改图像了。
+				而且滤镜并没有破坏原有文档的结构，所以维护性也很好。
+				
+				滤镜用filter元素定义；
+				需要使用的时候，在需要滤镜效果的图形或容器上添加filter属性，引用相关滤镜即可。
+				
+				滤镜元素包含很多的滤镜原子操作；
+				每个原子操作在传入的对象上执行一个基本的图形操作，并产生图形输出。
+				大多数的原子操作生成的结果基本都是一个RGBA图片。
+				每个原子操作的输入既可以是源图形，也可以使其他原子操作的结果。所以引用滤镜效果的过程就是在源图形上应用相关的滤镜原子操作，最后生成一个新的图形并渲染。
+				
+				当在容器上(例如g元素)使用filter属性的时候，滤镜效果会应用到容器中的所有元素。
+				但是容器中的元素并不会直接渲染到屏幕，而是会被暂时存储起来。
+				然后，图形命令会被当做处理引用的filter元素的过程的一部分被执行，这个时候才会去渲染。
+				这是通过使用SourceGraphic和SourceAlpha来指定的。
+				
+				有些滤镜效果会生成一些没有定义的像素点，这些点会被处理成透明效果。
+			-->
+			
+			<svg width="7.5cm" height="5cm" viewBox="0 0 200 120"  xmlns="http://www.w3.org/2000/svg" version="1.1">
+					<title>SVG 滤镜效果示例</title>
+					<desc>采用各种滤镜效果实现一副图形的3D的光照效果。</desc>
+					<defs>
+							<filter id="MyFilter" filterUnits="userSpaceOnUse" x="0" y="0" width="200" height="120">
+									<!-- feGaussianBlur：这一步是进行高斯模糊处理；
+									该特效的输入是源图片的透明度值，输出存到了临时缓冲blur中。
+									blur值作为了下面feOffset和feSpecularLighting的输入。 -->
+									<feGaussianBlur in="SourceAlpha" stdDeviation="4" result="blur"/>
+									
+									<!-- feOffset：这一步是把图片平移一些位置；
+									该特效的输入是上一步中生成的blur，生成一个新的缓存offsetBlur。 -->
+									<feOffset in="blur" dx="4" dy="4" result="offsetBlur"/>
+									
+									<!--feSpecularLighting：这一步是把图片的表面进行光线的处理。
+									输入是第一步中生成的blur，输出存放到新的缓存specOut中。 -->
+									<feSpecularLighting in="blur" surfaceScale="5" specularConstant=".75" 
+											specularExponent="20" lighting-color="#bbbbbb"  
+											result="specOut">
+											<fePointLight x="-5000" y="-10000" z="20000"/>
+									</feSpecularLighting>
+									
+									<!-- 两次feComposite：这两步是对不同的缓存层进行组合。 -->
+									<feComposite in="specOut" in2="SourceAlpha" operator="in" result="specOut"/>
+									<feComposite in="SourceGraphic" in2="specOut" operator="arithmetic"  k1="0" k2="1" k3="1" k4="0" result="litPaint"/>
+									
+									<!-- feMerge：这一步是合并不同的层。该步通常是最后的一步，融合各个缓存的层，生成最终的图片，并渲染呈现。
+									虽然这一步也可以用多次feComposite特效完成，但是毕竟还是不太方便。 -->
+									<feMerge>
+										<feMergeNode in="offsetBlur"/>
+										<feMergeNode in="litPaint"/>
+									</feMerge>
+							</filter>
+					</defs>
+					<rect x="1" y="1" width="198" height="118" fill="#888888" stroke="blue" />
+					<g filter="url(#MyFilter)" >
+						<g>
+								<path fill="none" stroke="#D90000" stroke-width="10"  d="M50,90 C0,90 0,30 50,30 L150,30 C200,30 200,90 150,90 z" />
+								<path fill="#D90000"  d="M60,80 C30,80 30,40 60,40 L140,40 C170,40 170,80 140,80 z" />
+								<g fill="#FFFFFF" stroke="black" font-size="45" font-family="Verdana" >
+									<text x="52" y="76">SVG</text>
+								</g>
+						</g>
+					</g>
+			</svg>
+			
+			<!--  filter元素与滤镜效果区域
+					滤镜效果区域指的是滤镜效果起作用的区域。这个区域的大小是由filter元素下列的属性定义的：
+								filterUnits = "userSpaceOnUse | objectBoundingBox"
+										这个属性定义了x,y,width和height使用的坐标空间。
+										与其他的Unit相关的属性一样，该属性也是两个值：userSpaceOnUse和objectBoundingBox(默认值)。
+												userSpaceOnUse表示使用引用该filter元素的元素的用户坐标系统。
+												objectBoundingBox表示使用引用该filter元素的元素的包围盒的百分比做取值范围。
+								x,y,width,height
+										这些属性定义了滤镜起作用的矩形区域。
+										滤镜效果不会应用在超过这个区域的点上。
+										x,y的默认值是-10%，width与height的默认值是120%。
+								filterRes
+										该属性定义了中间缓存区域的大小，所以也定义了缓存图片的质量。
+										通常情况下，不需要提供这个值，浏览器自己会选取合适的值。
+										通常，滤镜效果区域应该定义成和背景正好能点和点一一对应，这样会带来一定的效率优势。
+								primitiveUnits = "userSpaceOnUse | objectBoundingBox"
+									  这个属性定义每个原子操作中坐标和长度使用的坐标空间，
+									  这个属性的取值还是userSpaceOnUse和objectBoundingBox。只不过默认值是userSpaceOnUse。
+								xlink:href = "<iri>"
+									  该属性用于在当前filter元素中引用其他的filter元素。
+
+				值得注意的是，filter元素只会继承自己的父节点的属性，并不会继承引用该filter元素的元素的属性。
+			-->
+			
+			<!--滤镜总览
+				各种滤镜原子操作就不详述了，需要的时候查看官方文档即可。下面看一下这些操作的共性。除了"in"属性，下面的其他属性是所有原子操作都可用的。
+
+				x,y,width,height
+						这几个属性不多说了，它定义了滤镜原子起作用的区域，不妨成为"滤镜子区域"吧。
+						这几个属性是受filter元素的作用区域限制的，默认情况下，取值分别是0,0,100%,100%。
+						这些原子的作用区域超过filter元素的作用区域都不起作用。
+				result
+						存放该步操作的结果。指定了result以后，同一个filter元素的其他后续操作都可以用in来指定其为输入。
+						这个参看上面的例子就知道了。如果省略了这个值，则只能作为紧挨着的下一步操作的隐式输入，注意如果紧挨着的下一步操作已经用in指定了输入，则以in指定的为准。				 
+				in
+						表示该步操作的输入。省略in属性的话，将会默认使用前一步的结果作为本步的输入，如果省略的是第一步的in，则会使用"SourceGraphic"作为值(参看下面的说明)。
+						in属性可以引用前面result存放的值，也可以指定下面6个特殊的值：
+								SourceGraphic：这个值代表使用当前的图形元素作为操作的输入。
+								SourceAlpha：这个值代表使用当前图形元素的Alpha值作为操作的输入。
+								BackgroundImage：这个值代表使用当前的背景截图作为操作的输入。
+								BackgroundAlpha：这个值代表使用当前的背景截图的Alpha值作为操作的输入。
+								FillPaint：这个值使用当前图形元素的fill属性的值作为操作的输入。
+								StrokePaint：这个值使用当前图形元素的stroke属性的值作为操作的输入。
+						这些值中 BackgroundImage和BackgroundAlpha可能比较难以理解，下面重点看看这两个值。 
+			-->
+			
+			<!--	访问背景截图  BackgroundImage和BackgroundAlpha
+				通常情况下，我们可以直接使用引用filter元素的元素的背景截图作为filter效果的源图片。
+				代表这种输入的取值是BackgroundImage和BackgroundAlpha，前一个包含颜色和Alpha值，后一个只包含Alpha值。
+				
+				为了支持这种使用方式，还需要在引用filter元素的元素上显式的开启这个特性，这需要设置元素的enable-background属性。
+								enable-background = "accumulate | new [ <x> <y> <width> <height> ] | inherit"
+					这个属性只能用于容器元素，它定义了如何去截取背景截图。
+						new值代表：允许该容器的子元素访问容器的背景截图，并且该容器的子元素会渲染到背景中和设备上。
+						accumulate是默认值，它的效果取决于上下文：
+								如果父辈容器元素使用了enable-background：new的话，那么该容器的所有图形元素都会参与背景的渲染。
+								否则，说明父辈容器没有准备截取背景截图，该元素的图形元素显示只显示在设备上。
+			-->
+			<svg width="13.5cm" height="2.7cm" viewBox="0 0 1350 270"
+				 xmlns="http://www.w3.org/2000/svg" version="1.1">
+			  <title>使用背景截图的例子</title>
+			  <desc>下面几个例子解释了不同情况下背景截图的使用情况</desc>
+
+			  <defs>
+				<filter id="ShiftBGAndBlur" 
+						filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
+				  <desc>这个滤镜舍弃了源图片，而是使用背景截图</desc>
+				  <feOffset in="BackgroundImage" dx="0" dy="125" />
+				  <feGaussianBlur stdDeviation="8" />
+				</filter>
+				<filter id="ShiftBGAndBlur_WithSourceGraphic" 
+						filterUnits="userSpaceOnUse" x="0" y="0" width="1200" height="400">
+				  <desc>这个滤镜特效同时融合了背景截图和当前元素的图片</desc>
+				  <feOffset in="BackgroundImage" dx="0" dy="125" />
+				  <feGaussianBlur stdDeviation="8" result="blur" />
+				  <feMerge>
+					<feMergeNode in="blur"/>
+					<feMergeNode in="SourceGraphic"/>
+				  </feMerge>
+				</filter>
+			  </defs>
+
+			  <g transform="translate(0,0)">
+				<desc>第一幅是没加滤镜的效果 （第一组中的图片，没用使用任何滤镜效果。）</desc>
+				<rect x="25" y="25" width="100" height="100" fill="red"/>
+				<g opacity=".5">
+				  <circle cx="125" cy="75" r="45" fill="green"/>
+				  <polygon points="160,25 160,125 240,75" fill="blue"/>
+				</g>
+				<rect x="5" y="5" width="260" height="260" fill="none" stroke="blue"/>
+			  </g>
+
+			  <g enable-background="new" transform="translate(270,0)">
+				<desc>第二幅是在容器上使用滤镜效果 （第二组使用一样的图片，但是开启了使用背景的效果。）</desc>
+				<rect x="25" y="25" width="100" height="100" fill="red"/>
+				<g opacity=".5">
+				  <circle cx="125" cy="75" r="45" fill="green"/>
+				  <polygon points="160,25 160,125 240,75" fill="blue"/>
+				</g>
+				<g filter="url(#ShiftBGAndBlur)"/>
+				<rect x="5" y="5" width="260" height="260" fill="none" stroke="blue"/>
+			  </g>
+			  
+			  <g enable-background="new" transform="translate(540,0)">
+				<desc>第三幅是在内部容器上使用滤镜效果，注意与第二幅图的不同 （第三组使用一样的图片，但是在内部的容器了使用了滤镜效果。）</desc>
+				<rect x="25" y="25" width="100" height="100" fill="red"/>
+				<g filter="url(#ShiftBGAndBlur)" opacity=".5">
+				  <circle cx="125" cy="75" r="45" fill="green"/>
+				  <polygon points="160,25 160,125 240,75" fill="blue"/>
+				</g>
+				<rect x="5" y="5" width="260" height="260" fill="none" stroke="blue"/>
+			  </g>
+
+			  <g enable-background="new" transform="translate(810,0)">
+				<desc>第四幅是在图形元素上使用滤镜效果 （第四组在内容容器的元素上使用了滤镜效果。）</desc>
+				<rect x="25" y="25" width="100" height="100" fill="red"/>
+				<g opacity=".5">
+				  <circle cx="125" cy="75" r="45" fill="green"/>
+				  <polygon points="160,25 160,125 240,75" fill="blue"
+						   filter="url(#ShiftBGAndBlur)"/>
+				</g>
+				<rect x="5" y="5" width="260" height="260" fill="none" stroke="blue"/>
+			  </g>
+
+			  <g enable-background="new" transform="translate(1080,0)">
+				<desc>第五幅是在图形元素上使用不同的滤镜效果 （最后一组使用了与第四组相同的滤镜效果并合并源图片后生成的效果。）</desc>
+				<rect x="25" y="25" width="100" height="100" fill="red"/>
+				<g opacity=".5">
+				  <circle cx="125" cy="75" r="45" fill="green"/>
+				  <polygon points="160,25 160,125 240,75" fill="blue"
+						   filter="url(#ShiftBGAndBlur_WithSourceGraphic)"/>
+				</g>
+				<rect x="5" y="5" width="260" height="260" fill="none" stroke="blue"/>
+			  </g>
+			</svg>
+		</div>
+	</body>
+</html>

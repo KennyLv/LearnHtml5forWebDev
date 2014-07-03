@@ -1,0 +1,243 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+	</head>
+	<body>
+		<div>
+			<!--	SVG 交互性
+				SVG拥有良好的用户交互性，例如：
+						1. SVG能响应大部分的DOM2事件。
+						2. SVG能通过cursor良好的捕捉用户鼠标的移动。
+						3. 用户可以很方便的通过设置svg元素的zoomAndPan属性的值来实现缩放等效果。
+						4. 用户可以很方便的把动画和事件结合起来，完成一些复杂的效果。
+				通过给SVG元素挂接事件，我们可以使用脚本语言方便的完成一些交互任务。
+				SVG支持大部分的DOM2事件，例如：onfocusin, onfocusou, onclick, onmousedown, onmouseup, onmousemove, onmouseout, onload, onresize, onscroll等事件。
+				除了这些，SVG还提供了独有的动画相关的事件，比如：onroom,onbegin,onend,onrepeat等。
+
+				动画的方式
+					SVG采用的是使用文本来定义图形，这种文档结构非常适合于创建动画。要改变图形的位置、大小和颜色，只需要调整相应的属性就可以了。
+					事实上，SVG有为各种事件处理而专门设计的属性，甚至很多还是专门为动画量身定做的。在SVG中，实现动画可以有下面几种方式：
+							1. 使用SVG的动画元素。这个下面会重点介绍。
+							2. 使用脚本。采用DOM操作启动和控制动画，这个已经是一门成熟的技术了，后面有一个小例子。
+							3. SMIL(Synchronized Multimedia Integration Language)。这个有兴趣的请参考：http://www.w3.org/TR/2008/REC-SMIL3-20081201/。
+			-->
+
+			<svg width="8cm" height="3cm"  viewBox="0 0 800 300" xmlns="http://www.w3.org/2000/svg" version="1.1">
+					  <desc>基本动画元素</desc>
+					  <rect x="1" y="1" width="798" height="298"  fill="none" stroke="blue" stroke-width="2" />
+					  <!-- 矩形位置和大小的动画 -->
+					  <rect id="RectElement" x="300" y="100" width="300" height="100" fill="rgb(255,255,0)"  >
+							<animate attributeName="x" attributeType="XML" begin="0s" dur="9s" fill="freeze" from="300" to="0" />
+							<animate attributeName="y" attributeType="XML" begin="0s" dur="9s" fill="freeze" from="100" to="0" />
+							<animate attributeName="width" attributeType="XML"  begin="0s" dur="9s" fill="freeze" from="300" to="800" />
+							<animate attributeName="height" attributeType="XML" begin="0s" dur="9s" fill="freeze" from="100" to="300" />
+					  </rect>
+					<!-- 创建新的用户坐标空间，所以text是从新的(0,0)开始，后续的变换都是针对新坐标系的 -->
+					<g transform="translate(100,100)" >
+							<!-- 下面使用了set去动画visibility，然后使用animateMotion, animate和animateTransform执行其他类型的动画 -->
+							<text id="TextElement" x="0" y="0" font-family="Verdana" font-size="35.27" visibility="hidden"  > 
+							It's alive!
+									<set attributeName="visibility" attributeType="CSS" to="visible" begin="3s" dur="6s" fill="freeze" />
+									<animateMotion path="M 0 0 L 100 100"  begin="3s" dur="6s" fill="freeze" />
+									<animate attributeName="fill" attributeType="CSS" from="rgb(0,0,255)" to="rgb(128,0,0)" begin="3s" dur="6s" fill="freeze" />
+									<animateTransform attributeName="transform" attributeType="XML"  type="rotate" from="-30" to="0" begin="3s" dur="6s" fill="freeze" />
+									<animateTransform attributeName="transform" attributeType="XML" type="scale" from="1" to="3" additive="sum" begin="3s" dur="6s" fill="freeze" />
+							</text>
+					</g>
+			</svg>
+			<!-- 动画元素的公共属性 -->
+			
+			<!--   第一类：指定目标元素和属性
+					xlink:href
+							这个应该是很熟悉了，指向执行动画的元素。这个元素的必须是在当前的SVG文档片段中定义的。如果没有指定这个属性的话，动画会应用到自己的父元素上。
+					attributeName = "<attributeName>"
+							这个属性指定了应用动画的属性。
+							如果该属性有namespace的话(不要忘了，SVG本质是XML文档)，这个namespace也要加上。
+					attributeType = "CSS | XML | auto(默认值)"
+							这个属性指定了属性取值的命名空间，这几个值的含义如下：
+									CSS：代表attributeName指定的属性是CSS属性。
+									XML：代表attributeName指定的属性是XML默认命名空间下的属性(注意svg文档本质上是xml文档)。
+									auto：代表先在CSS属性中查找attributeName指定的属性，如果没找到，则在默认的XML命名空间下寻找该属性。
+			-->
+			<svg version="1.1" xmlns="http://www.w3.org/2000/svg"
+			xmlns:xlink="http://www.w3.org/1999/xlink">
+					<title>Demonstration of the resolution of namespaces for animation</title>
+					<g xmlns:a="http://www.w3.org/1999/xlink">
+							<animate attributeName="a:href" xlink:href="#foo" dur="2s" to="two.png" fill="freeze"/>
+					</g>
+					<!--分别给xlink起了不同的别名，这里animate指定属性的时候就带了namespace-->
+					<g xmlns:b="http://www.w3.org/1999/xlink" xmlns:xlink="http://example.net/bar">
+							<image xml:id="foo" b:href="one.png" x="35" y="50" width="410" height="160"/>
+					</g>
+			</svg>
+
+			<!--  第二类：控制动画时间的属性
+					下列属性都是动画时间属性；它们控制了动画执行的时间线，包括如何开始和结束动画，是否重复执行动画，是否保存动画的结束状态等。
+					begin = "begin-value-list"
+							该属性定义了动画的开始时间。可以是分号分开的一系列时间值。也可以是一些其他触发动画开始的值。比如事件，快捷键等。
+					dur = Clock-value | "media" | "indefinite"
+							定义了动画的持续时间。可以设置为以时钟格式显示的值。也可以设置为下列两个值：
+								media：指定动画的时间为内部多媒体元素的持续时间。
+								indefinite：指定动画时间为无限。
+								时钟格式指的是下列这些合法的取值格式：	  
+										02:30:03    = 2 hours, 30 minutes and 3 seconds
+										50:00:10.25 = 50 hours, 10 seconds and 250 milliseconds
+										02:33   = 2 minutes and 33 seconds
+										00:10.5 = 10.5 seconds = 10 seconds and 500 milliseconds
+										3.2h    = 3.2 hours = 3 hours and 12 minutes
+										45min   = 45 minutes
+										30s     = 30 seconds
+										5ms     = 5 milliseconds
+										12.467  = 12 seconds and 467 milliseconds
+										00.5s = 500 milliseconds
+										00:00.005 = 5 milliseconds
+					end = "end-value-list"
+							定义了动画的结束时间。可以是分号分开的一系列值。
+					min = Clock-value | "media"
+					max = Clock-value | "media"
+							设置了动画持续时间的最大最小值。
+					restart = "always" | "whenNotActive" | "never"
+							设置了动画能否随时重新开始。always代表动画可以随时开始。whenNotActive代表只能在没播放的时候重新开始，比如前一次播放结束了。never表示动画不能重新开始。
+					repeatCount = numeric value | "indefinite"
+							设置了动画重复的次数。 indefinite代表无限重复。
+					repeatDur = Clock-value | "indefinite"
+							设置重复的总的动画时间。indefinite代表无限重复。
+					fill = "freeze" | "remove(默认值)"
+							设置了动画结束后元素的状态。freeze表示动画结束后元素停留在动画的最后状态。remove代表动画结束以后元素回到动画前的状态，这个是默认值。
+			-->
+
+			<!-- 第三类：定义动画值的属性
+					这些属性定义了被执行动画的属性的取值情况。其实是定义了关键帧和插值的一些算法。
+							calcMode = "discrete | linear(默认值) | paced | spline"
+									定义了动画插值的方式：discrete:离散的，不插值；linear：线性插值；paced：步长插值；spline:样条插值。
+									默认是linear(线性插值)，但是如果属性不支持线性插值，则会采用discrete插值方式。
+							values = "<list>"
+									定义了以分号分隔的动画关键帧的值列表。支持向量值。
+							keyTimes = "<list>"
+									定义了以分号分隔的动画关键帧的时间列表。这个和values是一一对应的。
+									这个值是受插值算法影响的，如果是线性(linear)和样条插值(spline)，则keyTimes的第一个值必须是0，最后一个值必须是1。
+									对于离散(discrete)的不插值的方式，keyTimes的第一个值必须是0。
+									对于步长插值方式，很显然是不需要keyTimes。而且如果动画的持续时间设置为indefinite，则忽略keyTimes。
+							keySplines = "<list>"
+									这个属性定义了样条插值(贝塞尔插值)时的控制点，显然只有在插值模式选择为spline才起作用。这个列表中的值取值范围是0到1。
+							from = "<value>"
+							to = "<value>"
+							by = "<value>"
+										定义动画属性的起始值，结束值和步长值。
+										这里需要注意：如果values已经制定了相关的值，则任何的from/to/by值都会被忽略。
+			-->
+
+			<!-- 	第四类：控制动画是否是增量式的属性
+				  有时候，如果相关的值设置的不是绝对值，而是增量值是非常有用的，使用additive属性可以达到这个目的。
+						additive = "replace(默认值) | sum"
+							这个属性控制了动画是否是增量式的。
+								  sum表示动画会较大相关的属性值或者其他低优先级的动画上。
+								  replace是默认值，表示动画会覆盖相关的属性值或者其他低优先级的动画。
+				  有时候，如果重复的动画结果是叠加起来的，也非常有用，使用accumulate属性可以达到这个目的。
+						accumulate = "none(默认值) | sum"
+							这个属性控制了动画效果是否是累积的。
+									none是默认值，表示重复的动画不累积。
+									sum表示重复的动画效果是累积的。
+							对于单次执行的动画，该属性没有意义。
+			-->
+			<svg width="5cm" height="3cm"  viewBox="0 0 500 300" 
+			xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" >
+				<rect width="20px" >
+				  <animate attributeName="width" from="0px" to="10px" dur="10s"
+						   additive="sum"/>
+				</rect>
+				<rect width="20px" >
+				  <animate attributeName="width" from="0px" to="10px" dur="10s"
+						   additive="sum" accumulate="sum" repeatCount="5"/>
+				</rect>
+			</svg>
+			
+			<!-- 动画元素小结
+				SVG提供了下列动画元素：
+				1. animate元素
+						这个是最基本的动画元素，可以直接为相关属性提供不同时间点的值。
+				2. set元素
+						这个是animate元素的简写形式，支持所有的属性类型，尤其是当对非数字型的属性(例如visibility)进行动画时很方便。
+								set元素是非增量的，相关的属性对之无效。 
+								to指定的动画结束值类型一定要符合属性的取值类型。
+				3. animateMotion元素
+						路劲动画元素。这个元素大多数属性都和上面一样，只有下面几个稍微有点区别：
+								calcMode = "discrete | linear | paced | spline"
+										这个属性的默认值不同，在该元素中默认的是paced。
+								path = "<path-data>"
+										动画元素移动的路径，格式与path元素的d属性的值的格式是一致的。
+								keyPoints = "<list-of-numbers>"
+										这个属性的值是一系列分号给开的浮点数值，每个值的取值范围是0~1。这些值代表了keyTimes属性指定的对应时间点移动的距离，这里距离具体是多少是由浏览器自己决定的。
+								rotate = <number> | auto | auto-reverse"
+										这个属性指定了元素移动时旋转的角度。默认值是0，数字代表旋转的角度，auto表示随着路劲的方向转动物体。auto-reverse表示转向与移动方向相反的方向。
+								from,by,to,values的值都是坐标对组成的；x值与y值之间用逗号或空格分开，每个坐标对之间用分号隔开比如from="33,15"表示起点x坐标为33，y坐标为15。
+						指定运动路径的方式有两种：
+								一种为直接给path属性赋值，一种为使用mpath元素作为animateMotionde的子元素指定路径。
+								如果同时使用这两种方式，则使用mpath元素优先级高。这两种方式优先级都比values,from,by,to高。
+				4. animateColor元素
+						颜色动画元素。这是一个过时的元素，基本上所有功能都可以用animate代替，所以还是不要用了。
+				5. animateTransform元素
+						变换动画元素。看看特殊的一些属性：
+								type = "translate | scale | rotate | skewX | skewY"
+										这个属性指定了变换的类型，translate是默认值。
+								from,by和to的值相应的都是对应变换的参数，这个还是与前面讲的变换是一致的。
+								values则是一组分号隔开的这样的值系列。
+			-->
+			<svg width="5cm" height="3cm"  viewBox="0 0 500 300" xmlns="http://www.w3.org/2000/svg" version="1.1" xmlns:xlink="http://www.w3.org/1999/xlink" >
+					<rect x="1" y="1" width="498" height="298"  fill="none" stroke="blue" stroke-width="2" />
+					<path id="path1" d="M100,250 C 100,50 400,50 400,250" fill="none" stroke="blue" stroke-width="7.06"  />
+					<circle cx="100" cy="250" r="17.64" fill="blue"  />
+					<circle cx="250" cy="100" r="17.64" fill="blue"  />
+					<circle cx="400" cy="250" r="17.64" fill="blue"  />
+					<path d="M-25,-12.5 L25,-12.5 L 0,-87.5 z" fill="yellow" stroke="red" stroke-width="7.06"  >
+						<animateMotion dur="6s" repeatCount="indefinite" rotate="auto" >
+								<mpath xlink:href="#path1"/>
+						</animateMotion>
+					</path>
+			</svg>
+
+
+			<!-- 支持动画效果的元素和属性
+					  基本上所有图形元素(path,rect,ellipse,text,image...)，容器元素(svg, g, defs, use, switch, clipPath, mask...)都支持动画。
+					  基本上大多数的属性都支持动画效果。详细的说明请参看官方文档。
+				使用DOM实现动画
+					  SVG动画也可以使用脚本完成，DOM的详细内容后面会介绍
+			-->
+			<svg width="4cm" height="2cm" viewBox="0 0 400 200" xmlns="http://www.w3.org/2000/svg"  onload="StartAnimation(evt)" version="1.1">
+					<script type="application/ecmascript">
+					<![CDATA[
+						var timevalue = 0;
+						var timer_increment = 50;
+						var max_time = 5000;
+						var text_element;
+						function StartAnimation(evt) {
+						  text_element = evt.target.ownerDocument.getElementById("TextElement");
+						  ShowAndGrowElement();
+						}
+						function ShowAndGrowElement() {
+						  timevalue = timevalue + timer_increment;
+						  if (timevalue > max_time)
+							return;
+						  // Scale the text string gradually until it is 20 times larger
+						  scalefactor = (timevalue * 20.) / max_time;
+						  text_element.setAttribute("transform", "scale(" + scalefactor + ")");
+						  // Make the string more opaque
+						  opacityfactor = timevalue / max_time;
+						  text_element.setAttribute("opacity", opacityfactor);
+						  // Call ShowAndGrowElement again <timer_increment> milliseconds later.
+						  setTimeout("ShowAndGrowElement()", timer_increment)
+						}
+						window.ShowAndGrowElement = ShowAndGrowElement
+					]]>
+					</script>
+					<rect x="1" y="1" width="398" height="198" fill="none" stroke="blue" stroke-width="2"/>
+					<g transform="translate(50,150)" fill="red" font-size="7">
+						<text id="TextElement">SVG</text>
+					</g>
+			</svg>
+			
+		</div>
+	</body>
+</html>
