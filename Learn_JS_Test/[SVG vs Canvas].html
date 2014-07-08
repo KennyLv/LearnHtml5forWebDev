@@ -1,0 +1,233 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+		<style>
+			.canvas_column_style {
+				width: 40%;
+				height: 30px;
+				background-color: #ABE1F7;
+			} 
+			.svg_column_style {
+				width: 40%;
+				height: 30px;
+				background-color: #ABE1F7;
+			}
+			.scene_column_style{
+				width: 10%;
+				height: 30px;
+				background-color: #0AF19E;
+			}
+			.canvas_title {
+				height: 40px;
+				background-color: #a0a0a0;
+				font-size: 20pt;
+			} 
+			.svg_title {
+				height: 40px;
+				background-color: #a0a0a0;
+				font-size: 20pt;
+			}
+			.scene_title{
+				font-size: 12pt;
+				font-weight: bold;
+			}
+		</style>  
+	</head>
+	<body>
+		<div>		
+			<h1>svg对决canvas</h1>
+			
+			<br/>
+			<span>到目前为止，SVG与Canvas的主要特性均已经总结完毕了。它们都是HTML5中支持的2D图形展示技术，而且均支持向量图形。现在，我们就来比对一下这两种技术，分析一下它们的长处和适用场景。</span>
+			<br/>
+			
+			<h3>显著特点</h3>
+			<table>
+				<tr>
+					<th class="canvas_column_style canvas_title">Canvas</th>
+					<th class="svg_column_style svg_title">SVG</th>
+				</tr>
+				<tr>
+					<td class="canvas_column_style">基于像素（动态 .png）</td>
+					<td class="svg_column_style">基于形状</td>
+				</tr>
+				<tr>
+					<td class="canvas_column_style">单个 HTML 元素</td>
+					<td class="svg_column_style">多个图形元素，这些元素成为 DOM 的一部分</td>
+				</tr>
+				<tr>
+					<td class="canvas_column_style">仅通过脚本修改</td>
+					<td class="svg_column_style">通过脚本和 CSS 修改</td>
+				</tr>
+				<tr>
+					<td class="canvas_column_style">事件模型/用户交互颗粒化 (x,y)</td>
+					<td class="svg_column_style">事件模型/用户交互抽象化 (rect, path)</td>
+				</tr>
+				<tr>
+					<td class="canvas_column_style">图面较小时、对象数量较大 (>10k)（或同时满足这二者）时性能更佳</td>
+					<td class="svg_column_style">对象数量较小 (<10k)、图面更大（或同时满足这二者）时性能更佳</td>
+				</tr>
+				<tr>
+					<td>从上面的对比中可以看出：</td>
+				</tr>
+				<tr>
+					<td class="canvas_column_style">Canvas在像素操作方面有着强大的优势</td>
+					<td class="svg_column_style">SVG的最大优势在于便捷的交互性和可操作性</td>
+				</tr>
+				<tr>
+					<td class="canvas_column_style">使用Canvas受画布的尺寸(其实就是像素数目)影响很大</td>
+					<td class="svg_column_style">使用SVG受对象的数目(元素的数目)影响比较大</td>
+				</tr>
+				<tr>
+					<td>Canvas 和 SVG 在修改方式上还存在着不同：</td>
+				</tr>
+				<tr>
+					<td class="canvas_column_style">绘制 Canvas 对象后，不能使用脚本和 CSS 对它进行修改</td>
+					<td class="svg_column_style">SVG 对象是文档对象模型的一部分，所以可以随时使用脚本和 CSS 修改它们</td>
+				</tr>
+			</table>
+			
+			<br/>
+			<span> 实际上Canvas 是基于像素的即时模式图形系统，绘制完对象后不保存对象到内存中，当再次需要这个对象时想，需要重新绘制；
+			SVG 是基于形状的保留模式图形系统，绘制完对象后会将其保存在内存中，当需要修改这个对象信息时，直接修改就可以了。这种根本的区别导致了很多应用场景的不同。</span>
+			<br/>
+			
+			<h3>应用场景</h3>
+			<table>
+				<tr>
+					<th class="scene_column_style canvas_title"></th>
+					<th class="canvas_column_style canvas_title">Canvas</th>
+					<th class="svg_column_style svg_title">SVG</th>
+				</tr>
+				<tr>
+					<td class="scene_column_style scene_title">高保真的文档</td>
+					<td class="canvas_column_style"></td>
+					<td class="svg_column_style">这个方面很好理解，为了浏览文档时，缩放时不失真，或需要打印高质量的文档，通常会优先选择SVG，例如地图服务。</td>
+				</tr>
+				<tr>
+					<td class="scene_column_style scene_title">静态的图片资源</td>
+					<td class="canvas_column_style"></td>
+					<td class="svg_column_style"> SVG常常用于简单图像，无论是应用程序还是网页中的图像，大图像还是小图像。由于SVG要加载到DOM中，或者创建图像前至少要进行解析，所以性能会稍微有所下降，但相比于呈现网页的成本（大约几毫秒），这种效率损失是极其微小。<br/>
+      在文件大小方面（为了评估网络流量的目的），SVG图片与png图片大小相差也不大。但是因为SVG作为图像格式是可缩放的，所以如果开发人员想要以更大的比例使用该图像，或者用户使用高 DPI的屏幕，则使用SVG是相当不错的选择。</td>
+				</tr>
+				<tr>
+					<td class="scene_column_style scene_title">像素操作</td>
+					<td class="canvas_column_style">使用Canvas时可以获得快速的绘图速度，且不需要保留元素的相应信息。特别是当需要处理像素操作时，性能较好。这种类型的应用基本都选择Canvas技术。</td>
+					<td class="svg_column_style"></td>
+				</tr>
+				<tr>
+					<td class="scene_column_style scene_title">实时数据</td>
+					<td class="canvas_column_style">Canvas非常适合非交互的实时数据可视化。比如实时天气数据。</td>
+					<td class="svg_column_style"></td>
+				</tr>
+				<tr>
+					<td class="scene_column_style scene_title">图表和图形</td>
+					<td class="canvas_column_style"> 如果不需要交互性，强调性能，则Canvas比较适合。</td>
+					<td class="svg_column_style">使用SVG或者Canvas均可以绘制相关图形和图表，但是如果要强调可操作性，则SVG无疑是最好选择</td>
+				</tr>
+				<tr>
+					<td class="scene_column_style scene_title">二维游戏</td>
+					<td class="canvas_column_style">因为游戏大多数是使用低级的API开发，所以Canvas比较容易让人接受。</td>
+					<td class="svg_column_style">但是实际上，绘制游戏的场景的时候，Canvas需要重复绘制和定位形状，而SVG是维护在内存中，修改相关的属性非常容易，所以SVG也是一种不错的选择。<br/>
+					在小游戏板上使用几个对象创建游戏时，Canvas 和 SVG 之间在性能上几乎没有差异。<br/>
+					但是，随着创建更多的对象，Canvas 代码将会增大许多。由于每次进行游戏循环时都必须重新绘制 Canvas 对象，因此 Canvas 游戏的速度会减慢。</td>
+				</tr>
+				<tr>
+					<td class="scene_column_style scene_title">用户界面设计</td>
+					<td class="canvas_column_style">Canvas 需要你按照更复杂的代码顺序来指定如何创建用户界面的每个部分。你需要遵照的顺序是： <br/>
+					•获取上下文。<br/>
+					•开始绘制。<br/>
+					•指定每根线条和每个填充的颜色。<br/>
+					•定义形状。<br/>
+					•完成绘制。<br/>
+					此外，Canvas 只能处理整个画布的事件。</td>
+					<td class="svg_column_style">由于良好的交互性，无疑SVG更胜一筹。利用 SVG 的保留模式图形显示，你可以在正文的类似 HTML 的标记中创建所有用户界面详细信息。<br/>
+					因为每个 SVG 元素和子元素都可以响应单独的事件，所以你可以非常轻松地创建复杂的用户界面。<br/>
+					如果有更复杂的用户界面，则必须确定在画布上单击的位置的坐标。SVG 可以单独处理每个子元素的事件。</td>
+				</tr>
+			</table>
+			
+			<br/>
+			<span> 最后用一幅图来总结一下每种应用适合的技术，图中每个方块代表一类应用，越靠近某一端，说明采用该技术越具有的优势：</span>
+			<br/>			
+<svg version="1.2" id="svg2" width="1000px" height="400px" 
+xmlns="http://www.w3.org/2000/svg" 
+xmlns:svg="http://www.w3.org/2000/svg" 
+xmlns:xlink="http://www.w3.org/1999/xlink">
+  <defs>
+    <linearGradient x1="200" y1="200" x2="700" y2="200" id="Gradient-0" gradientUnits="userSpaceOnUse">
+      <stop style="stop-color:#000000; stop-opacity:1" offset="0"/>
+      <stop style="stop-color:#E7C96D; stop-opacity:1" offset="1"/>
+    </linearGradient>
+  </defs>
+  
+  <rect x="20" y="180" width="140" height="40" style="fill:#1088E9;fill-opacity:1;"/>
+  <text x="60" y="206" font-size="19" text-anchor="start" fill="Red">Canvas</text>
+  
+  <line x1="160" x2="800" y1="200" y2="200" style="stroke:url(#Gradient-0);stroke-opacity:1;stroke-width:2;"/>
+  
+  <rect x="800" y="180" width="140" height="40" style="fill:#07C834;fill-opacity:1;"/>
+  <text x="841" y="206" font-size="19" text-anchor="start" fill="Red">SVG</text>
+  
+<rect x="160"   y="70" width="160" height="80" style="fill:#FC92AA;"/>
+<text x="161" y="94" font-size="19" text-anchor="start" fill="black">复杂的场景，</text>
+<text x="161" y="124" font-size="19" text-anchor="start" fill="black">实时的数据展示</text>
+
+<rect x="440" y="88" width="160" height="80" style="fill:#FC92AA;"/>
+<text x="441" y="112" font-size="19" text-anchor="start" fill="black">游戏，</text>
+<text x="441" y="142" font-size="19" text-anchor="start" fill="black">用户界面</text>
+
+<rect x="660" y="70" width="160" height="80" style="fill:#FC92AA;"/>
+<text x="661" y="90" font-size="19" text-anchor="start" fill="black">静态图片</text>
+  
+<rect x="80" y="240" width="190" height="80" style="fill:#FC92AA;"/>
+<text x="81" y="264" font-size="19" text-anchor="start" fill="black">像素操作，</text>
+<text x="81" y="294" font-size="19" text-anchor="start" fill="black">高性能的图片展示</text>
+
+<rect x="380" y="230" width="200" height="80" style="fill:#FC92AA;"/>
+<text x="381" y="254" font-size="19" text-anchor="start" fill="black">视频处理</text>
+<text x="381" y="284" font-size="19" text-anchor="start" fill="black">(本质上还是像素操作)</text>
+
+<rect x="680" y="240" width="240" height="80" style="fill:#FC92AA;"/>
+<text x="681" y="264" font-size="19" text-anchor="start" fill="black">高保真度的复杂向量文档，</text>
+<text x="681" y="294" font-size="19" text-anchor="start" fill="black">例如地图、组织图等</text>
+
+
+  
+</svg>
+			
+			
+			<br/>
+			<h3>典型应用</h3>
+			<div>
+				<span>canvas的典型应用如绿屏：</span><a href="http://samples.msdn.microsoft.com/workshop/samples/graphicsInHTML5/canvasgreenscreen.htm">Canvas Green Screen </a>
+				<br/><br/>
+				
+				<span>svg典型的应用如用户界面：</span><br/>
+				<script type="text/javascript">
+				  // This function is called when the circle is clicked.
+				  function clickMe() {
+					// Display the alert.
+					alert("You clicked the SVG UI element.");
+				  }
+				</script>
+				<!-- Create the SVG pane. -->
+				<svg height="200" width="200">
+				  <!-- Create the circle. -->
+				  <circle cx="100" cy="100" r="50" fill="gold" id="uIElement" onclick="clickMe();"
+				  />
+				</svg>
+				<p>
+				  Click on the gold circular user interface element.
+				</p>
+			</div>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+			<br/>
+		</div>
+	</body>
+</html>

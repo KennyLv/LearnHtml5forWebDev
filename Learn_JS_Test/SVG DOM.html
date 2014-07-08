@@ -1,0 +1,137 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+		<style>         
+			#svgContainer {             
+				width: 400px;
+				height: 400px;
+				background-color: #a0a0a0;
+			}     
+		</style>  
+		<script>         
+			function CreateSVG () {             
+				var xmlns = "http://www.w3.org/2000/svg";             
+				var boxWidth = 300;             
+				var boxHeight = 300;              
+				var svgElem = document.createElementNS (xmlns, "svg");             
+				svgElem.setAttributeNS (null, "viewBox", "0 0 " + boxWidth + " " + boxHeight);             
+				svgElem.setAttributeNS (null, "width", boxWidth);             
+				svgElem.setAttributeNS (null, "height", boxHeight);             
+				svgElem.style.display = "block";              
+				var g = document.createElementNS (xmlns, "g");             
+				svgElem.appendChild (g);             
+				g.setAttributeNS (null, 'transform', 'matrix(1,0,0,-1,0,300)');                  
+				// draw linear gradient             
+				var defs = document.createElementNS (xmlns, "defs");             
+				var grad = document.createElementNS (xmlns, "linearGradient");             
+				grad.setAttributeNS (null, "id", "gradient");             
+				grad.setAttributeNS (null, "x1", "0%");             
+				grad.setAttributeNS (null, "x2", "0%");             
+				grad.setAttributeNS (null, "y1", "100%");             
+				grad.setAttributeNS (null, "y2", "0%");             
+				var stopTop = document.createElementNS (xmlns, "stop");             
+				stopTop.setAttributeNS (null, "offset", "0%");             
+				stopTop.setAttributeNS (null, "stop-color", "#ff0000");             
+				grad.appendChild (stopTop);             
+				var stopBottom = document.createElementNS (xmlns, "stop");             
+				stopBottom.setAttributeNS (null, "offset", "100%");             
+				stopBottom.setAttributeNS (null, "stop-color", "#0000ff");             
+				grad.appendChild (stopBottom);             
+				defs.appendChild (grad);             
+				g.appendChild (defs);                  
+				// draw borders             
+				var coords = "M 0, 0";             
+				coords += " l 0, 300";             
+				coords += " l 300, 0";             
+				coords += " l 0, -300";             
+				coords += " l -300, 0";              
+				var path = document.createElementNS (xmlns, "path");             
+				path.setAttributeNS (null, 'stroke', "#000000");             
+				path.setAttributeNS (null, 'stroke-width', 10);             
+				path.setAttributeNS (null, 'stroke-linejoin', "round");             
+				path.setAttributeNS (null, 'd', coords);             
+				path.setAttributeNS (null, 'fill', "url(#gradient)");             
+				path.setAttributeNS (null, 'opacity', 1.0);             
+				g.appendChild (path);              
+				var svgContainer = document.getElementById ("svgContainer");             
+				svgContainer.appendChild (svgElem);                  
+			}      
+		</script> 
+	</head>
+	<body onload="CreateSVG ()"> 
+		<div id="svgContainer">
+			<!--	  SVG DOM
+			使用脚本可以很方便的完成各种复杂的任务，也是完成动画和交互的一种主流方式。
+			由于SVG是html的元素，所以支持普通的DOM操作，又由于SVG本质上是xml文档，所以也有一种特殊的DOM操作，大多称之为SVG DOM。
+			当然了，由于目前IE不支持SVG，开发基于IE的SVG页面需要采用不同的方式。这部分的知识大家其实都很熟悉，下面只是简单的看一下。
+
+			HTML页面中的DOM操作
+					选择元素：document.getElementById 
+					创建元素：document.createElementNS
+					创建子元素的另外一种方式：element.createChildNS
+					添加元素：node.appendChild 
+					设置元素的属性：element.setAttributeNS/element.setAttribute
+					获取元素的属性值： element.getAttributeNS/element.getAttribute
+					检查元素是否存在某属性：element.hasAttributeNS
+					移除元素的某属性：element.removeAttributeNS
+					父元素、子元素和兄弟节点：element.parentNode/element.firstChild/child.nextSibling
+			
+			需要注意的是SVG本质上是XML文档，所以基本采用的DOM方法都是带NS结尾的方式，来提供相关的namespace；
+			如果创建元素时已经提供了namespace，而且没有多个namespace的问题，那么设置相关属性的时候，也可以选择使用不带NS的版本，
+			但是总的来说，还是强烈推荐使用带NS结尾的版本，因为这个版本总是工作正常的，即使是在多namespace的情况下。		
+			-->
+			
+			<!--			SVG DOM 与标准的DOM有哪些不同，目前只知道对属性的赋值方式是不同的。
+			我们使用element.setAttributeNS/element.setAttribute来给属性赋值，	在SVG DOM中，可以使用面向对象的方式，通过访问点号来给对象的属性赋值：
+					普通的DOM方式：
+							element.setAttribute("x", "10");
+							element.setAttribute("y", "20");
+							element.setAttribute("width", "100%");
+							element.setAttribute("height", "2em");
+					而SVG DOM的方式：
+							element.x.baseVal.value = 10;
+							element.y.baseVal.value = 20;
+							element.width.baseVal.newValueSpecifiedUnits(SVGLength.SVG_LENGTHTYPE_PERCENTAGE, 100);
+							element.height.baseVal.newValueSpecifiedUnits(SVGLength.SVG_LENGTHTYPE_EMS, 10);
+			
+			DOM脚本属于传统的脚本，其特征是通过构建“值字符串”来设置各个项。
+			SVG DOM脚本样式的优点是，你不必构建“值字符串”，所以性能优于DOM脚本。
+			-->
+			
+			<!-- 	嵌入SVG的脚本
+				如果要在SVG内部添加脚本，就需要使用script元素，这个前面已经讲过了，除了这一点，基本上与把脚本放到外面的HTML中是一样的。
+						1. 通过document.getElementById或者document.getElementByClassName之类的方法获取对象；
+						2. 通过document.documentElement或者document.rootElement获取document对象；
+						3. 通过事件参数evt.target获取产生事件的对象。这种方式的优点就是不使用id就可以获取到产生事件的对象。
+			-->
+			<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="300" height="300">
+				<script type="text/ecmascript">
+					<![CDATA[
+						function showRectColor() {
+							alert(document.getElementById("myBlueRect").getAttributeNS(null,"fill"));
+						}
+						function showRectArea(evt) {
+							var width = parseFloat(evt.target.getAttributeNS(null,"width"));
+							var height = parseFloat(evt.target.getAttributeNS(null,"height"));
+							alert("The rectangle area is: " + (width * height));
+						}
+						function showRootChildrenNr() {
+							alert("Nr of Children: "+document.documentElement.childNodes.length);
+						}
+					]]>
+				</script>
+				<g id="firstGroup">
+					<rect id="myBlueRect" width="100" height="50" x="40" y="20" fill="blue" onclick="showRectArea(evt)"/>
+					<text x="40" y="100" onclick="showRectColor()">Click on this text to show rectangle color.</text>
+					<text x="40" y="130">Click on rectangle to show rectangle area.</text>
+					<text x="40" y="160" onclick="showRootChildrenNr()">Click on this text to show the number of child
+					<tspan x="40" dy="20">elements of the root element.</tspan></text>
+				</g>
+			</svg>
+			
+			
+		</div>
+	</body>
+</html>
