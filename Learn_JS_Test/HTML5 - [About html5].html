@@ -1,0 +1,207 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>About HTML5</title>
+	</head>
+	<body>
+
+		<h1 >初始 HTML5</h1>
+		<div id="cnblogs_post_body">
+			<p>
+				前面已经学习了WebSocket与canvas的内容，这里大略看一下HTML5的主体特性，理清以后的学习方向。HTML5是一个逐渐发展的标准，所以没有那一款浏览器完全支持所有的特性，但是总的来说，最新的Chrome、Firefox、Opera几款浏览器支持的最好；而且每个特性将来也可能会出现一些小的变化。HTML5的特性主要表现在下面几个方面。
+			</p>
+			<p>
+				<strong style="color: #0000ff">规则的变化</strong><strong>
+				<br />
+				</strong> 　　HTML5制定了更加松散的文档规则，同时强化了与CSS的配合。例如下面几个明显的变化：
+			</p>
+			<p>
+				&#8226; 简洁的DOCTYPE：HTML5 只需一个简洁的文档类型：&lt;!DOCTYPE html&gt;。它不使用版本，因此文档将会适用所有版本的HTML。
+			</p>
+			<p>
+				&#8226; 简单易记的语言标签：你并不需要在&lt;html&gt; 中使用xmlns 或xml:lang标记。简单使用&lt;html lang="en"&gt; 对HTML5是有效的。
+			</p>
+			<p>
+				&#8226; 简单易记的编码类型：你现在可以在meta 标签中使用"charset"：&lt;meta charset="utf-8&#8243; /&gt;
+			</p>
+			<p>
+				&#8226; 不需要闭合标签：在HTML5 中，空标签（如：br、img 和input ）并不需要闭合标签。
+			</p>
+			<p>
+				&#8226; 更加强化DIV+CSS的思想：数据与表现相分离的思想，这个在Web开发中那是相当重要的。
+			</p>
+			<p>
+				<strong style="color: #0000ff">新增加的元素</strong><strong>
+				<br />
+				</strong><strong style="color: #ff6600">&nbsp; 新的绘图元素</strong>
+			</p>
+			<p>
+				canvas元素:这个绝对是重磅炸弹。canvas可以说是HTML5新增元素中最强大的元素。canvas提供了直接的2D API用于绘图；而3D渲染的部分由WebGL完成。它与video，audio等配合可以做出很多有趣的东西。
+			</p>
+			<p>
+				<strong style="color: #ff6600">&nbsp; 新的布局元素</strong>
+			</p>
+			<p>
+				HTML5 新增了一些布局的元素，它们可以说是&lt;div&gt;标签的绝佳替代品；除此以外，它们并不提供额外的功能。除了新增加的元素，Javascript还提供了document.createElement(tagName) 的方法，让你可以用来创建这些新的HTML5 标签。下面是标签的说明：
+			</p>
+			<p>
+				&#8226; header：表示 Web 页面、article 元素或 section 元素的标题(页眉)，通常出现在这些区域的开始。
+			</p>
+			<p>
+				&#8226; footer：表示 Web 页面、article 元素或 section 元素的页脚。通常(但不是必须)出现在这些区域的结尾。
+			</p>
+			<p>
+				&#8226; nav：表示整个网站的主要导航链接或页面上次级导航链接的容器。
+			</p>
+			<p>
+				&#8226; section：表示文档或应用程序的一部分，如文章或教程的一章或一节。它通常(但不是必须)具有一个页眉。
+			</p>
+			<p>
+				&#8226; hgroup：表示一个区域的标题组，当标题组中有多级标题时，用来封装h1-h6元素。
+			</p>
+			<p>
+				&#8226; article：表示文档、页面或应用程序中一篇独立的文章。
+			</p>
+			<p>
+				&#8226; aside：表示边栏或一些与其周围内容有点无关的内容，比如广告块。
+			</p>
+			<p>
+				&#8226; details：它允许我们在点击标签时显示和隐藏内容。
+			</p>
+			<p>
+				&#8226; figure：一些流动的内容，可包含标题，一般在文档流中会作为独立的单元引用。
+			</p>
+			<p>
+				&#8226; figcaption：定义 figure 元素的标题。&nbsp;
+			</p>
+			<p>
+				<strong style="color: #ff6600">&nbsp; 新的富媒体元素</strong>
+			</p>
+			<p>
+				HTML5 提供对视频和音频的原生支持。下面是支持的格式：
+			</p>
+			<p>
+				&#8226; audio元素支持的音频格式: ogg (ogg, oga), mp3, wav, AAC
+			</p>
+			<p>
+				&#8226; video元素支持的视频格式: ogg (ogv), H.264 (mp4)
+			</p>
+			<p>
+				对于每个浏览器来说，有可能认识的格式不同，为此，HTML5 提供了一个解决方案：你可以指定多个不同格式的源文件，这样用户浏览器就可以选择它认识的文件。
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				除了上述这些元素，HTML5还增加了其他一些元素，这些元素的具体含义可以参看W3C上的说明：command、datagrid、datalist、datatemplate、dialog、event-source、m、mark、meter、nest、output、progress、rule、source、time、keygen、rp、rt、ruby、summary。
+			</p>
+			<p>
+				<strong style="color: #ff6600">&nbsp; 强化的元素</strong><strong>
+				<br />
+				</strong> 　　可以说HTML5中元素增强最多的就是input元素。
+			</p>
+			<p>
+				在HTML5中，input元素扩展了很多有用的输入类型，例如：color、email、date、month、week、time、datetime、datetime-local、number、range、search、tel和url。
+			</p>
+			<p>
+				尽管支持有限，使用这些特性也还是个不错的选择。因为新的input类型如果不支持，会降级为text类input(input的默认type 为text)。
+			</p>
+			<p>
+				<span style="color: #000000"> 　　除了新增加类型，input还加增加了下列新的属性：</span>required、autofocus、pattern、list、autocomplete 和placeholder。
+			</p>
+			<p>
+				<strong style="color: #0000ff">新增加的全局属性</strong><strong>
+				<br />
+				</strong> 　　HTML5新增加了很多有用的属性，这些都大大增强了浏览器的编程功能。
+			</p>
+			<p>
+				&#8226; contenteditable：规定是否允许用户编辑内容。如果你想让页面的某个地方，允许用户编辑页面，所有的你需要做的事就是添加contenteditable 属性到父容器中。
+				<br />
+				&#8226; contextmenu：规定元素的上下文菜单。这个属性的重要性就不用说了。
+				<br />
+				&#8226; draggable：规定是否允许用户拖动元素。HTML5中图片和超链接默认是可拖放的。对于所有的元素，HTML5 引进了一个新的属性"draggable"，这将用来设置元素是否接受拖放。
+				<br />
+				&#8226; dropzone：规定当被拖动的项目/数据被拖放到元素中时会发生什么。
+				<br />
+				&#8226; hidden：规定该元素是无关的。被隐藏的元素不会显示。
+				<br />
+				&#8226; spellcheck：规定是否必须对元素进行拼写或语法检查。
+			</p>
+			<p>
+				<strong style="color: #0000ff">新增加的事件</strong>
+			</p>
+			<p>
+				&nbsp;　　HTML5增加了很多实用的事件，比如onscroll，oncontextmenu，ondrag，ondrop等等。这个太多，就不一一列举了，具体参看W3C上的事件列表。
+			</p>
+			<p>
+				<strong style="color: #0000ff">意义变化的元素</strong><strong>
+				<br />
+				</strong> 　　下列的元素意义已经发生变化，需要使用的时候要参考元素的说明：address、menu、dt、embed、hr、option、small、strong。
+			</p>
+			<p>
+				<strong style="color: #0000ff">废弃的元素</strong><strong>
+				<br />
+				</strong> 　　下列元素早已不推荐使用，在HTML5已经不再支持：&lt;acronym&gt;、&lt;applet&gt;、&lt;basefont&gt;、&lt;big&gt;、&lt;center&gt;、&lt;dir&gt;、&lt;font&gt;、&lt;frame&gt;、&lt;frameset&gt;、&lt;noframes&gt;、&lt;s&gt;、&lt;strike&gt;、&lt;tt&gt;、&lt;u&gt; 和&lt;xmp&gt;。
+			</p>
+			<p>
+				<strong style="color: #0000ff">编程接口的变化</strong><strong>
+				<br />
+				</strong><strong style="color: #ff6600">&nbsp; </strong><strong style="color: #ff6600">用className访问DOM元素</strong><strong>
+				<br />
+				</strong> 　　我们在Javascript 中最常见的事是选择DOM 元素并动态地做一些事。我们大部分人在原生Javascript 中使用"getElementById" 来做这事。HTML5 规则已经添加了"getElementsByClassName" 方法，当我们要用className 来访问元素的时候，这将会大大提升我们脚本的性能。
+			</p>
+			<p>
+				<strong style="color: #ff6600">&nbsp; 网页版离线程序</strong><strong>
+				<br />
+				</strong> 　　HTML5 规范还定义了当用户的网络被断开后如何让它们继续与网页程序和文档进行交互。你可以通过提供一个manifest 文件来定义哪些文件需要被缓存，哪些需要在离线的时候有折衷方案替代。当用户访问这个页面，支持的浏览器将会猎取一个manifest 版本。它将下载并缓存所有的涉及到的文件，并且当manifest 相对于用户上次的浏览的版本有变化，它将会再次下载并缓存所有的文件。
+			</p>
+			<p>
+				<strong style="color: #0000ff">广义的HTML5</strong><strong>
+				<br />
+				</strong> 　　很多的特性严格算来并不属于HTML5的体系，但是对于现代Web开发来说，它们又是不可或缺的技术，所以将它们也放入广义上的HTML5学习体系。其实，个人认为哪些技术属于还是不属于HTML5根本不重要，重要的是我们了解了它们的用途，该使用的时候就使用。例如下列几位：
+				<br />
+				&#8226; SVG：这个元素不属于HTML5，它已经出现很多年了，它带来了网页绘图的新时代。HTML5中的canvas元素是HTML5绘图的核心元素。它与SVG有相似的地方，但也有很多的不同。
+				<br />
+				&#8226; CSS3：这个真的不属于HTML5，它是CSS，是HTML5的最佳拍档。如果把网页分成两部分：数据和展示。那么HTML就是数据部分，CSS就是展示部分。这也是通常所说的DIV+CSS思想。
+				<br />
+				&#8226; Geolocation：HTML5只是提供了API访问这个信息。
+			</p>
+			<p>
+				&#8226; 客户端存储：这个有独立的规范，严格来说不属于狭义的HTML5体系。Web 存储规范提供了与HTTP session cookies 相似的存储属性。他们是"sessionStorage" 和"localStorage"。sessionStorage用以存储一个session相关的数据。关闭浏览器窗口后，数据自动删除。&nbsp;localStorage用以存储无时间限制的数据。这部分数据持久化在硬盘，任何时候都可以使用。
+				<br />
+				&#8226; Web Sockets：这个严格来说也不属于狭义上的HTML5体系，同样它也有着自己的一套规范、实现与开发框架。
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				<strong style="color: #0000ff">实用参考：</strong><strong>
+				<br />
+				</strong>标准参考资料：&nbsp;
+				<a href="http://www.w3school.com.cn/html5/index.asp">
+					http://www.w3school.com.cn/html5/index.asp
+				</a>
+			</p>
+			<p>
+				各种特性入门资料：
+				<a href="http://www.html5china.com/">
+					http://www.html5china.com/
+				</a>
+			</p>
+			<p>
+				一个好的学习资料：
+				<a href="http://www.mhtml5.com/">
+					http://www.mhtml5.com/
+				</a>
+			</p>
+			<p>
+				综合应用：
+				<a href="http://html5doctor.com/">
+					http://html5doctor.com/
+				</a>
+			</p>
+		</div>
+
+	</body>
+</html>

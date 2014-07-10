@@ -1,0 +1,201 @@
+﻿<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+		<style>
+			.canvas_column_style {
+				width: 40%;
+				height: 30px;
+				background-color: #ABE1F7;
+			} 
+			
+			.canvas_title {
+				height: 40px;
+				background-color: #a0a0a0;
+				font-size: 20pt;
+			} 
+			
+		</style>  
+	</head>
+	<body>
+		<div>		
+			<h1>SVG综述</h1>
+			<br/>
+			
+			<h3>位图与矢量图</h3>			
+			<br/>
+			
+			<span> 
+			以前，浏览器中显示的图形，例如jpeg、gif等，都是位图，这些图像格式是基于光栅的。
+			在光栅图像中，图像文件定义了图像中每个像素的颜色值。浏览器需要读取这些值并做出相应行动。
+			这种图像的再现能力比较强，但是在某些情形下会显得不足。
+			例如，当浏览器以不同大小显示一副图像时，通常会产生锯齿边缘，这时，浏览器不得不为那些在原始图像中不存在的像素插入或猜测数值；这样会导致图像失真。
+			此外，针对位图进行动画，最多也仅限于生成“翻动书本”类型的动画，即快速连续地显示单独图像。
+			</span><br/><br/>
+			<span> 矢量图通过指定为确定每个像素的值所需的指令而不是指定这些值本身，克服了这些困难中的一部分。例如，向量图形不再为一个直径一英寸的圆提供像素值，而是告诉浏览器创建一个直径一英寸的圆，然后让浏览器（或插件）做其余事情。这消除了光栅图形的许多限制；使用向量图形，浏览器只要知道它必须画一个圆。如果图像需要以正常大小的三倍来显示，那么浏览器只要按正确的大小画圆而不必执行光栅图像通常的插入法。类似地，浏览器接收的指令可以更容易地与外部信息源（如应用程序和数据库）绑定，要对图像制作动画，浏览器只要接收有关如何操纵属性（如半径或颜色）的指令即可。
+			</span><br/><br/>
+			<span> 
+			HTML体系中，最常用的绘制矢量图的技术是SVG和HTML5新增加的canvas元素。这两种技术都支持绘制矢量图和光栅图。
+			</span><br/><br/>
+			<br/>
+			
+			<h3>SVG概述</h3>
+			<br/>
+			<span> 
+			可缩放矢量图形(Scalable Vector Graphics，简称SVG)是一种使用XML来描述二维图形的语言(SVG严格遵从XML语法)。 
+			SVG允许三种类型的图形对象：矢量图形形状（例如由直线和曲线组成的路径）、图像和文本。 
+			可以将图形对象（包括文本）分组、样式化、转换和组合到以前呈现的对象中。
+			SVG 功能集包括嵌套转换、剪切路径、alpha 蒙板和模板对象。
+			</span><br/><br/>
+			<span> 
+			SVG绘图是交互式和动态的。 
+			例如，可使用脚本来定义和触发动画。这一点与Flash相比很强大。
+			Flash是二进制文件，动态创建和修改都比较困难。而SVG是文本文件，动态操作是相当容易的。
+			而且，SVG直接提供了完成动画的相关元素，操作起来非常方便。
+			</span><br/><br/>
+			<span>
+			SVG与其他Web标准兼容，并直接支持文档对象模型DOM。
+			这一点也是与HTML5中的canvas相比很强大的地方
+			(这里注意，SVG内部也是用一个类似的canvas这样的东西来展示SVG图形，到后面你会发现很多特性和HTML5的canvas还有点像；文中如果没明确说明是SVG的canvas的话，都代指HTML5中的canvas元素)。
+			因而，可以很方便的使用脚本实现SVG的很多高级应用。
+			而且SVG的图形元素基本上都支持DOM中的标准事件。可将大量事件处理程序(如“onmouseover”和“onclick”)分配给任何SVG图形对象。
+			虽然SVG的渲染速度比不上canvas元素，但是胜在DOM操作很灵活，这个优势完全可以弥补速度上的劣势。
+			</span><br/><br/>
+			<span> 
+			SVG既可以说是一种协议，也可以说是一门语言；既是HTML的一个标准元素，也是一种图片格式。
+			</span><br/><br/>
+			<span> 
+			SVG并不是HTML5中的东西，但是也算页面时兴的技术之一，姑且也放到这个专题下了。
+			</span><br/><br/>
+			
+
+
+			
+			
+			<h3>SVG与其它图片格式的比较</h3>
+			<br/>
+			<span> SVG与其它的图片格式相比，有很多优点(很多优点来源于矢量图的优点)：</span><br/><br/>
+			<ul>
+				<li> SVG文件是纯粹的XML， 可被非常多的工具读取和修改(比如记事本)。</li>
+				<li> SVG 与JPEG 和GIF图像比起来，尺寸更小，且可压缩性更强。</li>
+				<li> SVG 是可伸缩的，可在图像质量不下降的情况下被放大，可在任何的分辨率下被高质量地打印。</li>
+				<li> SVG 图像中的文本是可选的，同时也是可搜索的(很适合制作地图)。</li>
+				<li> SVG 可以与 Java 技术一起运行。</li>
+				<li> SVG 是开放的标准。</li>
+			</ul>
+			<br/><br/>
+			
+			<h3>SVG与Flash的比较</h3>
+			<br/>
+			<span> SVG 的主要竞争者是Flash。
+			与Flash相比，SVG 最大的优势是它与其他标准(比如XSL和DOM)相兼容，操作方便，
+			而Flash则是未开源的私有技术。其它的比如存储的格式，动态生成图形等方面，SVG也占有很大的优势。</span><br/><br/>
+
+ 
+			<h3>SVG的呈现方式</h3>
+			<br/>
+			<span>关于支持HTML5与SVG的浏览器不是这里讨论的重点，基本上装上最新的Chrome或者FireFox浏览器就差不多了
+			(IE用户请装IE9就对了，至于IE9之前的版本，需要装SVG的插件，这里就直接略过了)。
+			对于直接支持SVG的浏览器，SVG主要采用两面两种呈现的方式。
+		</span><br/><br/>
+
+		<h3>内联到HTML</h3>
+			<br/>
+			<span>　　SVG是标准的HTML元素，直接写到HTML中就可以了，看下面的例子：</span><br/><br/>
+				<xmp>
+					<html>
+					<head>
+					  <!-- <meta content="text/html; charset=utf-8" http-equiv="Content-Type" /> -->
+					  <title> My First SVG Page</title>
+					</head>
+					<body>
+					  <svg xmlns="http://www.w3.org/2000/svg" version="1.1"
+						   width="200px" height="200px">
+						<rect x="0" y="0" width="100%" height="100%"
+							  fill="none" stroke="black"/>
+						<circle cx="100" cy="100" r="50"
+								style="stroke: black; fill: red;"/>
+					  </svg>
+					</body>
+					</html>
+				</xmp>
+			<span>　
+			　　请注意开头的部分xml声明，与svg的命名空间xmlns、版本version等部分，主要是考虑兼容性的问题；这些部分在HTML5中基本都可以不用写了(写不写还是自己瞧着办吧)。
+			</span><br/><br/>
+
+
+		<h3>　独立SVG文件</h3>
+			<br/>
+			<span>
+		　　独立SVG指的是通过使用svg文件扩展名来提供向量图形文件格式。在浏览器中嵌入这个svg文件就可以使用了。
+		
+		</span><br/><br/>
+		<span>
+						1.独立的SVG文件/页面，定义的模板基本就像下面的一样：
+			</span><br/><br/>
+						<xmp>
+						<svg width="100%" height="100%">   
+						<!-- SVG markup here. -->    
+						</svg>
+						</xmp>
+						
+		<span>
+				　　把这样的文本文件保存成以svg为扩展名的文件，例如sun.svg，这样的文件可以直接用浏览器打开浏览，也可以作为引用嵌入到别的页面中。
+				
+		</span><br/><br/>
+		<span>
+				2.HTML引用外部的SVG文件。
+		</span><br/><br/>
+		<span>
+				　　使用object或者img元素嵌入svg图形就可以了，例如下面的小例子：
+		</span><br/><br/>
+
+				<xmp>
+					<html>
+					<head>
+					  <title> My First SVG Page</title>
+					</head>
+					<body>
+					  <object data="sun.svg" type="image/svg+xml"
+							  width="300px" height="300px">
+						<!-- Implement fallback code here, or display a message: -->
+						<p>Your browser does not support SVG - please upgrade to a modern browser.</p>
+					  </object>
+
+					  <img src="sun.svg" alt="svg not supported!" />
+					</body>
+					</html>
+				</xmp>
+				
+		<span>
+				
+      其实SVG也可以放在其他的XML文档中，也可以像其他的XML文档一样，使用XML相关的技术格式化和验证，这个不是重点，此处略去了。
+
+		</span><br/><br/>
+		<span>
+ 
+
+<h3>SVG的渲染顺序</h3>
+<br/>
+		<span>
+　　SVG是严格按照定义元素的顺序来渲染的，这个与HTML靠z-index值来控制分层不一样。在SVG中，写在前面的元素先被渲染，写在后面的元素后被渲染。后渲染的元素会覆盖前面的元素，虽然有时候受透明度影响，看起来不是被覆盖的，但是SVG确实是严格按照先后顺序来渲染的。 
+
+ 
+		</span><br/><br/>
+		<span>
+
+注意：SVG是以XML定义的，所以是大小写敏感的，这点与HTML不一样。
+
+		</span><br/><br/>
+			
+			
+			
+			
+			
+			
+			
+			<br/>
+		</div>
+	</body>
+</html>

@@ -1,0 +1,274 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>突袭HTML5之Canvas 2D入门1 - Canvas绘制文本和图像</title>
+		<style>
+			body{
+				padding:30px;
+			}
+			p{
+				font-size: 12pt;
+				line-height:30px;
+			}
+			.cnblogs_code{
+				font-size: 11pt;
+				padding-left:60px;
+				background-color: #f5f5f5;
+				border: 1px solid #ccc;
+				line-height:26px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<h1>突袭HTML5之Canvas 2D入门1 - Canvas绘制文本和图像 </h1>
+
+		<div id="cnblogs_post_body">
+			<p>
+				<strong style="color: #0000ff">Canvas历史</strong><strong>
+				<br />
+				</strong> 　　canvas是一个新的HTML元素，这个元素可以被脚本语言(通常是JavaScript)用来绘制图形。例如可以用它来画图、合成图象、或做动画。canvas最先在苹果公司(Apple)的Mac OS X Dashboard上被引入，而后被应用于Safari。后面被采用成为HTML5标准规范的一部分。这个元素的引入带来了非同凡响的影响：从此，浏览器原生支持图形绘制与动画了。canvas的引入，再加上Audio与Video的支持，HTML5必将带来网页游戏的蓬勃发展。
+				<br />
+				<strong style="color: #0000ff"><strong><font color="#0000ff">Canvas</font></strong>基本属性</strong><strong>
+				<br />
+				</strong> 　　canvas只有两个属性，width 和 height，两个都是可选的，并且都可以用DOM或者CSS来设置。如果不指定width和height，默认的值是宽300像素，高150像素。虽然可以通过 CSS 来调整canvas的大小，但渲染图像会通过缩放来适应布局的（如果你发现渲染结果看上去变形了，不必一味依赖CSS，可以尝试显式指定canvas的width和height属性值）。
+				<br />
+				除此以外，像id这种标准HTML元素都可以指定的属性，canvas也可以使用。一般，为元素指定id 是个不错的方案，这样使得在脚本中应用更加方便。
+				<br />
+				canvas元素可以像普通图片一样指定其样式（边距，边框，背景等等）。然而这些样式并不会对canvas实际生成的图像产生什么影响。如果不指定样式，canvas默认是全透明的。
+				<br />
+				<strong style="color: #0000ff">获取渲染上下文</strong><strong>
+				<br />
+				</strong> 　　使用JS操作canvas的第一步就是获取渲染上下文。
+				<br />
+				canvas创建的固定尺寸的绘图画面开放了一个或多个渲染上下文（rendering context），我们可以通过它们来控制要显示的内容。目前支持2D渲染(直接的API支持)，3D渲染(通过WebGL实现的)。
+				<br />
+				canvas初始是空白的，要在上面用脚本画图首先需要获得渲染上下文，它可以通过 canvas 元素对象的 getContext方法来获取。getContext()接受一个用于描述其类型的值作为参数。目前可用的参数值是"2d"，也支持"webgl"(获得WebGL 3D渲染上下文，这个到总结WebGL的时候详细说明)。
+				<br />
+				一般我们会辅助以DOM方法getElementById取得canvas对象的DOM节点。然后通过其getContext方法取得其画图操作上下文。如下所示：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">var</span>&nbsp;canvas&nbsp;=&nbsp;document.getElementById('lesson01');
+					<br />
+					<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;canvas.getContext('2d');
+				</div>
+			</div>
+			<p>
+				但是为了安全起见，我们一般需要先判断浏览器是否支持cavas，也就是需要判断getContext是否存在。下面是完整的代码：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">var</span>&nbsp;canvas&nbsp;=&nbsp;document.getElementById('lesson01');
+					<br />
+					<span style="color: #0000ff">if</span>&nbsp;(canvas.getContext){
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;canvas.getContext('2d');
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;drawing&nbsp;code&nbsp;here</span><span style="color: #008000">
+						<br />
+					</span>}&nbsp;<span style="color: #0000ff">else</span>&nbsp;{
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;canvas-unsupported&nbsp;code&nbsp;here</span><span style="color: #008000">
+						<br />
+					</span>}
+				</div>
+			</div>
+			<p>
+				<br />
+				<strong style="color: #0000ff">绘制文本</strong><strong>
+				<br />
+				</strong> 　　绘制文本需要用到下列的属性和方法：
+				<br />
+				<strong>context.font属性</strong>
+			</p>
+			<p>
+				获取或设置文本的字体和大小。设置该属性的字符串语法与CSS语法中的font是一样的，不能解析成CSS的值会被忽略掉。
+				<br />
+				<strong>context.textAlign属性</strong>
+			</p>
+			<p>
+				获取或设置字体的对其方式。只允许下列值:start, end, left, right, 和center。其他值会被忽略，默认值是start。
+				<br />
+				<strong>context.textBaseline属性</strong>
+			</p>
+			<p>
+				获取或设置字体的基准线。有效的值如下：top, hanging, middle, alphabetic, ideographic, bottom。其他值会被忽略，默认值是alphabetic。
+			</p>
+			<p>
+				<strong>context.fillText(text, x, y [, maxWidth ] )
+				<br />
+				</strong>该方法用于在指定的位置绘制文本。如果设置了maxWidth，则会调整字符串使之符合这个条件。
+				<br />
+				<strong>context . strokeText(text, x, y [, maxWidth ] )
+				<br />
+				</strong>该方法用于在指定的位置绘制镂空的文本。
+				<br />
+				例子如下：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					&lt;!DOCTYPE&nbsp;HTML&gt;&nbsp;&nbsp;
+					<br />
+					&lt;html&gt;&nbsp;&nbsp;
+					<br />
+					&lt;body&gt;&nbsp;&nbsp;
+					<br />
+					&lt;canvas&nbsp;id="lesson"&nbsp;width="300"height="200"&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&lt;p&gt;Your&nbsp;browser&nbsp;does&nbsp;not&nbsp;support&nbsp;the&nbsp;canvas&nbsp;element!&lt;/p&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&lt;/canvas&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&lt;script&nbsp;type="text/javascript"&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;window.onload&nbsp;=&nbsp;<span style="color: #0000ff">function</span>()&nbsp;{&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;canvas&nbsp;=document.getElementById("lesson");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;context&nbsp;=canvas.getContext("2d");&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.font&nbsp;="30px&nbsp;Times&nbsp;New&nbsp;Roman";&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;context.fillText("HelloCanvas!",&nbsp;10,&nbsp;35);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&lt;/script&gt;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&lt;/body&gt;&nbsp;&nbsp;
+					<br />
+					&lt;/html&gt;&nbsp;&nbsp;
+				</div>
+			</div>
+			<p>
+				<br />
+				<strong style="color: #0000ff">绘制图片</strong><strong>
+				<br />
+				</strong> 　　绘制图片可以有下面几种方式：
+				<br />
+				<strong>绘制原图：context.drawImage(image, dx, dy)
+				<br />
+				缩放绘图：context.drawImage(image, dx, dy, dw, dh)
+				<br />
+				切片绘图：context.drawImage(image, sx, sy, sw, sh, dx, dy, dw, dh)
+				<br />
+				</strong> 　　合理的绘制多幅图像可以做出漂亮的组合效果，比如常见的画廊就是框图片与照片的叠加，只不过要注意绘制的先后顺序。
+				<br />
+				第一个参数image代表图片的来源，可以是下列几种：
+				<br />
+				(1)页面内的图片:我们可以通过 document.images 集合、document.getElementsByTagName 方法又或者 document.getElementById 方法来获取页面内的图片。
+				<br />
+				(2)已经完备的canvas：可以使用document.getElementsByTagName或document.getElementById方法来获取已经准备好的canvas元素。一个常用的场景就是为另一个大的canvas做缩略图。
+				<br />
+				(3)通过data:url方式(
+				<a href="http://en.wikipedia.org/wiki/Data:_URL">
+					http://en.wikipedia.org/wiki/Data:_URL
+				</a>
+				)嵌入图像：Data urls允许用一串Base64编码的字符串的方式来定义一个图片。其优点就是图片内容即时可用，无须再到服务器兜一圈。（还有一个优点是，可以将CSS，JavaScript，HTML和图片全部封装在一起，迁移起来十分方便。）缺点就是图像没法缓存，图片大的话内嵌的url数据会相当的长。例如：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">var</span>&nbsp;img_src&nbsp;=&nbsp;'data:image/gif;base64,R0lGODlhCwALAIAAAAAA3pn/ZiH5BAEAAAEALAAAAAALAAsAAAIUhA+hkcuO4lmNVindo7qyrIXiGBYAOw==';&nbsp;
+				</div>
+			</div>
+			<p>
+				(4)动态创建的图片：我们可以用脚本创建一个新的Image对象，但这种方法的主要缺点是如果不希望脚本因为等待图片装置而暂停，还得需要突破预装载。
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">var</span>&nbsp;img&nbsp;=&nbsp;<span style="color: #0000ff">new</span>&nbsp;Image();&nbsp;&nbsp;&nbsp;
+					<br />
+					img.src&nbsp;=&nbsp;'myImage.png';&nbsp;
+				</div>
+			</div>
+			<p>
+				当脚本执行后，图片开始装载。若调用drawImage时，图片没装载完，脚本会等待直至装载完毕。如果不希望这样的效果，则需要使用图片的onload事件。(见下面的例子)
+			</p>
+			<p>
+				其他几个参数的含义：sx,sy是Image在源中的起始坐标，sw/sWidth,sh/sHeight是源中图片的宽和高，dx,dy是在目标中的坐标，dw/dWidth,dh/dHeight是目标的宽和高。具体可以参看下图：
+			</p>
+			<p>
+				<img alt="" src="https://developer.mozilla.org/@api/deki/files/79/=Canvas_drawimage.jpg" />
+			</p>
+			<p>
+				例子如下：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					&lt;?doctype&nbsp;html&gt;
+					<br />
+					&lt;html&gt;
+					<br />
+					&lt;head&gt;
+					<br />
+					&lt;title&gt;cavas&nbsp;tests&lt;/title&gt;
+					<br />
+					&lt;script&nbsp;type="text/javascript"&gt;
+					<br />
+					&nbsp;<span style="color: #0000ff">function</span>&nbsp;onStart()&nbsp;{
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;canvas&nbsp;=&nbsp;document.getElementById("lesson01");
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">if</span>(canvas.getContext)
+					<br />
+					&nbsp;&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;context&nbsp;=&nbsp;canvas.getContext("2d");
+					<br />
+					&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;pic&nbsp;=&nbsp;<span style="color: #0000ff">new</span>&nbsp;Image();&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;pic.onload=<span style="color: #0000ff">function</span>(){&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;context.drawImage(pic,0,&nbsp;0);&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;}&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;pic.src&nbsp;=&nbsp;"http://imgsrc.baidu.com/forum/pic/item/e6b14bc2a4561b1fe4dd3b24.jpg";&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;}
+					<br />
+					}
+					<br />
+					&lt;/script&gt;
+					<br />
+					&lt;/head&gt;
+					<br />
+					&lt;body&nbsp;onload="onStart();"&gt;
+					<br />
+					&lt;canvas&nbsp;id="lesson01"&nbsp;width="500"&nbsp;height="500"&gt;
+					<br />
+					&nbsp;Your&nbsp;browser&nbsp;does&nbsp;not&nbsp;support&nbsp;Canvas.
+					<br />
+					&lt;/canvas&gt;
+					<br />
+					&lt;/body&gt;
+					<br />
+					&lt;/html&gt;
+				</div>
+			</div>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				<strong style="color: #0000ff">实用参考：</strong><strong>
+				<br />
+				</strong>官方参考文档以及API详细说明：
+				<a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html">
+					http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
+				</a>
+				<br />
+				权威开发入门：
+				<a href="https://developer.mozilla.org/cn/Canvas_tutorial">
+					https://developer.mozilla.org/cn/Canvas_tutorial
+				</a>
+			</p>
+		</div>
+
+	</body>
+</html>

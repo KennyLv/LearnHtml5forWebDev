@@ -1,0 +1,434 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>突袭HTML5之Canvas 2D入门3 - 变换与组合</title>
+		<style>
+			body{
+				padding:30px;
+			}
+			p{
+				font-size: 12pt;
+				line-height:30px;
+			}
+			.cnblogs_code{
+				font-size: 11pt;
+				padding-left:60px;
+				background-color: #f5f5f5;
+				border: 1px solid #ccc;
+				line-height:26px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<h1>突袭HTML5之Canvas 2D入门3 - 变换与组合 </h1>
+
+		<div id="cnblogs_post_body">
+			<p>
+				<strong style="color: #0000ff">知识准备 - 坐标系</strong>
+			</p>
+			<p>
+				在真正开始总结变换之前，我们需要先了解一下canvas的相关坐标系知识。
+			</p>
+			<p>
+				&#8220;<strong style="color: #ff6600">像素坐标系</strong>&#8221;：在HTML中，我们会设置canvas的属性：width和height，它们是以像素为单位的，它们描述了canvas最终的呈现区域，我形象称之为&#8220;像素坐标&#8221;(自创，不是很贴切，行家别见笑)，这个坐标系原点在canvas的左上角，这个坐标系当canvas创建完成以后，就不会变了(当然了，修改width与height的时候会变的)，原点一直位于左上角；x与y各有多少像素，都已经由width和height决定了。说白了，这个东西就像画画时的画布，你给多大就多大。
+			</p>
+			<p>
+				&#8220;<strong style="color: #ff6600">网格坐标系</strong>&#8221;：在绘图的时候使用的坐标系。我们绘图时所有的单位使用的并不是像素坐标，而是这个称为网格的坐标系。为了在有限的画布内，画出各种比例的图形，我们可能就要对这个坐标系进行各种变换(平移、旋转、缩放)。所以后面总结的各种变换都是针对网格坐标系的。
+			</p>
+			<p>
+				这两个坐标系的关系其实就像显示器与桌面的关系一样，显示器就相当于像素坐标系，它的点都是固定的，造出来什么样就什么样。桌面就像是网格坐标系，我们可以随时移动，旋转桌面，修改桌面分辨率来看更多的内容。
+			</p>
+			<p>
+				在canvas中，默认情况下，网格坐标与像素坐标是一一对应的，原点都在左上角，每1个网格单位对应1个像素单位。canvas里的所有物体的位置都是相对于网格坐标的原点而言的。如下面图中所示，默认情况下，蓝色方块的位置就是距左边x单位和距上边y单位（坐标(x, y)）。
+			</p>
+			<p>
+				<img alt="" src="https://developer.mozilla.org/@api/deki/files/78/=Canvas_default_grid.png" />
+			</p>
+			<p>
+				<strong style="color: #0000ff">知识准备 - 状态保持</strong>
+			</p>
+			<p>
+				在正式介绍变形之前，还需要先了解一下两个绘制复杂图形就必不可少的方法，这两个方法在变形中应用的相当广泛。
+			</p>
+			<p>
+				<strong> 　　保存状态：context.save()
+				<br />
+				恢复状态：context.restore()</strong>
+			</p>
+			<p>
+				save和restore方法是用来保存和恢复canvas状态的，都没有参数。canvas的状态就是当前画面应用的所有样式和变形的一个快照。
+			</p>
+			<p>
+				canvas状态是以堆(stack)的方式保存的，每一次调用save方法，当前的状态就会被推入堆中保存起来。这种状态包括：
+			</p>
+			<ul>
+				<li>
+					当前应用的变形（即移动，旋转和缩放）；
+				</li>
+				<li>
+					所有样式：strokeStyle, fillStyle, globalAlpha, lineWidth, lineCap, lineJoin, miterLimit, shadowOffsetX, shadowOffsetY, shadowBlur, shadowColor, globalCompositeOperation 的值；
+				</li>
+				<li>
+					当前的裁切路径（clipping path）。
+				</li>
+			</ul>
+			<p>
+				你可以调用任意多次save方法，将canvas状态入栈。每一次调用restore方法，上一个保存的状态就从堆中弹出，所有设定都恢复。
+			</p>
+			<p>
+				下面的例子能很容易的说明save与restore的使用方法：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(0,0,150,150);&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Draw&nbsp;a&nbsp;rectangle&nbsp;with&nbsp;default&nbsp;settings&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.save();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Save&nbsp;the&nbsp;default&nbsp;state&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;'#09F'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Make&nbsp;changes&nbsp;to&nbsp;the&nbsp;settings&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.fillRect(15,15,120,120);&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Draw&nbsp;a&nbsp;rectangle&nbsp;with&nbsp;new&nbsp;settings&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.save();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Save&nbsp;the&nbsp;current&nbsp;state&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;'#FFF'&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Make&nbsp;changes&nbsp;to&nbsp;the&nbsp;settings&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.globalAlpha&nbsp;=&nbsp;0.5;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(30,30,90,90);&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Draw&nbsp;a&nbsp;rectangle&nbsp;with&nbsp;new&nbsp;settings&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.restore();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Restore&nbsp;previous&nbsp;state&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.fillRect(45,45,60,60);&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Draw&nbsp;a&nbsp;rectangle&nbsp;with&nbsp;restored&nbsp;settings&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.restore();&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Restore&nbsp;original&nbsp;state&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.fillRect(60,60,30,30);&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Draw&nbsp;a&nbsp;rectangle&nbsp;with&nbsp;restored&nbsp;settings&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>}&nbsp;
+				</div>
+			</div>
+			<p>
+				在上面的例子中可以看到，如果每次都手动修改各个样式的值，那将会很麻烦，特别是样式的值很多的时候，更是容易出错。这个时候使用save/restore还是很方便的。
+			</p>
+			<p>
+				<strong style="color: #0000ff">变换</strong>
+			</p>
+			<p>
+				学过图形学的都知道，变换有这么几种：移动，旋转和缩放。为了弄清楚变换的效果，我们一定要理解，变换的目标是哪个。上面我也说了，这些<strong style="color: #008000">变换都是针对网格坐标系</strong>的。下面分别看一下这些变换。
+			</p>
+			<p>
+				<strong style="color: #ff6600">平移变换：将网格坐标系的原点移动指定的偏移量。&nbsp;</strong>
+			</p>
+			<p>
+				context.translate(x, y)
+				<br />
+				translate 方法接受两个参数。x 是左右偏移量，y 是上下偏移量。
+				<br />
+				在做变形之前先保存状态是一个良好的习惯。大多数情况下，调用restore方法比手动恢复原先的状态要简单得多。特别是在循环中，更要注意保存和恢复canvas的状态。
+			</p>
+			<p>
+				<strong style="color: #ff6600">旋转变换：将网格坐标系沿着自己的原点顺时针旋转指定的角度。</strong>
+			</p>
+			<p>
+				context.rotate(angle)
+				<br />
+				这个方法只接受一个参数：旋转的角度(angle)，它是顺时针方向的，以弧度为单位的值。旋转的中心点始终是 canvas 的原点。
+			</p>
+			<p>
+				<strong style="color: #ff6600">缩放变换：将网格坐标系的坐标单位按照指定的比例进行缩小或放大。</strong>
+			</p>
+			<p>
+				context.scale(x, y)
+				<br />
+				scale 方法接受两个参数。x,y 分别是横轴和纵轴的缩放因子，它们都必须是正值。值比 1.0 小表示缩小，比 1.0 大则表示放大，值为 1.0 时什么效果都没有。
+			</p>
+			<p>
+				因为像素大小是不变的，所以这个变换实际的效果就是同样大小的画布内，能画的东西多了或少了。
+			</p>
+			<p>
+				变换例子如下：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.lineWidth&nbsp;=&nbsp;1.5;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(0,0,300,300);&nbsp;&nbsp;&nbsp;
+					<br />
+					<br />
+					&nbsp;&nbsp;ctx.translate(150,150);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.rotate(Math.PI/4);
+					<br />
+					&nbsp;&nbsp;ctx.scale(0.5,0.5);&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.clearRect(-40,-40,&nbsp;80,80);&nbsp;
+					<br />
+					}
+				</div>
+			</div>
+			<p>
+				<strong style="color: #ff6600">变换矩阵：所有的变换其实都可以用矩阵来表述。</strong>
+			</p>
+			<p>
+				可以用下面两种方法直接设置变换矩阵：
+			</p>
+			<p>
+				<strong>context.transform(m11, m12, m21, m22, dx, dy)
+				<br />
+				context.setTransform(m11, m12, m21, m22, dx, dy)
+				<br />
+				</strong>第一个方法直接将当前的变形矩阵乘上下面的矩阵(注意排列的顺序)：
+				<br />
+				<strong>m11 &nbsp;m21 &nbsp;dx
+				<br />
+				m12 &nbsp;m22 &nbsp;dy
+				<br />
+				0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 0 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; 1
+				<br />
+				</strong>第二个方法会重置当前的变形矩阵为单位矩阵，然后以相同的参数调用transform方法。
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;canvas&nbsp;=&nbsp;document.getElementById("lesson01");&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;canvas.getContext("2d");&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;sin&nbsp;=&nbsp;Math.sin(Math.PI/6);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;cos&nbsp;=&nbsp;Math.cos(Math.PI/6);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.translate(200,&nbsp;200);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;c&nbsp;=&nbsp;0;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">for</span>&nbsp;(<span style="color: #0000ff">var</span>&nbsp;i=0;&nbsp;i&nbsp;&lt;=&nbsp;12;&nbsp;i++)&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;c&nbsp;=&nbsp;Math.floor(255&nbsp;/&nbsp;12&nbsp;*&nbsp;i);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;"rgb("&nbsp;+&nbsp;c&nbsp;+&nbsp;","&nbsp;+&nbsp;c&nbsp;+&nbsp;","&nbsp;+&nbsp;c&nbsp;+&nbsp;")";&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillRect(0,&nbsp;0,&nbsp;100,&nbsp;10);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.transform(cos,&nbsp;sin,&nbsp;-sin,&nbsp;cos,&nbsp;0,&nbsp;0);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;}&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.setTransform(-1,&nbsp;0,&nbsp;0,&nbsp;1,&nbsp;200,&nbsp;200);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;"rgba(255,&nbsp;128,&nbsp;255,&nbsp;0.5)";&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(0,&nbsp;50,&nbsp;100,&nbsp;100);&nbsp;&nbsp;
+					<br />
+					}
+				</div>
+			</div>
+			<p>
+				所有的变换起始都是通过变换矩阵实现的，所以上述的平移，旋转，缩放都可以用相应的矩阵代替，精通数学的同学可以自己推导出来：
+				<br />
+				平移：context.translate(dx,dy)可以使用context.transform (1,0,0,1,dx,dy)或者context.transform(0,1,1,0.dx,dy)代替。
+				<br />
+				旋转：context.rotate(&#952;)可以使用context.transform(Math.cos(&#952;*Math.PI/180)，Math.sin(&#952;*Math.PI/180),-Math.sin(&#952;*Math.PI/180),Math.cos(&#952;*Math.PI/180)，0，0)或者
+			</p>
+			<p>
+				context.transform(-Math.sin(&#952;*Math.PI/180),Math.cos(&#952;*Math.PI/180)，Math.cos(&#952;*Math.PI/180)，Math.sin(&#952;*Math.PI/180), 0，0)代替。
+				<br />
+				缩放：context.scale(sx, sy)可以使用context.transform(sx,0,0,sy,0,0)或者context.transform(0,sy,sx,0, 0,0)代替。&nbsp;
+			</p>
+			<p>
+				<strong style="color: #0000ff">组合</strong><strong>
+				<br />
+				</strong> 　　默认情况下，我们总是将一个图形画在另一个之上，也就是说绘制的结果受制于绘制图形的顺序。大多数情况下，这样是不够的，设置组合属性就是解决图形重叠时采取何种效果的问题。我们使用globalCompositeOperation属性来改变默认做法。
+				<br />
+				<strong>globalCompositeOperation = type
+				<br />
+				</strong> 　　type是下列的12中字符串值之一：
+			</p>
+			<ul>
+				<li>
+					source-over (default):这是默认设置，新图形会覆盖在原有内容之上。
+				</li>
+				<li>
+					source-in:新图形会仅仅出现与原有内容重叠的部分。其它区域都变成透明的。
+				</li>
+				<li>
+					ource-out:结果是只有新图形中与原有内容不重叠的部分会被绘制出来。
+				</li>
+				<li>
+					source-atop:新图形中与原有内容重叠的部分会被绘制，并覆盖于原有内容之上。
+				</li>
+				<li>
+					lighter:两图形中重叠部分作加色处理。
+				</li>
+				<li>
+					xor:重叠的部分会变成透明。
+				</li>
+				<li>
+					destination-over:会在原有内容之下绘制新图形。
+				</li>
+				<li>
+					destination-in:原有内容中与新图形重叠的部分会被保留，其它区域都变成透明的。
+				</li>
+				<li>
+					destination-out:原有内容中与新图形不重叠的部分会被保留。
+				</li>
+				<li>
+					destination-atop:原有内容中与新内容重叠的部分会被保留，并会在原有内容之下绘制新图形。
+				</li>
+				<li>
+					darker:两图形中重叠的部分作减色处理。
+				</li>
+				<li>
+					copy:只有新图形会被保留，其它都被清除掉。
+				</li>
+			</ul>
+			<p>
+				假设我们先绘制了一个蓝色的矩形，再绘制一个红色的圆形，则应用这12种组合设置的结果如下所示：
+			</p>
+			<p>
+				<img border="0" alt="" src="http://images.cnblogs.com/cnblogs_com/dxy1982/composition.png" width="600" height="297" />
+			</p>
+			<p>
+				<span style="color: #ff0000">注意：</span>如果设置的属性值没有效果，说明目前您使用的浏览器还不支持该组合属性值。
+			</p>
+			<p>
+				<strong style="color: #0000ff">裁剪</strong><strong>
+				<br />
+				</strong> 　　与组合相关的一个问题是裁剪。其实在绘制路径的时候，最后一步将图形绘制到canvas的函数除了stroke和fill外，还有就是clip；以clip结束路径时会将当前绘制的图形当做裁剪路径，只有在裁剪路径内的图形才会显示。裁切路径属于canvas状态的一部分，可以被保存起来。如果我们在创建新裁切路径时想保留原来的裁切路径，我们需要做的就是保存一下canvas的状态。
+				<br />
+				例如下面的例子就是先绘制Mask层的背景和裁剪路径，然后绘制的图形就只有在裁剪路径内的才可见：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;draw&nbsp;mask&nbsp;background</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.fillRect(0,0,150,150);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.translate(75,75);&nbsp;&nbsp;
+					<br />
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;create&nbsp;a&nbsp;circular&nbsp;clipping&nbsp;path&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.beginPath();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.arc(0,0,60,0,Math.PI*2,<span style="color: #0000ff">true</span>);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.clip();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;draw&nbsp;background&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;lingrad&nbsp;=&nbsp;ctx.createLinearGradient(0,-75,0,75);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;lingrad.addColorStop(0,&nbsp;'#232256');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;lingrad.addColorStop(1,&nbsp;'#143778');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;lingrad;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(-75,-75,150,150);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;draw&nbsp;stars&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;<span style="color: #0000ff">for</span>&nbsp;(<span style="color: #0000ff">var</span>&nbsp;j=1;j&lt;50;j++){&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.save();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;'#fff';&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.translate(75-Math.floor(Math.random()*150),&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;75-Math.floor(Math.random()*150));&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;drawStar(ctx,Math.floor(Math.random()*4)+2);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.restore();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;}&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					}&nbsp;&nbsp;
+					<br />
+					<span style="color: #0000ff">function</span>&nbsp;drawStar(ctx,r){&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.save();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.beginPath()&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.moveTo(r,0);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">for</span>&nbsp;(<span style="color: #0000ff">var</span>&nbsp;i=0;i&lt;9;i++){&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.rotate(Math.PI/5);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">if</span>(i%2&nbsp;==&nbsp;0)&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineTo((r/0.525731)*0.200811,0);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span style="color: #0000ff">else</span>&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineTo(r,0);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;}&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.closePath();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fill();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.restore();&nbsp;&nbsp;
+					<br />
+					}
+				</div>
+			</div>
+			<p>
+				<strong style="color: #0000ff">实用参考：</strong><strong>
+				<br />
+				</strong>官方参考文档以及API详细说明：
+				<a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html">
+					http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
+				</a>
+				<br />
+				权威开发入门：
+				<a href="https://developer.mozilla.org/cn/Canvas_tutorial">
+					https://developer.mozilla.org/cn/Canvas_tutorial
+				</a>
+			</p>
+		</div>
+
+	</body>
+</html>

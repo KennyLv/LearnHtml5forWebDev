@@ -1,0 +1,755 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>突袭HTML5之Canvas 2D入门2 - Canvas绘制图形</title>
+		<style>
+			body{
+				padding:30px;
+			}
+			p{
+				font-size: 12pt;
+				line-height:30px;
+			}
+			.cnblogs_code{
+				font-size: 11pt;
+				padding-left:60px;
+				background-color: #f5f5f5;
+				border: 1px solid #ccc;
+				line-height:26px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<h1> 突袭HTML5之Canvas 2D入门2 - Canvas绘制图形 </h1>
+
+		<div id="cnblogs_post_body">
+			<p>
+				canvas只支持一种基本形状&#8212;&#8212;矩形，所有其它形状都是通过一个或多个路径组合而成，甚至是基本的矩形也可以通过路径组合成。
+				<br />
+				<strong style="color: #0000ff">一、设置画笔属性</strong><strong>
+				<br />
+				</strong> 　　设想我们生活中画图的样子，我们首先是选取合适的颜料和笔，一样的道理，在canvas中画图同样也是根据需要，不断的去设置当前使用的颜色和线条类型。
+				<br />
+				<strong style="color: #ff6600">设置当前使用的颜色</strong><strong>
+				<br />
+				</strong>任何封闭的图形都是有轮廓部分和填充部分组成。设置当前的颜色也是分两部分设置：
+			</p>
+			<ul>
+				<li>
+					设置填充色：context.fillStyle = color
+				</li>
+				<li>
+					设置轮廓色：context.strokeStyle = color
+				</li>
+			</ul>
+			<p>
+				参数color可以是表示CSS颜色值的字符串，渐变对象或者图案对象。默认情况下，线条和填充颜色都是黑色(CSS颜色值#000000)。
+				<br />
+				<strong style="color: #ff6600">颜色的字符串表示</strong><strong>
+				<br />
+				</strong> 　　下面都是正确的值：
+			</p>
+			<div class="cnblogs_code">
+				<span style="color: #008000">//</span><span style="color: #008000">&nbsp;这些&nbsp;fillStyle&nbsp;的值均为&nbsp;'橙色'&nbsp;&nbsp;</span><span style="color: #008000">
+					<br />
+				</span>ctx.fillStyle&nbsp;=&nbsp;"orange";&nbsp;&nbsp;
+				<br />
+				ctx.fillStyle&nbsp;=&nbsp;"#FFA500";&nbsp;&nbsp;
+				<br />
+				ctx.fillStyle&nbsp;=&nbsp;"rgb(255,165,0)";&nbsp;&nbsp;
+				<br />
+				ctx.fillStyle&nbsp;=&nbsp;"rgba(255,165,0,1)";&nbsp;&nbsp;
+			</div>
+			<p>
+				<img alt="" src="http://www.cnblogs.com/Emoticons/msn/lightbulb.gif" />
+				如果你要给每个图形上不同的颜色，你需要重新设置 fillStyle或strokeStyle 的值，就像我们画画时需要不断换不同颜色的颜料一样。
+				<br />
+				<strong style="color: #ff6600">设置透明度</strong><strong>
+				<br />
+				</strong>1.设置全局透明度：context.globalAlpha = transparency value。
+				<br />
+				这个属性影响到 canvas 里所有图形的透明度，有效的值范围是 0.0 （完全透明）到 1.0（完全不透明），默认是 1.0。例子如下所示：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw2()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;draw&nbsp;background&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;'#FD0';&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(0,0,75,75);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;'#6C0';&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(75,0,75,75);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;'#09F';&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(0,75,75,75);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;'#F30';&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(75,75,75,75);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;'#FFF';&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;set&nbsp;transparency&nbsp;value&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.globalAlpha&nbsp;=&nbsp;0.2;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Draw&nbsp;semi&nbsp;transparent&nbsp;circles&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;<span style="color: #0000ff">for</span>&nbsp;(<span style="color: #0000ff">var</span>&nbsp;i=0;i&lt;7;i++){&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctx.beginPath();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctx.arc(75,75,10+10*i,0,Math.PI*2,<span style="color: #0000ff">true</span>);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ctx.fill();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;}&nbsp;&nbsp;
+					<br />
+					}&nbsp;&nbsp;
+				</div>
+			</div>
+			<p>
+				2.设置单个图形的透明度
+			</p>
+			<p>
+				很简单，把rgba格式的字符串赋给fillStyle或者strokeStyle就可以了。
+				<br />
+				<strong style="color: #ff6600">创建渐变色</strong><strong>
+				<br />
+				</strong> 　　canvas中我们也可以用线性或者径向的渐变来填充或描边。创建渐变色要经过下面几个步骤：
+				<br />
+				1.创建渐变对象：
+			</p>
+			<ul>
+				<li>
+					线性渐变：context.createLinearGradient(x1,y1,x2,y2)
+					<br />
+					方法接受4个参数，表示渐变的起点(x1,y1) 与终点(x2,y2)。
+				</li>
+				<li>
+					径向渐变：context.createRadialGradient(x1,y1,r1,x2,y2,r2)
+					<br />
+					方法接受6个参数，前三个定义一个以(x1,y1)为原点，半径为r1的圆，后三个参数则定义另一个以(x2,y2)为原点，半径为r2的圆。
+				</li>
+			</ul>
+			<p>
+				两个方法返回响应的渐变对象，下面就可以给这个对象添加渐变颜色了。
+			</p>
+			<p>
+				2.给渐变对象上色：
+				<br />
+				上色：gradientObject.addColorStop(position, color)
+				<br />
+				方法接受2个参数，position 参数必须是一个 0.0 与 1.0 之间的数值，表示渐变中颜色所在的相对位置。例如，0.5 表示颜色会出现在正中间；如果第一个色标的该参数值不是0.0，则渐变会默认认为从起点到第一个色标之间都是黑色。
+			</p>
+			<p>
+				color 参数必须是一个有效的 CSS 颜色值（如 #FFF， rgba(0,0,0,1)，等等）。
+				<br />
+				可以根据需要添加任意多个色标（color stops），也就是说渐变的色彩数目是任意的。但是要注意保持色标定义顺序和它理想的顺序一致，特别是当色标的位置重叠的时候。
+				<br />
+				3.把渐变对象赋给图形的fillStyle或strokeStyle属性。
+			</p>
+			<p>
+				例子如下所示：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Create&nbsp;gradients&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;radgrad&nbsp;=&nbsp;ctx.createRadialGradient(45,45,10,52,50,30);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad.addColorStop(0,&nbsp;'#A7D30C');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad.addColorStop(0.9,&nbsp;'#019F62');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad.addColorStop(1,&nbsp;'rgba(1,159,98,0)');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;radgrad2&nbsp;=&nbsp;ctx.createRadialGradient(105,105,20,112,120,50);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad2.addColorStop(0,&nbsp;'#FF5F98');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad2.addColorStop(0.75,&nbsp;'#FF0188');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad2.addColorStop(1,&nbsp;'rgba(255,1,136,0)');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;radgrad3&nbsp;=&nbsp;ctx.createRadialGradient(95,15,15,102,20,40);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad3.addColorStop(0,&nbsp;'#00C9FF');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad3.addColorStop(0.8,&nbsp;'#00B5E2');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad3.addColorStop(1,&nbsp;'rgba(0,201,255,0)');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;radgrad4&nbsp;=&nbsp;ctx.createRadialGradient(0,150,50,0,140,90);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad4.addColorStop(0,&nbsp;'#F4F201');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad4.addColorStop(0.8,&nbsp;'#E4C700');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;radgrad4.addColorStop(1,&nbsp;'rgba(228,199,0,0)');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;draw&nbsp;shapes&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;radgrad4;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(0,0,150,150);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;radgrad3;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(0,0,150,150);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;radgrad2;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(0,0,150,150);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;radgrad;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillRect(0,0,150,150);&nbsp;&nbsp;
+					<br />
+					}&nbsp;&nbsp;
+				</div>
+			</div>
+			<p>
+				<strong style="color: #ff6600">创建图案填充效果</strong><strong>
+				<br />
+				</strong>简单两步即搞定。
+				<br />
+				1.创建图案pattern：context.createPattern(image,type)
+				<br />
+				该方法接受两个参数。Image 可以是一个 Image 对象的引用，或者另一个 canvas 对象。Type 必须是下面的字符串值之一：repeat，repeat-x，repeat-y 和 no-repeat。
+			</p>
+			<p>
+				2.pattern赋给fillStyle或strokeStyle属性。
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;create&nbsp;new&nbsp;image&nbsp;object&nbsp;to&nbsp;use&nbsp;as&nbsp;pattern&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;img&nbsp;=&nbsp;<span style="color: #0000ff">new</span>&nbsp;Image();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;img.src&nbsp;=&nbsp;'Penguins.jpg';&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;img.onload&nbsp;=&nbsp;<span style="color: #0000ff">function</span>(){&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;create&nbsp;pattern&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ptrn&nbsp;=&nbsp;ctx.createPattern(img,'repeat');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;ptrn;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillRect(0,0,150,150);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;}&nbsp;&nbsp;
+					<br />
+					}&nbsp;
+				</div>
+			</div>
+			<p>
+				<strong style="color: #ff6600">创建阴影效果</strong>(目前Google Chrome 16.0.912.75还是不支持的)
+				<br />
+				主要是设置一下阴影效果的相关属性值：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					context.shadowOffsetX&nbsp;=&nbsp;<span style="color: #0000ff">float</span>
+					<br />
+					context.shadowOffsetY&nbsp;=&nbsp;<span style="color: #0000ff">float</span>
+					<br />
+					context.shadowBlur&nbsp;=&nbsp;<span style="color: #0000ff">float</span>
+					<br />
+					context.shadowColor&nbsp;=&nbsp;color
+				</div>
+			</div>
+			<p>
+				shadowOffsetX和shadowOffsetY用来设定阴影在X和Y轴的延伸距离，它们是不受变换矩阵所影响的。负值表示阴影会往上或左延伸，正值则表示会往下或右延伸，他们默认都是0。
+				<br />
+				shadowBlur用于设定阴影的模糊程度，其数值并不跟像素数量挂钩，也不受变换矩阵的影响，默认为0。
+				<br />
+				shadowColor用于设定阴影效果的延伸，值可以是标准的CSS颜色值，默认是全透明的黑色。
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw3()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.shadowOffsetX&nbsp;=&nbsp;3;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.shadowOffsetY&nbsp;=&nbsp;3;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.shadowBlur&nbsp;=&nbsp;3;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.shadowColor&nbsp;=&nbsp;"rgba(100,&nbsp;100,&nbsp;0,&nbsp;0.5)";&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.font&nbsp;=&nbsp;"20px&nbsp;Times&nbsp;New&nbsp;Roman";&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;"Black";&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.fillText("Sample&nbsp;String",&nbsp;5,&nbsp;30);&nbsp;&nbsp;
+					<br />
+					}&nbsp;&nbsp;
+				</div>
+			</div>
+			<p>
+				<strong style="color: #ff6600">设置画笔的类型</strong><strong>
+				<br />
+				</strong>画笔粗细：context.lineWidth = value
+				<br />
+				这个属性设置当前绘线的粗细。属性值必须为正数。默认值是1.0。
+			</p>
+			<p>
+				线宽是指给定路径的中心到两边的粗细。换句话说就是在路径的两边各绘制线宽的一半。因为画布的坐标并不和像素直接对应，当需要获得精确的水平或垂直线的时候要特别注意。
+				<br />
+				端点样式：context.lineCap = type
+				<br />
+				属性 lineCap 的指决定了线段端点显示的样子。它可以为下面的三种的其中之一：butt，round 和 square。默认是 butt。每种设置完的效果如下图lineCap部分从左到右所示。
+				<br />
+				连接点样式：context.lineJoin = type
+				<br />
+				lineJoin 的属性值决定了图形中两线段连接处所显示的样子。它可以是这三种之一：round, bevel 和 miter。默认是 miter。每种设置完的效果如下图lineJoin部分从上到下所示。
+				<br />
+				斜面连接限制：context.miterLimit = value
+				<br />
+				当应用miter效果时，线段的外侧边缘会延伸交汇于一点上。线段直接夹角比较大的，交点不会太远，但当夹角减少时，交点距离会呈指数级增大。这时可以用miterLimit属性设定外延交点与连接点的最大距离，如果交点距离大于此值，连接效果会变成了 bevel。
+			</p>
+			<p>
+				&nbsp;
+				<img border="0" alt="" src="http://images.cnblogs.com/cnblogs_com/dxy1982/lineStyle.png" width="589" height="181" />
+			</p>
+			<p>
+				例子如下：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw6()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;lineCap&nbsp;=&nbsp;['butt','round','square'];&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Draw&nbsp;guides&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.strokeStyle&nbsp;=&nbsp;'#09f';&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.beginPath();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.moveTo(10,10);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(140,10);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.moveTo(10,140);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(140,140);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.stroke();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;Draw&nbsp;lines&nbsp;&nbsp;</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.strokeStyle&nbsp;=&nbsp;'black';&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">for</span>&nbsp;(<span style="color: #0000ff">var</span>&nbsp;i=0;i&lt;lineCap.length;i++){&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineWidth&nbsp;=&nbsp;15;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineCap&nbsp;=&nbsp;lineCap[i];&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.beginPath();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.moveTo(25+i*50,10);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineTo(25+i*50,140);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.stroke();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;}&nbsp;&nbsp;
+					<br />
+					}&nbsp;&nbsp;
+					<br />
+					<span style="color: #0000ff">function</span>&nbsp;draw()&nbsp;{&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;lineJoin&nbsp;=&nbsp;['round','bevel','miter'];&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;ctx.lineWidth&nbsp;=&nbsp;10;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">for</span>&nbsp;(<span style="color: #0000ff">var</span>&nbsp;i=0;i&lt;lineJoin.length;i++){&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineJoin&nbsp;=&nbsp;lineJoin[i];&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.beginPath();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.moveTo(-5,5+i*40);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineTo(35,45+i*40);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineTo(75,5+i*40);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineTo(115,45+i*40);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.lineTo(155,5+i*40);&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.stroke();&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;}&nbsp;&nbsp;
+					<br />
+					}&nbsp;&nbsp;
+				</div>
+			</div>
+			<p>
+				<strong style="color: #0000ff">二、绘制简单矩形</strong><strong>
+				<br />
+				</strong> 　　矩形是唯一的基本图形，canvas提供了直接的API支持。
+			</p>
+			<ul>
+				<li>
+					context.fillRect(x,y,width,height) : 绘制带填充色的矩形。
+				</li>
+				<li>
+					context.strokeRect(x,y,width,height) : 绘制矩形外框。
+				</li>
+				<li>
+					context.clearRect(x,y,width,height) : 清空指定的矩形区域，并设置该区域是透明的(Transparent)。
+					<br />
+					它们都接受四个参数， x 和 y 指定矩形左上角(相对于原点)的位置，width 和 height 是矩形的宽和高。
+				</li>
+			</ul>
+			<p>
+				除了这种方式，还可以使用绘制路径的方式绘制矩形，这个参看路径绘图部分。
+			</p>
+			<p>
+				绘制矩形的例子如下：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw(){
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;canvas&nbsp;=&nbsp;document.getElementById('tutorial');
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">if</span>&nbsp;(canvas.getContext){
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;canvas.getContext('2d');
+					<br />
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillRect(25,25,100,100);
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.clearRect(45,45,60,60);
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.strokeRect(50,50,50,50);
+					<br />
+					&nbsp;&nbsp;}
+					<br />
+					}
+				</div>
+			</div>
+			<p>
+				<strong style="color: #0000ff">三、路径绘图</strong><strong>
+				<br />
+				</strong>
+			</p>
+			<p>
+				cavas只提供了绘制矩形的API，其他的图形都是靠路径绘制。
+			</p>
+			<p>
+				绘制一个图形主要的过程如下：
+				<br />
+				1.启动路径
+				<br />
+				方法：使用context.beginPath()启动路径绘图。
+				<br />
+				在内存里，路径是以一组子路径（直线，弧线等）的形式储存的，它们共同构成一个图形。每次调用 beginPath，子路径组都会被重置，然后可以绘制新的图形。
+				<br />
+				2.移动画笔到起点
+				<br />
+				方法：使用moveTo(x, y)移动画笔。
+				<br />
+				虽然大多数画图的时候，用不到这个方法。我们也不能用这个方法来画什么，但是你可以把它想象成是把笔提起，并从一个点移动到另一个点的过程。当你绘制不联系的路径的时候，你就会有这个动作了。
+				<br />
+				当 canvas 初始化或者调用 beginPath 的时候，起始坐标设置就是原点(0,0)。有时候，我们需要moveTo方法将起始坐标移至其它地方，用于绘制不连续的路径。
+				<br />
+				3.内存中绘制线段
+				<br />
+				画直线：lineTo(x, y)
+				<br />
+				该方法接受终点的坐标（x，y）作为参数。起始坐标取决于前一路径，前一路径的终点即当前路径的起点，起始坐标通常也可以通过moveTo方法来设置。
+				<br />
+				画圆弧：arc(x, y, radius, startAngle, endAngle, anticlockwise)
+				<br />
+				我们用 arc 方法来绘制弧线或圆，方法接受五个参数：x，y 是圆心坐标，radius 是半径，startAngle 和 endAngle 分别是起末弧度（以 x 轴为基准），anticlockwise 为 true 表示逆时针，反之顺时针。
+				<br />
+				注意：arc 方法里用到的角度是以弧度为单位而不是度。度和弧度直接的转换可以用这个表达式：var radians = (Math.PI/180)*degrees;
+				<br />
+				画二次贝塞尔曲线：quadraticCurveTo(cp1x, cp1y, x, y)
+				<br />
+				画三次贝塞尔曲线：bezierCurveTo(cp1x, cp1y, cp2x, cp2y, x, y)
+				<br />
+				贝塞尔曲线 ，它可以是二次和三次方的形式，一般用于绘制复杂而有规律的形状。它们都有一个起点一个终点（下图中的蓝点），但二次方贝塞尔曲线只有一个（红色）控制点点）而三次方贝塞尔曲线有两个。
+				<br />
+				参数x和y是终点坐标，cp1x和 cp1y是第一个控制点的坐标，cp2x和cp2y是第二个的。
+				<br />
+				使用二次方和三次方的贝塞尔曲线是相当有挑战的，因为缺少直观性。理论上只要有耐心，再复杂的图形都可以绘制出来的。
+			</p>
+			<p align="center">
+				<img alt="" align="left" src="https://developer.mozilla.org/@api/deki/files/76/=Canvas_curves.png" />
+			</p>
+			<p>
+				<br />
+				&nbsp;
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			
+			<p>
+				绘制矩形路径：context.rect(x, y, width, height)
+				<br />
+				当rect方法被调用时，moveTo方法会自动被调用，参数为(0,0)，于是起始坐标又恢复成初始原点了。
+				<br />
+				4.关闭路径
+				<br />
+				方法：使用context.closePath()关闭路径。
+			</p>
+			<p>
+				该方法它会尝试用直线连接当前端点与起始端点来关闭路径，但如果图形已经关闭或者只有一个点，它会什么都不做，这一步在某些情况并不是必须的，比如使用fill()绘制实际图形的时候，就不需要先调用closePath。
+				<br />
+				5.绘制路径到canvas
+				<br />
+				画图形边框：context.stroke()
+				<br />
+				填充实心图形：context.fill()
+			</p>
+			<p>
+				最后这一步是调用 stroke或 fill方法，这时，图形才是实际的绘制到 canvas 上去。
+			</p>
+			<p>
+				<img alt="" src="http://www.cnblogs.com/Emoticons/msn/lightbulb.gif" />
+				调用stroke之前必须要先调用关闭路径方法closePath。而调用fill之前不需要调用closePath关闭路径，调用fill时路径会自动闭合。
+			</p>
+			<p>
+				一个复杂的例子如下：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;draw()&nbsp;{
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;ctx&nbsp;=&nbsp;document.getElementById('lesson01').getContext('2d');
+					<br />
+					&nbsp;&nbsp;roundedRect(ctx,12,12,150,150,15);
+					<br />
+					&nbsp;&nbsp;roundedRect(ctx,19,19,150,150,9);
+					<br />
+					&nbsp;&nbsp;roundedRect(ctx,53,53,49,33,10);
+					<br />
+					&nbsp;&nbsp;roundedRect(ctx,53,119,49,16,6);
+					<br />
+					&nbsp;&nbsp;roundedRect(ctx,135,53,49,33,10);
+					<br />
+					&nbsp;&nbsp;roundedRect(ctx,135,119,25,49,10);
+					<br />
+					<br />
+					&nbsp;&nbsp;ctx.beginPath();
+					<br />
+					&nbsp;&nbsp;ctx.arc(37,37,13,Math.PI/7,-Math.PI/7,<span style="color: #0000ff">false</span>);&nbsp;<span style="color: #008000">//</span><span style="color: #008000">chiensexu&nbsp;&nbsp;???true??,??</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;ctx.lineTo(31,37);
+					<br />
+					&nbsp;&nbsp;ctx.fill();
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">for</span>(i=0;i&lt;8;i++){
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillRect(51+i*16,35,4,4);
+					<br />
+					&nbsp;&nbsp;}
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">for</span>(i=0;i&lt;6;i++){
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillRect(115,51+i*16,4,4);
+					<br />
+					&nbsp;&nbsp;}
+					<br />
+					&nbsp;&nbsp;<span style="color: #0000ff">for</span>(i=0;i&lt;8;i++){
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;ctx.fillRect(51+i*16,99,4,4);
+					<br />
+					&nbsp;&nbsp;}
+					<br />
+					&nbsp;&nbsp;ctx.beginPath();
+					<br />
+					&nbsp;&nbsp;ctx.moveTo(83,116);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(83,102);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(83,94,89,88,97,88);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(105,88,111,94,111,102);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(111,116);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(106.333,111.333);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(101.666,116);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(97,111.333);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(92.333,116);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(87.666,111.333);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(83,116);
+					<br />
+					&nbsp;&nbsp;ctx.fill();
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;"white";
+					<br />
+					&nbsp;&nbsp;ctx.beginPath();
+					<br />
+					&nbsp;&nbsp;ctx.moveTo(91,96);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(88,96,87,99,87,101);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(87,103,88,106,91,106);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(94,106,95,103,95,101);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(95,99,94,96,91,96);
+					<br />
+					&nbsp;&nbsp;ctx.moveTo(103,96);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(100,96,99,99,99,101);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(99,103,100,106,103,106);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(106,106,107,103,107,101);
+					<br />
+					&nbsp;&nbsp;ctx.bezierCurveTo(107,99,106,96,103,96);
+					<br />
+					&nbsp;&nbsp;ctx.fill();
+					<br />
+					&nbsp;&nbsp;ctx.fillStyle&nbsp;=&nbsp;"black";
+					<br />
+					&nbsp;&nbsp;ctx.beginPath();
+					<br />
+					&nbsp;&nbsp;ctx.arc(101,102,2,0,Math.PI*2,<span style="color: #0000ff">true</span>);
+					<br />
+					&nbsp;&nbsp;ctx.fill();
+					<br />
+					&nbsp;&nbsp;ctx.beginPath();
+					<br />
+					&nbsp;&nbsp;ctx.arc(89,102,2,0,Math.PI*2,<span style="color: #0000ff">true</span>);
+					<br />
+					&nbsp;&nbsp;ctx.fill();
+					<br />
+					}
+					<br />
+					<br />
+					<span style="color: #0000ff">function</span>&nbsp;roundedRect(ctx,x,y,width,height,radius){
+					<br />
+					&nbsp;&nbsp;ctx.beginPath();
+					<br />
+					&nbsp;&nbsp;ctx.moveTo(x,y+radius);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(x,y+height-radius);
+					<br />
+					&nbsp;&nbsp;ctx.quadraticCurveTo(x,y+height,x+radius,y+height);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(x+width-radius,y+height);
+					<br />
+					&nbsp;&nbsp;ctx.quadraticCurveTo(x+width,y+height,x+width,y+height-radius);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(x+width,y+radius);
+					<br />
+					&nbsp;&nbsp;ctx.quadraticCurveTo(x+width,y,x+width-radius,y);
+					<br />
+					&nbsp;&nbsp;ctx.lineTo(x+radius,y);
+					<br />
+					&nbsp;&nbsp;ctx.quadraticCurveTo(x,y,x,y+radius);
+					<br />
+					&nbsp;&nbsp;ctx.stroke();
+					<br />
+					}
+				</div>
+			</div>
+			<p>
+				结果如下：
+			</p>
+			<p>
+				<img border="0" alt="" src="http://images.cnblogs.com/cnblogs_com/dxy1982/r.png" width="196" height="187" />
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				<strong style="color: #0000ff">实用参考：</strong><strong>
+				<br />
+				</strong>官方参考文档以及API详细说明：
+				<a href="http://www.whatwg.org/specs/web-apps/current">
+					http://www.whatwg.org/specs/web-apps/current
+				</a>
+				-
+			</p>
+			<p>
+				work/multipage/the-canvas-element.html
+				<br />
+				权威开发入门：
+				<a href="https://developer.mozilla.org/cn/Canvas_tutorial">
+					https://developer.mozilla.org/cn/Canvas_tutorial
+				</a>
+			</p>
+			<p>
+				&nbsp;
+			</p>
+		</div>
+
+	</body>
+</html>

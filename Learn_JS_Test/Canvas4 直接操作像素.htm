@@ -1,0 +1,179 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>突袭HTML5之Canvas 2D入门4 - 直接操作像素</title>
+		<style>
+			body{
+				padding:30px;
+			}
+			p{
+				font-size: 12pt;
+				line-height:30px;
+			}
+			.cnblogs_code{
+				font-size: 11pt;
+				padding-left:60px;
+				background-color: #f5f5f5;
+				border: 1px solid #ccc;
+				line-height:26px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<h1>突袭HTML5之Canvas 2D入门4 - 直接操作像素 </h1>
+
+		<div id="cnblogs_post_body">
+			<p>
+				前面的例子都是使用图片或者图形来绘图，这是相对高级的API，而且所有的操作和变换都是针对&#8220;网格坐标系&#8221;的。除此之外，canvas还支持直接操作每个像素(全部的，或者部分的)；毋庸置疑，这些操作是针对&#8220;像素坐标系&#8221;中的像素的，这些操作完全不受变换矩阵、阴影效果、全局透明度设置、裁剪路径、组合效果的影响，因为这些所有的效果都是针对&#8220;网格坐标系&#8221;的。操作完以后再放回canvas中，可以实现一些有趣的效果。
+				<br />
+				下面是常见的方法：
+				<br />
+				<strong>imagedata = context.createImageData(sw, sh)
+				<br />
+				</strong>返回指定维度的ImageData对象。
+				<br />
+				<strong>imagedata = context.createImageData(imagedata)
+				<br />
+				</strong>返回与指定对象相同维度的ImageData对象。
+				<br />
+				<strong>imagedata = context.getImageData(sx, sy, sw, sh)
+				<br />
+				</strong>返回指定起点与维度的ImageData对象。
+				<br />
+				<strong>imagedata.width
+				<br />
+				imagedata.height
+				<br />
+				</strong>返回ImageData的维度值(每行/列的像素数目)。
+				<br />
+				<strong>imagedata.data
+				<br />
+				</strong>按照每个像素的RGBA的顺序返回一维的像素数组(按照从左向右，从上到下的顺序，从左上角的像素开始，依次把每个像素的RGBA分量放到这个数组中，所以数组的长度是像素数目的4倍)，这个数组的元素全是整数，范围是0~255。
+				<br />
+				<strong>context.putImageData(imagedata, dx, dy [, dirtyX, dirtyY, dirtyWidth, dirtyHeight ])
+				<br />
+				</strong>把像素写回到指定的canvas区域，如果指定了dirty矩形的范围，则只有这个范围的像素会被写回。所有针对&#8220;网格坐标系&#8221;的样式操作都会被覆盖掉。
+			</p>
+			<p>
+				看一个简单的例子：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">var</span>&nbsp;data&nbsp;=&nbsp;c.createImageData(300,200);
+					<br />
+					<span style="color: #0000ff">for</span>(<span style="color: #0000ff">var</span>&nbsp;x=0;&nbsp;x&lt;data.width;&nbsp;x++)&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">for</span>(<span style="color: #0000ff">var</span>&nbsp;y=0;&nbsp;y&lt;data.height;&nbsp;y++)&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;val&nbsp;=&nbsp;0;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;horz&nbsp;=&nbsp;(Math.floor(x/4)&nbsp;%&nbsp;2&nbsp;==&nbsp;0);&nbsp;//loop&nbsp;every&nbsp;4&nbsp;pixels
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;vert&nbsp;=&nbsp;(Math.floor(y/4)&nbsp;%&nbsp;2&nbsp;==&nbsp;0);&nbsp;//&nbsp;loop&nbsp;every&nbsp;4&nbsp;pixels
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">if</span>(&nbsp;(horz&nbsp;&amp;&amp;&nbsp;!vert)&nbsp;||&nbsp;(!horz&nbsp;&amp;&amp;&nbsp;vert))&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val&nbsp;=&nbsp;255;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}&nbsp;<span style="color: #0000ff">else</span>&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;val&nbsp;=&nbsp;0;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;index&nbsp;=&nbsp;(y*data.width+x)*4;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">calculate&nbsp;index</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.data[index]&nbsp;=&nbsp;val;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;red</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.data[index+1]&nbsp;=&nbsp;val;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;green</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.data[index+2]&nbsp;=&nbsp;val;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;blue</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.data[index+3]&nbsp;=&nbsp;255;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;force&nbsp;alpha&nbsp;to&nbsp;100%</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;}
+					<br />
+					}
+					<br />
+					<span style="color: #008000">//</span><span style="color: #008000">set&nbsp;the&nbsp;data&nbsp;back</span><span style="color: #008000">
+						<br />
+					</span>c.putImageData(data,0,0);
+				</div>
+			</div>
+			<p>
+				这个相当简单，就是把每个像素的颜色分量设置相应的值。
+			</p>
+			<p>
+				此外，<strong style="color: #008000">操作像素也可以直接修改图像的效果</strong>，这个道理也很简单，就是获取canvas中图像区域的像素，编辑完放回去就可以了。
+				<br />
+				看反转图像的一个例子(FireFox中可以看到效果，目前Chrome看不到效果)：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					<span style="color: #0000ff">function</span>&nbsp;testPixel()
+					<br />
+					{
+					<br />
+					&nbsp;<span style="color: #0000ff">var</span>&nbsp;canvas&nbsp;=&nbsp;document.getElementById('lesson01');
+					<br />
+					&nbsp;<span style="color: #0000ff">var</span>&nbsp;c&nbsp;=&nbsp;canvas.getContext('2d');&nbsp;&nbsp;
+					<br />
+					&nbsp;
+					<br />
+					&nbsp;<span style="color: #0000ff">var</span>&nbsp;img&nbsp;=&nbsp;<span style="color: #0000ff">new</span>&nbsp;Image();
+					<br />
+					&nbsp;
+					<br />
+					img.onload&nbsp;=&nbsp;<span style="color: #0000ff">function</span>()&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">draw&nbsp;the&nbsp;image&nbsp;to&nbsp;the&nbsp;canvas</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;c.drawImage(img,0,0);
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">get&nbsp;the&nbsp;canvas&nbsp;data</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;data&nbsp;=&nbsp;c.getImageData(0,0,canvas.width,canvas.height);
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">invert&nbsp;each&nbsp;pixel</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">for</span>(n=0;&nbsp;n&lt;data.width*data.height;&nbsp;n++)&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;index&nbsp;=&nbsp;n*4;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.data[index]&nbsp;&nbsp;&nbsp;=&nbsp;255-data.data[index];
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.data[index+1]&nbsp;=&nbsp;255-data.data[index];
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;data.data[index+2]&nbsp;=&nbsp;255-data.data[index];
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">don't&nbsp;touch&nbsp;the&nbsp;alpha</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;}
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">set&nbsp;the&nbsp;data&nbsp;back</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;c.putImageData(data,0,0);
+					<br />
+					}
+					<br />
+					&nbsp;img.src&nbsp;=&nbsp;"Penguins.png";
+					<br />
+					}
+				</div>
+			</div>
+			<p>
+				<br />
+				&nbsp;
+			</p>
+		</div>
+
+	</body>
+</html>

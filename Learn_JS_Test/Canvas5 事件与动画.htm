@@ -1,0 +1,353 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="zh-cn">
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+		<title>突袭HTML5之Canvas 2D入门5 - 事件与动画</title>
+		<style>
+			body{
+				padding:30px;
+			}
+			p{
+				font-size: 12pt;
+				line-height:30px;
+			}
+			.cnblogs_code{
+				font-size: 11pt;
+				padding-left:60px;
+				background-color: #f5f5f5;
+				border: 1px solid #ccc;
+				line-height:26px;
+			}
+		</style>
+	</head>
+	<body>
+
+		<h1>突袭HTML5之Canvas 2D入门5 - 事件与动画 </h1>
+
+		<div id="cnblogs_post_body">
+			<p>
+				<strong><span style="color: #0000ff"><span style="color: #0000ff">C</span></span><span style="color: #0000ff">anvas &amp; SVG &amp; DOM</span>&nbsp;</strong>
+			</p>
+			<p>
+				Canvas与SVG都是2D绘图的利器，除此之外，使用CSS、DOM也可以实现某些性状的绘制，而且在动画中，也都可以使用这些技术实现动画效果。这里就简单比较一下这些技术。
+			</p>
+			<ul>
+				<li>
+					canvas：canvas是以画像素的形式画出图形，它没有shape和vector的概念。所以就没有对象去接受事件，它只是去绘制像素点。这是缺点，也是优点。
+				</li>
+				<li>
+					SVG：SVG是基于vector来绘制shape。每个shape都可以接受事件。向量图的最大优势就是缩放不失真。这是canvas做不到的。
+				</li>
+				<li>
+					CSS：CSS是对DOM对象添加样式的。因为canvas中没有DOM对象，所以不能对canvas中的图形使用CSS。CSS只能作用于canvas自身，比如背景色、边框，但是也仅限于此。
+				</li>
+				<li>
+					DOM动画：DOM定义了屏幕上的一切对象。DOM动画，不管是使用CSS实现，还是使用Javascript实现，都可以做的比canvas平滑。但是这是与浏览器实现相关的。
+				</li>
+			</ul>
+			<p>
+				从上面看到，canvas的限制很多，那么我们为什么还要使用cavas呢？
+				<br />
+				首先，canvas是更底层的技术，你能方便的控制绘制过程，内存使用量也比较低，但是代价就是需要写更多的代码。SVG的优势在于可以利用现有的shape去绘制。CSS或者DOM动画的优势在于动画大范围的区域。
+				<br />
+				其次，如果你想去对图，图形，动态图表，视频游戏使用3D的变换时，canvas是比较好的选择。
+			</p>
+			<p>
+				此外还有一点要注意，canvas对2D绘图提供了直接的API支持，但是3D的API是WebGL提供的。WebGL是更底层的技术，难于使用，但是也更加强大。
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				<strong style="color: #0000ff">事件</strong><strong>
+				<br />
+				</strong> 　　事件是的基础，这里也简单介绍一下canvas的事件。canvas没有定义任何新的事件，你仍然可以像以前那样去监听任何的鼠标事件。上面也说到了，canvas的内部就是一系列的像素，它们不响应任何的事件，所以浏览器不知道canvas内部是什么东西。
+				<br />
+				如果你想让内部的图形接受事件，对canvas来说几乎是不可能呢。但是幸运的是，你还是可以知道给定的点在不在当前的path中，例子如下：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					c.beginPath();
+					<br />
+					c.arc(
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;100,100,&nbsp;40,&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">40&nbsp;pix&nbsp;radius&nbsp;circle&nbsp;at&nbsp;100,100</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;0,Math.PI*2,&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">0&nbsp;to&nbsp;360&nbsp;degrees&nbsp;for&nbsp;a&nbsp;full&nbsp;circle</span><span style="color: #008000">
+						<br />
+					</span>);
+					<br />
+					c.closePath();
+					<br />
+					<span style="color: #0000ff">var</span>&nbsp;a&nbsp;=&nbsp;c.isPointInPath(80,0);&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;returns&nbsp;true</span><span style="color: #008000">
+						<br />
+					</span><span style="color: #0000ff">var</span>&nbsp;b&nbsp;=&nbsp;c.isPointInPath(200,100);&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">&nbsp;returns&nbsp;false</span>
+				</div>
+			</div>
+			<p>
+				检测点是否在一个图形(规则的图形，比如说自己画的按钮)中，通常的做法是比较该点的坐标与图形的各个顶点的坐标。
+			</p>
+			<p>
+				<strong style="color: #0000ff">基本动画</strong><strong>
+				<br />
+				</strong> 　　动画的基本思路是用脚本去操控canvas对象，这样要实现一些交互动画也是相当容易的。只不过，canvas不是专门为动画而设计的（不像Flash），所以操作起来会有些限制。
+				<br />
+				最大的限制就是图像一旦绘制出来，它就是一直保持那样了。如果需要移动它，我们不得不重绘所有的东西。重绘是相当费时的，而且性能依赖于电脑的速度。
+			</p>
+			<p>
+				基本动画的步骤：
+				<br />
+				1.画一帧，需要以下一些步骤：
+				<br />
+				(1)清空 canvas
+				<br />
+				除非接下来要画的内容会完全充满 canvas(例如背景图)，否则你需要清空所有。最简单的做法就是用clearRect方法。
+				<br />
+				(2)保存 canvas 状态
+				<br />
+				如果你要改变一些会改变canvas状态的设置(样式，变形之类的)，又要在画每一帧之时都是原始状态的话，你需要先保存一下。
+				<br />
+				(3)绘制动画图形(animated shapes)
+				<br />
+				这一步才是重绘动画帧，一般的步骤都是去生成新图形，更新已有的图形位置，清除已经移动到canvas外面的图形，最后绘制出新的场景。
+				<br />
+				(4)恢复canvas状态
+				<br />
+				如果已经保存了canvas的状态，可以先恢复它，然后重绘下一帧。
+				<br />
+				2.按照一定的设置去计算图形的变换，重绘新的帧，画每一帧的过程是一样的。
+				<br />
+				通常有两种方式去设置重绘的频率：
+				<br />
+				(1)定时重绘
+				<br />
+				第一种方式是通过setInterval和setTimeout方法来控制在设定的时间点上执行重绘。
+				<br />
+				<strong>setInterval(animateShape,500);&nbsp;
+				<br />
+				setTimeout(animateShape,500);&nbsp;
+				<br />
+				</strong> 　　setTimeout和setInterval的语法相同。它们都有两个参数，一个是将要执行的代码字符串，还有一个是以毫秒为单位的时间间隔，当过了那个时间段之后就将执行那段代码。
+				<br />
+				不过这两个函数还是有区别的，setInterval在执行完一次代码之后，经过了那个固定的时间间隔，它还会自动重复执行代码，而setTimeout只执行一次那段代码。
+				<br />
+				如果你不需要任何交互操作，用setInterval方法定时执行重绘是最适合的了。
+				<br />
+				(2)特定事件重绘
+				<br />
+				第二个方法，我们可以利用用户输入来实现操控。如果需要做一个游戏，我们可以通过监听用户交互过程中触发的事件(如document的各种keyboard，mouse事件)来控制动画效果。
+			</p>
+			<p>
+				下面的例子采用第一种方式模拟一个简单的下雪场景，loop方法定义了每一帧的需要进行的操作：
+			</p>
+			<div class="cnblogs_code">
+				<div>
+					&lt;html&gt;
+					<br />
+					&lt;body&gt;
+					<br />
+					&lt;canvas&nbsp;width="800"&nbsp;height="600"&nbsp;id="canvas"&gt;&lt;/canvas&gt;
+					<br />
+					&lt;script&gt;
+					<br />
+					<br />
+					<span style="color: #0000ff">var</span>&nbsp;canvas&nbsp;=&nbsp;document.getElementById('canvas');
+					<br />
+					<span style="color: #0000ff">var</span>&nbsp;particles&nbsp;=&nbsp;[];
+					<br />
+					<span style="color: #0000ff">var</span>&nbsp;tick&nbsp;=&nbsp;0;
+					<br />
+					<span style="color: #0000ff">function</span>&nbsp;loop()&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;createParticles();
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;updateParticles();
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;killParticles();
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;drawParticles();
+					<br />
+					}
+					<br />
+					<br />
+					<span style="color: #0000ff">function</span>&nbsp;createParticles()&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #008000">//</span><span style="color: #008000">check&nbsp;on&nbsp;every&nbsp;10th&nbsp;tick&nbsp;check</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">if</span>(tick&nbsp;%&nbsp;10&nbsp;==&nbsp;0)&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">if</span>(particles.length&nbsp;&lt;&nbsp;100)&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;particles.push({
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;x:&nbsp;Math.random()*canvas.width,
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;y:&nbsp;0,
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;speed:&nbsp;2+Math.random()*3,&nbsp;<span style="color: #008000">//</span><span style="color: #008000">between&nbsp;2&nbsp;and&nbsp;5</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;radius:&nbsp;5+Math.random()*5,&nbsp;<span style="color: #008000">//</span><span style="color: #008000">between&nbsp;5&nbsp;and&nbsp;10</span><span style="color: #008000">
+						<br />
+					</span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;color:&nbsp;"white",
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;});
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;}
+					<br />
+					}
+					<br />
+					<br />
+					<span style="color: #0000ff">function</span>&nbsp;updateParticles()&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">for</span>(<span style="color: #0000ff">var</span>&nbsp;i&nbsp;<span style="color: #0000ff">in</span>&nbsp;particles)&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;part&nbsp;=&nbsp;particles[i];
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;part.y&nbsp;+=&nbsp;part.speed;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;}
+					<br />
+					}
+					<br />
+					<span style="color: #0000ff">function</span>&nbsp;killParticles()&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">for</span>(<span style="color: #0000ff">var</span>&nbsp;i&nbsp;<span style="color: #0000ff">in</span>&nbsp;particles)&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;part&nbsp;=&nbsp;particles[i];
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">if</span>(part.y&nbsp;&gt;&nbsp;canvas.height)&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;part.y&nbsp;=&nbsp;0;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;}
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;}
+					<br />
+					}
+					<br />
+					<br />
+					<span style="color: #0000ff">function</span>&nbsp;drawParticles()&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;c&nbsp;=&nbsp;canvas.getContext('2d');
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;c.fillStyle&nbsp;=&nbsp;"black";
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;c.fillRect(0,0,canvas.width,canvas.height);
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">for</span>(<span style="color: #0000ff">var</span>&nbsp;i&nbsp;<span style="color: #0000ff">in</span>&nbsp;particles)&nbsp;{
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color: #0000ff">var</span>&nbsp;part&nbsp;=&nbsp;particles[i];
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.beginPath();
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.arc(part.x,part.y,&nbsp;part.radius,&nbsp;0,&nbsp;Math.PI*2);
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.closePath();
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.fillStyle&nbsp;=&nbsp;part.color;
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;c.fill();
+					<br />
+					&nbsp;&nbsp;&nbsp;&nbsp;}
+					<br />
+					}
+					<br />
+					<br />
+					setInterval(loop,30);
+					<br />
+					<br />
+					&lt;/script&gt;
+					<br />
+					&lt;/body&gt;
+					<br />
+					&lt;/html&gt;
+				</div>
+			</div>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				<strong style="color: #0000ff">精灵动画</strong><strong>
+				<br />
+				</strong> 　　精灵动画也是动画常见的技法之一。
+				<br />
+				精灵就是一副小的图片。你可以快速的把它绘制到屏幕上。通常来说，一个精灵就是一个大图片的一部分，这部分也成为精灵片段。这个片段可能包括一个精灵的所有动作，也可能包括一个游戏中所有的角色。通过在不同的帧绘制不同的精灵，实现的动画就是精灵动画。这也是典型的翻书型的动画，大家小时候在书上肯定画过不少这种类型的动画。
+				<br />
+				为什么要使用精灵呢？
+				<br />
+				主要有下面一些优点：
+				<br />
+				1.精灵是一副小图片，所以绘制速度很快。特别是相对于比较复杂的vector。
+				<br />
+				2.重复绘制一个对象很多次时，使用精灵比较方便。比如空战游戏中的子弹，满屏幕都是，这个可以就加载一次子弹精灵，然后不断的去绘制。
+				<br />
+				3.精灵可以快速、方便的下载。只要下载一副图片，所有的精灵就都下载下来了。这比下载很多的小图片要方便，而起内存占用量也比较小。
+				<br />
+				4.耦合性比较低，容易升级精灵。因为你的代码只知道要不停的播放精灵，并不关心精灵的内容。这样后期想更换精灵形象的时候就很方便，只要把图片修改一下即可。
+				<br />
+				绘制精灵的过程很简单，前面其实已经讲过了，精灵是小的图片，直接使用绘制图片的API：context.drawImage绘制即可。
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				<strong style="color: #0000ff">优化</strong><strong>
+				<br />
+				</strong> 　　我们从上面也看到了，canvas动画在每一帧都要重画，这是很耗时的。为了提升动画效率，我们需要优化绘制过程。这里总的准则就是&#8220;少画&#8221;。
+			</p>
+			<ul>
+				<li>
+					不要绘制看不见的对象。
+				</li>
+				<li>
+					使用精灵而不是大量的图形。对于于一些不会变的对象，事先使用photoshop绘制好吧。通常图片比复杂的vector绘制的更快，特别是当需要重复绘制的时候。
+				</li>
+				<li>
+					使用缓存。可以在运行的时候创建一个看不见的canvas作为缓存。程序空闲的时候可以先绘制图形到这个缓存中，需要使用的时候，直接拷贝就可以了。这个与直接使用图片有相似的效果。
+				</li>
+				<li>
+					使用图片拉伸实现一些特效。大多数的canvas实现都优化了图片的拉伸和切割代码，所以有些时候使用图片实现某些效果是比较快的。
+				</li>
+				<li>
+					只重绘需要重绘的部分。
+				</li>
+				<li>
+					减少帧数。通常帧数越高，动画越平滑，但是超过60fps也就没什么效果了，因为大多数显示器的刷新率就是60。所以选取合适的帧数即可以达到优化，有可以达到平滑的目的。
+					<br />
+					少画就是不画，哈哈。如果背景是不变的，那么就可以放到Browser中，然后把canvas背景设置成transparent就可以了。如果有大范围的动画，那么用CSS实现吧，因为CSS是通过C代码实现的，效率比JS高。
+				</li>
+				<li>
+					点对点绘制。如果可以，保证网格坐标系与像素坐标系一致吧，某些浏览器在这种情况下，绘制效率比较高。
+				</li>
+			</ul>
+			<p>
+				canvas基本就这些内容了，Over。
+			</p>
+			<p>
+				&nbsp;
+			</p>
+			<p>
+				<strong style="color: #0000ff">实用参考：</strong><strong>
+				<br />
+				</strong>官方参考文档以及API详细说明：
+				<a href="http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html">
+					http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
+				</a>
+				<br />
+				权威开发入门：
+				<a href="https://developer.mozilla.org/cn/Canvas_tutorial">
+					https://developer.mozilla.org/cn/Canvas_tutorial
+				</a>
+			</p>
+			<p>
+				API一览表：
+				<a href="http://simon.html5.org/dump/html5-canvas-cheat-sheet.html">
+					http://simon.html5.org/dump/html5-canvas-cheat-sheet.html
+				</a>
+			</p>
+		</div>
+
+	</body>
+</html>
