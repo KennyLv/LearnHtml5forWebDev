@@ -2,7 +2,11 @@
 New feature in HTML5
 -------------------
 
-####TODO
+###### Reference:
+http://www.cnblogs.com/dxy1982/category/349848.html
+
+
+
 > Canvas 
 
 >>官方参考文档以及API详细说明：http://www.whatwg.org/specs/web-apps/current-work/multipage/the-canvas-element.html
@@ -40,6 +44,3 @@ New feature in HTML5
 >>各种框架的收集贴：http://www.appcrews.com/2011/07/129.html
 
 
-
-###### Reference:
-http://www.cnblogs.com/dxy1982/category/349848.html
