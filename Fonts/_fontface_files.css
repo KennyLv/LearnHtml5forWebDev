@@ -127,6 +127,208 @@ font-style:normal;
 font-weight:normal;
 }
 
+@font-face {
+font-family:"YanoneKaffeesatz-Bold";
+src: url('YanoneKaffeesatz-Bold.otf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+@font-face {
+font-family:"Aerosol";
+src: url('Aerosol.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+@font-face {
+font-family:"air_mitalic";
+src: url('air_mitalic.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+@font-face {
+font-family:"airmill_o";
+src: url('airmill_o.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+@font-face {
+font-family:"Alice";
+src: url('Alice.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+@font-face {
+font-family:"Bellerose";
+src: url('Bellerose.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+@font-face {
+font-family:"BRAESID2";
+src: url('BRAESID2.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+
+@font-face {
+font-family:"kaboom";
+src: url('kaboom.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+
+@font-face {
+font-family:"konecto1";
+src: url('konecto1.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+
+@font-face {
+font-family:"konecto2";
+src: url('konecto2.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+
+@font-face {
+font-family:"konector";
+src: url('konector.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+
+@font-face {
+font-family:"koneerie";
+src: url('koneerie.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+@font-face {
+font-family:"KRUFFY";
+src: url('KRUFFY.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+
+@font-face {
+font-family:"monog";
+src: url('monog.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+
+@font-face {
+font-family:"OGGLE";
+src: url('OGGLE.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+
+@font-face {
+font-family:"padalomai";
+src: url('padalomai.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+
+@font-face {
+font-family:"Spin_Cycle";
+src: url('Spin_Cycle.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+@font-face {
+font-family:"steelfish_outline";
+src: url('steelfish_outline.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+@font-face {
+font-family:"steelfish_rg";
+src: url('steelfish_rg.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+@font-face {
+font-family:"steelfish_rg_it";
+src: url('steelfish_rg_it.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+@font-face {
+font-family:"STYLLO";
+src: url('STYLLO.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+@font-face {
+font-family:"TOGGLE";
+src: url('TOGGLE.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+@font-face {
+font-family:"Topsquare";
+src: url('Topsquare.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+@font-face {
+font-family:"WendelinHalbfettKursiv";
+src: url('WendelinHalbfettKursiv.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+@font-face {
+font-family:"WOGGLE";
+src: url('WOGGLE.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+@font-face {
+font-family:"ZEROES";
+src: url('ZEROES.ttf') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
 
 
 
