@@ -49,7 +49,10 @@ function formatDate(arg)
         "Dec"
     ];
 	
+	console.log(obj.getMonth() + 1 );
 	var month = months[ obj.getMonth() ];
+	console.log(month);
+	
 	var days = "week_Days";
 	var day = days[ obj.getDay() ];
 	var date = obj.getDate();
@@ -140,7 +143,7 @@ function formatDate(arg)
 	];
 	
 	
-	result = formatDate(testDateTime);
+	result = formatDate(testdate[0]);
 	
 	
 	
