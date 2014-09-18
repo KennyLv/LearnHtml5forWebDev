@@ -1,0 +1,227 @@
+﻿
+<!DOCTYPE html>
+<html lang="zh-cn">
+<head>
+    <meta charset="UTF-8">
+    <title>invoke-directive</title>
+    <style type="text/css">
+        .ng-cloak {
+            display: none;
+        }
+    </style>
+</head>
+<body  ng-app="myApp">
+		<div>
+			{{ name }}
+		</div>
+		<div ng-controller="MyController">
+			{{ name }}
+		</div>
+
+		<div ng-controller="ParentController">
+				<div ng-controller="ChildController">
+						<input type="text" ng-model="person.name" placeholder="Name"></input>
+						<a ng-click="sayHello()">Say hello</a>
+				</div>
+				{{ person }}
+		</div>
+		
+		<div ng-controller="PlayerController">
+				<button ng-click="play()" class="button" ng-show="!playing">Play</button>
+				<button ng-click="stop()" class="button alert" ng-show="playing">Stop</button>
+				<span>Playing audio: <b>{{ playing }}</b></span>
+		</div>
+		
+		<div ng-controller="ClockController">
+				<h5>{{ clock }}</h5>
+		</div>
+
+		<div ng-controller="DemoController">
+				<h4>The simplest adding machine ever</h4>
+				<button ng-click="add(1)" class="button">Add</button>
+				<button ng-click="counter = counter + 1">Add one</button>
+				<button ng-click="subtract(1)" class="button">Subtract</button>
+				<h4>Current count: {{ counter }}</h4>
+		</div>
+		
+		<div ng-controller="AjaxController">
+				<button ng-click="ajaxCall()" class="button">ajaxCall</button>
+				<h4>Result: {{ result }}</h4>
+		</div>
+
+		<div>
+				<button ng-init="shouldShow = true" ng-click="shouldShow = !shouldShow">Flip the shouldShow variable</button>
+				<div ng-show="shouldShow">
+						<h3>shouldShow = {{shouldShow}} , ng-show={{ shouldShow }} , this is shown div ...</h3>
+				</div>
+				<div ng-hide="shouldShow">
+						<h3>shouldShow = {{shouldShow}} , ng-hide = {{ shouldShow }}, this is hiden div ... </h3>
+				</div>
+		</div>
+		
+		<ul ng-controller="ArrayController">
+				<li ng-repeat="(key, value) in people" ng-click="showLiked(key)">{{ key }}'s favorite color is {{ value }} </li>
+				<li ng-repeat="post in people" ng-click="showLikedBy(post)">{{ post }}'s favorite color is {{ post }} </li>
+		</ul>
+
+		<div ng-controller="githubServiceController">
+				<input type="text" ng-model="username" placeholder="Enter a GitHub username, like auser" />
+				<pre ng-show="username">{{ events }}</pre>
+		</div>
+		
+		<div ng-controller="githubServiceTimeoutController">
+				<input type="text" ng-model="user" placeholder="Enter a GitHub username, like auser" />
+				<pre ng-show="user">{{ userevents }}</pre>
+		</div>
+		
+		<script src="./AngularJS1.2.24/angular.js" type="text/javascript"></script>
+		<script type="text/javascript">
+				var app = angular.module('myApp', []);
+				app.run(function($rootScope) {
+						$rootScope.name = "Ari Lerner in rootScope";
+				});
+				app.controller('MyController', function($scope) {
+						$scope.name = "Ari Lerner in MyController";
+						$scope.person = {
+								name: "person in MyController"
+						};
+				});
+				app.controller('ParentController', function($scope) {
+						$scope.person = {greeted: false};
+				});
+				app.controller('ChildController', function($scope) {
+						$scope.sayHello = function() {
+								$scope.person.greeted = true;
+						}
+				});
+				app.controller('PlayerController', ['$scope', function($scope) {
+						$scope.playing = false;
+						$scope.audio = document.createElement('audio');
+						$scope.audio.src = './[testassets]/test.mp4';
+						$scope.play = function() {
+								$scope.audio.play();
+								$scope.playing = true;
+						};
+						$scope.stop = function() {
+								$scope.audio.pause();
+								$scope.playing = false;
+						};
+						$scope.audio.addEventListener('ended', function() {
+								$scope.$apply(function() {
+										$scope.stop()
+								});
+						});
+				}]);
+				app.controller('RelatedController', ['$scope', function($scope) {}]);
+				
+				app.controller('ClockController', function($scope) {
+						var updateClock = function() {
+								$scope.clock = new Date();
+						};
+						var timer = setInterval(function() {
+								$scope.$apply(updateClock);
+						}, 1000);
+						//updateClock();
+						/*
+						$scope.clock = new Date();
+						$timeout(function updateTime() {
+								$scope.clock = new Date();
+								$timeout(updateTime, 1000);
+						}, 1000);
+						*/
+						/*
+						(function updateTime() {
+								$scope.clock = new Date();
+								$timeout(updateTime, 1000);
+						})();
+						*/
+				});
+
+				app.controller('DemoController', function($scope) {
+						$scope.counter = 0;
+						$scope.add = function(amount) { 
+								$scope.counter += amount; 
+						};
+						$scope.subtract = function(amount) { 
+								$scope.counter -= amount; 
+						};
+				});
+				
+				app.controller('AjaxController', function($scope,$http) {
+						$scope.result="";
+						$scope.ajaxCall = function() { 
+								$http({
+										method: 'JSONP',
+										//AngularJS will take care of handling a JSONP request if you append the EXACT string: callback=JSON_CALLBACK
+										//AngularJS will replace JSON_CALLBACK with the proper callback it constructs for you.
+										url: 'https://api.github.com/events?callback=JSON_CALLBACK'
+								}).success(function(data, status, headers, config) {
+										$scope.result= "Succeed!";
+										// data contains the response
+										// status is the HTTP status
+										// headers is the header getter function
+										// config is the object that was used to create the HTTP request
+								}).error(function(data, status, headers, config) {
+										$scope.result= "Error!";
+								});
+						};
+				});
+				
+				app.factory('githubService', ['$http', function($http) {
+						var githubPath;
+						var doRequest = function(username) {
+								return $http({
+										method: 'JSONP',
+										url: 'https://api.github.com/users/' + username + '/' + githubPath + '?callback=JSON_CALLBACK'
+								});
+						};
+						return {
+								events: function(username) { return doRequest(username); },
+								setPath: function(newPath) { githubPath = newPath; }
+						};
+				}]);
+				app.controller('githubServiceController', ['$scope', 'githubService', function($scope, githubService) {
+						 $scope.$watch('username', function(newUsername) {
+									githubService.setPath('events');
+									githubService.events(newUsername).success(function(data, status, headers) {
+											$scope.events = data.data;
+									});
+						 });
+				}]);
+				app.controller('githubServiceTimeoutController', ['$scope', '$timeout', 'githubService', function($scope, $timeout, githubService) {
+						var timeout;
+						$scope.$watch('user', function(newVal) {
+								if (newVal) {
+										if (timeout) 
+										{
+												$timeout.cancel(timeout);
+										}
+										timeout = $timeout(function() {
+												githubService.events(newVal).success(function(data, status) {
+														$scope.userevents = data.data;
+												});
+										}, 3500);
+								}
+						});
+				}]);
+				
+				
+				app.controller('ArrayController', function($scope) {
+						$scope.people = {
+							'Ari': 'orange',
+							'Q': 'purple',
+							'Sean': 'green'
+						};
+						$scope.showLiked = function(name){
+								alert(name);
+						};
+						$scope.showLikedBy = function(post){
+								alert(post);
+						};
+				});
+
+		</script>
+</body>
+</html>
+
+

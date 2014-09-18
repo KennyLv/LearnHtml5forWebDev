@@ -1,0 +1,194 @@
+﻿
+<!DOCTYPE html>
+<!--
+<html lang="zh-cn" ng-app>
+<head>
+    <meta charset="UTF-8">
+    <title>invoke-directive</title>
+    <style type="text/css">
+        .ng-cloak {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+<div ng-controller="MyCtrl">
+    Hello <input ng-model="name"/><hr/>
+    ngBind="name" 这个用不了~~ <span ngBind="name"></span><br/>
+    ng:bind="name"<span ng:bind="name"></span><br/>
+    ng_bind="name"<span ng_bind="name"></span><br/>
+    ng-bind="name"<span ng-bind="name"></span><br/>
+    data-ng-bind="name"<span data-ng-bind="name"></span><br/>
+    x-ng-bind="name"<span x-ng-bind="name"></span><br/>
+</div>
+
+<div  ng-controller="MyImgCtrl">
+	<input ng-model="username"/><hr/>
+	<img   src="[testassets]/jj{{username}}.jpg"/>Hello {{username}}!
+</div>
+
+<div  ng-controller="MyRepeatCtrl">
+    Hello {{user.name}}, you have these actions:
+    <ul>
+        <li ng-repeat="action in user.actions">{{action.description}}</li>
+    </ul>
+</div>
+
+
+<style>
+        .header {  
+            background-color:#3ab44a;  
+            color:white;  
+            font-weight:bold;  
+        }  
+        .item {  
+            padding-left:8px;  
+        } 
+</style>
+
+<p ng-repeat="img in ['a.jpg','a.jpg'] ">This won't work {{img}}</p>  <br/>
+<p ng-repeat="img in ['a.jpg','a.jpg'] track by $index">{{img}}</p>  
+
+<div  ng-controller="MyRepeatCtrl1">
+	<div ng-repeat="team in teams" class="header" style="background:{{team.name}}">{{ team.name }}  
+			<div ng-repeat="player in team.players">{{player.firstName}} . {{player.lastName}}</div>  
+	</div>  
+	<br/><br/>
+	<div ng-repeat-start="team in teams" class="header">{{team.name}}</div>  
+	<div ng-repeat="player in team.players">{{player.firstName}} {{player.lastName}}</div>  
+	<div ng-repeat-end><br/></div>  
+</div>  
+
+
+<div ng-controller="MyRepeatCtrl2">
+	<div ng-repeat="user in userList">
+		{{ user.name}} <div ng-repeat="friend in user.friends"> {{friend.name}} </div>
+	</div>
+</div>
+
+<script src="./AngularJS1.2.24/angular.js" type="text/javascript"></script>
+<script type="text/javascript">
+	function MyCtrl($scope) {
+		$scope.name = "beauty~~";
+	}
+	function MyImgCtrl($scope) {
+		$scope.username = "1";
+	}
+	function MyRepeatCtrl($scope) {
+		$scope.user = {
+			name :"user one",
+			actions : [ {description:"this is action1"}, {description:"this is action2"}]
+		};
+	}
+	function MyRepeatCtrl1($scope) {
+		$scope.teams = [  
+			{ id: 0, name: "Red", players: [  
+				{ id: 1, firstName: "Joel", lastName: "Cash" },  
+				{ id: 2, firstName: "Christian", lastName: "Hamilton" },  
+				{ id: 3, firstName: "Cornelius", lastName: "Baldwin" }  
+			]},  
+			{ id: 1, name: "Blue", players: [  
+				{ id: 4, firstName: "Steve", lastName: "Lanny" },  
+				{ id: 5, firstName: "Willy", lastName: "Astor" },  
+				{ id: 6, firstName: "Darrell", lastName: "Tully" }  
+			]},  
+			{ id: 2, name: "Green", players: [  
+				{ id: 7, firstName: "Walker", lastName: "Greer" },  
+				{ id: 8, firstName: "Irvin", lastName: "Donny" },  
+				{ id: 9, firstName: "Kirk", lastName: "Manley" }  
+			]},  
+			{ id: 3, name: "Yellow", players: [  
+				{ id: 10, firstName: "Nick", lastName: "Barnabas" },  
+				{ id: 11, firstName: "Wallace", lastName: "Dyson" },  
+				{ id: 12, firstName: "Garrett", lastName: "Kelvin" }  
+			]},  
+			{ id: 4, name: "Orange", players: [  
+				{ id: 13, firstName: "Conrad", lastName: "Otto" },  
+				{ id: 14, firstName: "Cliff", lastName: "Leyton" },  
+				{ id: 15, firstName: "Scott", lastName: "Eurig" }  
+			]},  
+			{ id: 5, name: "Purple", players: [  
+				{ id: 16, firstName: "Darren", lastName: "Dre" },  
+				{ id: 17, firstName: "Shane", lastName: "Coluim" },  
+				{ id: 18, firstName: "Ben", lastName: "Taliesin" }  
+			]}  
+		];  
+	}
+	
+	
+	function MyRepeatCtrl2($scope){
+		var userList = [];
+		for(var i = 0 ; i++ ; i< 10){
+				var user = {};
+				user.name = "name"+i;
+				user.friends = [];
+				for(var j =0 ; j ++; j< 10){
+						var friend = {};
+						friend.name = "friend"+j;
+						user.friends.push(friend);
+				}    
+				userList.push(user);
+		}
+		$scope.userList = userList;
+	}
+
+</script>
+</body>
+</html>
+-->
+
+<html lang="zh-cn" >
+<head>
+    <meta charset="UTF-8">
+    <title>time-format</title>
+</head>
+<body>
+<div ng-app="TimeFormat" ng-controller="MyCtrl" id="main">
+    Date format: <br/>
+	<input ng-model="format" type="text"/><br/>
+    
+    Current time is : <br/>
+	<span x-current-time="format" id="myFormat"></span><br/>
+	<span x-current-time="format" ></span>
+	<br/>
+    <button ng-click="remove()">remove the span</button>
+</div>
+<script src="./AngularJS1.2.24/angular.js" type="text/javascript"></script>
+<script type="text/javascript">
+		//在TimeFormat应用中注册"currentTime"这个directive的工厂方法
+		//前文提到过，依赖注入，可以直接在function的参数中写入，这里注入了$timeout、dataFilter
+		angular.module("TimeFormat", []).directive("currentTime", function (dateFilter) {
+			//这个是上面提到的linking function。(不需要添加compile function，为啥？。。。)
+			//使用属性x-current-time，是为了试试合法命名~~current:time、current-time、current_time、data-current-time
+			return function (scope, element, attr) {
+				var intervalId;
+				//更新对应element的text值，即更新时间
+				function updateTime() {
+					element.text(dateFilter(new Date(), scope.format));
+				}
+				//通过watch，监控span对象的currentTime的值(是format这个model值，即input的值！！)
+				//这个方法仅仅在format发生改变的时候执行
+				scope.$watch(attr.currentTime, function (value) {
+					scope.format = value;
+					updateTime();
+				});
+				//当span被去掉的时候，取消更新
+				element.bind("$destroy", function () {
+					clearInterval(intervalId);
+				});
+
+				intervalId = setInterval(updateTime, 1000);
+			};
+		}).controller("MyCtrl",function($scope,$rootScope) {
+			$scope.format = "M/d/yy h:mm:ss a";
+			$scope.remove = function() {
+				var oFormat = document.getElementById("myFormat");
+				if(oFormat) {
+					angular.element(oFormat).remove();//通过这种方式调用remove，可以触发$destroy事件啊！！！试了我N久。。。
+				}
+			};
+		});
+</script>
+</body>
+</html>
+

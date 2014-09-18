@@ -1,0 +1,968 @@
+<!DOCTYPE html>
+<!-- saved from url=(0051)http://html5ify.com/unittesting/slides/index.html#/ -->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<meta charset="utf-8">
+		<title>Node.js Unit Testing</title>
+		<meta name="description" content="">
+		<meta name="author" content="Hakim El Hattab">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+
+		<link rel="stylesheet" href="css/reveal.css">
+		<link rel="stylesheet" href="css/theme/default.css" id="theme">
+
+		<!-- For syntax highlighting -->
+		<link rel="stylesheet" href="css/zenburn.css">
+
+		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
+		<!-- <link rel="stylesheet" href="css/print/pdf.css" type="text/css" media="print">-->
+		<link rel="stylesheet" href="css/print/paper.css" type="text/css" media="print">
+		
+		<script type="text/javascript" src="./js/shBrushCore.js"></script>
+		<script type="text/javascript" src="./js/shBrushJScript.js"></script>
+		<link type="text/css" rel="stylesheet" href="./css/shBrushCoreDefault.css"/>
+		<script type="text/javascript">SyntaxHighlighter.all();</script>
+		
+	</head>
+
+	<body style="-webkit-transition: -webkit-transform 0.8s ease; transition: -webkit-transform 0.8s ease;">
+
+		<div class="reveal zoom">
+
+			<!-- Any section element inside of this container is displayed as a slide -->
+			<div class="slides">
+
+				<section class="cover present" style="display: block;">
+					<h1>Node.js Unit Testing</h1>
+					<h3>by @朴灵</h3>
+					<pre class="brush:js;">
+						
+					_$jscoverage['index.js'].source
+					_$jscoverage['index.js'][1]++;
+					exports.limit = function(input) {
+					_$jscoverage['index.js'][2]++;
+					return input < 0 ? 0 : input;
+					};
+					
+					</pre>
+
+				</section>
+
+				<section class="future" style="display: block;">
+					<h2>Agenda</h2>
+					<ul>
+						<li>
+							什么是单元测试？
+						</li>
+						<li>
+							测试框架
+						</li>
+						<li>
+							断言库
+						</li>
+						<li>
+							测试用例
+						</li>
+						<li>
+							覆盖率
+						</li>
+						<li>
+							Mock
+						</li>
+						<li>
+							私有方法测试
+						</li>
+						<li>
+							持续集成
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: block;">
+					<h2>讲什么不讲什么</h2>
+					<ul>
+						<li>
+							讲单元测试过程中的关键点和关键流程
+						</li>
+						<li>
+							不讲单元测试过程中的过小的细节
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: block;">
+					<h2>什么是单元测试</h2>
+					<p>
+						<code>
+							demo.js</code> by @代码诗人芋头
+
+					</p>
+					<pre>
+						<code class="javascript">
+							<span class="keyword">var</span> 
+							dp = require(<span class="string">"../lib/index.js"</span>);
+							dp.process(process.cwd().replace(<span class="regexp">/demo$/</span>,<span class="string">""</span>), {
+							  blackList:[
+							  <span class="comment">// "*demo.js"</span>
+							  ]
+							}, <span class="function"><span class="keyword">function</span> <span class="params">(error,result)</span> {</span>
+							  <span class="keyword">if</span>(error){
+							    <span class="comment">//code=1 是致命错误，code=2 是请求错误，不致命。</span>
+							  }<span class="keyword">else</span>{
+							    console.log(result); 
+							  }
+							});
+						</code>
+					</pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>单元测试的认知误区</h2>
+					<ul>
+						<li>
+							单元测试是QA妹纸的事情
+						</li>
+						<li>
+							示例代码不是单元测试？
+						</li>
+						<li>
+							自己测试自己的代码意义何在？
+						</li>
+						<li>
+							版本更新迭代维护单元测试的成本很高？
+						</li>
+						<li>
+							我这么牛逼，我就是不写单元测试，你咬我丫
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>今天之任务</h2>
+					<p>
+						编写一个稳定可靠的模块
+
+					</p>
+					<ol>
+						<li>
+							模块具备limit方法，输入一个数值，小于0的时候返回0，其余正常返回
+						</li>
+					</ol>
+					<pre><code class="javascript">exports.limit = <span class="function"><span class="keyword">function</span> <span class="params">(num)</span> {</span>
+  <span class="keyword">if</span> (num &lt; <span class="number">0</span>) {
+    <span class="keyword">return</span> <span class="number">0</span>;
+  }
+  <span class="keyword">return</span> num;
+};</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>目录分配</h2>
+					<ul>
+						<li>
+							<code>
+								lib</code>
+							，存放模块代码的地方
+						</li>
+						<li>
+							<code>
+								test</code>
+							，存放单元测试代码的地方
+						</li>
+						<li>
+							<code>
+								index.js</code>
+							，向外导出模块的地方
+						</li>
+						<li>
+							<code>
+								package.json</code>
+							，包描述文件
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>测试框架</h2>
+					<p>
+						测试框架
+
+					</p>
+					<ul>
+						<li>
+							Mocha。<code>
+								npm install mocha -g</code>
+						</li>
+					</ul>
+					<p>
+						开发依赖/devDependencies
+
+					</p>
+					<p>
+						"devDependencies": {
+						"mocha": "*"
+						}
+
+					</p>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>测试接口</h2>
+					<ul>
+						<li>
+							BDD/行为驱动开发
+						</li>
+						<li>
+							TDD/测试驱动开发
+						</li>
+					</ul>
+					<p>
+						我们选择BDD，更贴近于思考方式
+
+					</p>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>BDD</h2>
+					<ul>
+						<li>
+							<code>
+								describe()</code>
+						</li>
+						<li>
+							<code>
+								it()</code>
+						</li>
+					</ul>
+					<pre><code class="javascript">describe(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  describe(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    it(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      lib.limit(<span class="number">10</span>);
+    });
+  });
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>BDD结果</h2>
+					<p>
+						在当前目录下执行<code>
+							mocha</code>：
+
+					</p>
+					<pre><code class="ruby"><span class="identifier">test_lib</span> <span class="identifier">jacksontian</span> <span class="variable">$ </span><span class="identifier">mocha</span>
+
+  ․
+
+  ✔ <span class="number">1</span> <span class="identifier"><span class="keymethods">test</span></span> <span class="identifier">complete</span> (<span class="number">2</span><span class="identifier">ms</span>)</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>BDD Hook</h2>
+					<ul>
+						<li>
+							<code>
+								before()</code>
+						</li>
+						<li>
+							<code>
+								after()</code>
+						</li>
+					</ul>
+					<pre><code class="javascript">describe(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  before(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'Pre something'</span>);
+  });
+  describe(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    it(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      lib.limit(<span class="number">10</span>);
+    });
+  });
+  after(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'Post something'</span>);
+  });
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>BDD Hook（2）</h2>
+					<ul>
+						<li>
+							<code>
+								beforeEach()</code>
+						</li>
+						<li>
+							<code>
+								afterEach()</code>
+						</li>
+					</ul>
+					<pre><code class="javascript">describe(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  beforeEach(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'Pre something'</span>);
+  });
+  describe(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    it(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      lib.limit(<span class="number">10</span>);
+    });
+  });
+  afterEach(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'Post something'</span>);
+  });
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>TDD</h2>
+					<ul>
+						<li>
+							<code>
+								suite</code>
+						</li>
+						<li>
+							<code>
+								test</code>
+						</li>
+					</ul>
+					<pre><code class="javascript">suite(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  suite(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    test(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      lib.limit(<span class="number">10</span>);
+    });
+  });
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>TDD Hook</h2>
+					<ul>
+						<li>
+							<code>
+								setup</code>
+						</li>
+						<li>
+							<code>
+								teardown</code>
+						</li>
+					</ul>
+					<pre><code class="javascript">suite(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+  setup(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'Pre something'</span>);
+  });
+  suite(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
+    test(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      lib.limit(<span class="number">10</span>);
+    });
+  });
+  teardown(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    console.log(<span class="string">'Post something'</span>);
+  });
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>断言库</h2>
+					<p>
+						等等！我们还没检查结果呢，这算什么鸟测试呢，测试你妹啊。
+
+					</p>
+					<p>
+						断言库:
+
+					</p>
+					<ul>
+						<li>
+							should.js
+						</li>
+						<li>
+							expect.js
+						</li>
+						<li>
+							chai
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>加上断言</h2>
+					<pre><code class="javascript">test(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  lib.limit(<span class="number">10</span>).should.be.equal(<span class="number">10</span>);
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>结果输出</h2>
+					<pre><code class="ruby"><span class="identifier">test_lib</span> <span class="identifier">jacksontian</span> <span class="variable">$ </span><span class="identifier">mocha</span> --<span class="identifier">reporters</span>
+
+    <span class="identifier">dot</span> - <span class="identifier">dot</span> <span class="identifier">matrix</span>
+    <span class="identifier">doc</span> - <span class="identifier">html</span> <span class="identifier">documentation</span>
+    <span class="identifier">spec</span> - <span class="identifier">hierarchical</span> <span class="identifier">spec</span> <span class="identifier">list</span>
+    <span class="identifier">json</span> - <span class="identifier">single</span> <span class="identifier">json</span> <span class="identifier">object</span>
+    <span class="identifier">progress</span> - <span class="identifier">progress</span> <span class="identifier">bar</span>
+    <span class="identifier">list</span> - <span class="identifier">spec</span>-<span class="identifier">style</span> <span class="identifier">listing</span>
+    <span class="identifier">tap</span> - <span class="identifier"><span class="keymethods">test</span></span>-<span class="identifier">anything</span>-<span class="identifier">protocol</span>
+    <span class="identifier">landing</span> - <span class="identifier">unicode</span> <span class="identifier">landing</span> <span class="identifier"><span class="keymethods">strip</span></span>
+    <span class="identifier">xunit</span> - <span class="identifier">xunit</span> <span class="identifier">reportert</span>
+    <span class="identifier">teamcity</span> - <span class="identifier">teamcity</span> <span class="identifier">ci</span> <span class="identifier">support</span>
+    <span class="identifier">html</span>-<span class="identifier">cov</span> - <span class="constant">HTML</span> <span class="identifier"><span class="keymethods">test</span></span> <span class="identifier">coverage</span>
+    <span class="identifier">json</span>-<span class="identifier">cov</span> - <span class="constant">JSON</span> <span class="identifier"><span class="keymethods">test</span></span> <span class="identifier">coverage</span>
+    <span class="identifier"><span class="keymethods">min</span></span> - <span class="identifier">minimal</span> <span class="identifier">reporter</span> (<span class="identifier">great</span> <span class="identifier">with</span> --<span class="identifier">watch</span>)
+    <span class="identifier">json</span>-<span class="identifier">stream</span> - <span class="identifier">newline</span> <span class="identifier">delimited</span> <span class="identifier">json</span> <span class="identifier">events</span>
+    <span class="identifier">markdown</span> - <span class="identifier">markdown</span> <span class="identifier">documentation</span> (<span class="identifier">github</span> <span class="identifier">flavour</span>)
+    <span class="identifier">nyan</span> - <span class="identifier">nyan</span> <span class="identifier">cat!</span></code></pre>
+					<pre><code class="undefined">mocha -R spec
+mocha -R nyan</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>测试用例</h2>
+					<p>
+						需求变更啦： <code>
+							limit</code>这个方法还要求返回值大于100时返回100。
+
+					</p>
+					<p>
+						正向测试/反向测试
+
+					</p>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>重构代码</h2>
+					<pre><code class="javascript">exports.limit = <span class="function"><span class="keyword">function</span> <span class="params">(num)</span> {</span>
+  <span class="keyword">return</span> num &lt; <span class="number">0</span> ? <span class="number">0</span> : num;
+};</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>测试用例的价值</h2>
+					<p>
+						问题？
+
+					</p>
+					<ul>
+						<li>
+							如何确保你的改动对原有成果没有造成破坏？
+						</li>
+						<li>
+							如何验证本次的需求是被满足的？
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>异步怎么测试？</h2>
+					<p>
+						如何测试？
+
+					</p>
+					<pre><code class="javascript">exports.async = <span class="function"><span class="keyword">function</span> <span class="params">(callback)</span> {</span>
+  setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    callback(<span class="number">10</span>);
+  }, <span class="number">10</span>);
+};</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>测试异步代码</h2>
+					<pre><code class="javascript">describe(<span class="string">'async'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  it(<span class="string">'async'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(done)</span> {</span>
+    lib.async(<span class="function"><span class="keyword">function</span> <span class="params">(result)</span> {</span>
+      done();
+    });
+  });
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>异步方法的超时支持</h2>
+					<pre><code class="javascript">exports.asyncTimeout = <span class="function"><span class="keyword">function</span> <span class="params">(callback)</span> {</span>
+  setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    callback(<span class="number">10</span>);
+  }, <span class="number">6000</span>);
+};</code></pre>
+					<pre><code class="undefined">mocha -t 10000</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>异步方法的异常处理</h2>
+					<pre><code class="javascript">exports.parseAsync = <span class="function"><span class="keyword">function</span> <span class="params">(input, callback)</span> {</span>
+  setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    <span class="keyword">var</span> result;
+    <span class="keyword">try</span> {
+      result = JSON.parse(input);
+    } <span class="keyword">catch</span> (e) {
+      <span class="keyword">return</span> callback(e);
+    }
+    callback(<span class="literal">null</span>, result);
+  }, <span class="number">10</span>);
+};</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>你的Case覆盖完全吗？</h2>
+					<p>
+						单元测试重要指标：
+
+					</p>
+					<ul>
+						<li>
+							覆盖率
+						</li>
+					</ul>
+					<p>
+						模块：
+
+					</p>
+					<ul>
+						<li>
+							<code>
+								npm install jscover</code>
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>生成可被追踪的代码</h2>
+					<pre><code class="ruby">.<span class="regexp">/node_modules/</span>.<span class="identifier">bin</span>/<span class="identifier">jscover</span> <span class="identifier">lib</span> <span class="identifier">lib</span>-<span class="identifier">cov</span></code></pre>
+					<pre><code class="php">_<span class="variable">$jscoverage</span>[<span class="string">'index.js'</span>].source = [<span class="string">"exports.limit = function (input) {"</span>,<span class="string">"  return input &lt; 0 ? 0 : input;"</span>,<span class="string">"};"</span>];
+_<span class="variable">$jscoverage</span>[<span class="string">'index.js'</span>][<span class="number">1</span>]++;
+exports.limit = <span class="keyword">function</span>(input) {
+  _<span class="variable">$jscoverage</span>[<span class="string">'index.js'</span>][<span class="number">2</span>]++;
+  <span class="keyword">return</span> input &lt; <span class="number">0</span> ? <span class="number">0</span> : input;
+};</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>测试时引入追踪代码</h2>
+					<pre><code class="ruby"><span class="class"><span class="keyword">module</span>.<span class="title">exports</span> = <span class="title">process</span>.<span class="title">env</span>.<span class="title">LIB_COV</span> ? <span class="title">require</span>('./<span class="title">lib</span>-<span class="title">cov</span>/<span class="title">index</span>') : <span class="title">require</span>('./<span class="title">lib</span>/<span class="title">index</span>');</span></code></pre>
+					<p>
+						备注，每个模块应该用自己的环境变量，以防止冲突
+
+					</p>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>生成HTML覆盖率结果页</h2>
+					<pre><code class="cpp"><span class="comment">// 设置当前命令行有效的变量</span>
+<span class="keyword">export</span> LIB_COV=<span class="number">1</span>
+mocha -R html-cov &gt; coverage.html</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>Mock</h2>
+					<p>
+						异常该怎么测试？
+
+					</p>
+					<pre><code class="javascript">exports.getContent = <span class="function"><span class="keyword">function</span> <span class="params">(filename, callback)</span> {</span>
+  fs.readFile(filename, <span class="string">'utf-8'</span>, callback);
+};</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>简单mock</h2>
+					<p>
+						hook派上用场了
+
+					</p>
+					<pre><code class="javascript">describe(<span class="string">"getContent"</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  <span class="keyword">var</span> _readFile;
+  before(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    _readFile = fs.readFile;
+    fs.readFile = <span class="function"><span class="keyword">function</span> <span class="params">(filename, encoding, callback)</span> {</span>
+      callback(<span class="keyword">new</span> Error(<span class="string">"mock readFile error"</span>));
+    };
+  });
+  <span class="comment">// it();</span>
+  after(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    <span class="comment">// 用完之后记得还原。否则影响其他case</span>
+    fs.readFile = _readFile;
+  })
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>谨慎mock</h2>
+					<p>
+						异步接口依旧需要保持异步
+
+					</p>
+					<pre><code class="javascript">fs.readFile = <span class="function"><span class="keyword">function</span> <span class="params">(filename, encoding, callback)</span> {</span>
+  process.nextTick(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    callback(<span class="keyword">new</span> Error(<span class="string">"mock readFile error"</span>));
+  });
+};</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>Mock库</h2>
+					<p>
+						Mock小模块：<code>
+							muk</code>
+
+					</p>
+					<pre><code class="javascript"><span class="keyword">var</span> fs = require(<span class="string">'fs'</span>);
+<span class="keyword">var</span> muk = require(<span class="string">'muk'</span>);
+
+muk(fs, <span class="string">'readFile'</span>, <span class="function"><span class="keyword">function</span><span class="params">(path, callback)</span> {</span>
+  process.nextTick(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+    callback(<span class="keyword">new</span> Error(<span class="string">"mock readFile error"</span>));
+  });
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>略微优美</h2>
+					<pre><code class="javascript">before(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  muk(fs, <span class="string">'readFile'</span>, <span class="function"><span class="keyword">function</span><span class="params">(path, encoding, callback)</span> {</span>
+    process.nextTick(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+      callback(<span class="keyword">new</span> Error(<span class="string">"mock readFile error"</span>));
+    });
+  });
+});
+<span class="comment">// it();</span>
+after(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  muk.restore();
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>测试私有方法</h2>
+					<p>
+						模块：
+						<a href="http://jhnns.github.com/rewire/" class="roll">
+							<span data-title="rewire"><code>
+									rewire</code></span>
+						</a>
+
+					</p>
+					<p>
+						今天老板说，limit方法不能再对外暴露了。如何测试它？
+
+					</p>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>通过rewire导出方法</h2>
+					<pre><code class="javascript">it(<span class="string">'limit should return success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
+  <span class="keyword">var</span> lib = rewire(<span class="string">'../lib/index.js'</span>);
+  <span class="keyword">var</span> litmit = lib.__get__(<span class="string">'limit'</span>);
+  litmit(<span class="number">10</span>);
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>rewire原理</h2>
+					<p>
+						【闭包原理】加载文件时注入<code>
+							__set__</code>
+						和<code>
+							__get__</code>方法。该方法可以访问内部变量。
+
+					</p>
+					<pre><code class="javascript">(<span class="function"><span class="keyword">function</span> <span class="params">(exports, require, module, __filename, __dirname)</span> {</span>
+  <span class="keyword">var</span> method = <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>};
+  exports.__set__ = <span class="function"><span class="keyword">function</span> <span class="params">(name, value)</span> {</span>
+    eval(name <span class="string">" = "</span> value.toString());
+  };
+  exports.__get__ = <span class="function"><span class="keyword">function</span> <span class="params">(name)</span> {</span>
+    <span class="keyword">return</span> eval(name);
+  };
+});</code></pre>					
+
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>用Makefile串起项目</h2>
+					<pre><code class="python">TESTS = test/*.test.js
+REPORTER = spec
+TIMEOUT = <span class="number">10000</span>
+JSCOVERAGE = ./node_modules/jscover/bin/jscover
+
+test:
+    <span class="decorator">@NODE_ENV=test ./node_modules/mocha/bin/mocha -R $(REPORTER) -t $(TIMEOUT) $(TESTS)</span>
+
+test-cov: lib-cov
+    <span class="decorator">@LIB_COV=1 $(MAKE) test REPORTER=dot</span>
+    <span class="decorator">@LIB_COV=1 $(MAKE) test REPORTER=html-cov &gt; coverage.html</span>
+
+lib-cov:
+    <span class="decorator">@rm -rf ./lib-cov</span>
+    <span class="decorator">@$(JSCOVERAGE) lib lib-cov</span>
+
+.PHONY: test test-cov lib-cov</code></pre>
+					<pre><code class="ruby"><span class="identifier">make</span> <span class="identifier"><span class="keymethods">test</span></span>
+<span class="identifier">make</span> <span class="identifier"><span class="keymethods">test</span></span>-<span class="identifier">cov</span></code></pre>
+					<p>
+						用项目自身的jscover和mocha，避免版本冲突和混乱
+
+					</p>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>不持续集成不舒服</h2>
+					<ul>
+						<li>
+							<a href="https://travis-ci.org/" class="roll">
+								<span data-title="Travis-ci">Travis-ci</span>
+							</a>
+							<ul>
+								<li>
+									绑定Github帐号
+								</li>
+								<li>
+									在Github仓库的Admin打开Services hook
+								</li>
+								<li>
+									打开Travis
+								</li>
+								<li>
+									每次push将会hook触发执行<code>
+										npm test</code>
+									命令
+								</li>
+							</ul>
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>不持续集成不舒服2</h2>
+					<p>
+						注意：Travis会将未描述的项目当作Ruby项目。所以需要在根目录下加入<code>
+							.travis.yml</code>文件。内容如下：
+
+					</p>
+					<pre><code class="undefined">language: node_js
+node_js:
+  - 0.6
+  - 0.8</code></pre>
+					
+
+				</section>
+
+				<section class="future" style="display: none;">
+					<h2>总结</h2>
+					<ul>
+						<li>
+							使代码可以放心修改和重构
+						</li>
+						<li>
+							食自己的狗食
+						</li>
+						<li>
+							只有质量保证的代码才能有质量保证的产品
+						</li>
+						<li>
+							写好代码和测试，把查找bug的时间用来干更有意义的事情
+						</li>
+						<li>
+							单元测试Passing和覆盖率100%是一种荣耀
+						</li>
+						<li>
+							有单元测试的代码，再差也不会差到哪里去
+							<ul>
+								<li>
+									没单元测试，吹牛逼也要小心
+								</li>
+							</ul>
+						</li>
+						<li>
+							集成的，好喝的
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: block;">
+					<h2>TODO</h2>
+					<ul>
+						<li>
+							前后端共用单元测试
+						</li>
+						<li>
+							断言的细节和技巧
+						</li>
+						<li>
+							Mocha的更多技巧
+						</li>
+						<li>
+							connect/express web应用的测试
+							<ul>
+								<li>
+									<code>
+										supertest</code>
+								</li>
+							</ul>
+						</li>
+						<li>
+							性能测试/功能测试
+						</li>
+					</ul>
+
+				</section>
+
+				<section class="future" style="display: block;">
+					<h2>QA &amp;&amp; Thanks</h2>
+
+				</section>
+
+				<section class="future" style="display: block;">
+					<h2>More</h2>
+					<ul>
+						<li>
+							<a href="https://github.com/JacksonTian/unittesting" class="roll">
+								<span data-title="单元测试示例项目">单元测试示例项目</span>
+							</a>
+						</li>
+						<li>
+							<a href="http://html5ify.com/unittesting/slides/fengmk2.github.com/ppt/unittest-and-bdd-in-nodejs-with-mocha.html" class="roll">
+								<span data-title="单元测试实战">单元测试实战</span>
+							</a>
+							内容与本PPT有互补
+						</li>
+						<li>
+							Mocha/Should/Chai/Except/Assert
+						</li>
+						<li>
+							rewire/pedding/supertest/muk
+						</li>
+					</ul>
+
+				</section>
+
+			</div>
+			<div class="progress" style="display: block;">
+				<span style="width: 0px;"></span>
+			</div>
+			<aside class="controls" style="display: block;">
+				<div class="left"></div>
+				<div class="right enabled"></div>
+				<div class="up"></div>
+				<div class="down"></div>
+			</aside>
+			<div class="state-background"></div>
+			<div class="pause-overlay"></div>
+		</div>
+
+		<script src="js/head.js"></script>
+		<script src="js/reveal.min.js"></script>
+
+		<script>
+			// Full list of configuration options available here:
+			// https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls : true,
+				progress : true,
+				history : true,
+				keyboard : true,
+				rollingLinks : true,
+				theme : Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition : Reveal.getQueryHash().transition || 'zoom', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies : [{
+					src : 'js/plugin/classList.js',
+					condition : function() {
+						return !document.body.classList;
+					}
+				}, {
+					src : 'js/plugin/showdown.js',
+					condition : function() {
+						return !!document.querySelector('[data-markdown]');
+					}
+				}, {
+					src : 'js/plugin/markdown.js',
+					condition : function() {
+						return !!document.querySelector('[data-markdown]');
+					}
+				}, {
+					src : 'js/plugin/highlight.js',
+					async : true,
+					callback : function() {
+						hljs.initHighlightingOnLoad();
+					}
+				}, {
+					src : 'js/plugin/zoom.js',
+					async : true,
+					condition : function() {
+						return !!document.body.classList;
+					}
+				}, {
+					src : 'js/plugin/notes.js',
+					async : true,
+					condition : function() {
+						return !!document.body.classList;
+					}
+				}]
+			});
+		</script>
+		<script type="text/javascript" src="js/plugin/highlight.js"></script>
+		<script type="text/javascript" src="js/plugin/zoom.js"></script>
+		<script type="text/javascript" src="js/plugin/notes.js"></script>
+
+	</body>
+</html>

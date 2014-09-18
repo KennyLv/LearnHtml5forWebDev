@@ -1,0 +1,81 @@
+
+/* Global CSS */ 
+
+* { padding:0px; margin:0px; font-size:13px; font-family: arial ËÎÌו; } 
+
+body { overflow:auto; border:0px none black; background-color:buttonface; } 
+
+li { margin:0px 0px 0px 40px; padding:2px 4px; } 
+
+div { font-size:13px; line-height:14px; } 
+
+p { font-size:13px; line-height:14px; } 
+
+/* Class CSS */ 
+
+.codeRoot { line-height:14px; } 
+.quote { color:#999; } 
+.comments { color: #009090; } 
+.indent { margin-left:25px; } 
+.regexp { color:#F000F0; } 
+.keyWord { color:blue; } 
+.object { color:red; } 
+.method_property { color:#FF8000; } 
+.operator { color:#004000; } 
+
+.colsp { font-size:12px; width:14px; height:14px; overflow:hidden; border:1px outset buttonface; text-align:center;  
+cursor:pointer; padding-left:2px; } 
+.colsp2 { font-size:12px; width:14px; height:14px; overflow:hidden; border:1px inset buttonface; text-align:center;  
+cursor:pointer; padding-left:2px; color:red!important; background-color:#E0FFF8!important; } 
+
+/* Identified CSS */ 
+
+#divTools { height:20px; border-bottom:1px solid #555; padding-left:15px; } 
+
+#divTools a { color:navy; text-decoration:none; height:20px; line-height:20px; padding:0px 25px; } 
+
+#divTools a:hover { color:white; background-color:navy; text-decoration:none; height:20px; line-height:20px; } 
+
+#divJSInput { display:none; width:600px; height:450px; border:2px outset buttonface; position:absolute; background- 
+color:buttonface; z-Index:2; } 
+
+#divJSInputTitle { color:white; background-color:navy; height:20px; line-height:20px; padding:0px 10px; cursor:default; } 
+
+#txtJSInput { width:598px; height:406px; overflow:auto; padding:4px 8px; background-color:white;} 
+
+#divJSInputBar { height:24px; padding:0px 4px; } 
+
+#divJSInputBar input { width:110px; height:22px; border:1px solid #555; line-height:20px; } 
+
+#divMain { width:100%; height:500; overflow:hidden; position:relative; } 
+
+#divJSOutputLineNo { width:32px; height:100%; overflow:hidden; background-color:#DDD; position:absolute; left:0px; top:0px;  
+text-align:right; } 
+
+#divJSOutputLineNo p {  font-size:12px; line-height:14px; } 
+
+#divJSOutputPlus { width:14px; height:100%; overflow:hidden; background-color:#EEE; position:absolute; left:32px; top:0px; z 
+-Index:2; } 
+
+#divJSOutputPlus p {  font-size:12px; line-height:14px; } 
+
+#divJSOutput { background-color:white; border:1px inset buttonface; height:100%; position:absolute; left:45px; top:0px;  
+overflow:scroll; } 
+
+#divWaiting { display:none; width:400px; height:60px; border:1px solid buttonface; position:absolute; background- 
+color:#E0F0F0; z-Index:3; text-align:center; padding-top:10px; } 
+
+#divWaiting input { width:140px; height:22px; border:1px solid #555; line-height:20px; cursor:default; margin-top:4px; } 
+
+#divJSExport { display:none; width:600px; height:450px; border:2px outset buttonface; position:absolute; background- 
+color:buttonface; z-Index:2; } 
+
+#divJSExportTitle { color:white; background-color:navy; height:20px; line-height:20px; padding:0px 10px; cursor:default; } 
+
+#selJSExport { width:598px; height:406px; overflow:auto; padding:4px 8px; background-color:white; } 
+
+#divJSExportContent { width:598px; height:406px; overflow:auto; padding:4px 8px; background-color:white; display:none; } 
+
+#divJSExportBar { height:24px; padding:0px 4px; } 
+
+#divJSExportBar input { width:170px; height:22px; border:1px solid #555; line-height:20px; } 
