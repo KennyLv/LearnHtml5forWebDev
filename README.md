@@ -43,4 +43,7 @@ http://www.cnblogs.com/dxy1982/category/349848.html
 
 >>各种框架的收集贴：http://www.appcrews.com/2011/07/129.html
 
+> AngularJS
+>>如何学习 http://www.ng-newsletter.com/posts/how-to-learn-angular.html
+>>一步一步学习http://www.ng-newsletter.com/posts/beginner2expert-how_to_start.html
 
