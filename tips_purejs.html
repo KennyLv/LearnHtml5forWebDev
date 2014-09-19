@@ -1,0 +1,153 @@
+﻿<html xmlns="http://www.w3.org/1999/xhtml">
+	<head>
+		<title>Test</title>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<script type="text/ecmascript">
+				function opacity(id, opacStart, opacEnd, millisec) {
+						//speed for each frame
+						var speed = Math.round(millisec / 100);
+						var timer = 0;
+						//determine the direction for the blending, if start and end are the same nothing happens
+						if(opacStart > opacEnd) {
+								for(i = opacStart; i >= opacEnd; i--) {
+										setTimeout("changeOpac(" + i + ",'" + id + "')",(timer * speed));
+										timer++;
+								}
+						}else if(opacStart < opacEnd) {
+								for(i = opacStart; i <= opacEnd; i++)
+								{
+										setTimeout("changeOpac(" + i + ",'" + id + "')",(timer * speed));
+										timer++;
+								}
+						}
+				}
+				
+				//change the opacity for different browsers
+				function changeOpac(opacity, id) {
+						var obj = document.getElementById(id);
+						if (obj) {
+								var s = obj.style;
+								s.opacity = (opacity / 100);
+								s.MozOpacity = (opacity / 100);
+								s.KhtmlOpacity = (opacity / 100);
+								s.filter = "alpha(opacity=" + opacity + ")";
+								s = null;
+						}
+				}
+				
+				function shiftOpacity(id, millisec) {
+						//if an element is invisible, make it visible, else make it ivisible
+						if(document.getElementById(id).style.opacity == 0) {
+								opacity(id, 0, 100, millisec);
+						} else {
+								opacity(id, 100, 0, millisec);
+						}
+				}
+				
+				function blendimage(divid, imageid, imagefile, millisec) {
+						var speed = Math.round(millisec / 100);
+						var timer = 0;
+						//set the current image as background
+						document.getElementById(divid).style.backgroundImage = "url(" + document.getElementById(imageid).src + ")";
+						//make image transparent
+						changeOpac(0, imageid);
+						//make new image
+						document.getElementById(imageid).src = imagefile;
+						//fade in image
+						for(i = 0; i <= 100; i++) {
+								setTimeout("changeOpac(" + i + ",'" + imageid + "')",(timer * speed));
+								timer++;
+						}
+				}
+				
+				function currentOpac(id, opacEnd, millisec) {
+						//standard opacity is 100
+						var currentOpac = 100;
+						//if the element has an opacity set, get it
+						if(document.getElementById(id).style.opacity < 100) {
+								currentOpac = document.getElementById(id).style.opacity * 100;
+						}
+						//call for the function that changes the opacity
+						opacity(id, currentOpac, opacEnd, millisec);
+				}
+
+				function showContent(i, event){
+						showid = "content" + i;
+						var target = document.getElementById(showid);
+						target.style.position = "absolute";
+						if(navigator.appName!="Netscape"){
+								event=window.event;
+								event.srcElement.style.fontWeight = "700";
+						} else {
+								event.target.style.fontWeight = "700";
+						}
+						target.style.top = event.clientY + 22 +"px";
+						target.style.left = event.clientX + 12 + "px";
+
+						//复制一个背景
+						var bg = target.cloneNode(true);
+						if (bg) {
+								bg.id="bg1";
+								if (bg.style.backgroundColor.length==0) {
+										bg.style.backgroundColor ="#FFFFE1";
+								}
+								bg.style.filter = "alpha(opacity=0)";
+								bg.style.opacity = 0;
+								target.parentNode.appendChild(bg);
+
+								opacity("bg1", 0, 90, 300);
+								bg.style.display="block";
+						}
+
+						target.style.display = "block";
+				}
+
+				function hiddenContent(i, event){
+						if(navigator.appName!="Netscape"){
+								event=window.event;
+								event.srcElement.style.fontWeight = "400";
+						} else {
+								event.target.style.fontWeight = "400";
+						}
+						hiddenid = "content" + i;
+						document.getElementById(hiddenid).style.display = "none";
+						var bg = document.getElementById("bg1");
+						if (bg) {
+								bg.parentNode.removeChild(bg);
+						}
+				}
+		</script>
+		<style type="text/css">
+			p {
+				text-indent: 2em
+			}
+		</style>
+	</head>
+
+	<body>
+
+		<a href="http://www.jb51.net" onmouseover="showContent(0, event)" onmouseout="hiddenContent(0, event)" style="cursor: default; font-weight: 400;">
+			链接
+		</a>
+		<div id="content0" style="width: 200px; height: 300px; padding: 2em; display: none; position: absolute; top: 43px; left: 45px;">
+			这是文章标题1，文字是不透明的
+		</div>
+		<span onmouseover="showContent(1, event)" onmouseout="hiddenContent(1, event)" style="cursor: default; font-weight: 400;">有提示文字</span>
+		<div id="content1" style="width: 200px; height: 300px; padding: 2em; display: none; font-weight: 700; position: absolute; top: 46px; left: 55px;">
+			这是文章标题2，文字是不透明的
+		</div>
+
+		<div style="width:34%;color:#226">
+			<p>
+				教育是开启完全不同未来大门的重要钥匙。在美国十大城市中，要求 中学以下文化程度的职位数从 1970 年起已经减少了一半。从 1989 年起， 美国新设职位的 2/3 都是专业人员和管理人员(38)。在德国，到 2010 年 将只有 10％的职位适合非技术工人，而在 1976 年为 35％。(39)
+			</p>
+			<p>
+				但这并不只是一个失业问题。失业的年轻人倾向于从事更多的暴力犯
+				罪，并不愿担当家长的责任。"青春期男孩是最反复无常并最具暴力的了。
+				美国一半的暴力犯罪是由 24 岁以下的男孩干的，四分之一的暴力犯罪事
+				件是由 18 岁以下男孩干的。大多数西方国家的数据也与美国相似。"
+			</p>
+		</div>
+
+	</body>
+</html>

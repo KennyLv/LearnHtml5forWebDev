@@ -64,7 +64,7 @@ body {
   height: 75%;
 }
 .reveal h1 {
-  text-shadow: 0 0 15px #AF0, 0 0 2px white;
+  /*text-shadow: 0 0 15px #AF0, 0 0 2px white;*/
   font-size: 2em;
   text-align: center;
   color: #AF0;
@@ -73,10 +73,15 @@ body {
   text-align: right;
 }
 .reveal h2 {
-  color: #AF0;
+  color: #09D8FF;
   font-weight: 100;
-  text-shadow: 0 0 15px #AF0, 0 0 2px white;
+  /*text-shadow: 0 0 15px #AF0, 0 0 2px white;*/
 }
+.reveal .cn_conetnt {
+	font-family: MicrosoftYaHei;
+	font-weight:lighter;
+}
+
 /*********************************************
  * LINKS
  *********************************************/
