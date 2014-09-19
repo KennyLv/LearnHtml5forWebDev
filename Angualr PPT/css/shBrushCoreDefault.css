@@ -33,7 +33,7 @@
   float: none !important;
   height: auto !important;
   left: auto !important;
-  line-height: 1.1em !important;
+  line-height: 26px !important;
   margin: 0 !important;
   outline: 0 !important;
   overflow: visible !important;
@@ -45,7 +45,7 @@
   vertical-align: baseline !important;
   width: auto !important;
   box-sizing: content-box !important;
-  font-family: "Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
+  font-family: "Corbel","Consolas", "Bitstream Vera Sans Mono", "Courier New", Courier, monospace !important;
   font-weight: normal !important;
   font-style: normal !important;
   font-size: 20px !important;
@@ -99,6 +99,7 @@
   white-space: pre !important;
 }
 .syntaxhighlighter table td.gutter .line {
+  display: none; /*≤ªœ‘ æ––∫≈*/
   text-align: right !important;
   padding: 0 0.5em 0 1em !important;
 }
@@ -272,6 +273,7 @@
   color: red !important;
 }
 .syntaxhighlighter .toolbar {
+  display: none; /*≤ªœ‘ æ∞Ô÷˙≈*/
   color: white !important;
   background: #6ce26c !important;
   border: none !important;

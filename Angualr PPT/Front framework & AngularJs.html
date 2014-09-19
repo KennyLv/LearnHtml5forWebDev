@@ -99,20 +99,25 @@
 
 					</p>
 					<pre class="brush:js;">
-							var dp = require("../lib/index.js");
-							dp.process(process.cwd().replace(/demo$/,""), {
-							  blackList:[
-							  // "*demo.js" 
-							  ]
-							}, 
-							function(error,result) {
-								if(error){
-									//code=1 是致命错误，code=2 是请求错误，不致命。
-							  }else{
-							    console.log(result); 
-							  }
-							});
-					</pre>										
+						app.directive('nprLink', function() {
+								return {
+										restrict: 'EA',
+										require: ['^ngModel'],
+										replace: true,
+										scope: {
+												ngModel: '=',
+												player: '='
+										},
+										templateUrl: '/code/views/nprListItem',
+										link: function(scope, ele, attr) {
+												scope.duration = scope.ngModel.audio[0].duration.$text;
+										}
+								}
+						});
+					</pre>	
+					<pre class="brush:js;">
+						<npr-link ng-model="program" player="player"></npr-link>
+					</pre>	
 
 
 
