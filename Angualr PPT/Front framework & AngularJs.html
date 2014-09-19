@@ -3,23 +3,14 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<meta charset="utf-8">
-		<title>Node.js Unit Testing</title>
-		<meta name="description" content="">
-		<meta name="author" content="Hakim El Hattab">
+		<title>Javascript Framework & AngularJs</title>
+		<meta name="author" content="Kenny">
 		<meta name="apple-mobile-web-app-capable" content="yes">
 		<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 
 		<link rel="stylesheet" href="css/reveal.css">
 		<link rel="stylesheet" href="css/theme/default.css" id="theme">
 
-		<!-- For syntax highlighting -->
-		<link rel="stylesheet" href="css/zenburn.css">
-
-		<!-- If the query includes 'print-pdf', use the PDF print sheet -->
-		<!-- <link rel="stylesheet" href="css/print/pdf.css" type="text/css" media="print">-->
-		<link rel="stylesheet" href="css/print/paper.css" type="text/css" media="print">
-		
 		<script type="text/javascript" src="./js/shBrushCore.js"></script>
 		<script type="text/javascript" src="./js/shBrushJScript.js"></script>
 		<link type="text/css" rel="stylesheet" href="./css/shBrushCoreDefault.css"/>
@@ -35,19 +26,8 @@
 			<div class="slides">
 
 				<section class="cover present" style="display: block;">
-					<h1>Node.js Unit Testing</h1>
-					<h3>by @朴灵</h3>
-					<pre class="brush:js;">
-						
-					_$jscoverage['index.js'].source
-					_$jscoverage['index.js'][1]++;
-					exports.limit = function(input) {
-					_$jscoverage['index.js'][2]++;
-					return input < 0 ? 0 : input;
-					};
-					
-					</pre>
-
+					<h1>Javascript Framework & AngularJs</h1>
+					<h3>by @Kenny</h3>
 				</section>
 
 				<section class="future" style="display: block;">
@@ -101,22 +81,20 @@
 							demo.js</code> by @代码诗人芋头
 
 					</p>
-					<pre>
-						<code class="javascript">
-							<span class="keyword">var</span> 
-							dp = require(<span class="string">"../lib/index.js"</span>);
-							dp.process(process.cwd().replace(<span class="regexp">/demo$/</span>,<span class="string">""</span>), {
+					<pre class="brush:js;">
+							var dp = require("../lib/index.js");
+							dp.process(process.cwd().replace(/demo$/,""), {
 							  blackList:[
-							  <span class="comment">// "*demo.js"</span>
+							  // "*demo.js" 
 							  ]
-							}, <span class="function"><span class="keyword">function</span> <span class="params">(error,result)</span> {</span>
-							  <span class="keyword">if</span>(error){
-							    <span class="comment">//code=1 是致命错误，code=2 是请求错误，不致命。</span>
-							  }<span class="keyword">else</span>{
+							}, 
+							function(error,result) {
+								if(error){
+									//code=1 是致命错误，code=2 是请求错误，不致命。
+							  }else{
 							    console.log(result); 
 							  }
 							});
-						</code>
 					</pre>					
 
 
@@ -940,12 +918,6 @@ node_js:
 						return !!document.querySelector('[data-markdown]');
 					}
 				}, {
-					src : 'js/plugin/highlight.js',
-					async : true,
-					callback : function() {
-						hljs.initHighlightingOnLoad();
-					}
-				}, {
 					src : 'js/plugin/zoom.js',
 					async : true,
 					condition : function() {
@@ -960,7 +932,7 @@ node_js:
 				}]
 			});
 		</script>
-		<script type="text/javascript" src="js/plugin/highlight.js"></script>
+		
 		<script type="text/javascript" src="js/plugin/zoom.js"></script>
 		<script type="text/javascript" src="js/plugin/notes.js"></script>
 
