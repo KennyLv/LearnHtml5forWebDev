@@ -31,22 +31,18 @@
 					
 
 				<section class="cover present" style="display: block;">
-					<h1>前端框架 & AngularJs</h1>
+					<h1>Front Framework & AngularJs</h1>
 					<h3>@Kenny</h3>
 				</section>
 
 				<section class="future" style="display: block;">
 					<h2>Agenda</h2>
-					<ul class="cn_conetnt">
+					<ul>
 						<li>
-							Web开发与前端框架
-							<!--
-							我的学习过程分享ASP.NET -> Web Services & XML -> Restful & JSON -> jQuery
-							框架演化 （）- > MV* -> 分工(EJS,YUI)
-							-->
+							Front framework
 						</li>
 						<li>
-							主角登场 - AngularJS
+							About AngularJS
 							<!--
 							(示例：baidu_map & 控件 & 天气插件 & qTips -- 想new几个new几个)
 							估计是被忽悠了？ ---- 后面的代码很吓人啦！！
@@ -54,724 +50,270 @@
 							-->
 						</li>
 						<li>
-							AngularJs 入门
+							First Look at AngularJs
 							<!--
 							基础知识（对MVC的实现）
 							-->
 						</li>
 						<li>
-							AngualrJs进阶
+							Little further on AngualrJs
 							<!--
 							- 深入实现（ 实现原理，实战）
 							-->
 						</li>
 						<li>
 							Q&A 
-							<!--
-							未解之谜：如何实现工程化？代码（代码库）的组织（击鼓传花）
-							未解之谜：没有日志输出，如何做测试？
-							-->
 						</li>
 					</ul>
 
 				</section>
 
 				
-				<section class="future" style="display: none;">
-					<h3>Web开发与前端框架</h3>
-					<ul>
-						<li>
-							讲单元测试过程中的关键点和关键流程
-						</li>
-						<li>
-							不讲单元测试过程中的过小的细节
-						</li>
-					</ul>
+				<section class="future" style="display: none;" >
+						<section>
+							<h2>Web开发与前端框架</h2>
+									<!--
+									我的学习过程分享ASP.NET -> Web Services & XML -> Restful & JSON ->
+									-->
+									
+									<!--
+									
+									Flex  [自己也是在学习中，不敢妄言，以后深入应用后再做补充] 
+1. Adobe平台的，基于ActionScript实现，用在哪都行，但偏重于内网管理系统，用在门户网站就相当于在线玩Flash游戏，loading... 
+2. 与Ext不同，它有健壮的可视化开发工具Flash Builder，可以同C#一样进行拖拽布局，生成一种xml，也便于维护。 
+3. 编译后生成swf文件直接嵌入html即可，提高安全性，浏览时同flash，需要flash player。 
+4. 与Ext相同，也是属于一个整体，有丰富的控件库。 
+5. 这条纯属个人观点，HTML5不支持插入对象，也就意味着不能插入swf文件，难道Flex就完蛋了？虽然HTML5不支持Flash是客观事实，但HTML5的统一为时尚远，各大浏览器对HTML5的支持，Adobe是否会有对策，这些会怎么样现在都不好说，HTML5与HTML4并行应该会有很长一段时间，至少Flex在现在是一个名列前茅的好产品，所以我选择了它。 
 
+SilverLight 
+微软平台的，主要是应用在微软系列的语言中，包括CS与BS架构。同样，
+									
+									-->
+									<!--
+									
+									除了jQuery，Asp.net也不适合与以上等框架集成，因为Asp.net是事件驱动，这些框架都是为消息驱动而生的，勉强应用只会事倍功半，丧失.net本身的优势。 
+
+									-->
+							
+						</section>
+						<section>
+							<h2>Web开发与前端框架</h2>
+		<!--
+																jQuery 
+		1. 绝对的万金油，核心js只有50K，占用带宽小，门户网站、管理系统，用在哪都可以。 
+		2. jQuery是对js底层dom操作封装最薄的一个框架，没有大量的专有对象，多为提供函数进行dom操作。准确的说，它不是偏重于富客户端的框架，而是侧重于对js dom编程。下面几种才是完整的富客户端的框架。 
+		3. 我认为它最大的三个亮点，一是支持CSS3的大量选择符，想定位或选择一个html元素简直轻而易举。二是灵活便捷的Ajax请求和回调操作。三是事件绑定功能，内部封装了很多事件，想统一为一个页面上的一些元素添加事件很方便，这也提高了复用性和可维护性，避免了页面中出现大量的html属性。合理的编码可以使html与js, css分离开，便于维护。 
+		4. 此外它也封装了很多常用的操作，例如节点的添加删除、常用的动画效果、逻辑判断比较等等。避免了直接使用dom api进行繁琐的操作。 
+		5. 本身提供了可扩展的函数，可以自己编写插件与核心jQuery对象进行集成使用。这也是常用的手段，只要你理解js面向对象编程，熟悉jQuery API，就能写出很多定制的插件，复用在各种地方。 
+		6. 至于jQueryUI，与其他框架不一样的地方在于，它很少用js去生成html，而是把现有的html通过jQueryUI的API加工成想要的效果，关于这点是好是坏，我觉得就是见仁见智的问题了，没有必要争论什么。 
+		7. 新生的jQuery EasyUI不错。 
+		8. 如果今后的更新都保持现在这种模式，我认为它的前景很乐观，什么时候javascript完蛋了才轮到它玩完。 
+									
+									-->
+							
+						</section>
+						<section>
+							<h2>Web开发与前端框架</h2>
+
+									<!--
+									框架演化 （）- > MV* -> 分工(EJS,YUI)
+									-->
+							
+						</section>
+						<section>
+							<h2>Web开发与前端框架</h2>
+
+									<!--
+									前端的挑战  http://www.zhihu.com/question/19984897
+									-->
+							
+						</section>
 				</section>
 
 				<section class="future" style="display: none;">
+						<h2>Fragmented Views</h2>
+						<p>Hit the next arrow...</p>
+						<div class="fragment"><code>any type</code></div>
+						<div class="fragment"><em>of view</em></div>
+						<div class="fragment"><div style="width:100px;height:100px; background:red;">fragments</div></div>
+						
+						<!--<ol>
+							<li class="fragment"><code>any type</code></li>
+							<li class="fragment"><em>of view</em></li>
+							<li class="fragment"><strong>fragments</strong></li>
+						</ol>-->
+				</section>
+					
+				<section class="future" style="display: none;">
 					<h2>什么是单元测试</h2>
-					<p>
-						<code>
-							demo.js
-						</code> by @代码诗人芋头
 
-					</p>
-					<pre class="brush:js;">
-						app.directive('nprLink', function() {
-								return {
-										restrict: 'EA',
-										require: ['^ngModel'],
-										replace: true,
-										scope: {
-												ngModel: '=',
-												player: '='
-										},
-										templateUrl: '/code/views/nprListItem',
-										link: function(scope, ele, attr) {
-												scope.duration = scope.ngModel.audio[0].duration.$text;
-										}
-								}
-						});
-					</pre>	
-					<pre class="brush:js;">
-						<npr-link ng-model="program" player="player"></npr-link>
-					</pre>	
-
-
-
+					
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>单元测试的认知误区</h2>
-					<ul>
-						<li>
-							单元测试是QA妹纸的事情
-						</li>
-						<li>
-							示例代码不是单元测试？
-						</li>
-						<li>
-							自己测试自己的代码意义何在？
-						</li>
-						<li>
-							版本更新迭代维护单元测试的成本很高？
-						</li>
-						<li>
-							我这么牛逼，我就是不写单元测试，你咬我丫
-						</li>
-					</ul>
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>今天之任务</h2>
-					<p>
-						编写一个稳定可靠的模块
-
-					</p>
-					<ol>
-						<li>
-							模块具备limit方法，输入一个数值，小于0的时候返回0，其余正常返回
-						</li>
-					</ol>
-					<pre class="brush:js;"><code class="javascript">exports.limit = <span class="function"><span class="keyword">function</span> <span class="params">(num)</span> {</span>
-  <span class="keyword">if</span> (num &lt; <span class="number">0</span>) {
-    <span class="keyword">return</span> <span class="number">0</span>;
-  }
-  <span class="keyword">return</span> num;
-};</code></pre>										
-
-
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>目录分配</h2>
-					<ul>
-						<li>
-							<code>
-								lib
-							</code>
-							，存放模块代码的地方
-						</li>
-						<li>
-							<code>
-								test
-							</code>
-							，存放单元测试代码的地方
-						</li>
-						<li>
-							<code>
-								index.js
-							</code>
-							，向外导出模块的地方
-						</li>
-						<li>
-							<code>
-								package.json
-							</code>
-							，包描述文件
-						</li>
-					</ul>
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>测试框架</h2>
-					<p>
-						测试框架
-
-					</p>
-					<ul>
-						<li>
-							Mocha。
-							<code>
-								npm install mocha -g
-							</code>
-						</li>
-					</ul>
-					<p>
-						开发依赖/devDependencies
-
-					</p>
-					<p>
-						"devDependencies": {
-						"mocha": "*"
-						}
-
-					</p>
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>测试接口</h2>
-					<ul>
-						<li>
-							BDD/行为驱动开发
-						</li>
-						<li>
-							TDD/测试驱动开发
-						</li>
-					</ul>
-					<p>
-						我们选择BDD，更贴近于思考方式
-
-					</p>
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>BDD</h2>
-					<ul>
-						<li>
-							<code>
-								describe()
-							</code>
-						</li>
-						<li>
-							<code>
-								it()
-							</code>
-						</li>
-					</ul>
-					<pre class="brush:js;">describe(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  describe(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    it(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-      lib.limit(<span class="number">10</span>);
-    });
-  });
-});</pre>										
-
-
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>BDD结果</h2>
-					<p>
-						在当前目录下执行
-						
-							mocha
-						：
-
-					</p>
-					<pre class="brush:js;"><span class="identifier">test_lib</span> <span class="identifier">jacksontian</span> <span class="variable">$ </span><span class="identifier">mocha</span>
-
-  ․
-
-  ✔ <span class="number">1</span> <span class="identifier"><span class="keymethods">test</span></span> <span class="identifier">complete</span> (<span class="number">2</span><span class="identifier">ms</span>)</pre>										
-
-
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>BDD Hook</h2>
-					<ul>
-						<li>
-							
-								before()
-							
-						</li>
-						<li>
-							
-								after()
-							
-						</li>
-					</ul>
-					<pre class="brush:js;">describe(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  before(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'Pre something'</span>);
-  });
-  describe(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    it(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-      lib.limit(<span class="number">10</span>);
-    });
-  });
-  after(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'Post something'</span>);
-  });
-});</pre>										
-
-
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>BDD Hook（2）</h2>
-					<ul>
-						<li>
-							
-								beforeEach()
-							
-						</li>
-						<li>
-							
-								afterEach()
-							
-						</li>
-					</ul>
-					<pre class="brush:js;">describe(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  beforeEach(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'Pre something'</span>);
-  });
-  describe(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    it(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-      lib.limit(<span class="number">10</span>);
-    });
-  });
-  afterEach(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'Post something'</span>);
-  });
-});</pre>										
-
-
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>TDD</h2>
-					<ul>
-						<li>
-							
-								suite
-							
-						</li>
-						<li>
-							
-								test
-							
-						</li>
-					</ul>
-					<pre class="brush:js;">suite(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  suite(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-    test(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-      lib.limit(<span class="number">10</span>);
-    });
-  });
-});</pre>										
-
-
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>TDD Hook</h2>
-					<ul>
-						<li>
-							
-								setup
-							
-						</li>
-						<li>
-							
-								teardown
-							
-						</li>
-					</ul>
-					<pre class="brush:js;">suite(<span class="string">'module'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-  setup(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'Pre something'</span>);
-  });
-  suite(<span class="string">'limit'</span>, <span class="function"><span class="keyword">function</span><span class="params">()</span> {</span>
-    test(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-      lib.limit(<span class="number">10</span>);
-    });
-  });
-  teardown(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    console.log(<span class="string">'Post something'</span>);
-  });
-});</pre>										
-
-
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>断言库</h2>
-					<p>
-						等等！我们还没检查结果呢，这算什么鸟测试呢，测试你妹啊。
-
-					</p>
-					<p>
-						断言库:
-
-					</p>
-					<ul>
-						<li>
-							should.js
-						</li>
-						<li>
-							expect.js
-						</li>
-						<li>
-							chai
-						</li>
-					</ul>
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>加上断言</h2>
-					<pre class="brush:js;">test(<span class="string">'limit should success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  lib.limit(<span class="number">10</span>).should.be.equal(<span class="number">10</span>);
-});</pre>										
-
-
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>结果输出</h2>
-					<pre class="brush:js;"><span class="identifier">test_lib</span> <span class="identifier">jacksontian</span> <span class="variable">$ </span><span class="identifier">mocha</span> --<span class="identifier">reporters</span>
-
-    <span class="identifier">dot</span> - <span class="identifier">dot</span> <span class="identifier">matrix</span>
-    <span class="identifier">doc</span> - <span class="identifier">html</span> <span class="identifier">documentation</span>
-    <span class="identifier">spec</span> - <span class="identifier">hierarchical</span> <span class="identifier">spec</span> <span class="identifier">list</span>
-    <span class="identifier">json</span> - <span class="identifier">single</span> <span class="identifier">json</span> <span class="identifier">object</span>
-    <span class="identifier">progress</span> - <span class="identifier">progress</span> <span class="identifier">bar</span>
-    <span class="identifier">list</span> - <span class="identifier">spec</span>-<span class="identifier">style</span> <span class="identifier">listing</span>
-    <span class="identifier">tap</span> - <span class="identifier"><span class="keymethods">test</span></span>-<span class="identifier">anything</span>-<span class="identifier">protocol</span>
-    <span class="identifier">landing</span> - <span class="identifier">unicode</span> <span class="identifier">landing</span> <span class="identifier"><span class="keymethods">strip</span></span>
-    <span class="identifier">xunit</span> - <span class="identifier">xunit</span> <span class="identifier">reportert</span>
-    <span class="identifier">teamcity</span> - <span class="identifier">teamcity</span> <span class="identifier">ci</span> <span class="identifier">support</span>
-    <span class="identifier">html</span>-<span class="identifier">cov</span> - <span class="constant">HTML</span> <span class="identifier"><span class="keymethods">test</span></span> <span class="identifier">coverage</span>
-    <span class="identifier">json</span>-<span class="identifier">cov</span> - <span class="constant">JSON</span> <span class="identifier"><span class="keymethods">test</span></span> <span class="identifier">coverage</span>
-    <span class="identifier"><span class="keymethods">min</span></span> - <span class="identifier">minimal</span> <span class="identifier">reporter</span> (<span class="identifier">great</span> <span class="identifier">with</span> --<span class="identifier">watch</span>)
-    <span class="identifier">json</span>-<span class="identifier">stream</span> - <span class="identifier">newline</span> <span class="identifier">delimited</span> <span class="identifier">json</span> <span class="identifier">events</span>
-    <span class="identifier">markdown</span> - <span class="identifier">markdown</span> <span class="identifier">documentation</span> (<span class="identifier">github</span> <span class="identifier">flavour</span>)
-    <span class="identifier">nyan</span> - <span class="identifier">nyan</span> <span class="identifier">cat!</span></pre>
-					<pre class="brush:js;">mocha -R spec
-mocha -R nyan</pre>										
-
-
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>测试用例</h2>
-					<p>
-						需求变更啦：
-						
-							limit
-						这个方法还要求返回值大于100时返回100。
-
-					</p>
-					<p>
-						正向测试/反向测试
-
-					</p>
-
+					
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>重构代码</h2>
-					<pre class="brush:js;">exports.limit = <span class="function"><span class="keyword">function</span> <span class="params">(num)</span> {</span>
-  <span class="keyword">return</span> num &lt; <span class="number">0</span> ? <span class="number">0</span> : num;
-};</pre>										
-
-
-
+					
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>测试用例的价值</h2>
-					<p>
-						问题？
-
-					</p>
-					<ul>
-						<li>
-							如何确保你的改动对原有成果没有造成破坏？
-						</li>
-						<li>
-							如何验证本次的需求是被满足的？
-						</li>
-					</ul>
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>异步怎么测试？</h2>
-					<p>
-						如何测试？
-
-					</p>
-					<pre class="brush:js;">exports.async = <span class="function"><span class="keyword">function</span> <span class="params">(callback)</span> {</span>
-  setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    callback(<span class="number">10</span>);
-  }, <span class="number">10</span>);
-};</pre>										
-
-
-
+					
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>测试异步代码</h2>
-					<pre class="brush:js;">describe(<span class="string">'async'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  it(<span class="string">'async'</span>, <span class="function"><span class="keyword">function</span> <span class="params">(done)</span> {</span>
-    lib.async(<span class="function"><span class="keyword">function</span> <span class="params">(result)</span> {</span>
-      done();
-    });
-  });
-});</pre>										
-
-
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>异步方法的超时支持</h2>
-					<pre class="brush:js;">exports.asyncTimeout = <span class="function"><span class="keyword">function</span> <span class="params">(callback)</span> {</span>
-  setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    callback(<span class="number">10</span>);
-  }, <span class="number">6000</span>);
-};</pre>
-					<pre class="brush:js;">mocha -t 10000</pre>										
-
-
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>异步方法的异常处理</h2>
-					<pre class="brush:js;">exports.parseAsync = <span class="function"><span class="keyword">function</span> <span class="params">(input, callback)</span> {</span>
-  setTimeout(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    <span class="keyword">var</span> result;
-    <span class="keyword">try</span> {
-      result = JSON.parse(input);
-    } <span class="keyword">catch</span> (e) {
-      <span class="keyword">return</span> callback(e);
-    }
-    callback(<span class="literal">null</span>, result);
-  }, <span class="number">10</span>);
-};</pre>										
-
-
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>你的Case覆盖完全吗？</h2>
-					<p>
-						单元测试重要指标：
-
-					</p>
-					<ul>
-						<li>
-							覆盖率
-						</li>
-					</ul>
-					<p>
-						模块：
-
-					</p>
-					<ul>
-						<li>
-							
-								npm install jscover
-							
-						</li>
-					</ul>
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>生成可被追踪的代码</h2>
-					<pre class="brush:js;">.<span class="regexp">/node_modules/</span>.<span class="identifier">bin</span>/<span class="identifier">jscover</span> <span class="identifier">lib</span> <span class="identifier">lib</span>-<span class="identifier">cov</span></pre>
-					<pre class="brush:js;"><code class="php">_<span class="variable">$jscoverage</span>[<span class="string">'index.js'</span>].source = [<span class="string">"exports.limit = function (input) {"</span>,<span class="string">"  return input &lt; 0 ? 0 : input;"</span>,<span class="string">"};"</span>];
-_<span class="variable">$jscoverage</span>[<span class="string">'index.js'</span>][<span class="number">1</span>]++;
-exports.limit = <span class="keyword">function</span>(input) {
-  _<span class="variable">$jscoverage</span>[<span class="string">'index.js'</span>][<span class="number">2</span>]++;
-  <span class="keyword">return</span> input &lt; <span class="number">0</span> ? <span class="number">0</span> : input;
-};</pre>										
-
-
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>测试时引入追踪代码</h2>
-					<pre class="brush:js;"><span class="class"><span class="keyword">module</span>.<span class="title">exports</span> = <span class="title">process</span>.<span class="title">env</span>.<span class="title">LIB_COV</span> ? <span class="title">require</span>('./<span class="title">lib</span>-<span class="title">cov</span>/<span class="title">index</span>') : <span class="title">require</span>('./<span class="title">lib</span>/<span class="title">index</span>');</span></pre>
-					<p>
-						备注，每个模块应该用自己的环境变量，以防止冲突
-
-					</p>
-
+					
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>生成HTML覆盖率结果页</h2>
-					<pre class="brush:js;"><code class="cpp"><span class="comment">// 设置当前命令行有效的变量</span>
-<span class="keyword">export</span> LIB_COV=<span class="number">1</span>
-mocha -R html-cov &gt; coverage.html</pre>										
-
-
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>Mock</h2>
-					<p>
-						异常该怎么测试？
-
-					</p>
-					<pre class="brush:js;">exports.getContent = <span class="function"><span class="keyword">function</span> <span class="params">(filename, callback)</span> {</span>
-  fs.readFile(filename, <span class="string">'utf-8'</span>, callback);
-};</pre>										
-
-
-
+					
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>简单mock</h2>
-					<p>
-						hook派上用场了
-
-					</p>
-					<pre class="brush:js;">describe(<span class="string">"getContent"</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  <span class="keyword">var</span> _readFile;
-  before(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    _readFile = fs.readFile;
-    fs.readFile = <span class="function"><span class="keyword">function</span> <span class="params">(filename, encoding, callback)</span> {</span>
-      callback(<span class="keyword">new</span> Error(<span class="string">"mock readFile error"</span>));
-    };
-  });
-  <span class="comment">// it();</span>
-  after(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    <span class="comment">// 用完之后记得还原。否则影响其他case</span>
-    fs.readFile = _readFile;
-  })
-});</pre>										
-
-
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>谨慎mock</h2>
-					<p>
-						异步接口依旧需要保持异步
-
-					</p>
-					<pre class="brush:js;">fs.readFile = <span class="function"><span class="keyword">function</span> <span class="params">(filename, encoding, callback)</span> {</span>
-  process.nextTick(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    callback(<span class="keyword">new</span> Error(<span class="string">"mock readFile error"</span>));
-  });
-};</pre>										
-
-
+					
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>Mock库</h2>
-					<p>
-						Mock小模块：
-						
-							muk
-						
-
-					</p>
-					<pre class="brush:js;"><span class="keyword">var</span> fs = require(<span class="string">'fs'</span>);
-<span class="keyword">var</span> muk = require(<span class="string">'muk'</span>);
-
-muk(fs, <span class="string">'readFile'</span>, <span class="function"><span class="keyword">function</span><span class="params">(path, callback)</span> {</span>
-  process.nextTick(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-    callback(<span class="keyword">new</span> Error(<span class="string">"mock readFile error"</span>));
-  });
-});</pre>										
-
+					
 
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>略微优美</h2>
-					<pre class="brush:js;">before(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  muk(fs, <span class="string">'readFile'</span>, <span class="function"><span class="keyword">function</span><span class="params">(path, encoding, callback)</span> {</span>
-    process.nextTick(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-      callback(<span class="keyword">new</span> Error(<span class="string">"mock readFile error"</span>));
-    });
-  });
-});
-<span class="comment">// it();</span>
-after(<span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  muk.restore();
-});</pre>										
-
+					
 
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>测试私有方法</h2>
-					<p>
-						模块：
-						<a href="http://jhnns.github.com/rewire/" class="roll">
-							<span data-title="rewire">
-								
-									rewire
-								</span>
-						</a>
-
-					</p>
-					<p>
-						今天老板说，limit方法不能再对外暴露了。如何测试它？
-
-					</p>
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>通过rewire导出方法</h2>
-					<pre class="brush:js;">it(<span class="string">'limit should return success'</span>, <span class="function"><span class="keyword">function</span> <span class="params">()</span> {</span>
-  <span class="keyword">var</span> lib = rewire(<span class="string">'../lib/index.js'</span>);
-  <span class="keyword">var</span> litmit = lib.__get__(<span class="string">'limit'</span>);
-  litmit(<span class="number">10</span>);
-});</pre>										
-
+					
 
 
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>rewire原理</h2>
-					<p>
-						【闭包原理】加载文件时注入
-						
-							__set__
-						
-						和
-						
-							__get__
-						方法。该方法可以访问内部变量。
-
-					</p>
 					
 
 				</section>
@@ -780,55 +322,16 @@ after(<span class="function"><span class="keyword">function</span> <span class="
 					<h2>用Makefile串起项目</h2>
 					
 					
-					<p>
-						用项目自身的jscover和mocha，避免版本冲突和混乱
-					</p>
-
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>不持续集成不舒服</h2>
-					<ul>
-						<li>
-							<a href="https://travis-ci.org/" class="roll">
-								<span data-title="Travis-ci">Travis-ci</span>
-							</a>
-							<ul>
-								<li>
-									绑定Github帐号
-								</li>
-								<li>
-									在Github仓库的Admin打开Services hook
-								</li>
-								<li>
-									打开Travis
-								</li>
-								<li>
-									每次push将会hook触发执行
-									
-										npm test
-									
-									命令
-								</li>
-							</ul>
-						</li>
-					</ul>
-
+					
 				</section>
 
 				<section class="future" style="display: none;">
 					<h2>不持续集成不舒服2</h2>
-					<p>
-						注意：Travis会将未描述的项目当作Ruby项目。所以需要在根目录下加入
-						
-							.travis.yml
-						文件。内容如下：
-
-					</p>
 					
-					
-
-
 				</section>
 
 				<section class="future" style="display: none;">
@@ -894,29 +397,21 @@ after(<span class="function"><span class="keyword">function</span> <span class="
 				</section>
 
 				<section class="future" style="display: none;">
-					<h2>QA &amp;&amp; Thanks</h2>
-
+					<h2>Q &amp; A</h2>
+					<div>Thanks</div>
 				</section>
 
 				<section class="future" style="display: none;">
-					<h2>More</h2>
+					<h2>击鼓传花 -- 未接之谜</h2>
 					<ul>
 						<li>
-							<a href="https://github.com/JacksonTian/unittesting" class="roll">
-								<span data-title="单元测试示例项目">单元测试示例项目</span>
-							</a>
+							<span>AngularJs 日志输出</span>
+							<span>如何对Directive/Service做单元测试？</span>
+							<span>如何对AngularJs做测试？</span>
 						</li>
 						<li>
-							<a href="http://html5ify.com/unittesting/slides/fengmk2.github.com/ppt/unittest-and-bdd-in-nodejs-with-mocha.html" class="roll">
-								<span data-title="单元测试实战">单元测试实战</span>
-							</a>
-							内容与本PPT有互补
-						</li>
-						<li>
-							Mocha/Should/Chai/Except/Assert
-						</li>
-						<li>
-							rewire/pedding/supertest/muk
+							<span>AngularJ项目代码的组织</span>
+							<span>如何实现工程化？</span>
 						</li>
 					</ul>
 
@@ -960,11 +455,14 @@ after(<span class="function"><span class="keyword">function</span> <span class="
 		controls : true,
 		progress : true,
 		history : true,
+		mouseWheel: false,
+		overview: true,
 		keyboard : true,
 		rollingLinks : true,
+		slideNumber: true,
 		theme : Reveal.getQueryHash().theme, // available themes are in /css/theme
-		transition : Reveal.getQueryHash().transition || 'zoom', // default/cube/page/concave/zoom/linear/none
-
+		transition : Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/none
+			
 		// Optional libraries used to extend on reveal.js
 		dependencies : [{
 		src : 'js/plugin/classList.js',

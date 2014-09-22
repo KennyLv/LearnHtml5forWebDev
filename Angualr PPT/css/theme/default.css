@@ -52,11 +52,12 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color:withe;
-  font-family: "League Gothic", Impact, sans-serif;
+  font-family: "League Gothic", MicrosoftYaHei, Impact, sans-serif;
   line-height: 0.9em;
   letter-spacing: 0.02em;
   /*text-transform: uppercase;*/
   text-shadow: 0px 0px 6px rgba(0, 0, 0, 0.2);
+	font-weight:lighter;
 }
 
 .reveal .cover {
@@ -76,10 +77,6 @@ body {
   color: #09D8FF;
   font-weight: 100;
   /*text-shadow: 0 0 15px #AF0, 0 0 2px white;*/
-}
-.reveal .cn_conetnt {
-	font-family: MicrosoftYaHei;
-	font-weight:lighter;
 }
 
 /*********************************************
