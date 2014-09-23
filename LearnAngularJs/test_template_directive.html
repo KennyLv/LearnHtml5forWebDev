@@ -14,34 +14,32 @@
 -->
 </style>
 <body>
-<div ng-app="myTempateModule">
+<div ng-app="myTempateModule" ng-controller="myTempateCtr">
    
-   <myTempate>   </myTempate>
+   <div my-Tips ng-init="Tips.style.direction='l';Tips.contents='this is a Test!'">   </my-Tips>
+   
+   <my-Tips ng-init="Tips.style.direction='t';Tips.contents='this is a Test!'"></my-Tips>
 	
 </div>
 <script src="./AngularJS1.2.24/angular.js" type="text/javascript"></script>
 
 <script type="text/javascript">
 
-		var app = angular.module("myTempateModule", []).directive('myTempate', function() {
+		var app = angular.module("myTempateModule", []).directive('myTips', function() {
 		  return {
-					restrict: 'E',
+					restrict: 'EA',
 					templateUrl: 'test_template.html'
-					//template: '<div class="box"></div>'
 		  }
 		});
-		/*
 		app.controller('myTempateCtr', ['$scope', function($scope) {
 				$scope.Tips={
 						contents : "",
 						style:{
-								direction:""
+								direction:"",
+								left:"2px"
 						}
 				};
-				$scope.Tips.style.direction = "r";
-				$scope.Tips.contents="this is a Test!";
 		}]);
-		*/
 		
 </script>
 </body>
