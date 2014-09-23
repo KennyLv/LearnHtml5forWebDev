@@ -144,253 +144,484 @@ SilverLight
 						</ol>-->
 				</section>
 					
+					
 				<section class="future" style="display: none;">
-					<h2>什么是单元测试</h2>
+					<h2>About AngularJs</h2>
+					<!--
+						Example -- Hello world!
+					-->
+					<!--
+						Modules -- Where our application components live.
+						Directives --HTML annotations that trigger Javascript behaviors.
+						Controllers -- Where we add application behavior.
+						Expressions -- How values get displayed within the page.
+					-->
+					<!--
+						Services
+					-->
+					
+				</section>
+				
 
+				<section class="future" style="display: none;">
+					<h2>Module</h2>
+					
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>Directive</h2>
+					<!--
+					Why use directives?
+					-->
+					<!--
+					Attribute vs Elements directives
+					-->
+					
+					<!--
+					How to build a customer directives?
+					-->
+					
+					<!--
+						restrict: 'A',
+						template
+						link
+						-->
+						
+						
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>Controller</h2>
+					
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>Scope</h2>
+					
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>View</h2>
 					
 				</section>
 
 				<section class="future" style="display: none;">
-					<h2>单元测试的认知误区</h2>
+					<h2>Expression</h2>
+					<!--
+					{{}}
+					-->
+					<!--
+					ng-src
+					-->
+					<!--
+					ng-repeat
+					-->
 				</section>
 
+				
+				
 				<section class="future" style="display: none;">
-					<h2>今天之任务</h2>
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>目录分配</h2>
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>测试框架</h2>
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>测试接口</h2>
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>BDD</h2>
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>BDD结果</h2>
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>BDD Hook</h2>
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>BDD Hook（2）</h2>
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>TDD</h2>
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>TDD Hook</h2>
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>断言库</h2>
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>加上断言</h2>
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>结果输出</h2>
+					<h2>filter</h2>
+					<!--
+					basic filters
+					-->
 					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>测试用例</h2>
+					<!--
+					Linky
+					$scope.contents = 'Text with links: http://angularjs.org/ & mailto:us@there.org';
+					
+					<div ng-bind-html="contents"></div>
+					Text with links: http://angularjs.org/ & mailto:us@there.org
+					
+					<div ng-bind-html="contents | linky"></div>
+					The linky filter goes through the text contents and adds <a> tags to all URLs and mailtolinks it finds, thus providing HTML content that the user can interact with:
+					Text with links: http://angularjs.org/ & us@there.org
+					-->
+			
 					
 				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>事件处理</h2>
+					
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>路由与多视图</h2>
+					
+				</section>
+				
+				
+				<section class="future" style="display: none;">
+					<h2>Service</h2>
+					
+						<!--
+						why need a service?
+						-->
+						<!--
+						How does Controller use a service?
+						-->
+						
+						<!-- Example : 
+						$http 
+						-->
+						
+						<!--
+						Dependency Injection!
+						-->
+						
+					<!--
+					How to build a customer Service?
+					-->
+					
+						<!--
+						$http
+						$timeout
+						$log
+						$provider
+						$inject
+
+						-->
+						
+						
+				</section>
+				
+				
+				<section class="future" style="display: none;">
+					<h2>Form</h2>
+					
+					<!--
+					two-way binding
+					-->
+					<!--
+					validate
+					-->
+				</section>
+				
+				
+				<section class="future" style="display: none;">
+					<h2>File Upload in AngularJS</h2>
+					
+				</section>
+				
+				<!--
+				/////////////////////////////////////////////深入////////////////////////////////////////////////////////////////////////
+				-->
 
 				<section class="future" style="display: none;">
-					<h2>重构代码</h2>
+					<h2>How AngularJS Start up</h2>
+				
+				</section>
+				
 					
+				<section class="future" style="display: none;">
+					<h2>ng运行与指令</h2>
+					<!---
+				ng-app指令：
+				<html lang="en" ng-app>
+				ng-app指令标记了AngularJS脚本的作用域，在<html>中添加ng-app属性即说明整个<html>都是AngularJS脚本作用域。开发者也可以在局部使用ng-app指令，如<div ng-app>，则AngularJS脚本仅在该<div>中运行。
+					-->
+					
+					<!--
+					angular指令的compile的参数(tElement,tAttrs)和link中的参数(scope,iElement,iAttrs)究竟有什么区别?
+					http://segmentfault.com/q/1010000000664866
+					
+					ng指令中的compile与link函数解析
+					http://www.ifeenan.com/angularjs/2014-09-04-%5B%E8%AF%91%5DNG%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84compile%E4%B8%8Elink%E5%87%BD%E6%95%B0%E8%A7%A3%E6%9E%90/
+					-->
+					
+					<!--
+link: function(scope, element, attrs) {
+var optionsObj = {
+dataType: 'json'
+};
+if (scope.done) {
+optionsObj.done = function() {
+scope.$apply(function() {
+scope.done({e: e, data: data});
+});
+};
+}
+if (scope.progress) {
+optionsObj.progress = function(e, data) {
+scope.$apply(function() {
+scope.progress({e: e, data: data});
+});
+}
+}
+// the above could easily be done in a loop, to cover
+// all API's that Fileupload provides
+element.fileupload(optionsObj);
+}-->
+				</section>
+
+				
+				<section class="future" style="display: none;">
+					<h2>AngularJS Runtime -- To $apply, or Not to $apply?</h2>
+					<!--
+					http://www.sitepoint.com/understanding-angulars-apply-digest/
+					-->
+					<!--
+					To $apply, or Not to $apply?
+There is confusion amongst AngularJS developers about when $scope.$apply() should
+be called and when it shouldn’t. Recommendations and rumors on the Internet are
+rampant. This section will make it crystal clear.
+But first, let us try to put $apply in a simpler form.
+Scope.$apply is like a lazy worker. It is told to do a lot of work, and it is responsible for
+making sure that the bindings are updated and the view reflects all those changes. But
+rather than doing this work all the time, it does it only when it feels it has enough work
+to be done. In all other cases, it just nods, and notes the work for later. It only actually
+does the work when you get its attention and tell it explicitly to work. AngularJS does
+this internally at regular intervals within its lifecycle, but if the call comes from outside
+(say a jQuery UI event), scope.$apply just takes note, but does nothing. That is why
+we have to call scope.$apply to tell it, “Hey! You need to do this right now, and not
+wait!”
+Here are four quick tips about when (and how) to call $apply.
+
+• DO NOT call it all the time. Calling $apply when AngularJS is happily ticking away
+(in its $digest cycle, as we call it) will cause an exception. So “better safe than sorry”
+is not the approach you want to use.
+• DO CALL it when controls outside of AngularJS (DOM events, external callbacks
+such as jQuery UI controls, and so on) are calling AngularJS functions. At that
+point, you want to tell AngularJS to update itself (the models, the views, and so on),
+and $apply does just that.
+
+• Whenever possible, execute your code or function by passing it to $apply, rather
+than executing the function and then calling $apply(). For example, execute the
+following code:
+$scope.$apply(function() {
+$scope.variable1 = 'some value';
+executeSomeAction();
+});
+instead of the following:
+$scope.variable1 = 'some value';
+executeSomeAction();
+$scope.$apply();
+While both of these will have the same effect, they differ in one significant way.
+
+The first will capture any errors that happen when executeSomeAction is called, while
+the latter will quietly ignore any such errors. You will get error notifications from AngularJS
+only when you do the first.
+
+• Consider using something like safeApply:
+$scope.safeApply = function(fn) {
+var phase = this.$root.$$phase;
+if(phase == '$apply' || phase == '$digest') {
+if(fn && (typeof(fn) === 'function')) {
+fn();
+}
+} else {
+this.$apply(fn);
+}
+};
+You can monkey patch this into the topmost scope or the rootscope, and then use the
+$scope.$safeApply function everywhere. This has been under discussion, and hopefully
+in a future release, this will be the default behavior.
+
+					-->
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>Modules and the Injector</h2>
+				
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>Event Loop</h2>
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>Diving Deep with Dependency Injection</h2>
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>Diving deep into the AngularUI Router</h2>
 				</section>
 
 				<section class="future" style="display: none;">
-					<h2>测试用例的价值</h2>
+					<h2>The Teams List App: Filtering and Controller Communication</h2>
+					<!--
+					In this example, we tackle multiple things at the same time, but there are two major takeaways(经验教训):
+					1. How do you use filters—especially in a clean, simple way—with repeaters?
+					2. How do you communicate between controllers that do not share an inheritance relation?
+					-->
+
+		
+					<!--
+					The Search Box
+					filterService.searchText
 					
+					The Combo Boxes
+					filterService.activeFilters.sports or city (depending on the box),
+
+					The Check Box
+					filterService.activeFilters.featured
+					
+					The Repeater
+					"team in teamsList | filter:filterService.activeFilters | filter:filterService.searchText"
+
+					-->
+
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>Communicating Between Scopes with $on, $emit, and$broadcast</h2>
+				</section>
+				
+				
+				<section class="future" style="display: none;">
+					<h2>$http and promise</h2>
+					
+						<!-- 
+						$http with promise Working with Servers and Login
+						-->
+						
+						<!-- 
+						Additional $http functionality
+						-->
+						
+						
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h2>Internationalization and Localization</h2>
+					<!--
+					AngularJS supports i18n/L10n for the following filters out of the box:
+• currency
+• date/time
+• number
+There is also pluralization support (for English as well as i18n/L10n) with the ngPlur
+alize directive.
+All of this pluralization support is handled and managed by the $locale service, which
+manages the locale-specific rule sets. The $locale service works off of locale IDs, which
+generally consist of two parts: the country code and the language code. For example,
+en_US and en_UK, denote English used in the US and the UK, respectively. Specifying a
+country code is optional, just specifying “en” is a valid locale code.
+
+1,Index.html changes
+AngularJS requires you to have a separate index.html for each supported locale.
+Your server also needs to know which index.html it has to provide, depending on
+the user’s locale preferences (this could also be triggered from a client-side change,
+when the user changes his locale).
+
+2,Creating localized rule sets
+The next step is creating an angular.js file for each supported locale, like
+(angular_en-US.js and angular_zh-CN.js). This involves concatenating the
+localization rules for each particular language (the default files for the preceding
+two locales would be angular-locale_en-US.js and angular-locale_zh-CN.js) at the
+end of the angular.js or the angular.min.js file. So your angular_en-US.js would
+contain the contents of angular.js first, followed by the contents of the angularlocale_en-US.js.
+
+3,Sourcing the localized rule sets
+The final step involves ensuring that your localized index.html refers to the localized
+rule set instead of the original angular.js file. So index_en-US.html should use
+angular-en_US.js and not angular.js.
+
+NOTE : 
+•Translation Length
+When internationalizing your apps, keep in mind that the lengths of your strings
+might change drastically from language to language. Design your CSS accordingly,
+and do thorough testing across the various languages. (Don’t forget that right to left
+languages also exist!  <a herf="http://www.ibm.com/developerworks/cn/web/1404_xiayin_bidihtml/index.html">Introduction to bidirectional languages</a>)
+•Timezones
+The AngularJS date/time filter picks up the timezone settings from the browser. So
+depending on the timezone of the computer, different people might see different
+information. Neither JS nor AngularJS have any built-in support to display time
+with a timezone specified by the developer
+
+
+-->
+
+				</section>
+
+				
+				<section class="future" style="display: none;">
+					<h2>代码美化与规范</h2>
+					<!--
+					Module的分离与合并？ controller的分离与合并
+					-->
+					
+					<!--
+					依赖$injection的顺序
+					-->
+					
+					<!--
+					someModule.controller('MyController', function($scope, dep1, dep2) {
+					  ...
+					  $scope.aMethod = function() {
+						...
+					  }
+					  ...
+					});
+					压缩之后若是修改了函数的参数名称会导致它不能注入依赖。那么可以改用 Array 的方式声明
+
+						someModule.controller('MyController', ['$scope', 'dep1', 'dep2', 
+													   function($scope,   dep1,   dep2) {
+						  ...
+						  $scope.aMethod = function() {
+							...
+						  }
+						  ...
+						}]);
+						这样代码压缩就不会有问题了
+						
+						-->
+						
+						<!--
+						现在我遇到这样一个问题，使用seajs配合angularjs，每个controller都写成了一个模块文件，再我最终部署的时候，我应该压缩合并这些controller了吗？
+						seajs有相应的对angularjs的解决方案吗？ https://github.com/seajs/seajs/issues/555
+						-->
+						
+						<!--
+						How should I organize my modules? 
+						-->
+						
+						<!--
+							Angular Namespace
+					为了防止名称冲突，angular会在object的名称中加入前缀$。请不要在代码中使用$前缀以避免冲突。(-_-!! )
+						-->
+						
+				</section>
+
+				
+				<section class="future" style="display: none;">
+					<h2>Using jQuery</h2>
+				
 
 				</section>
 
 				<section class="future" style="display: none;">
-					<h2>异步怎么测试？</h2>
-					
+					<h2>Using Socket.IO</h2>
 				</section>
 
+				
 				<section class="future" style="display: none;">
-					<h2>测试异步代码</h2>
+					<h2>How to implement a UT</h2>
+					<!--Pagination Service with unit test-->
 					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>异步方法的超时支持</h2>
-					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>异步方法的异常处理</h2>
-					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>你的Case覆盖完全吗？</h2>
-					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>生成可被追踪的代码</h2>
-					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>测试时引入追踪代码</h2>
-					
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>生成HTML覆盖率结果页</h2>
-					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>Mock</h2>
-					
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>简单mock</h2>
-					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>谨慎mock</h2>
-					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>Mock库</h2>
-					
-
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>略微优美</h2>
-					
-
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>测试私有方法</h2>
-					
-
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>rewire原理</h2>
-					
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>用Makefile串起项目</h2>
+					<!--
+					基于AngularJS的项目被预先配置为使用JsTestDriver来运行单元测试。
+					你可以像下面这样运行测试：
+							在一个单独的终端上，进入到angular-phonecat目录并且运行./scripts/test-server.sh来启动测试（Windows命令行下请输入.\scripts\test-server.bat来运行脚本，后面脚本命令运行方式类似）；
+							打开一个新的浏览器窗口，并且转到http://localhost:9876 ；
+							选择“Capture this browser in strict mode”。
+					这个时候，你可以抛开你的窗口不管然后把这事忘了。JsTestDriver会自己把测试跑完并且把结果输出在你的终端里。
+					运行./scripts/test.sh进行测试 。你应当看到类似于如下的结果：
+							Chrome: Runner reset.
+							Total 1 tests (Passed: 1; Fails: 0; Errors: 0) (2.00 ms)
+							Chrome 19.0.1084.36 Mac OS: Run 1 tests (Passed: 1; Fails: 0; Errors 0) (2.00 ms)
+					耶！测试通过了！或者没有... 注意：如果在你运行测试之后发生了错误，关闭浏览器然后回到终端关了脚本，然后在重新来一边上面的步骤。
+					-->
 					
 					
 				</section>
-
-				<section class="future" style="display: none;">
-					<h2>不持续集成不舒服</h2>
-					
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>不持续集成不舒服2</h2>
-					
-				</section>
+				
 
 				<section class="future" style="display: none;">
 					<h2>总结</h2>
 					<ul>
 						<li>
-							使代码可以放心修改和重构
-						</li>
-						<li>
-							食自己的狗食
-						</li>
-						<li>
-							只有质量保证的代码才能有质量保证的产品
-						</li>
-						<li>
-							写好代码和测试，把查找bug的时间用来干更有意义的事情
-						</li>
-						<li>
-							单元测试Passing和覆盖率100%是一种荣耀
-						</li>
-						<li>
-							有单元测试的代码，再差也不会差到哪里去
-							<ul>
-								<li>
-									没单元测试，吹牛逼也要小心
-								</li>
-							</ul>
-						</li>
-						<li>
-							集成的，好喝的
-						</li>
-					</ul>
-
-				</section>
-
-				<section class="future" style="display: none;">
-					<h2>TODO</h2>
-					<ul>
-						<li>
-							前后端共用单元测试
-						</li>
-						<li>
-							断言的细节和技巧
-						</li>
-						<li>
-							Mocha的更多技巧
-						</li>
-						<li>
-							connect/express web应用的测试
-							<ul>
-								<li>
-									
-										supertest
-									
-								</li>
-							</ul>
-						</li>
-						<li>
-							性能测试/功能测试
+						Angular 编程思想 http://www.oschina.net/translate/the-angular-way?print
 						</li>
 					</ul>
 
@@ -399,10 +630,17 @@ SilverLight
 				<section class="future" style="display: none;">
 					<h2>Q &amp; A</h2>
 					<div>Thanks</div>
+					<ol>
+							<li><a href="http://www.cnblogs.com/lcllao/archive/2012/10/18/2728787.html">AngularJs学习笔记--Guide教程系列文章索引</a></li>
+							<li><a href="http://www.ng-newsletter.com/">ng-newsletter</a></li>
+							<li><a href="http://angularjs.cn/T001">AngularJs中文社区</a></li>
+							<li><a href="http://woxx.sinaapp.com/">用AngularJS开发下一代Web应用</a></li>
+							
+					</ol>
 				</section>
 
 				<section class="future" style="display: none;">
-					<h2>击鼓传花 -- 未接之谜</h2>
+					<h2>TODO 击鼓传花 -- 未接之谜</h2>
 					<ul>
 						<li>
 							<span>AngularJs 日志输出</span>
