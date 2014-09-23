@@ -1,0 +1,49 @@
+﻿<!DOCTYPE html>
+<html lang="zh-cn" >
+<head>
+    <meta charset="UTF-8">
+    <title>time-format</title>
+</head>
+<style type="text/css">
+<!--
+.box{ width:300px; height:400px; background:#CCC; position:relative;  top:100px;left:100px }
+.to-top{display:block; overflow:hidden; width:0px; height:0px; border:6px solid #ccc; border-color:#ccc #fff; border-width:0 6px 6px 6px; position:absolute; left:30px; top:0;margin-top:-6px;}
+.to-right{display:block; overflow:hidden; width:0px; height:0px; border:6px solid #ccc; border-color:#fff #ccc; border-width:6px 0 6px 6px; position:absolute; right:0px; top:130px;margin-right:-6px;}
+.to-bottom{display:block; overflow:hidden; width:0px; height:0px; border:6px solid #ccc; border-color:#ccc #fff; border-width:6px 6px 0 6px; position:absolute; right:30px; bottom:0;margin-bottom:-6px;}
+.to-left{display:block; overflow:hidden; width:0px; height:0px; border:6px solid #ccc; border-color:#fff #ccc; border-width:6px 6px 6px 0 ; position:absolute; left:0; bottom:30px;margin-left:-6px;}
+-->
+</style>
+<body>
+<div ng-app="myTempateModule">
+   
+   <myTempate>   </myTempate>
+	
+</div>
+<script src="./AngularJS1.2.24/angular.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+
+		var app = angular.module("myTempateModule", []).directive('myTempate', function() {
+		  return {
+					restrict: 'E',
+					templateUrl: 'test_template.html'
+					//template: '<div class="box"></div>'
+		  }
+		});
+		/*
+		app.controller('myTempateCtr', ['$scope', function($scope) {
+				$scope.Tips={
+						contents : "",
+						style:{
+								direction:""
+						}
+				};
+				$scope.Tips.style.direction = "r";
+				$scope.Tips.contents="this is a Test!";
+		}]);
+		*/
+		
+</script>
+</body>
+</html>
+
