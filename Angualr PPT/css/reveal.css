@@ -76,7 +76,7 @@ body {
 .reveal h1 { font-size: 3.77em; }
 .reveal h2 { font-size: 2.11em;	}
 .reveal h3 { font-size: 1.55em;	}
-.reveal h4 { font-size: 1em;	}
+.reveal h4 { font-size: 1.25em;	}
 
 
 /*********************************************
@@ -500,15 +500,15 @@ body {
 
 .reveal .slides {
 	position: absolute;
-	max-width: 900px;
+	max-width: 1024px;/*900px;*/
 	width: 80%;
 	height: 60%;
 	left: 50%;
-	top: 50%;
-	margin-top: -320px;
-	padding: 20px 0px;
+	/*top: 50%;
+	margin-top: -320px;*/
+	padding: 100px 0px;
 	overflow: visible;
-	z-index: 1;
+	/*z-index: 1;*/
 
 	-webkit-transition: -webkit-perspective .4s ease;
 	   -moz-transition: -moz-perspective .4s ease;
