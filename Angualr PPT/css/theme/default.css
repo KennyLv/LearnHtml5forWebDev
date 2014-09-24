@@ -28,7 +28,7 @@ body {
 }
 
 .reveal {
-  font-family: "Lato", Times, "Times New Roman", serif;
+  font-family: 'Segoe UI',Arial,'Lato', Times, 'Times New Roman', Helvetica,Sans-Serif,serif; 
   font-size: 36px;
   font-weight: 200;
   letter-spacing: -0.02em;

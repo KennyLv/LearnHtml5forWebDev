@@ -14,6 +14,8 @@
 		
 		<link rel="stylesheet" href="css/style.css">
 		
+		<link rel="stylesheet" href="./angualrJs/style.css">
+		
 		<script type="text/javascript" src="./js/shBrushCore.js"></script>
 		<script type="text/javascript" src="./js/shBrushJScript.js"></script>
 		<link type="text/css" rel="stylesheet" href="./css/shBrushCoreDefault.css"/>
@@ -43,18 +45,19 @@
 							Front framework
 						</li>
 						<li>
-							About AngularJS
+							First look at AngularJs
 							<!--
 							(示例：baidu_map & 控件 & 天气插件 & qTips -- 想new几个new几个)
 							估计是被忽悠了？ ---- 后面的代码很吓人啦！！
 							好处 -- 不仅仅是MVC -- 工程化、开源（这个好处不用讲了，看看这个页面）
 							-->
-						</li>
-						<li>
-							First Look at AngularJs
 							<!--
 							基础知识（对MVC的实现）
 							-->
+						</li>
+						<li>
+							Begin your apps with AngularJs
+							
 						</li>
 						<li>
 							Little further on AngualrJs
@@ -64,6 +67,10 @@
 						</li>
 						<li>
 							Q&A 
+							<!--
+							- 总结
+							- 疑问
+							-->
 						</li>
 					</ul>
 
@@ -150,29 +157,26 @@
 				///////////////////////////////////////////// 基础 /////////////////////////////////////////////
 				-->
 				<section class="cover present" style="display: block;">
-					<h1>First look @ AngularJs</h1>
+					<h1>Part1 - First look at AngularJs</h1>
 				</section>
 				
-				
-				<section class="future" style="display: none;">
-						<h4>Fragmented Views</h4>
-						<p>Hit the next arrow...</p>
-						<div class="fragment"><code>any type</code></div>
-						<div class="fragment"><em>of view</em></div>
-						<div class="fragment">
-								<fragment_tips >
-								</fragment_tips>
-						</div>
-						<!--<ol>
-							<li class="fragment"><code>any type</code></li>
-							<li class="fragment"><em>of view</em></li>
-							<li class="fragment"><strong>fragments</strong></li>
-						</ol>-->
-				</section>
+				<!--<my-Tips  class="fragment" ng-app="myTipsModule" ng-controller="myTipsCtr" ng-init="Tips.style.direction='r';Tips.contents='this is a Test!'"> </my-Tips>-->
 					
-					
-				<section class="future" style="display: none;">
+				<section class="future" style="display: none;" ng-app="myTipsModule" ng-controller="myTipsCtr" >
 					<h4>About AngularJs</h4>
+					<!--
+					<my-Tips  class="fragment" ng-app="myTipsModule" ng-controller="myTipsCtr" ng-init="Tips.style.direction='t';Tips.style.position.top='200px';Tips.style.position.left='20px';Tips.contents='this is a Test 1 !'"> </my-Tips>
+					
+					<my-Tips  class="fragment" ng-app="myTipsModule" ng-controller="myTipsCtr" ng-init="Tips={contents : 'This is a test 2 !',style:{direction:'r',position:{top:'10px',left:'50px'}}}"> </my-Tips>
+					-->
+					<!--
+					http://my.oschina.net/ilivebox/blog/289670
+					-->
+					<my-Tips  class="fragment" tips="tips1"> </my-Tips>
+					<my-Tips  class="fragment" tips="tips2"> </my-Tips>
+					<my-Tips  class="fragment" tips="{contents : 'This is a test3 !',style:{direction:'r',position:{top:'300px',left:'50px'}}}"> </my-Tips>
+					
+					
 					<!--
 						Example -- Hello world!
 					-->
@@ -191,6 +195,20 @@
 
 				<section class="future" style="display: none;">
 					<h4>Module</h4>
+						
+						模块可以说是AngularJS 的根本。它包含配置、控制、过滤、工厂模式、指令及其它模块。
+							AngularJS .NET  摘要 
+							module Assembly 应用开发模块
+
+							controller ViewModel 控制器，启到不同层面间的组织作用
+
+							scope DataContext 为视图提供绑定数据
+
+							filter ValueConverter 数据传输到视图之前修改数据
+
+							directive Component 可复用的UI元素，也可以理解为前端插件
+
+							factory, service Utility classes 为其他模块元素提供服务
 					
 				</section>
 				
@@ -231,10 +249,19 @@
 					<img src="./img/model.png"/>
 						-->
 						
+						<!--
+						isolate scope
+						-->
+						
 				</section>
 				
 				<section class="future" style="display: none;">
 					<h4>View</h4>
+					
+					<!--
+					AngularJS 自定义控件
+					http://my.oschina.net/ilivebox/blog/289670
+					-->
 					
 					<!--
 					
@@ -363,33 +390,75 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 				
 				
 				<section class="future" style="display: none;">
-					<h4>Service</h4>
+					<h4>如何与服务器交互——Service</h4>
+					
+					<!--
+					理解服务
+					http://angularjs.cn/A00R
+					AngularJS服务是一种能执行一个常见操作的单例，比如$http服务是用来操作浏览器的XMLHttpRequest对象的。
+
+要使用AngularJS服务，你只需要在需要的地方（控制器，或其他服务）指出依赖就行了。AngularJS的依赖注入系统会帮你完成剩下的事情。它负责实例化，查找左右依赖，并且按照工场函数要求的样子传递依赖。
+
+AngularJS通过“构造器注入”来注入依赖（通过工场函数来传递依赖）。以为Javascript是动态类型语言，AngularJS无法通过静态类型来识别服务，所以你必须使用$inject属性来显式地指定依赖。比如:formatDate
+
+myController.$inject = ['$location'];
+AngularJS web框架提供了一组常用操作的服务。和其他的内建变量或者标识符一样，内建服务名称也总是以"$"开头。另外你也可以创建你自己的服务。
+					
+					-->
+					
 					
 						<!--
 						why need a service?
 						-->
+						
+					<!--
+					How to build a customer Service?
+						创建服务
+					
+						注册服务
+							http://angularjs.cn/A00N
+							
+							
+							http://www.cnblogs.com/sitemanager/p/3459941.html
+							http://www.cnblogs.com/sitemanager/archive/2013/12/05/3459516.html
+					-->
+						
 						<!--
 						How does Controller use a service?
+						//Dependency Injection!
+						
+						将服务注入到控制器中
+						实例化AngularJS的服务
+						http://angularjs.cn/A00O
+								image  --	Module & Injector (1).png
+						
+						
+						管理服务依赖
+						http://angularjs.cn/A00P
+						声明依赖，
+								在工场方法参数中隐式指明他们，
+								也可以将$inject属性设置成包含了依赖名称的数组，(不推荐使用)
+								或者是使用数组表示法。
+								
+						几点要注意：
+								自定义的服务都使用隐式表示和数组法来表示自己的依赖。
+								最重要的是数组中的服务的名字顺序要和工厂函数参数的名字顺序对应。
+								除非依赖是隐式地通过函数参数名表示的，那么就是有声明依赖的数组名称顺序决定依赖注入的顺序。
 						-->
+						
+						
 						
 						<!-- Example : 
 						$http 
 						-->
 						
-						<!--
-						Dependency Injection!
-						-->
-						
-					<!--
-					How to build a customer Service?
-					-->
 					
 						<!--
 						$http
 						$timeout
 						$log
-						$provider
-						$inject
+						$route
+						
 
 						-->
 						
@@ -400,6 +469,10 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 				<section class="future" style="display: none;">
 					<h4>Form</h4>
 					
+					<!--
+					实现自定义的表单控件(用ngModel)
+					http://angularjs.cn/A00t
+					-->
 					<!--
 					two-way binding
 					-->
@@ -425,6 +498,10 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 				<section class="future" style="display: none;">
 					<h4>How AngularJS Starts up in your browser?</h4>
 				
+				
+				<!--
+				http://angularjs.cn/A00q
+				-->
 				<!--
 				
 				<img src="./img/startup.png"/>
@@ -448,8 +525,16 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 					8. ng-init 这个directive在对应的scope中创建name属性并对其赋予”Kitty”值；
 
 					9. 将“{{name}}”的值插入(interpolates)到表达式中，最终显示”Hello Kitty!”。
+-->
 
-
+					<!---
+				ng-app指令：
+				<html lang="en" ng-app>
+				ng-app指令标记了AngularJS脚本的作用域，在<html>中添加ng-app属性即说明整个<html>都是AngularJS脚本作用域。开发者也可以在局部使用ng-app指令，如<div ng-app>，则AngularJS脚本仅在该<div>中运行。
+					-->
+					
+					
+					<!---
 			<pre>
 					<html lang="zh-cn" ng-app>
 					<head>
@@ -473,19 +558,19 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 				
 					
 				<section class="future" style="display: none;">
-					<h4>ng运行与指令</h4>
-					<!---
-				ng-app指令：
-				<html lang="en" ng-app>
-				ng-app指令标记了AngularJS脚本的作用域，在<html>中添加ng-app属性即说明整个<html>都是AngularJS脚本作用域。开发者也可以在局部使用ng-app指令，如<div ng-app>，则AngularJS脚本仅在该<div>中运行。
-					-->
-					
+					<h4>HTML编译器——$Compiler</h4>
 					<!--
-					angular指令的compile的参数(tElement,tAttrs)和link中的参数(scope,iElement,iAttrs)究竟有什么区别?
-					http://segmentfault.com/q/1010000000664866
+					编译过程和指令匹配
+					http://angularjs.cn/A00r
 					
-					ng指令中的compile与link函数解析
-					http://www.ifeenan.com/angularjs/2014-09-04-%5B%E8%AF%91%5DNG%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84compile%E4%B8%8Elink%E5%87%BD%E6%95%B0%E8%A7%A3%E6%9E%90/
+
+HTML的编译分为三个阶段：
+
+首先浏览器会用它的标准API将HTML解析成DOM。 你需要认清这一点，因为我们的模板必须是可被解析的HTML。这是AngularJS和那些“以字符串为基础而非以DOM元素为基础的”模板系统的区别之处。
+
+DOM的编译是有$compile方法来执行的。 这个方法会遍历DOM并找到匹配的指令。一旦找到一个，它就会被加入一个指令列表中，这个列表是用来记录所有和当前DOM相关的指令的。 一旦所有的指令都被确定了，会按照优先级被排序，并且他们的compile方法会被调用。 指令的$compile()函数能修改DOM结构，并且要负责生成一个link函数（后面会提到）。$compile方法最后返回一个合并起来的链接函数，这是链接函数是每一个指令的compile函数返回的链接函数的集合。
+
+通过调用一步所说的链接函数来将模板与作用域链接起来。这会轮流调用每一个指令的链接函数，让每一个指令都能对DOM注册监听事件，和建立对作用域的的监听。这样最后就形成了作用域的DOM的动态绑定。任何一个作用域的改变都会在DOM上体现出来。
 					-->
 					
 					<!--
@@ -501,6 +586,65 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 					-->
 					
 					
+					<!--
+					angular指令的compile的参数(tElement,tAttrs)和link中的参数(scope,iElement,iAttrs)究竟有什么区别?
+					http://segmentfault.com/q/1010000000664866
+					
+					ng指令中的compile与link函数解析
+					http://www.ifeenan.com/angularjs/2014-09-04-%5B%E8%AF%91%5DNG%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84compile%E4%B8%8Elink%E5%87%BD%E6%95%B0%E8%A7%A3%E6%9E%90/
+					-->
+					
+					<!--
+					关于Compile、PreLink、PostLink和Controller的关系与区别
+					http://angularjs.cn/A0pa
+					
+					一般运行次序：
+
+Compile（一次）[子指令的Compile...]>Controller（多次）>PreLink（多次）[子指令的Controller>子指令的PreLink[>子子指令的Controller...]...]>PostLink（多次）
+
+如果有子指令依赖父指令的Scope的，次序会变成：
+
+Compile（一次）>Controller（多次）>PreLink（多次）>PostLink（多次）[子指令...]
+
+（另外，有指令嵌套的情况下，参数replace为true或false也会导致运行次序不同，不过一般都是Compile>Controller>PreLink>PostLink，大家有空可以看看这个《【点滴积累】嵌套directive中的replace 对 初始化顺序的影响》）
+
+Compile: 用于收集指令，编译模板，可以作用到所有的子指令，然后返回一系列的link函数等待执行（只运行一次）；
+
+PreLink: 运行于Compile之后但是在子指令关联之前，个人认为，这里可以做一些Scope的计算或赋值之类的，然后再去绑定，此时由于DOM尚未绑定，进行DOM变形将有可能导致运行异常，不建议在此阶段进行（运行多次）；
+
+PostLink: 主要用于绑定DOM和Scope，这时候可以进行DOM变形或绑定事件。其实PostLink就是Link（运行多次）；
+
+Controller: 主要用于与其他指令交互，可以在上面定义一些函数来操作Scope等（运行多次）；
+
+关于transclude，可以看看这个《Transclude in AngularJS》（http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html）;
+					-->
+					
+					
+					<!--
+					ng指令中controller与link的区别
+					http://angularjs.cn/A0nR
+					
+					http://jasonmore.net/angular-js-directives-difference-controller-link/
+					
+					-->
+					
+					
+					
+					
+					
+				</section>
+
+				
+				
+				<section class="future" style="display: none;">
+					<h4>ng运行与指令 </h4>
+					
+					<!--
+					
+					Directive Definition Object 指令定义对象
+					http://angularjs.cn/A00p
+					
+					-->
 					<!--
 link: function(scope, element, attrs) {
 var optionsObj = {
@@ -527,70 +671,24 @@ element.fileupload(optionsObj);
 				</section>
 
 				
+				
 				<section class="future" style="display: none;">
-					<h4>AngularJS Runtime -- To $apply, or Not to $apply?</h4>
+					<h4>AngularJS表达式</h4>
 					<!--
-					http://www.sitepoint.com/understanding-angulars-apply-digest/
+					AngularJS表达式的处理
+					$parse方法
 					-->
 					<!--
-					To $apply, or Not to $apply?
-There is confusion amongst AngularJS developers about when $scope.$apply() should
-be called and when it shouldn’t. Recommendations and rumors on the Internet are
-rampant. This section will make it crystal clear.
-But first, let us try to put $apply in a simpler form.
-Scope.$apply is like a lazy worker. It is told to do a lot of work, and it is responsible for
-making sure that the bindings are updated and the view reflects all those changes. But
-rather than doing this work all the time, it does it only when it feels it has enough work
-to be done. In all other cases, it just nods, and notes the work for later. It only actually
-does the work when you get its attention and tell it explicitly to work. AngularJS does
-this internally at regular intervals within its lifecycle, but if the call comes from outside
-(say a jQuery UI event), scope.$apply just takes note, but does nothing. That is why
-we have to call scope.$apply to tell it, “Hey! You need to do this right now, and not
-wait!”
-Here are four quick tips about when (and how) to call $apply.
-
-• DO NOT call it all the time. Calling $apply when AngularJS is happily ticking away
-(in its $digest cycle, as we call it) will cause an exception. So “better safe than sorry”
-is not the approach you want to use.
-• DO CALL it when controls outside of AngularJS (DOM events, external callbacks
-such as jQuery UI controls, and so on) are calling AngularJS functions. At that
-point, you want to tell AngularJS to update itself (the models, the views, and so on),
-and $apply does just that.
-
-• Whenever possible, execute your code or function by passing it to $apply, rather
-than executing the function and then calling $apply(). For example, execute the
-following code:
-$scope.$apply(function() {
-$scope.variable1 = 'some value';
-executeSomeAction();
-});
-instead of the following:
-$scope.variable1 = 'some value';
-executeSomeAction();
-$scope.$apply();
-While both of these will have the same effect, they differ in one significant way.
-
-The first will capture any errors that happen when executeSomeAction is called, while
-the latter will quietly ignore any such errors. You will get error notifications from AngularJS
-only when you do the first.
-
-• Consider using something like safeApply:
-$scope.safeApply = function(fn) {
-var phase = this.$root.$$phase;
-if(phase == '$apply' || phase == '$digest') {
-if(fn && (typeof(fn) === 'function')) {
-fn();
-}
-} else {
-this.$apply(fn);
-}
-};
-You can monkey patch this into the topmost scope or the rootscope, and then use the
-$scope.$safeApply function everywhere. This has been under discussion, and hopefully
-in a future release, this will be the default behavior.
-
+					AngularJS表达式 与Javascript表达式的比较
+					http://angularjs.cn/A00s
+					-->
+					<!--
+					AngularJS表达式 —— $符号
 					-->
 				</section>
+				
+				
+				
 				
 				<section class="future" style="display: none;">
 					<h4>Modules and the Injector</h4>
@@ -611,9 +709,16 @@ in a future release, this will be the default behavior.
 				
 				-->
 				
-				
+				<!--
+				Factory method工厂函数   与 $Injector 
+				http://angularjs.cn/A00r
+
+工厂函数是用来创建指令的。它只会被调用一次：就是当编译器第一次匹配到相应指令的时候。你可以在其中进行任何初始化的工作。调用它时使用的是 $injector.invoke ， 所以它遵循所有注入器的规则。
+				-->
 				
 				</section>
+				
+				
 				
 				<section class="future" style="display: none;">
 					<h4>Event Loop</h4>
@@ -692,18 +797,89 @@ in a future release, this will be the default behavior.
 					<h4>Diving Deep with Dependency Injection</h4>
 				</section>
 				
+
+				
+				<section class="future" style="display: none;">
+					<h4>AngularJS Runtime -- To $apply, or Not to $apply?</h4>
+					<!--
+					http://www.sitepoint.com/understanding-angulars-apply-digest/
+					-->
+					<!--
+					To $apply, or Not to $apply?
+There is confusion amongst AngularJS developers about when $scope.$apply() should
+be called and when it shouldn’t. Recommendations and rumors on the Internet are
+rampant. This section will make it crystal clear.
+But first, let us try to put $apply in a simpler form.
+Scope.$apply is like a lazy worker. It is told to do a lot of work, and it is responsible for
+making sure that the bindings are updated and the view reflects all those changes. But
+rather than doing this work all the time, it does it only when it feels it has enough work
+to be done. In all other cases, it just nods, and notes the work for later. It only actually
+does the work when you get its attention and tell it explicitly to work. AngularJS does
+this internally at regular intervals within its lifecycle, but if the call comes from outside
+(say a jQuery UI event), scope.$apply just takes note, but does nothing. That is why
+we have to call scope.$apply to tell it, “Hey! You need to do this right now, and not
+wait!”
+Here are four quick tips about when (and how) to call $apply.
+
+• DO NOT call it all the time. Calling $apply when AngularJS is happily ticking away
+(in its $digest cycle, as we call it) will cause an exception. So “better safe than sorry”
+is not the approach you want to use.
+• DO CALL it when controls outside of AngularJS (DOM events, external callbacks
+such as jQuery UI controls, and so on) are calling AngularJS functions. At that
+point, you want to tell AngularJS to update itself (the models, the views, and so on),
+and $apply does just that.
+
+• Whenever possible, execute your code or function by passing it to $apply, rather
+than executing the function and then calling $apply(). For example, execute the
+following code:
+$scope.$apply(function() {
+$scope.variable1 = 'some value';
+executeSomeAction();
+});
+instead of the following:
+$scope.variable1 = 'some value';
+executeSomeAction();
+$scope.$apply();
+While both of these will have the same effect, they differ in one significant way.
+
+The first will capture any errors that happen when executeSomeAction is called, while
+the latter will quietly ignore any such errors. You will get error notifications from AngularJS
+only when you do the first.
+
+• Consider using something like safeApply:
+$scope.safeApply = function(fn) {
+var phase = this.$root.$$phase;
+if(phase == '$apply' || phase == '$digest') {
+if(fn && (typeof(fn) === 'function')) {
+fn();
+}
+} else {
+this.$apply(fn);
+}
+};
+You can monkey patch this into the topmost scope or the rootscope, and then use the
+$scope.$safeApply function everywhere. This has been under discussion, and hopefully
+in a future release, this will be the default behavior.
+
+					-->
+				</section>
+				
+				
+				
+				
 				<section class="future" style="display: none;">
 					<h4>Diving deep into the AngularUI Router</h4>
 				</section>
 
 				<section class="future" style="display: none;">
-					<h4>The Teams List App: Filtering and Controller Communication</h4>
+					<h4>Diving deep into the Angular Filter</h4>
+					
+										
 					<!--
-					In this example, we tackle multiple things at the same time, but there are two major takeaways(经验教训):
-					1. How do you use filters—especially in a clean, simple way—with repeaters?
-					2. How do you communicate between controllers that do not share an inheritance relation?
+					创建AngularJS过滤器
+					http://angularjs.cn/A00J
 					-->
-
+					
 		
 					<!--
 					The Search Box
@@ -719,11 +895,66 @@ in a future release, this will be the default behavior.
 					"team in teamsList | filter:filterService.activeFilters | filter:filterService.searchText"
 
 					-->
+					
+				</section>
+					
+					
+				<section class="future" style="display: none;">
+					<h4>The Teams List App: Filtering and Controller Communication</h4>
+					<!--
+					In this example, we tackle multiple things at the same time, but there are two major takeaways(经验教训):
+					1. How do you use filters—especially in a clean, simple way—with repeaters?
+					2. How do you communicate between controllers that do not share an inheritance relation?
+					-->
+
+
 
 				</section>
 				
 				<section class="future" style="display: none;">
 					<h4>Communicating Between Scopes with $on, $emit, and$broadcast</h4>
+					<!--
+					$Watch 
+					-->
+					
+				</section>
+				
+				<section class="future" style="display: none;">
+					<h4>$Watch , $Resource,$location,$provide</h4>
+					
+					<!--
+					http://angularjs.cn/A00M
+					使用$location
+					
+					历史管理 vs 网络爬虫SEO
+					
+					$location的双向绑定
+					-->
+					<!--
+					var myModule = angular.module('myModule', []);
+					myModule.factory('serviceId', function() {
+					  var shinyNewServiceInstance;
+					  //factory function body that constructs shinyNewServiceInstance
+					  return shinyNewServiceInstance;
+					});
+					----------------------------------------------------------------------------------------------
+					var myModule = angular.module('myModule', []).factory('serviceId', function() {
+					  var shinyNewServiceInstance;
+					  //factory function body that constructs shinyNewServiceInstance
+					  return shinyNewServiceInstance;
+					});
+					----------------------------------------------------------------------------------------------
+					angular.module('myModule', [], function($provide) {
+					  $provide.factory('serviceId', function() {
+						var shinyNewServiceInstance;
+						//factory function body that constructs shinyNewServiceInstance
+						return shinyNewServiceInstance;
+					  });
+					});
+					  
+					  -->
+  
+					
 				</section>
 				
 				
@@ -743,6 +974,12 @@ in a future release, this will be the default behavior.
 				
 				<section class="future" style="display: none;">
 					<h4>Internationalization and Localization</h4>
+					
+					<!--
+					什么是i18n和l10n?
+					http://angularjs.cn/A00u
+					-->
+					
 					<!--
 					AngularJS supports i18n/L10n for the following filters out of the box:
 • currency
@@ -804,6 +1041,10 @@ with a timezone specified by the developer
 					-->
 					
 					<!--
+					隐式依赖注入
+							AngularJS依赖注入系统的新特性使得AngularJS可以通过参数名称来判断依赖
+							但是如你要压缩你的代码，你的变量名会被重命名，你就只能显示地指定依赖了。
+					
 					someModule.controller('MyController', function($scope, dep1, dep2) {
 					  ...
 					  $scope.aMethod = function() {
@@ -839,13 +1080,42 @@ with a timezone specified by the developer
 					为了防止名称冲突，angular会在object的名称中加入前缀$。请不要在代码中使用$前缀以避免冲突。(-_-!! )
 						-->
 						
+						<!--
+						IE浏览器兼容性
+						http://angularjs.cn/A00v
+
+IE处理非标准标签名会产生问题。问题可以分为两类，每类都有自己的解决方法。
+
+如果标签名是以my:前缀开始的: 这会被当成是一个XML的命名空间，并且必须使用`来声明。
+
+如果标签没有:符号，但它又不是一个标准的HTML标签。那么就必须预先使用document.createElement('my-tag')来创建它。
+
+如果你准备使用css选择器来对自定义标签添加样式，那么你就必须先用document.createElement('my-tag')来创建一下，不管有没有XML命名空间。
+
+好消息
+
+值得庆幸的是，IE的这种限制只存在在标签名上，标签属性名没有限制。所以，当在IE上使用<div my-tag your:tag> </div>.这样的形式时没有特殊要求。
+						-->
+						
+						
 				</section>
 
 				
 				<section class="future" style="display: none;">
 					<h4>Using jQuery</h4>
+				<!---
+				http://www.angularjs.cn/A0fG
+				angularjs与其他类库 jquery的协作
 				
-
+				http://angularjs.cn/A0cj
+				angularjs 与 jquerymobile兼容问题
+				
+				http://key232323.iteye.com/blog/1954904
+				angularjs使用lhgdialog做对话框控件
+				-->
+				
+				
+				
 				</section>
 
 				<section class="future" style="display: none;">
@@ -855,6 +1125,17 @@ with a timezone specified by the developer
 				
 				<section class="future" style="display: none;">
 					<h4>How to implement a UT</h4>
+					
+					<!--
+					端到端测试
+					http://angularjs.cn/A00E
+					-->
+					
+					<!--
+					测试服务
+					http://angularjs.cn/A00Q
+					-->
+					
 					<!--Pagination Service with unit test-->
 					
 					<!--
@@ -921,6 +1202,12 @@ with a timezone specified by the developer
 							<span>如何实现工程化？</span>
 						</li>
 					</ul>
+					
+					<!--
+					http://angularjs.cn/A08H
+					ng-include 怎么加loading
+					src="r_tpl" 改变回去后台去模版文件 这取模版过程有一段时间，我应该怎么在中间加一个loading
+					-->
 
 				</section>
 				
@@ -947,8 +1234,10 @@ with a timezone specified by the developer
 			<aside class="clcok" style="display: block;">
 					<!-- TODO -->
 			</aside>
+			<!--
 			<div class="state-background"></div>
 			<div class="pause-overlay"></div>
+			-->
 		</div>
 
 		<script src="js/head.js"></script>
@@ -1003,16 +1292,17 @@ with a timezone specified by the developer
 
 		<script type="text/javascript" src="js/plugin/zoom.js"></script>
 		<script type="text/javascript" src="js/plugin/notes.js"></script>
-		
+
+		<script src="./angualrJs/angular.min.js" type="text/javascript"></script>
+		<script type="text/javascript">
+				var app = angular.module("myTipsModule", []);
+		</script>
+		<script src="./angualrJs/controller/myTipsCtr.js" type="text/javascript"></script>
 		
 		<!--
 		TODO : ng-click="showPic(startUp)";
 		-->
 		
-		<!--
-		TODO : fragment_tips
-		-->
-		
-		<div class="img_popup"> <img src="./img/startup.png"/> </div>
+		<!--<div class="img_popup"> <img src="./img/startup.png"/> </div>-->
 	</body>
 </html>
