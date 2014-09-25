@@ -2,7 +2,14 @@
 app.directive('myTips', function() {
   return {
 			restrict: 'EA',
-			templateUrl: 'angualrJs/view_templates/myTips.html',
+			//templateUrl: 'angualrJs/view_templates/myTips.html',
+			template :'<div class="myTipBox" style="top: {{ tips.style.position.top }};left: {{tips.style.position.left}};">'
+											+ '<em class="to-top" ng-show="{{ tips.style.direction==\'t\'}}"></em>'
+											+ '<em class="to-right" ng-show="{{ tips.style.direction==\'r\'}}"></em>'
+											+ '<em class="to-bottom"  ng-show="{{ tips.style.direction==\'b\'}}"></em>'
+											+ '<em class="to-left" ng-show="{{ tips.style.direction==\'l\'}}"></em>'
+											+ '<span>{{ tips.contents}}</span>'
+											+ '</div>',
 			scope:{
 				tips : "=tips"
 			}

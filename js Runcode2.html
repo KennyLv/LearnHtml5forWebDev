@@ -1,0 +1,34 @@
+﻿
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset='utf8' /> 
+<title>网页中的运行代码功能</title> 
+<script type="text/javascript"> 
+function runCode(oCode) { 
+var win = window.open('', "_blank", ''); 
+win.document.open('text/html', 'replace'); 
+win.opener = null 
+win.document.write(oCode.value); 
+win.document.close(); 
+} 
+</script> 
+</head> 
+<body> 
+<textarea id="code1" rows="10" cols="95"> 
+<!DOCTYPE html> 
+<html> 
+<head> 
+<meta charset='utf8' /> 
+<title>测试文档</title> 
+</head> 
+<body> 
+测试文档 - 你可以先修改部分代码再运行 
+<script>alert('hello')</script> 
+</body> 
+</html> 
+</textarea> 
+<br> 
+<input type="button" value="运行代码" onclick="runCode(code1)"> 
+</body> 
+</html> 
