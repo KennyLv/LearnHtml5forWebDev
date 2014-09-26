@@ -1,3 +1,12 @@
+#s_who_is_ajs ol,#s_who_is_ajs ul{
+	font-size:20px;
+	line-height:26px;
+	padding-left:30px;
+}
+#s_who_is_ajs span{
+	font-size:20px;
+	line-height:10px;
+}
 #coverbox {
 	position: absolute;
 	width: 100px;
@@ -117,7 +126,22 @@
 	font-size:18px;
 	color:rgb(22, 5, 153);
 	text-align:center;
+	font-weight:bold;
 }
+#btn_viewdemo{
+	position: absolute;
+	width: 140px;
+	height: 20px;
+	background: yellow;
+	bottom:20px;
+	right:130px;
+	z-index:201;
+	font-size: 18px;
+	cursor: pointer;
+	color: red;
+	font-weight: bold;
+}
+
 .img_popup{
 	width:100%;
 	height:100%;

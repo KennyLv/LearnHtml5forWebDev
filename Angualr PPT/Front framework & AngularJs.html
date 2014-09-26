@@ -10,11 +10,11 @@
 
 		<link type="text/css" rel="stylesheet" href="css/reveal.css">
 		<link type="text/css" rel="stylesheet" href="css/theme/default.css" id="theme">
-		
+
 		<link type="text/css" rel="stylesheet" href="css/style.css">
-		
+
 		<link type="text/css" rel="stylesheet" href="./angualrJs/style.css">
-		
+
 		<script type="text/javascript" src="./js/shBrushCore.js"></script>
 		<script type="text/javascript" src="./js/shBrushJScript.js"></script>
 		<link type="text/css" rel="stylesheet" href="./css/shBrushCoreDefault.css"/>
@@ -26,102 +26,281 @@
 	<body style="-webkit-transition: -webkit-transform 0.8s ease; transition: -webkit-transform 0.8s ease;">
 		<div class="reveal zoom">
 			<!-- Any section element inside of this container is displayed as a slide -->
-			<div class="slides">
-			
+			<div class="slides" ng-app="myTipsModule" ng-controller="myTipsCtr" >
+
 				<section class="cover present" style="display: block;">
 					<h1>Date with AngularJs</h1>
 					<h3>@ Kenny</h3>
 				</section>
 
 				<section class="future" style="display: block;">
-					<h2>Agenda</h2>
-						<ul>
-								<li>Who is AngularJs?</li>
-								<li>First look at AngularJs.</li>
-								<li>Get closer to AngularJs.</li>
-								<li>Interested in AngularJs.</li>
-								<li>Fall in LOVE with AngularJs.</li>
-								<li>Fascinated with AngualrJs.</li>
-								<li>Time to say YES?</li>
-								<li>Enjoy your life and Looking forward to the future.</li>
-						</ul>
+					<h2>Agenda - By this ...<span style="color:red;font-size:60px;"> #% $%@ #&%^ &#$</span>... way ...</h2>
+					<ul>
+						<li>
+							Who is AngularJs?
+						</li>
+						<li>
+							First look at AngularJs.
+						</li>
+						<li>
+							Get closer to AngularJs.
+						</li>
+						<li>
+							Interested in AngularJs.
+						</li>
+						<li>
+							Fall in LOVE with AngularJs.
+						</li>
+						<li>
+							Fascinated with AngualrJs.
+						</li>
+						<li>
+							Time to say YES?
+						</li>
+						<li>
+							Enjoy your life and Looking forward to the future.
+						</li>
+					</ul>
 				</section>
 
-				<section class="future" style="display: none;" >
-						<section>
-							<h4>Who is AngularJs?</h4>
-										<p>WEB的实时&动态化</p>
-										交互的需要，多页面 WEB 应用程序通过组装和拼接服务器上的数据来创造它们的HTML ，然后将完成的页面输送给浏览器。ASP.NET  
-										<br/><br/>
-										<p>富客户端的兴起</p>
-										后来随着交互的发展，富客户端/单页面应用逐渐兴起，Web Services & XML的广泛使用，使得Flex / SilverLight都有过短暂辉煌，
-										因为Asp.net是事件驱动，这些框架都是为消息驱动而生的，但是也由于各自的局限性，逐渐式微。
-						</section>
-						<section>
-							<h4>Who is AngularJs?</h4>
-										<p>异步操作提升用户体验</p>
-										但是数据交互和用户体验的要求越来越高，有一项古老的技术Ajax焕发新生，异步的数据交互是得对dom操作更加频繁，
-										这个时候交互工具jQuery对DOM便捷的操作，Ajax的完美支持和浏览器兼容方面的优化迅速抢了头条。
-										<br/><br/>
-										<p>jQuery最大的三个亮点：</p>
-										支持CSS3的大量选择符，想定位或选择一个html元素简直轻而易举。合理的编码可以使html与js, css分离开，便于维护。
-										灵活便捷的Ajax请求和回调操作。
-										事件绑定功能，内部封装了很多事件，方便统一添加事件，提高了复用性和可维护性。
-										它也封装了很多常用的操作，例如节点的添加删除、常用的动画效果、逻辑判断比较等等。避免了直接使用dom api进行繁琐的操作。 
-										本身提供了可扩展的函数，可以自己编写插件与核心jQuery对象进行集成使用。只要你理解js面向对象编程，熟悉jQuery API，就能写出很多定制的插件，复用在各种地方。
-						</section>
-						<section>
-							<h4>Who is AngularJs?</h4>
-										<p>前端的独立化发展及其挑战</p>
-										与此同时，Restful & JSON等技术的兴起，以及前端标准的更新（其实都是浏览器厂商竞争惹得祸），都极大的推动了web前端的独立化。
-										传递模板和数据到浏览器然后在端组装。 服务器的 角色变成了只提供模板的静态资源和提供模板所需要的数据。
-										<!--
-										前端的挑战  http://www.zhihu.com/question/19984897
-										-->
-										<br/><br/>
-										<p>jQuery 的不足</p>
-										jQuery是对js底层dom操作封装最薄的一个框架，没有大量的专有对象，多为提供函数进行dom操作。准确的说，它不是偏重于富客户端的框架，而是侧重于对js dom编程。
-										<br/><br/>
-										<p>大型web应用和交互需求催生前端框架的发展</p>
-										前端框架大大丰富，
-										<!--
-										交互
-										框架演化 （）- > MV* -> 分工(EJS,YUI)
-										-->
-										保持jQuery一样的dom操作，又有利于分工。我们今天的主角AngularJs 就是其中一员。
-						</section>
-						<section>
-							<h4>Who is AngularJs?</h4>
+				<section class="future" style="display: none;"  id="s_who_is_ajs">
+					<section>
+						<h4>Who is AngularJs?</h4>
+						<p>WEB的实时&动态化</p>
+						<span>
+								交互的需要，多页面 WEB 应用程序通过组装和拼接服务器上的数据来创造它们的HTML ，然后将完成的页面输送给浏览器。ASP.NET<br/>
+								<br/>
+						</span>
+						<p>富客户端的兴起</p>
+						<span>
+								后来随着交互的发展，富客户端/单页面应用逐渐兴起，Web Services & XML的广泛使用，使得Flex / SilverLight都有过短暂辉煌，						因为Asp.net是事件驱动，这些框架都是为消息驱动而生的，但是也由于各自的局限性，逐渐式微。
+						</span>
+					</section>
+					<section>
+						<h4>Who is AngularJs?</h4>
+						<p>异步操作提升用户体验</p>
+						<span>
+								但是数据交互和用户体验的要求越来越高，有一项古老的技术Ajax焕发新生，异步的数据交互是得对dom操作更加频繁，								这个时候交互工具jQuery对DOM便捷的操作，Ajax的完美支持和浏览器兼容方面的优化迅速抢了头条。<br/>
+						</span>
+						<div class="fragment">
+							<img src="./img/logo_jQuery.jpg" style="padding-left:300px;" />
+						</div>
+						<div class="fragment">
+								<p>jQuery的亮点：</p>
+								<ol>
+									<li>选择器支持CSS3的大量选择符，定位元素轻而易举，合理的编码可以使html与js, css分离开，便于维护。</li>
+									<li>灵活便捷的Ajax请求和回调操作。</li>
+									<li>事件绑定功能，内部封装了很多事件，方便统一添加事件，提高了复用性和可维护性。</li>
+									<li>它也封装了很多常用的操作，例如节点的添加删除、常用的动画效果、逻辑判断比较等等。避免了直接使用dom api进行繁琐的操作。</li>
+									<li>本身提供了可扩展的函数，可以自己编写插件与核心jQuery对象进行集成使用。只要你理解js面向对象编程，熟悉jQuery API，就能写出很多定制的插件，复用在各种地方。</li>
+								</ol>
+						</div>
+					</section>
+					<section>
+						<h4>Who is AngularJs?</h4>
+						<p>前端的独立化</p>
+						<span>
+								与此同时，Restful & JSON等技术的兴起，以及前端标准的更新（其实都是浏览器厂商竞争惹得祸），都极大的推动了web前端的独立化。服务器传递模板和数据到浏览器然后在端组装, 服务器的角色变成了只提供模板的静态资源和提供模板所需要的数据。<br/>
+								<br/>
+						</span>
+						<p>前端框架的发展</p>
+						<span>
+								大型web应用和交互需求催生前端框架的发展，前端框架大大丰富，Dojo 、Prototype 、Jquery 、mootools 、AngularJS、Prototype 、Ember、ExtJS 、Knockout、YUI ......
+						</span>
+					</section>
+					<section>
+						<h4>Who is AngularJs?</h4>
+						<p>前端的挑战</p>
+						<span>
+							内容型网页的响应式设计，混合式APP的发展对前端开发工作从表现层设计到代码结构上都提出了新的挑战：
+							<br/>
+							<ul>
+									<li>从技术角度：浏览器兼容性、通用组件、W3C标准</li>
+									<li>从管理角度：JS规范、CSS规范、DHtml/DOM规范</li>
+									<li>从设计角度：交互与用户体验分析及创新</li>
+							</ul>
+							<br/>
+							<br/>
+							这些挑战中，JS规范与表现层的代码结构为甚，因为前端技术中最重要的一环 JavaScript 却缺少一个标准的模块化系统 ：<br/>
+							-- 有些基础库会把所有模块打包成一个文件，如jQuery，<br/>
+							-- 另一些大型库都有自己的模块系统，但代码不能通用 ，如 ExtJS, 几乎每个流行框架都有一套自己的 DOM wrapper...<br/>
+						</span>
+					</section>
+					<section>
+						<h4>Who is AngularJs?</h4>
+						 <p>"Hello World" by jquery-tmpl <span style="color:lightgreen;"> (https://github.com/BorisMoore/jquery-tmpl) </span>:</p>
+						<pre class="brush:js;">
+							// Defined a HTML view, and Compile the markup view as a named template
+							var markup = "<li><b>Hello ${Name}</b></li>";
+							$.template( "helloTemplate", markup );
+							
+							// Get data from server
+							$.ajax({
+									url: nameServiceUrl,
+									dataType: "json",
+									success: sayHelloToAll,
+									... ...
+							});
+
+							// Within the callback, use .tmpl() to render the data.
+							function sayHelloToAll( data ) {
+									// Render the template with the "names" data and insert
+									// the rendered HTML under the 'helloList' element
+									$.tmpl( "helloTemplate", data ).appendTo( "#helloList" );
+							}
+						</pre>
+						<my-Tips  class="fragment" tips="{contents : 'This is the View or ViewModel?',style:{direction:'l',position:{top:'150px',left:'430px'}}}"> </my-Tips>
+						<my-Tips  class="fragment" tips="{contents : 'This is the Model?',style:{direction:'l',position:{top:'280px',left:'250px'}}}"> </my-Tips>
+						<my-Tips  class="fragment" tips="{contents : 'This is the Controller?',style:{direction:'l',position:{top:'490px',left:'500px'}}}"> </my-Tips>
+						<div class="fragment">
+								<pre class="brush:js;">
+								//the View may like this :
+								&lt;ul id="helloList" style="... ..."&gt;&lt;ul&gt;
+								</pre>
+						</div>
+						<div class="fragment">
+								<pre class="brush:js;">
+								//And the functions :
+								$("#helloList").each(... ...);
+								</pre>
+						</div>
+					</section>
+					<section>
+						<h4>Who is AngularJs?</h4>
+						<p>Question :</p>
+						<span>如何像以前那样的保持声明事件的可读性，有利于分工？同时保持事件操作的便捷？保证模块化？让MVC不仅体现在代码结构上，更体现在专业分工上？</span>
+						<div class="fragment">
+							<span>也许我们能想到的HTML会长这个样子：</span>
+							<pre class="brush:js;">
+							
+								&lt;ul sayHelloToAllNames&gt;
+									...
+								&lt;/ul&gt;
+								
+							</pre>
+						</div>
+						<my-Tips  class="fragment" tips="{contents : '<li>Hello #Names[x] goes here#</li>',style:{direction:'l',position:{top:'210px',left:'300px'}}}"> </my-Tips>
+						<div class="fragment">
+							<span>他能不能长这个样子？</span>
+							<pre class="brush:js;">
+							
+								&lt;ul sayHello Names repeat_li&gt;
+									&lt;li&gt;Hello #Names[index] goes here# !&lt;/li&gt;
+								&lt;/ul&gt;
+								
+							</pre>
+						</div>
+						<div class="fragment">
+							<span>或者再声明个事件：</span>
+							<pre class="brush:js;">
+							
+								&lt;ul sayHello Names repeat_li&gt;
+									&lt;li click="viewDetail"&gt;Hello #Names[index] goes here# !&lt;/li&gt;
+								&lt;/ul&gt;
+								
+							</pre>
+						</div>
+						<div class="fragment">
+							<span>更或者：</span>
+							<pre class="brush:js;">
+							
+								&lt;Names&gt;
+									&lt; repeat_name  click="viewDetail"&gt;Hello #Names[index] goes here# !&lt;/repeat_name&gt;
+								&lt;/Names&gt;
+								
+							</pre>
+						</div>
+					</section>
+					<section>
+						<h4>Who is AngularJs?</h4>
+						<span>
+							看起来似乎我们只需要让浏览器能够识别新的标签和语法就OK啦。<br/>
+							我们也许会联想到HTML的自定义属性和标签，可是静态的HTML能够为这些属性标签添加除了样式之外的其他行为么？<br/><br/>
+						</span>
+						<div class="fragment">
+								<p>"Hello World" with AngularJs<span style="color:lightgreen;"> ( https://github.com/angular/angular.js ) </span>:</p>
+								<pre  class="brush:js;">
 									<!--
-									上图--主站/github/历史
-									http://www.cnblogs.com/powertoolsteam/p/angularjs-introdection.html
+										<html ng-app>
+											<head>
+													<script src="http://code.angularjs.org/angular-1.0.1.min.js"></script>
+											</head>
+											<Names  class="tag_names" ng-controller="helloCtr" >
+														<li ng-repeat="person in Names track by $index" ng-click="viewDetail(person)">Hello {{person.name}}!</li>
+											</Names>
+										</html>
 									-->
-						</section>
+									
+								DATA : 
+								[{"name": "Jacke","description": "This is Jacke from Nanjing ..."},{"name": "Emma","description": "Emma is short for AYAMAYA ..."}]
+								</pre>
+						</div>
+						<div class="fragment">
+								<p>Result：</p>
+								<Names  class="tag_names" ng-controller="helloCtr" >
+											<!--<li ng-repeat="person in Names" ng-click="viewDetail(person)">Hello {{person.name}}!</li>-->
+											<li ng-repeat="person in Names track by $index" ng-click="viewDetail($index)">Hello {{person.name}}!</li>
+								</Names>
+						</div>
+					</section>
+					<section>
+						<h4>Who is AngularJs?</h4>
+							<p>So AngularJs is ... ...</p>
+							<img src="./img/logo_AngularJs.jpg" style="padding-left:300px; width:200px;" /><br/>
+							<!--
+							上图--主站/github/历史
+							http://www.cnblogs.com/powertoolsteam/p/angularjs-introdection.html
+							-->
+							<span>
+								首先，它是一个框架，不是类库，是像backbone一样提供一整套方案用于设计web应用。<br/>
+								它不仅仅是一个javascript框架，因为它的核心其实是对HTML标签的增强，何为HTML标签增强？<br/>
+								其实就是使你能够用标签完成一部分页面逻辑，具体方式就是通过自定义标签、自定义属性等，这些HTML原生没有的标签/属性在ng中有一个名字：指令（directive）。<br/>
+								后面会详细介绍。那么，什么又是动态web应用呢？与传统web系统相区别，web应用能为用户提供丰富的操作，能够随用户操作不断更新视图而不进行url跳转。<br/>
+								ng官方也声明它更适用于开发CRUD应用，即数据操作比较多的应用，而非是游戏或图像处理类应用。<br/>
+								为了实现这些，ng引入了一些非常棒的特性，包括模板机制、数据绑定、模块、指令、依赖注入、路由。<br/>
+								通过数据与模板的绑定，能够让我们摆脱繁琐的DOM操作，而将注意力集中在业务逻辑上。<br/>
+								这些我将在以后的学习中一一研究。
+							</span>
+					</section>
+					<section>
+						<h4>Who is AngularJs?</h4>
+						<div>
+								<span>
+										AngularJS通过使用我们称为标识符(directives)的结构，
+										例如：
+												使用双大括号{{}}语法进行数据绑定；
+												使用DOM控制结构来实现迭代或者隐藏DOM片段；
+										好处：
+												能将逻辑代码关联到相关的DOM元素上；
+												能将HTML分组成可重用的组件。
+								</span>
+						</div>
+					</section>
 				</section>
-
 
 				<!--
 				///////////////////////////////////////////// 基础 /////////////////////////////////////////////
 				-->
 				<section class="cover present" style="display: block;">
 					<h1>Part1 - First look at AngularJs</h1>
-								<!--
-								(示例：baidu_map & 控件 & 天气插件 & qTips -- 想new几个new几个)
-								估计是被忽悠了？ ---- 后面的代码很吓人啦！！
-								好处 -- 不仅仅是MVC -- 工程化、开源（这个好处不用讲了，看看这个页面）
-								-->
-								<!--
-								基础知识（对MVC的实现）
-								-->
+					<!--
+					(示例：baidu_map & 控件 & 天气插件 & qTips -- 想new几个new几个)
+					估计是被忽悠了？ ---- 后面的代码很吓人啦！！
+					好处 -- 不仅仅是MVC -- 工程化、开源（这个好处不用讲了，看看这个页面）
+					-->
+					<!--
+					基础知识（对MVC的实现）
+					-->
+					
 				</section>
-				
+
 				<!--<my-Tips  class="fragment" ng-app="myTipsModule" ng-controller="myTipsCtr" ng-init="Tips.style.direction='r';Tips.contents='this is a Test!'"> </my-Tips>-->
-				
-				<section class="future" style="display: none;" ng-app="myTipsModule" ng-controller="myTipsCtr" >
+
+				<section class="future" style="display: none;">
 					<h4>About AngularJs</h4>
 					<!--
 					<my-Tips  class="fragment" ng-app="myTipsModule" ng-controller="myTipsCtr" ng-init="Tips.style.direction='t';Tips.style.position.top='200px';Tips.style.position.left='20px';Tips.contents='this is a Test 1 !'"> </my-Tips>
-					
+
 					<my-Tips  class="fragment" ng-app="myTipsModule" ng-controller="myTipsCtr" ng-init="Tips={contents : 'This is a test 2 !',style:{direction:'r',position:{top:'10px',left:'50px'}}}"> </my-Tips>
 					-->
 					<!--
@@ -129,120 +308,111 @@
 					<my-Tips  class="fragment" tips="tips2"> </my-Tips>
 					<my-Tips  class="fragment" tips="{contents : 'This is a test3 !',style:{direction:'r',position:{top:'300px',left:'50px'}}}"> </my-Tips>
 					-->
-					
-					
+
 					<!--
-						Example -- Hello world!
+					Example -- Hello world!
 					-->
 					<!--
-						Modules -- Where our application components live.
-						Directives --HTML annotations that trigger Javascript behaviors.
-						Controllers -- Where we add application behavior.
-						Expressions -- How values get displayed within the page.
+					Modules -- Where our application components live.
+					Directives --HTML annotations that trigger Javascript behaviors.
+					Controllers -- Where we add application behavior.
+					Expressions -- How values get displayed within the page.
 					-->
 					<!--
-						Services
+					Services
 					-->
-					
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>Module</h4>
-						
-					
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>Directive</h4>
 					<!--
 					Why use directives?
 					-->
-					
+
 					<!--
 					How to build a customer directives?
 
 					Attribute vs Elements directives
-					
-						AngularJS Custom Directives
+
+					AngularJS Custom Directives
 					http://my.oschina.net/ilivebox/blog/289670
 
 					-->
-					
+
 					<!--
-						restrict: 'A',
-						template
-						link
-						-->
-						
-						
+					restrict: 'A',
+					template
+					link
+					-->
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>Controller</h4>
-					
+
 					<!--
 					<img src="./img/controller.png"/>
-						-->
-						
+					-->
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>Model  --  $scope</h4>
 					<!--
 					ng-model
-					
+
 					<img src="./img/model.png"/>
-					
-					
+
 					<!--
 					ngModel
 					-->
-						
-						
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>View</h4>
-					
+
 					<!--
 					AngularJS 自定义控件
 					http://my.oschina.net/ilivebox/blog/289670
 					-->
-					
+
 					<!--
-					
+
 					http://www.cnblogs.com/lcllao/archive/2012/09/07/2671227.html
 					<img src="./img/view.png"/>
-					
-					　view是用户所能看到的东西。view诞生于模版。它与model结合，最终呈现为浏览器DOM。Angular采取一个对于其他很多模版系统来说，很不一样的方式去呈现View。
 
-					
-					
-其他模版引擎：很多模版引擎，是通过建立带有特殊标记的HTML字符串来实现的。通常这些模版标记破坏了HTML的语法，这意味着不能通过一般的HTML编辑器去编辑代码（这个嘛…）。模版字符串传入模版引擎，与数据合并。最终生成HTML字符串。这些字符串一般通过.innerHTML的方式写入DOM中，促使浏览器呈现模版内容。当数据发生改变时，这个过程需要一次又一次地重复。模版的粒度与DOM更新的粒度一致。这粒的关键，是模版系统处理字符串。
-Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于字符串的。模版依然需要在HTML中写入一些字符串，但依旧是HTML（不是通过在里面嵌入模版）。浏览器把HTML转换为DOM，然后DOM成为了compiler（angular的模版引擎）的输入。Compiler查找directives，依次在model中设置watches。得出的结果，是一个一直更新的view，不需要重新拼接model与template。model成为了view的唯一数据来源（single source of truth）。
- 八、Directives
-					
+					view是用户所能看到的东西。view诞生于模版。它与model结合，最终呈现为浏览器DOM。Angular采取一个对于其他很多模版系统来说，很不一样的方式去呈现View。
+
+					其他模版引擎：很多模版引擎，是通过建立带有特殊标记的HTML字符串来实现的。通常这些模版标记破坏了HTML的语法，这意味着不能通过一般的HTML编辑器去编辑代码（这个嘛…）。模版字符串传入模版引擎，与数据合并。最终生成HTML字符串。这些字符串一般通过.innerHTML的方式写入DOM中，促使浏览器呈现模版内容。当数据发生改变时，这个过程需要一次又一次地重复。模版的粒度与DOM更新的粒度一致。这粒的关键，是模版系统处理字符串。
+					Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于字符串的。模版依然需要在HTML中写入一些字符串，但依旧是HTML（不是通过在里面嵌入模版）。浏览器把HTML转换为DOM，然后DOM成为了compiler（angular的模版引擎）的输入。Compiler查找directives，依次在model中设置watches。得出的结果，是一个一直更新的view，不需要重新拼接model与template。model成为了view的唯一数据来源（single source of truth）。
+					八、Directives
+
 					-->
-					
-					
+
 					<!--
-					
+
 					http://www.cnblogs.com/lcllao/archive/2012/09/04/2669802.html
-					
+
 					<img src="./img/oneway.png"/>
 					<img src="./img/twoway.png"/>
-					
+
 					外面有许多模版系统，它们通常都通过模版字符串与数据进行连接，生成最终的HTML字符串，并将结果通过innerHTML属性写入某元素里。
 
 					这意味着任何数据发生改变时，都需要重新将数据、模版合并成字符串，然后当作innerHTML写回对应元素中。这里存在一些问题：(这里直译实在没法懂..唯有YY)假设有这么一个场景，模版里包含输入框。用户对在输入框进行输入，模版同步更新。普通模版通过innerHTML、字符串与数据连接的方式更新视图，这样会打断用户的输入，体验不好。
 
-　　Angular是与众不同的。Angular编译器（compiler）通过directives处理DOM，而不是通过处理字符串模版。处理结果是一个与scope model组合并生成实时模版的链接函数（linking function）。视图与scope model的绑定对我们来说是透明的。开发者无须为更新视图、model做任何动作。而且，因为没有使用innerHTML更新视图模版，所以用户输入不会被打断。此外，angular directives不仅可以绑定文本值，而且还可以是拥有行为的结构（behavioral constructs）。
+					Angular是与众不同的。Angular编译器（compiler）通过directives处理DOM，而不是通过处理字符串模版。处理结果是一个与scope model组合并生成实时模版的链接函数（linking function）。视图与scope model的绑定对我们来说是透明的。开发者无须为更新视图、model做任何动作。而且，因为没有使用innerHTML更新视图模版，所以用户输入不会被打断。此外，angular directives不仅可以绑定文本值，而且还可以是拥有行为的结构（behavioral constructs）。
 
-　　Angular的这个处理方式，产生了一个稳定的DOM。这意味着在DOM元素的生命周期里，一直与某model的实例绑定着，这个关系不会发生改变。这也意味着代码可以保持对某DOM对象的引用，对其注册事件函数，并且这个引用不会被模版数据合并所销毁。
-					
+					Angular的这个处理方式，产生了一个稳定的DOM。这意味着在DOM元素的生命周期里，一直与某model的实例绑定着，这个关系不会发生改变。这也意味着代码可以保持对某DOM对象的引用，对其注册事件函数，并且这个引用不会被模版数据合并所销毁。
+
 					-->
-					
-					
+
 					<!--
 					ng-src
 					-->
@@ -253,21 +423,20 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 
 				<section class="future" style="display: none;">
 					<h4>The overall impression of Angular</h4>
-						模块可以说是AngularJS 的根本。它包含配置、控制、过滤、工厂模式、指令及其它模块。
-							AngularJS .NET  摘要 
-							module Assembly 应用开发模块
+					模块可以说是AngularJS 的根本。它包含配置、控制、过滤、工厂模式、指令及其它模块。
+					AngularJS .NET  摘要
+					module Assembly 应用开发模块
 
-							controller ViewModel 控制器，启到不同层面间的组织作用
+					controller ViewModel 控制器，启到不同层面间的组织作用
 
-							scope DataContext 为视图提供绑定数据
+					scope DataContext 为视图提供绑定数据
 
-							filter ValueConverter 数据传输到视图之前修改数据
+					filter ValueConverter 数据传输到视图之前修改数据
 
-							directive Component 可复用的UI元素，也可以理解为前端插件
+					directive Component 可复用的UI元素，也可以理解为前端插件
 
-							factory, service Utility classes 为其他模块元素提供服务
+					factory, service Utility classes 为其他模块元素提供服务
 				</section>
-
 
 				<!--
 				///////////////////////////////////////////// 入门 /////////////////////////////////////////////
@@ -275,17 +444,16 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 				<section class="cover present" style="display: block;">
 					<h1>Part2 - Get closer to AngularJs</h1>
 				</section>
-				
-				
+
 				<section class="future" style="display: none;">
 					<h4>How Model works -- $scope</h4>
-						<!--
-						$rootScope
-						-->
-						
-						<!--
-						isolate scope
-						-->
+					<!--
+					$rootScope
+					-->
+
+					<!--
+					isolate scope
+					-->
 				</section>
 
 				<section class="future" style="display: none;">
@@ -294,13 +462,12 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 					{{}}
 					-->
 
-					
 				</section>
 
 				<section class="future" style="display: none;">
 					<h4>filter</h4>
 					<!--
-					
+
 					Arrayify
 					Transforms a Map into an array so that the map can be used with ng-repeat.
 
@@ -337,128 +504,118 @@ Angular：Angular模版的不同之处，在于它是基于DOM的而不是基于
 					Uppercase
 					Converts a string to uppercase.
 					-->
-					
-					
+
 					<!--
 					basic filters
 					-->
-					
+
 					<!--
 					Linky
 					$scope.contents = 'Text with links: http://angularjs.org/ & mailto:us@there.org';
-					
+
 					<div ng-bind-html="contents"></div>
 					Text with links: http://angularjs.org/ & mailto:us@there.org
-					
+
 					<div ng-bind-html="contents | linky"></div>
 					The linky filter goes through the text contents and adds <a> tags to all URLs and mailtolinks it finds, thus providing HTML content that the user can interact with:
 					Text with links: http://angularjs.org/ & us@there.org
 					-->
-			
-					
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>事件处理</h4>
-					
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>路由与多视图</h4>
 					<!--
 					http://scotch.io/tutorials/javascript/single-page-apps-with-angularjs-routing-and-templating
-					
+
 					http://blog.fens.me/angularjs-route-template/
-					
+
 					-->
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>如何与服务器交互——Service</h4>
-					
+
 					<!--
 					理解服务
 					http://angularjs.cn/A00R
 					AngularJS服务是一种能执行一个常见操作的单例，比如$http服务是用来操作浏览器的XMLHttpRequest对象的。
 
-要使用AngularJS服务，你只需要在需要的地方（控制器，或其他服务）指出依赖就行了。AngularJS的依赖注入系统会帮你完成剩下的事情。它负责实例化，查找左右依赖，并且按照工场函数要求的样子传递依赖。
+					要使用AngularJS服务，你只需要在需要的地方（控制器，或其他服务）指出依赖就行了。AngularJS的依赖注入系统会帮你完成剩下的事情。它负责实例化，查找左右依赖，并且按照工场函数要求的样子传递依赖。
 
-AngularJS通过“构造器注入”来注入依赖（通过工场函数来传递依赖）。以为Javascript是动态类型语言，AngularJS无法通过静态类型来识别服务，所以你必须使用$inject属性来显式地指定依赖。比如:formatDate
+					AngularJS通过“构造器注入”来注入依赖（通过工场函数来传递依赖）。以为Javascript是动态类型语言，AngularJS无法通过静态类型来识别服务，所以你必须使用$inject属性来显式地指定依赖。比如:formatDate
 
-myController.$inject = ['$location'];
-AngularJS web框架提供了一组常用操作的服务。和其他的内建变量或者标识符一样，内建服务名称也总是以"$"开头。另外你也可以创建你自己的服务。
-					
+					myController.$inject = ['$location'];
+					AngularJS web框架提供了一组常用操作的服务。和其他的内建变量或者标识符一样，内建服务名称也总是以"$"开头。另外你也可以创建你自己的服务。
+
 					-->
-					
-					
-						<!--
-						why need a service?
-						-->
-						
+
+					<!--
+					why need a service?
+					-->
+
 					<!--
 					How to build a customer Service?
-						创建服务
-					
-						注册服务
-							http://angularjs.cn/A00N
-							
-							
-							http://www.cnblogs.com/sitemanager/p/3459941.html
-							http://www.cnblogs.com/sitemanager/archive/2013/12/05/3459516.html
-					-->
-						
-						<!--
-						How does Controller use a service?
-						//Dependency Injection!
-						
-						将服务注入到控制器中
-						实例化AngularJS的服务
-						http://angularjs.cn/A00O
-								image  --	Module & Injector (1).png
-						
-						
-						管理服务依赖
-						http://angularjs.cn/A00P
-						声明依赖，
-								在工场方法参数中隐式指明他们，
-								也可以将$inject属性设置成包含了依赖名称的数组，(不推荐使用)
-								或者是使用数组表示法。
-								
-						几点要注意：
-								自定义的服务都使用隐式表示和数组法来表示自己的依赖。
-								最重要的是数组中的服务的名字顺序要和工厂函数参数的名字顺序对应。
-								除非依赖是隐式地通过函数参数名表示的，那么就是有声明依赖的数组名称顺序决定依赖注入的顺序。
-						-->
-						
-						
-						
-						<!-- Example : 
-						$http 
-						-->
-						
-					
-						<!--
-						$http
-						$timeout
-						$log
-						$route
-						
+					创建服务
 
-						-->
-						
-						
+					注册服务
+					http://angularjs.cn/A00N
+
+					http://www.cnblogs.com/sitemanager/p/3459941.html
+					http://www.cnblogs.com/sitemanager/archive/2013/12/05/3459516.html
+					-->
+
+					<!--
+					How does Controller use a service?
+					//Dependency Injection!
+
+					将服务注入到控制器中
+					实例化AngularJS的服务
+					http://angularjs.cn/A00O
+					image  --	Module & Injector (1).png
+
+					管理服务依赖
+					http://angularjs.cn/A00P
+					声明依赖，
+					在工场方法参数中隐式指明他们，
+					也可以将$inject属性设置成包含了依赖名称的数组，(不推荐使用)
+					或者是使用数组表示法。
+
+					几点要注意：
+					自定义的服务都使用隐式表示和数组法来表示自己的依赖。
+					最重要的是数组中的服务的名字顺序要和工厂函数参数的名字顺序对应。
+					除非依赖是隐式地通过函数参数名表示的，那么就是有声明依赖的数组名称顺序决定依赖注入的顺序。
+					-->
+
+					<!-- Example :
+					$http
+					-->
+
+					<!--
+					$http
+					$timeout
+					$log
+					$route
+
+					-->
+
 				</section>
-				
+
 				<!--
 				///////////////////////////////////////////// 应用 /////////////////////////////////////////////
 				-->
 				<section class="cover present" style="display: block;">
 					<h1>Part3 - Interested in AngularJs</h1>
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>Form</h4>
-					
+
 					<!--
 					实现自定义的表单控件
 					http://angularjs.cn/A00t
@@ -467,35 +624,33 @@ AngularJS web框架提供了一组常用操作的服务。和其他的内建变�
 					validate
 					-->
 				</section>
-				
-				
+
 				<section class="future" style="display: none;">
 					<h4>File Upload in AngularJS</h4>
-					
+
 				</section>
-				
+
 				<!--
 				///////////////////////////////////////////// 理解 /////////////////////////////////////////////
 				-->
 				<section class="cover present" style="display: block;">
 					<h1>Part4 - Fall in LOVE with AngularJs</h1>
-							<!--
-							- 深入实现（ 实现原理，实战）
-							-->
+					<!--
+					- 深入实现（ 实现原理，实战）
+					-->
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>How AngularJS Starts up in your browser?</h4>
-				
-				
-				<!--
-				http://angularjs.cn/A00q
-				-->
-				<!--
-				
-				<img src="./img/startup.png"/>
-				
-				下面描述angular是如何启动的（参考图表与下面的例子）：
+
+					<!--
+					http://angularjs.cn/A00q
+					-->
+					<!--
+
+					<img src="./img/startup.png"/>
+
+					下面描述angular是如何启动的（参考图表与下面的例子）：
 
 					1. 浏览器加载HTML，将HTML标签转换为DOM对象；
 
@@ -514,41 +669,39 @@ AngularJS web框架提供了一组常用操作的服务。和其他的内建变�
 					8. ng-init 这个directive在对应的scope中创建name属性并对其赋予”Kitty”值；
 
 					9. 将“{{name}}”的值插入(interpolates)到表达式中，最终显示”Hello Kitty!”。
--->
+					-->
 
 					<!---
-				ng-app指令：
-				<html lang="en" ng-app>
-				ng-app指令标记了AngularJS脚本的作用域，在<html>中添加ng-app属性即说明整个<html>都是AngularJS脚本作用域。开发者也可以在局部使用ng-app指令，如<div ng-app>，则AngularJS脚本仅在该<div>中运行。
+					ng-app指令：
+					<html lang="en" ng-app>
+					ng-app指令标记了AngularJS脚本的作用域，在<html>中添加ng-app属性即说明整个<html>都是AngularJS脚本作用域。开发者也可以在局部使用ng-app指令，如<div ng-app>，则AngularJS脚本仅在该<div>中运行。
 					-->
-					
-					
+
 					<!---
-			<pre>
+					<pre>
 					<html lang="zh-cn" ng-app>
 					<head>
-						<meta charset="UTF-8">
-						<title>Hello Kitty!</title>
-						<style type="text/css">
-							.ng-cloak {
-								display: none;
-							}
-						</style>
+					<meta charset="UTF-8">
+					<title>Hello Kitty!</title>
+					<style type="text/css">
+					.ng-cloak {
+					display: none;
+					}
+					</style>
 					</head>
 					<body>
 					<div ng-init="name='Kitty'">Hello {{name}}!</div>
 					<script src="../angular-1.0.1.js" type="text/javascript"></script>
 					</body>
 					</html>
-			</pre>
--->
-				
+					</pre>
+					-->
+
 				</section>
-				
-					
+
 				<section class="future" style="display: none;">
 					<h4>HTML编译器——$Compiler</h4>
-					
+
 					<!--
 					是的，又是一个模板引擎，这种低级轮子竟然还有人造，在朋友你反驳之前，请先容我挣扎以下。
 
@@ -580,99 +733,91 @@ AngularJS web框架提供了一组常用操作的服务。和其他的内建变�
 					简而言之，是基于字符串的parser + 基于dom的comiper，它的一般工作原理是
 
 					输入字符串模板 ，输出AST结构，例如regularjs的中间结构示例
-					  [
-					   {
-						"type": "list",
-						"sequence": {
-						  "type": "expression",
-						  "body": "_d_['items']",
-						  "constant": false,
-						  "setbody": "_d_['items']=_p_"
-						},
-						"variable": "item",
-						"body": [
-						 ... for short ...
-					  ]
+					[
+					{
+					"type": "list",
+					"sequence": {
+					"type": "expression",
+					"body": "_d_['items']",
+					"constant": false,
+					"setbody": "_d_['items']=_p_"
+					},
+					"variable": "item",
+					"body": [
+					... for short ...
+					]
 					compiler利用AST里包含的完整信息，逐级创建节点并组装成dom结构. 并实现绑定关系
 					输入data，根据数据-模板对应关系，最小化更新节点。
 					这种模板结合了字符串模板和dom模板的优势，只需要需要输出的内容，不会留不必要的placeholder在节点上(输入后右键查看元素: angularjs, regularjs),并且贴合了以前使用模板引擎的习惯，拥有完全自治的生命周期可以无缝与你正在使用框架继承(包裹angularjs)。
 					-->
-					
+
 					<!--
 					编译过程和指令匹配
 					http://angularjs.cn/A00r
-					
 
-HTML的编译分为三个阶段：
+					HTML的编译分为三个阶段：
 
-首先浏览器会用它的标准API将HTML解析成DOM。 你需要认清这一点，因为我们的模板必须是可被解析的HTML。这是AngularJS和那些“以字符串为基础而非以DOM元素为基础的”模板系统的区别之处。
+					首先浏览器会用它的标准API将HTML解析成DOM。 你需要认清这一点，因为我们的模板必须是可被解析的HTML。这是AngularJS和那些“以字符串为基础而非以DOM元素为基础的”模板系统的区别之处。
 
-DOM的编译是有$compile方法来执行的。 这个方法会遍历DOM并找到匹配的指令。一旦找到一个，它就会被加入一个指令列表中，这个列表是用来记录所有和当前DOM相关的指令的。 一旦所有的指令都被确定了，会按照优先级被排序，并且他们的compile方法会被调用。 指令的$compile()函数能修改DOM结构，并且要负责生成一个link函数（后面会提到）。$compile方法最后返回一个合并起来的链接函数，这是链接函数是每一个指令的compile函数返回的链接函数的集合。
+					DOM的编译是有$compile方法来执行的。 这个方法会遍历DOM并找到匹配的指令。一旦找到一个，它就会被加入一个指令列表中，这个列表是用来记录所有和当前DOM相关的指令的。 一旦所有的指令都被确定了，会按照优先级被排序，并且他们的compile方法会被调用。 指令的$compile()函数能修改DOM结构，并且要负责生成一个link函数（后面会提到）。$compile方法最后返回一个合并起来的链接函数，这是链接函数是每一个指令的compile函数返回的链接函数的集合。
 
-通过调用一步所说的链接函数来将模板与作用域链接起来。这会轮流调用每一个指令的链接函数，让每一个指令都能对DOM注册监听事件，和建立对作用域的的监听。这样最后就形成了作用域的DOM的动态绑定。任何一个作用域的改变都会在DOM上体现出来。
+					通过调用一步所说的链接函数来将模板与作用域链接起来。这会轮流调用每一个指令的链接函数，让每一个指令都能对DOM注册监听事件，和建立对作用域的的监听。这样最后就形成了作用域的DOM的动态绑定。任何一个作用域的改变都会在DOM上体现出来。
 					-->
-					
+
 					<!--
-					
+
 					Compiler作为Angular的一个服务（Service），负责遍历DOM结构，寻找属性。编译过程分成两个阶段：
 
-　　1. 编译（Compile）：遍历DOM节点树，收集所有directives。返回结果是一个链接函数（linking function）。
+					1. 编译（Compile）：遍历DOM节点树，收集所有directives。返回结果是一个链接函数（linking function）。
 
-　　2. 链接（Link）：将directives绑定到一个作用域（scope）中，创建一个实况视图（live view）。在scope中的任何改变，将会在视图中得到体现（更新视图）；任何用户对模版的活动（改变），将会体现在scope model中（双向绑定）。这使得scope model能够反映正确的值。
+					2. 链接（Link）：将directives绑定到一个作用域（scope）中，创建一个实况视图（live view）。在scope中的任何改变，将会在视图中得到体现（更新视图）；任何用户对模版的活动（改变），将会体现在scope model中（双向绑定）。这使得scope model能够反映正确的值。
 
-　　一些directives，诸如ng-repeat，会为每一个在集合（collection）中的元素复制一次特定的元素（组合）。编译和链接两个阶段，使性能得以提升。因为克隆出来的模版(template)只需要编译一次，然后为每一个集合中的元素进行一次链接（类似模版缓存）。
+					一些directives，诸如ng-repeat，会为每一个在集合（collection）中的元素复制一次特定的元素（组合）。编译和链接两个阶段，使性能得以提升。因为克隆出来的模版(template)只需要编译一次，然后为每一个集合中的元素进行一次链接（类似模版缓存）。
 
 					-->
-					
-					
+
 					<!--
 					angular指令的compile的参数(tElement,tAttrs)和link中的参数(scope,iElement,iAttrs)究竟有什么区别?
 					http://segmentfault.com/q/1010000000664866
-					
+
 					ng指令中的compile与link函数解析
 					http://www.ifeenan.com/angularjs/2014-09-04-%5B%E8%AF%91%5DNG%E6%8C%87%E4%BB%A4%E4%B8%AD%E7%9A%84compile%E4%B8%8Elink%E5%87%BD%E6%95%B0%E8%A7%A3%E6%9E%90/
 					-->
-					
+
 					<!--
 					关于Compile、PreLink、PostLink和Controller的关系与区别
 					http://angularjs.cn/A0pa
-					
+
 					一般运行次序：
 
-Compile（一次）[子指令的Compile...]>Controller（多次）>PreLink（多次）[子指令的Controller>子指令的PreLink[>子子指令的Controller...]...]>PostLink（多次）
+					Compile（一次）[子指令的Compile...]>Controller（多次）>PreLink（多次）[子指令的Controller>子指令的PreLink[>子子指令的Controller...]...]>PostLink（多次）
 
-如果有子指令依赖父指令的Scope的，次序会变成：
+					如果有子指令依赖父指令的Scope的，次序会变成：
 
-Compile（一次）>Controller（多次）>PreLink（多次）>PostLink（多次）[子指令...]
+					Compile（一次）>Controller（多次）>PreLink（多次）>PostLink（多次）[子指令...]
 
-（另外，有指令嵌套的情况下，参数replace为true或false也会导致运行次序不同，不过一般都是Compile>Controller>PreLink>PostLink，大家有空可以看看这个《【点滴积累】嵌套directive中的replace 对 初始化顺序的影响》）
+					（另外，有指令嵌套的情况下，参数replace为true或false也会导致运行次序不同，不过一般都是Compile>Controller>PreLink>PostLink，大家有空可以看看这个《【点滴积累】嵌套directive中的replace 对 初始化顺序的影响》）
 
-Compile: 用于收集指令，编译模板，可以作用到所有的子指令，然后返回一系列的link函数等待执行（只运行一次）；
+					Compile: 用于收集指令，编译模板，可以作用到所有的子指令，然后返回一系列的link函数等待执行（只运行一次）；
 
-PreLink: 运行于Compile之后但是在子指令关联之前，个人认为，这里可以做一些Scope的计算或赋值之类的，然后再去绑定，此时由于DOM尚未绑定，进行DOM变形将有可能导致运行异常，不建议在此阶段进行（运行多次）；
+					PreLink: 运行于Compile之后但是在子指令关联之前，个人认为，这里可以做一些Scope的计算或赋值之类的，然后再去绑定，此时由于DOM尚未绑定，进行DOM变形将有可能导致运行异常，不建议在此阶段进行（运行多次）；
 
-PostLink: 主要用于绑定DOM和Scope，这时候可以进行DOM变形或绑定事件。其实PostLink就是Link（运行多次）；
+					PostLink: 主要用于绑定DOM和Scope，这时候可以进行DOM变形或绑定事件。其实PostLink就是Link（运行多次）；
 
-Controller: 主要用于与其他指令交互，可以在上面定义一些函数来操作Scope等（运行多次）；
+					Controller: 主要用于与其他指令交互，可以在上面定义一些函数来操作Scope等（运行多次）；
 
-关于transclude，可以看看这个《Transclude in AngularJS》（http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html）;
+					关于transclude，可以看看这个《Transclude in AngularJS》（http://blog.omkarpatil.com/2012/11/transclude-in-angularjs.html）;
 					-->
-					
-					
+
 					<!--
 					ng指令中controller与link的区别
 					http://angularjs.cn/A0nR
-					
-					http://jasonmore.net/angular-js-directives-difference-controller-link/
-					
-					-->
-					
-					
-					
-					
-					
-				</section>
 
+					http://jasonmore.net/angular-js-directives-difference-controller-link/
+
+					-->
+
+				</section>
 
 				<section class="future" style="display: none;">
 					<h4>AngularJS 表达式怎样做处理</h4>
@@ -688,7 +833,6 @@ Controller: 主要用于与其他指令交互，可以在上面定义一些函�
 					AngularJS表达式 —— $符号
 					-->
 				</section>
-				
 
 				<!--
 				///////////////////////////////////////////// 深入 /////////////////////////////////////////////
@@ -696,144 +840,144 @@ Controller: 主要用于与其他指令交互，可以在上面定义一些函�
 				<section class="cover present" style="display: block;">
 					<h1>Part5 - Fascinated with AngualrJs</h1>
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>ng运行与指令 </h4>
-					
+
 					<!--
-					
+
 					Directive Definition Object 指令定义对象
 					http://angularjs.cn/A00p
-					
+
 					-->
 					<!--
-link: function(scope, element, attrs) {
-var optionsObj = {
-dataType: 'json'
-};
-if (scope.done) {
-optionsObj.done = function() {
-scope.$apply(function() {
-scope.done({e: e, data: data});
-});
-};
-}
-if (scope.progress) {
-optionsObj.progress = function(e, data) {
-scope.$apply(function() {
-scope.progress({e: e, data: data});
-});
-}
-}
-// the above could easily be done in a loop, to cover
-// all API's that Fileupload provides
-element.fileupload(optionsObj);
-}-->
+					link: function(scope, element, attrs) {
+					var optionsObj = {
+					dataType: 'json'
+					};
+					if (scope.done) {
+					optionsObj.done = function() {
+					scope.$apply(function() {
+					scope.done({e: e, data: data});
+					});
+					};
+					}
+					if (scope.progress) {
+					optionsObj.progress = function(e, data) {
+					scope.$apply(function() {
+					scope.progress({e: e, data: data});
+					});
+					}
+					}
+					// the above could easily be done in a loop, to cover
+					// all API's that Fileupload provides
+					element.fileupload(optionsObj);
+					}-->
 				</section>
 
 				<section class="future" style="display: none;">
 					<h4>Modules and the Injector</h4>
-				
+
 					<!--
 					http://www.cnblogs.com/lcllao/archive/2012/09/07/2671227.html
-					
+
 					<img src="./img/Module & Injector.png"/>
-				Injector是一个服务定位器。每一个Angular应用，都会有一个单独的injector。Injector提供一个通过名称查找对象实例的途径。Injector会在内部cache中保持所有对象实例，所以重复调用相同的名称时，返回的都是同一个对象实例。如果对象不存在，那么它会请求实例工厂（instance factory）去创建一个新实例。
-				
-				　Module是一个配置injector的实例工厂的方法，被称为”provider”。
-				
-				但是injector的真正牛X的地方在于它可以用于调用方法和”instantiate” type。这个美妙的特性是允许method和types请求他们所依赖的资源，而不是寻找他们。
+					Injector是一个服务定位器。每一个Angular应用，都会有一个单独的injector。Injector提供一个通过名称查找对象实例的途径。Injector会在内部cache中保持所有对象实例，所以重复调用相同的名称时，返回的都是同一个对象实例。如果对象不存在，那么它会请求实例工厂（instance factory）去创建一个新实例。
 
- 注意，我们唯一需要写的，就是我们的function，在function的arguments中列出方法依赖的资源即可！当angular调用function时，他会使用”call”方法，自动填充function agruments。
+					Module是一个配置injector的实例工厂的方法，被称为”provider”。
 
-　　留意下面的例子中是如何在constructor中列出依赖的。当ng-controller实例化controller时，将自动提供所依赖的资源。没有必要去创建、寻找、创建injector引用来加载依赖资源。
-				
-				-->
-				
-				<!--
-				Factory method工厂函数   与 $Injector 
-				http://angularjs.cn/A00r
+					但是injector的真正牛X的地方在于它可以用于调用方法和”instantiate” type。这个美妙的特性是允许method和types请求他们所依赖的资源，而不是寻找他们。
 
-工厂函数是用来创建指令的。它只会被调用一次：就是当编译器第一次匹配到相应指令的时候。你可以在其中进行任何初始化的工作。调用它时使用的是 $injector.invoke ， 所以它遵循所有注入器的规则。
-				-->
-				
+					注意，我们唯一需要写的，就是我们的function，在function的arguments中列出方法依赖的资源即可！当angular调用function时，他会使用”call”方法，自动填充function agruments。
+
+					留意下面的例子中是如何在constructor中列出依赖的。当ng-controller实例化controller时，将自动提供所依赖的资源。没有必要去创建、寻找、创建injector引用来加载依赖资源。
+
+					-->
+
+					<!--
+					Factory method工厂函数   与 $Injector
+					http://angularjs.cn/A00r
+
+					工厂函数是用来创建指令的。它只会被调用一次：就是当编译器第一次匹配到相应指令的时候。你可以在其中进行任何初始化的工作。调用它时使用的是 $injector.invoke ， 所以它遵循所有注入器的规则。
+					-->
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>Event Loop</h4>
-					
+
 					<!--
 					什么是Event Loop
 					http://www.ruanyifeng.com/blog/2013/10/event_loop.html-->
-					
+
 					<!--
 					<img src="./img/startup.png"/>
-这图表和后面的例子，描述了angular如何通过浏览器event-loop（所有的时间处理函数，以及timer执行的函数，会排在一个queue结构中，利用一个无限的循环，不断从queue中取出函数来执行，这个就是event-loop。来自http://wiki.nodejs.tw/nodejs_from_scratch/javascript-yunodejs/2-1-event-loop）来进行交互。
+					这图表和后面的例子，描述了angular如何通过浏览器event-loop（所有的时间处理函数，以及timer执行的函数，会排在一个queue结构中，利用一个无限的循环，不断从queue中取出函数来执行，这个就是event-loop。来自http://wiki.nodejs.tw/nodejs_from_scratch/javascript-yunodejs/2-1-event-loop）来进行交互。
 
-　　1. 浏览器event-loop等待事件到来。事件来自于用户交互（DOM events）、timer事件（setTimeout）、network事件（服务端响应，XHR之类）；
+					1. 浏览器event-loop等待事件到来。事件来自于用户交互（DOM events）、timer事件（setTimeout）、network事件（服务端响应，XHR之类）；
 
-　　2. 事件回调函数开始执行。这里进入javascript上下文（context）。这回调函数可以修改DOM结构。
+					2. 事件回调函数开始执行。这里进入javascript上下文（context）。这回调函数可以修改DOM结构。
 
-　　3. 当回调函数执行完毕后，浏览器退出javascript context，根据DOM的改变来重绘视图。
+					3. 当回调函数执行完毕后，浏览器退出javascript context，根据DOM的改变来重绘视图。
 
-　　Angular通过创建自己的事件处理循环（event processing loop），修改了一般的javascript流（flow）。这将Javascript分割成传统的和Angular的执行上下文（execution context）。只要是在Angular execution context 里面执行的操作，都拥有angular data-binding、异常处理（exception handling）、属性监视（property watching）等能力。我们可以通过在javascript使用$apply()，进入Angular execution context。但要记住一点，在大多数（angular的）地方（如controllers、services），处理事件的directive会为你调用$apply。手动调用$apply的场景，一般是当你实现自定义事件处理函数，或者处理第三方库的回调的时候。
+					Angular通过创建自己的事件处理循环（event processing loop），修改了一般的javascript流（flow）。这将Javascript分割成传统的和Angular的执行上下文（execution context）。只要是在Angular execution context 里面执行的操作，都拥有angular data-binding、异常处理（exception handling）、属性监视（property watching）等能力。我们可以通过在javascript使用$apply()，进入Angular execution context。但要记住一点，在大多数（angular的）地方（如controllers、services），处理事件的directive会为你调用$apply。手动调用$apply的场景，一般是当你实现自定义事件处理函数，或者处理第三方库的回调的时候。
 
-　　1. 通过调用scope.$apply(stimulusFn)进入angular execution context。stimulusFn就是我们想在angular execution context中执行的函数（含scope作为参数）或者angular合法的表达式。
+					1. 通过调用scope.$apply(stimulusFn)进入angular execution context。stimulusFn就是我们想在angular execution context中执行的函数（含scope作为参数）或者angular合法的表达式。
 
-　　2. Angular执行stimulusFn，这通常会改变应用的状态（application state）。
+					2. Angular执行stimulusFn，这通常会改变应用的状态（application state）。
 
-　　3. Angular进入$digest loop。这个loop由一个处理$evalAsync queue 和处理$watch list两个更小的循环组成。$digest loop会在model稳定之前保持迭代，即$evalAsync queue为空，而且$watch list没有检测到任何变化。
+					3. Angular进入$digest loop。这个loop由一个处理$evalAsync queue 和处理$watch list两个更小的循环组成。$digest loop会在model稳定之前保持迭代，即$evalAsync queue为空，而且$watch list没有检测到任何变化。
 
-　　4. $evalAsync queue被用作安排必须跳出当前堆栈帧（堆栈帧指的是在堆栈中为当前正在运行的函数分配的区域（或空间）。传入的参数、返回地址（当这个函数结束后必须跳转到该返回地址。译注：即主调函数的断点处）以及函数所用的内部存储单元（即函数存储在堆栈上的局部变量）都在堆栈帧中。http://book.51cto.com/art/200804/70915.htm C.1.1  堆栈帧）之外，但在浏览器视图绘制之前的工作。这通常是通过使用setTimeout(0)来实现。但setTimeout(0)这方法，会导致缓慢，或者在每个事件处理完毕后，浏览器绘制视图时，出现视图闪烁（angular有没有去解决这个问题？如何解决？）。
+					4. $evalAsync queue被用作安排必须跳出当前堆栈帧（堆栈帧指的是在堆栈中为当前正在运行的函数分配的区域（或空间）。传入的参数、返回地址（当这个函数结束后必须跳转到该返回地址。译注：即主调函数的断点处）以及函数所用的内部存储单元（即函数存储在堆栈上的局部变量）都在堆栈帧中。http://book.51cto.com/art/200804/70915.htm C.1.1  堆栈帧）之外，但在浏览器视图绘制之前的工作。这通常是通过使用setTimeout(0)来实现。但setTimeout(0)这方法，会导致缓慢，或者在每个事件处理完毕后，浏览器绘制视图时，出现视图闪烁（angular有没有去解决这个问题？如何解决？）。
 
-　　5. $watch list是有可能在最近一次迭代中被修改的表达式的集合。如果(model)发生了改变，那么$watch 函数会被调用，从而达到对特定的DOM重新赋值的目标。
+					5. $watch list是有可能在最近一次迭代中被修改的表达式的集合。如果(model)发生了改变，那么$watch 函数会被调用，从而达到对特定的DOM重新赋值的目标。
 
-　　6. 一旦Angular $digest loop 完成了（之前3提到的情况），离开angular和javascript的context后，浏览器紧跟着就会去重绘DOM，以响应变化。
+					6. 一旦Angular $digest loop 完成了（之前3提到的情况），离开angular和javascript的context后，浏览器紧跟着就会去重绘DOM，以响应变化。
 
-　　下面解释例子“Hello Kitty”(-_-!)是如何在用户在文本框输入文本时实现数据绑定(data-binding)效果。
+					下面解释例子“Hello Kitty”(-_-!)是如何在用户在文本框输入文本时实现数据绑定(data-binding)效果。
 
-　　1. 编译阶段(compilation phase)：
+					1. 编译阶段(compilation phase)：
 
-　　　　a) ng-model和input directive在<input>中版定keydown事件监听器。
+					a) ng-model和input directive在<input>中版定keydown事件监听器。
 
-　　　　b) {{name}}占位符（interpolation，不知道怎么翻译）（表达式）设置一个$watch以便在name发生改变时有所响应。
+					b) {{name}}占位符（interpolation，不知道怎么翻译）（表达式）设置一个$watch以便在name发生改变时有所响应。
 
-　　2. 执行阶段(runtime phase)：
+					2. 执行阶段(runtime phase)：
 
-　　　　a) 在inut控件中按下”X”按钮，让浏览器触发一个keydown事件；
+					a) 在inut控件中按下”X”按钮，让浏览器触发一个keydown事件；
 
-　　　　b) input directive捕捉到文本框值的改变，然后调用$apply(“name = ‘X’;”)，在angular execution context中更新应用的model。
+					b) input directive捕捉到文本框值的改变，然后调用$apply(“name = ‘X’;”)，在angular execution context中更新应用的model。
 
-　　　　c) Angluar将 “name = ‘X’;”应用在model中。(model发生改变)
+					c) Angluar将 “name = ‘X’;”应用在model中。(model发生改变)
 
-　　　　d) $digest loop开始
+					d) $digest loop开始
 
-　　　　e) $watch list检测到name的值被改变了，然后再次解析{{name}}表达式，然后更新DOM。
+					e) $watch list检测到name的值被改变了，然后再次解析{{name}}表达式，然后更新DOM。
 
-　　　　f) Angulart退出(angular) execution context，再依次退出keydown事件以及javascript execution context；
+					f) Angulart退出(angular) execution context，再依次退出keydown事件以及javascript execution context；
 
-　　　　g) 浏览器重绘视图，更新字符。
+					g) 浏览器重绘视图，更新字符。
 
-<pre>
-<html lang="zh-cn" ng-app>
-<head>
-    <meta charset="UTF-8">
-    <title>Hello Kitty!</title>
-    <style type="text/css">
-        .ng-cloak {
-            display: none;
-        }
-    </style>
-</head>
-<body>
-    <input ng-model="name" class="ng-cloak"/>
-    <p>Hello {{name}}!</p>
-<script src="../angular-1.0.1.js" type="text/javascript"></script>
-</body>
-</html>
-</pre>
--->
-					
+					<pre>
+					<html lang="zh-cn" ng-app>
+					<head>
+					<meta charset="UTF-8">
+					<title>Hello Kitty!</title>
+					<style type="text/css">
+					.ng-cloak {
+					display: none;
+					}
+					</style>
+					</head>
+					<body>
+					<input ng-model="name" class="ng-cloak"/>
+					<p>Hello {{name}}!</p>
+					<script src="../angular-1.0.1.js" type="text/javascript"></script>
+					</body>
+					</html>
+					</pre>
+					-->
+
 				</section>
 
 				<section class="future" style="display: none;">
@@ -843,102 +987,100 @@ element.fileupload(optionsObj);
 					-->
 					<!--
 					To $apply, or Not to $apply?
-There is confusion amongst AngularJS developers about when $scope.$apply() should
-be called and when it shouldn’t. Recommendations and rumors on the Internet are
-rampant. This section will make it crystal clear.
-But first, let us try to put $apply in a simpler form.
-Scope.$apply is like a lazy worker. It is told to do a lot of work, and it is responsible for
-making sure that the bindings are updated and the view reflects all those changes. But
-rather than doing this work all the time, it does it only when it feels it has enough work
-to be done. In all other cases, it just nods, and notes the work for later. It only actually
-does the work when you get its attention and tell it explicitly to work. AngularJS does
-this internally at regular intervals within its lifecycle, but if the call comes from outside
-(say a jQuery UI event), scope.$apply just takes note, but does nothing. That is why
-we have to call scope.$apply to tell it, “Hey! You need to do this right now, and not
-wait!”
-Here are four quick tips about when (and how) to call $apply.
+					There is confusion amongst AngularJS developers about when $scope.$apply() should
+					be called and when it shouldn’t. Recommendations and rumors on the Internet are
+					rampant. This section will make it crystal clear.
+					But first, let us try to put $apply in a simpler form.
+					Scope.$apply is like a lazy worker. It is told to do a lot of work, and it is responsible for
+					making sure that the bindings are updated and the view reflects all those changes. But
+					rather than doing this work all the time, it does it only when it feels it has enough work
+					to be done. In all other cases, it just nods, and notes the work for later. It only actually
+					does the work when you get its attention and tell it explicitly to work. AngularJS does
+					this internally at regular intervals within its lifecycle, but if the call comes from outside
+					(say a jQuery UI event), scope.$apply just takes note, but does nothing. That is why
+					we have to call scope.$apply to tell it, “Hey! You need to do this right now, and not
+					wait!”
+					Here are four quick tips about when (and how) to call $apply.
 
-• DO NOT call it all the time. Calling $apply when AngularJS is happily ticking away
-(in its $digest cycle, as we call it) will cause an exception. So “better safe than sorry”
-is not the approach you want to use.
-• DO CALL it when controls outside of AngularJS (DOM events, external callbacks
-such as jQuery UI controls, and so on) are calling AngularJS functions. At that
-point, you want to tell AngularJS to update itself (the models, the views, and so on),
-and $apply does just that.
+					• DO NOT call it all the time. Calling $apply when AngularJS is happily ticking away
+					(in its $digest cycle, as we call it) will cause an exception. So “better safe than sorry”
+					is not the approach you want to use.
+					• DO CALL it when controls outside of AngularJS (DOM events, external callbacks
+					such as jQuery UI controls, and so on) are calling AngularJS functions. At that
+					point, you want to tell AngularJS to update itself (the models, the views, and so on),
+					and $apply does just that.
 
-• Whenever possible, execute your code or function by passing it to $apply, rather
-than executing the function and then calling $apply(). For example, execute the
-following code:
-$scope.$apply(function() {
-$scope.variable1 = 'some value';
-executeSomeAction();
-});
-instead of the following:
-$scope.variable1 = 'some value';
-executeSomeAction();
-$scope.$apply();
-While both of these will have the same effect, they differ in one significant way.
+					• Whenever possible, execute your code or function by passing it to $apply, rather
+					than executing the function and then calling $apply(). For example, execute the
+					following code:
+					$scope.$apply(function() {
+					$scope.variable1 = 'some value';
+					executeSomeAction();
+					});
+					instead of the following:
+					$scope.variable1 = 'some value';
+					executeSomeAction();
+					$scope.$apply();
+					While both of these will have the same effect, they differ in one significant way.
 
-The first will capture any errors that happen when executeSomeAction is called, while
-the latter will quietly ignore any such errors. You will get error notifications from AngularJS
-only when you do the first.
+					The first will capture any errors that happen when executeSomeAction is called, while
+					the latter will quietly ignore any such errors. You will get error notifications from AngularJS
+					only when you do the first.
 
-• Consider using something like safeApply:
-$scope.safeApply = function(fn) {
-var phase = this.$root.$$phase;
-if(phase == '$apply' || phase == '$digest') {
-if(fn && (typeof(fn) === 'function')) {
-fn();
-}
-} else {
-this.$apply(fn);
-}
-};
-You can monkey patch this into the topmost scope or the rootscope, and then use the
-$scope.$safeApply function everywhere. This has been under discussion, and hopefully
-in a future release, this will be the default behavior.
+					• Consider using something like safeApply:
+					$scope.safeApply = function(fn) {
+					var phase = this.$root.$$phase;
+					if(phase == '$apply' || phase == '$digest') {
+					if(fn && (typeof(fn) === 'function')) {
+					fn();
+					}
+					} else {
+					this.$apply(fn);
+					}
+					};
+					You can monkey patch this into the topmost scope or the rootscope, and then use the
+					$scope.$safeApply function everywhere. This has been under discussion, and hopefully
+					in a future release, this will be the default behavior.
 
 					-->
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>Diving Deep with Dependency Injection</h4>
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>Diving deep into the AngularUI Router</h4>
 				</section>
 
 				<section class="future" style="display: none;">
 					<h4>Diving deep into the Angular Filter</h4>
-					
-										
+
 					<!--
 					创建AngularJS过滤器
 					http://angularjs.cn/A00J
 					-->
-					
-		
+
 					<!--
 					The Search Box
 					filterService.searchText
-					
+
 					The Combo Boxes
 					filterService.activeFilters.sports or city (depending on the box),
 
 					The Check Box
 					filterService.activeFilters.featured
-					
+
 					The Repeater
 					"team in teamsList | filter:filterService.activeFilters | filter:filterService.searchText"
 
 					-->
-					
+
 				</section>
-					
+
 				<section class="future" style="display: none;">
 					<h4>The Teams List App: Filtering and Controller Communication</h4>
-					
+
 					<!--
 					In this example, we tackle multiple things at the same time, but there are two major takeaways(经验教训):
 					1. How do you use filters—especially in a clean, simple way—with repeaters?
@@ -951,75 +1093,86 @@ in a future release, this will be the default behavior.
 					-->
 
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>Communicating Between Scopes with $on, $emit, and$broadcast</h4>
 					<!--
-					$Watch 
+					$Watch
 					-->
-					
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>$Watch , $Resource,$location,$provide</h4>
-					
+
 					<!--
 					http://angularjs.cn/A00M
 					使用$location
-					
-					'$routeProvider', '$locationProvider', 
+
+					'$routeProvider', '$locationProvider',
 					http://blog.fens.me/angularjs-url/
-					
+
 					历史管理 vs 网络爬虫SEO
 					
 					$location的双向绑定
-					-->
+
+					javascript MVC的最高境界就是单页面模式。
+　　虽然时下的web应用是ajax的天下，但是如果我们想彻底的抛弃同步提交请求的想法真的应用到实践中，开发人员会发现它常常会变成一个吃力不讨好的事情，为什么说它是一件吃力不讨好的事情，我想主要体现在两个方面：
+　　第一方面：ajax请求往往是作为纯数据的传输，那么页面效果的显示就需要开发人员自己操作DOM，使用各种javascript开发技巧，这就大大增加页面开发难度和复杂度，对于一个要投入市场的web应用，其成本和风险是可想而知的。
+　　另一方面：同步提交页面会让用户享受一种很顶级的用户体验，这就是浏览器的前进和后退体验，如果让ajax做前进和后退，特别是用户和网站交互量很大的网站，这个操作可能会成为一件不可能完成的任务。
+　　这里我首先讲如何解决前进和后退的问题，在浏览器的请求url地址有一个很重要的特性就是hash属性，例如我们写页面时候常常会写到这样的语句：
+<a href=”#” onclick=”ftn()” id=”btn”>btn</a> 
+　　当用户点击这个链接时候，会促发click事件，可能很多人没有留心到此时网页请求的url后面会添加一个#号，例如：www.cnblogs.com/#，如果我们把这个链接改下，如下：
+<a href=”#sharpxiajun” onclick=”ftn()” id=”btn”>btn</a>
+　　再点击这个链接，我们会发现链接变成了www.cnblogs.com/#sharpxiajun,前面的#sharpxiajun就是url的hash，url的hash是不会发送给服务端的，不过在浏览器里有专门的事件可以监听到它，这个事件就是hashchange事件，它是一个window的事件，浏览器的前进与后退支持url的hash改变，同时window可以监听到该事件，因此我们可以通过改变url的hash再加上ajax请求就可以模拟页面的同步提交了，同时该请求是可以使用浏览器的前进和后退操作。
 					
+					-->
+
 					<!--
 					构建自己的AngularJS，第一部分：Scope和Digest
 					http://blog.const.net.cn/rss/read.php?id=7971
 					-->
+					
+					
 					<!--
 					var myModule = angular.module('myModule', []);
 					myModule.factory('serviceId', function() {
-					  var shinyNewServiceInstance;
-					  //factory function body that constructs shinyNewServiceInstance
-					  return shinyNewServiceInstance;
+					var shinyNewServiceInstance;
+					//factory function body that constructs shinyNewServiceInstance
+					return shinyNewServiceInstance;
 					});
 					----------------------------------------------------------------------------------------------
 					var myModule = angular.module('myModule', []).factory('serviceId', function() {
-					  var shinyNewServiceInstance;
-					  //factory function body that constructs shinyNewServiceInstance
-					  return shinyNewServiceInstance;
+					var shinyNewServiceInstance;
+					//factory function body that constructs shinyNewServiceInstance
+					return shinyNewServiceInstance;
 					});
 					----------------------------------------------------------------------------------------------
 					angular.module('myModule', [], function($provide) {
-					  $provide.factory('serviceId', function() {
-						var shinyNewServiceInstance;
-						//factory function body that constructs shinyNewServiceInstance
-						return shinyNewServiceInstance;
-					  });
+					$provide.factory('serviceId', function() {
+					var shinyNewServiceInstance;
+					//factory function body that constructs shinyNewServiceInstance
+					return shinyNewServiceInstance;
 					});
-					  
-					  -->
-  
-					
+					});
+
+					-->
+
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>$http and promise</h4>
-					
-						<!-- 
-						$http with promise Working with Servers and Login
-						-->
-						
-						<!-- 
-						Additional $http functionality
-						-->
-						
-						
+
+					<!--
+					$http with promise Working with Servers and Login
+					-->
+
+					<!--
+					Additional $http functionality
+					-->
+
 				</section>
-				
+
 				<!--
 				///////////////////////////////////////////// 艰难的决定 /////////////////////////////////////////////
 				-->
@@ -1031,136 +1184,144 @@ in a future release, this will be the default behavior.
 				///////////////////////////////////////////// 发现优点 /////////////////////////////////////////////
 				-->
 				<section class="future" style="display: none;">
-				
-						<section>
-							<h1>Sounds Great!</h1>
-							<ul>
-									<li class="fragment">国际范儿——Internationalization</li>
-									<li class="fragment">时尚百变——Bootstrap</li>
-									<li class="fragment">紧跟潮流——不断更新扩大兼容Socket.IO</li>
-									<li class="fragment">个性单纯——想测试，很Easy。。。</li>
-									<li class="fragment">And so on ...</li>
-							</ul>
-						</section>
-						
-						<section>
-							<h4>国际范Internationalization and Localization</h4>
-							
-							<!--
-							什么是i18n和l10n?
-							http://angularjs.cn/A00u
-							-->
-							
-							<!--
-							AngularJS supports i18n/L10n for the following filters out of the box:
-							• currency
-							• date/time
-							• number
-							There is also pluralization support (for English as well as i18n/L10n) with the ngPlur
-							alize directive.
-							All of this pluralization support is handled and managed by the $locale service, which
-							manages the locale-specific rule sets. The $locale service works off of locale IDs, which
-							generally consist of two parts: the country code and the language code. For example,
-							en_US and en_UK, denote English used in the US and the UK, respectively. Specifying a
-							country code is optional, just specifying “en” is a valid locale code.
 
-							1,Index.html changes
-							AngularJS requires you to have a separate index.html for each supported locale.
-							Your server also needs to know which index.html it has to provide, depending on
-							the user’s locale preferences (this could also be triggered from a client-side change,
-							when the user changes his locale).
+					<section>
+						<h1>Sounds Great!</h1>
+						<ul>
+							<li class="fragment">
+								国际范儿——Internationalization
+							</li>
+							<li class="fragment">
+								时尚百变——Bootstrap
+							</li>
+							<li class="fragment">
+								紧跟潮流——不断更新扩大兼容Socket.IO
+							</li>
+							<li class="fragment">
+								个性单纯——想测试，很Easy。。。
+							</li>
+							<li class="fragment">
+								And so on ...
+							</li>
+						</ul>
+					</section>
 
-							2,Creating localized rule sets
-							The next step is creating an angular.js file for each supported locale, like
-							(angular_en-US.js and angular_zh-CN.js). This involves concatenating the
-							localization rules for each particular language (the default files for the preceding
-							two locales would be angular-locale_en-US.js and angular-locale_zh-CN.js) at the
-							end of the angular.js or the angular.min.js file. So your angular_en-US.js would
-							contain the contents of angular.js first, followed by the contents of the angularlocale_en-US.js.
+					<section>
+						<h4>国际范Internationalization and Localization</h4>
 
-							3,Sourcing the localized rule sets
-							The final step involves ensuring that your localized index.html refers to the localized
-							rule set instead of the original angular.js file. So index_en-US.html should use
-							angular-en_US.js and not angular.js.
+						<!--
+						什么是i18n和l10n?
+						http://angularjs.cn/A00u
+						-->
 
-							NOTE : 
-							•Translation Length
-							When internationalizing your apps, keep in mind that the lengths of your strings
-							might change drastically from language to language. Design your CSS accordingly,
-							and do thorough testing across the various languages. (Don’t forget that right to left
-							languages also exist!  <a herf="http://www.ibm.com/developerworks/cn/web/1404_xiayin_bidihtml/index.html">Introduction to bidirectional languages</a>)
-							•Timezones
-							The AngularJS date/time filter picks up the timezone settings from the browser. So
-							depending on the timezone of the computer, different people might see different
-							information. Neither JS nor AngularJS have any built-in support to display time
-							with a timezone specified by the developer
+						<!--
+						AngularJS supports i18n/L10n for the following filters out of the box:
+						• currency
+						• date/time
+						• number
+						There is also pluralization support (for English as well as i18n/L10n) with the ngPlur
+						alize directive.
+						All of this pluralization support is handled and managed by the $locale service, which
+						manages the locale-specific rule sets. The $locale service works off of locale IDs, which
+						generally consist of two parts: the country code and the language code. For example,
+						en_US and en_UK, denote English used in the US and the UK, respectively. Specifying a
+						country code is optional, just specifying “en” is a valid locale code.
 
+						1,Index.html changes
+						AngularJS requires you to have a separate index.html for each supported locale.
+						Your server also needs to know which index.html it has to provide, depending on
+						the user’s locale preferences (this could also be triggered from a client-side change,
+						when the user changes his locale).
 
-							-->
+						2,Creating localized rule sets
+						The next step is creating an angular.js file for each supported locale, like
+						(angular_en-US.js and angular_zh-CN.js). This involves concatenating the
+						localization rules for each particular language (the default files for the preceding
+						two locales would be angular-locale_en-US.js and angular-locale_zh-CN.js) at the
+						end of the angular.js or the angular.min.js file. So your angular_en-US.js would
+						contain the contents of angular.js first, followed by the contents of the angularlocale_en-US.js.
 
-						</section>
+						3,Sourcing the localized rule sets
+						The final step involves ensuring that your localized index.html refers to the localized
+						rule set instead of the original angular.js file. So index_en-US.html should use
+						angular-en_US.js and not angular.js.
 
-						<section>
-							<h4>配合度高How to implement a UT</h4>
-							
-							<!--
-							端到端测试
-							http://angularjs.cn/A00E
-							-->
-							
-							<!--
-							jasmine
-							http://blog.fens.me/nodejs-jasmine-bdd/
-							-->
-							
-							<!--
-							测试服务
-							http://angularjs.cn/A00Q
-							-->
-							
-							<!--Pagination Service with unit test-->
-							
-							<!--
-							基于AngularJS的项目被预先配置为使用JsTestDriver来运行单元测试。
-							你可以像下面这样运行测试：
-									在一个单独的终端上，进入到angular-phonecat目录并且运行./scripts/test-server.sh来启动测试（Windows命令行下请输入.\scripts\test-server.bat来运行脚本，后面脚本命令运行方式类似）；
-									打开一个新的浏览器窗口，并且转到http://localhost:9876 ；
-									选择“Capture this browser in strict mode”。
-							这个时候，你可以抛开你的窗口不管然后把这事忘了。JsTestDriver会自己把测试跑完并且把结果输出在你的终端里。
-							运行./scripts/test.sh进行测试 。你应当看到类似于如下的结果：
-									Chrome: Runner reset.
-									Total 1 tests (Passed: 1; Fails: 0; Errors: 0) (2.00 ms)
-									Chrome 19.0.1084.36 Mac OS: Run 1 tests (Passed: 1; Fails: 0; Errors 0) (2.00 ms)
-							耶！测试通过了！或者没有... 注意：如果在你运行测试之后发生了错误，关闭浏览器然后回到终端关了脚本，然后在重新来一边上面的步骤。
-							-->
-							
-							
-						</section>
-						
-						<section>
-							<h4>百变Using Bootstrap</h4>
-							<!--
-							http://blog.fens.me/bootstrap-angularjs-navbar/
-							http://blog.fens.me/bootstrap-multilevel-navbar/
-							-->
-						</section>
-						
-						<section>
-							<h4>紧跟潮流Using Socket.IO</h4>
-						</section>
-						
-						<section>
-							<h4>LOL, This feel bur shuang!</h4>
-						</section>
-						
+						NOTE :
+						•Translation Length
+						When internationalizing your apps, keep in mind that the lengths of your strings
+						might change drastically from language to language. Design your CSS accordingly,
+						and do thorough testing across the various languages. (Don’t forget that right to left
+						languages also exist!  <a herf="http://www.ibm.com/developerworks/cn/web/1404_xiayin_bidihtml/index.html">Introduction to bidirectional languages</a>)
+						•Timezones
+						The AngularJS date/time filter picks up the timezone settings from the browser. So
+						depending on the timezone of the computer, different people might see different
+						information. Neither JS nor AngularJS have any built-in support to display time
+						with a timezone specified by the developer
+
+						-->
+
+					</section>
+
+					<section>
+						<h4>配合度高How to implement a UT</h4>
+
+						<!--
+						端到端测试
+						http://angularjs.cn/A00E
+						-->
+
+						<!--
+						jasmine
+						http://blog.fens.me/nodejs-jasmine-bdd/
+						-->
+
+						<!--
+						测试服务
+						http://angularjs.cn/A00Q
+						-->
+
+						<!--Pagination Service with unit test-->
+
+						<!--
+						基于AngularJS的项目被预先配置为使用JsTestDriver来运行单元测试。
+						你可以像下面这样运行测试：
+						在一个单独的终端上，进入到angular-phonecat目录并且运行./scripts/test-server.sh来启动测试（Windows命令行下请输入.\scripts\test-server.bat来运行脚本，后面脚本命令运行方式类似）；
+						打开一个新的浏览器窗口，并且转到http://localhost:9876 ；
+						选择“Capture this browser in strict mode”。
+						这个时候，你可以抛开你的窗口不管然后把这事忘了。JsTestDriver会自己把测试跑完并且把结果输出在你的终端里。
+						运行./scripts/test.sh进行测试 。你应当看到类似于如下的结果：
+						Chrome: Runner reset.
+						Total 1 tests (Passed: 1; Fails: 0; Errors: 0) (2.00 ms)
+						Chrome 19.0.1084.36 Mac OS: Run 1 tests (Passed: 1; Fails: 0; Errors 0) (2.00 ms)
+						耶！测试通过了！或者没有... 注意：如果在你运行测试之后发生了错误，关闭浏览器然后回到终端关了脚本，然后在重新来一边上面的步骤。
+						-->
+
+					</section>
+
+					<section>
+						<h4>百变Using Bootstrap</h4>
+						<!--
+						http://blog.fens.me/bootstrap-angularjs-navbar/
+						http://blog.fens.me/bootstrap-multilevel-navbar/
+						-->
+					</section>
+
+					<section>
+						<h4>紧跟潮流Using Socket.IO</h4>
+					</section>
+
+					<section>
+						<h4>LOL, This feel bur shuang!</h4>
+					</section>
+
 				</section>
 				<!--
 				///////////////////////////////////////////// 注意事项 /////////////////////////////////////////////
 				-->
 				<section class="future" style="display: none;">
 					<h1>Warnings!</h1>
-					
-					 Some thing you should know before get married!
+
+					Some thing you should know before get married!
 				</section>
 
 				<section class="future" style="display: none;">
@@ -1168,90 +1329,90 @@ in a future release, this will be the default behavior.
 					<!--
 					Module的分离与合并？ controller的分离与合并
 					-->
-					
+
 					<!--
 					依赖$injection的顺序
 					-->
-					
+
 					<!--
 					隐式依赖注入
-							AngularJS依赖注入系统的新特性使得AngularJS可以通过参数名称来判断依赖
-							但是如你要压缩你的代码，你的变量名会被重命名，你就只能显示地指定依赖了。
-					
+					AngularJS依赖注入系统的新特性使得AngularJS可以通过参数名称来判断依赖
+					但是如你要压缩你的代码，你的变量名会被重命名，你就只能显示地指定依赖了。
+
 					someModule.controller('MyController', function($scope, dep1, dep2) {
-					  ...
-					  $scope.aMethod = function() {
-						...
-					  }
-					  ...
+					...
+					$scope.aMethod = function() {
+					...
+					}
+					...
 					});
 					压缩之后若是修改了函数的参数名称会导致它不能注入依赖。那么可以改用 Array 的方式声明
 
-						someModule.controller('MyController', ['$scope', 'dep1', 'dep2', 
-													   function($scope,   dep1,   dep2) {
-						  ...
-						  $scope.aMethod = function() {
-							...
-						  }
-						  ...
-						}]);
-						这样代码压缩就不会有问题了
-						
-						-->
-						
-						<!--
-						现在我遇到这样一个问题，使用seajs配合angularjs，每个controller都写成了一个模块文件，再我最终部署的时候，我应该压缩合并这些controller了吗？
-						seajs有相应的对angularjs的解决方案吗？ https://github.com/seajs/seajs/issues/555
-						-->
-						
-						<!--
-						How should I organize my modules? 
-						-->
-						
-						<!--
-							Angular Namespace
+					someModule.controller('MyController', ['$scope', 'dep1', 'dep2',
+					function($scope,   dep1,   dep2) {
+					...
+					$scope.aMethod = function() {
+					...
+					}
+					...
+					}]);
+					这样代码压缩就不会有问题了
+
+					-->
+
+					<!--
+					现在我遇到这样一个问题，使用seajs配合angularjs，每个controller都写成了一个模块文件，再我最终部署的时候，我应该压缩合并这些controller了吗？
+					seajs有相应的对angularjs的解决方案吗？ https://github.com/seajs/seajs/issues/555
+					-->
+
+					<!--
+					How should I organize my modules?
+					-->
+
+					<!--
+					Angular Namespace
 					为了防止名称冲突，angular会在object的名称中加入前缀$。请不要在代码中使用$前缀以避免冲突。(-_-!! )
-						-->
-						
-						<!--
-						IE浏览器兼容性
-						http://angularjs.cn/A00v
+					-->
 
-IE处理非标准标签名会产生问题。问题可以分为两类，每类都有自己的解决方法。
+					<!--
+					IE浏览器兼容性
+					http://angularjs.cn/A00v
 
-如果标签名是以my:前缀开始的: 这会被当成是一个XML的命名空间，并且必须使用`来声明。
+					IE处理非标准标签名会产生问题。问题可以分为两类，每类都有自己的解决方法。
 
-如果标签没有:符号，但它又不是一个标准的HTML标签。那么就必须预先使用document.createElement('my-tag')来创建它。
+					如果标签名是以my:前缀开始的: 这会被当成是一个XML的命名空间，并且必须使用`来声明。
 
-如果你准备使用css选择器来对自定义标签添加样式，那么你就必须先用document.createElement('my-tag')来创建一下，不管有没有XML命名空间。
+					如果标签没有:符号，但它又不是一个标准的HTML标签。那么就必须预先使用document.createElement('my-tag')来创建它。
 
-好消息
+					如果你准备使用css选择器来对自定义标签添加样式，那么你就必须先用document.createElement('my-tag')来创建一下，不管有没有XML命名空间。
 
-值得庆幸的是，IE的这种限制只存在在标签名上，标签属性名没有限制。所以，当在IE上使用<div my-tag your:tag> </div>.这样的形式时没有特殊要求。
-						-->
-						
-						
+					好消息
+
+					值得庆幸的是，IE的这种限制只存在在标签名上，标签属性名没有限制。所以，当在IE上使用<div my-tag your:tag> </div>.这样的形式时没有特殊要求。
+					-->
+
 				</section>
 
 				<section class="future" style="display: none;">
 					<h4>Using jQuery</h4>
-				<!---
-				http://www.angularjs.cn/A0fG
-				angularjs与其他类库 jquery的协作
-				
-				http://angularjs.cn/A0cj
-				angularjs 与 jquerymobile兼容问题
-				
-				http://key232323.iteye.com/blog/1954904
-				angularjs使用lhgdialog做对话框控件
-				-->
-				
-				
-				
+					<!---
+					http://www.angularjs.cn/A0fG
+					angularjs与其他类库 jquery的协作
+
+					http://angularjs.cn/A0cj
+					angularjs 与 jquerymobile兼容问题
+
+					http://key232323.iteye.com/blog/1954904
+					angularjs使用lhgdialog做对话框控件
+					-->
+
 				</section>
 
 				<section class="future" style="display: block;">
-					<br/> <br/> <br/> <br/>
+					<br/>
+					<br/>
+					<br/>
+					<br/>
 					<h1>:D</h1>
 					<h1>It's not a big deal ！</h1>
 					<h1>we want the the honeymoon</h1>
@@ -1263,23 +1424,40 @@ IE处理非标准标签名会产生问题。问题可以分为两类，每类都
 				<section class="cover present" style="display: block;">
 					<h1>Part7 - Enjoy your life and Looking forward to the future</h1>
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h4>总结</h4>
 					<ul>
 						<li>
-						Angular 编程思想 http://www.oschina.net/translate/the-angular-way?print
-						
-						http://www.zhihu.com/question/21151483
-						AngularJS 胜在可用和易于测试这两方面。
-						<!--
-						debug 麻烦
+							Angular 编程思想 http://www.oschina.net/translate/the-angular-way?print
+
+							http://www.zhihu.com/question/21151483
+							AngularJS 胜在可用和易于测试这两方面。
+					<!--
+					端对端的解决方案
+	  AngularJS试图成为WEB应用中的一种端对端的解决方案。这意味着它不只是你的WEB应用中的一个小部分，而是一个完整的端对端的解决方案。
+	  这会让AngularJS在构建一个CRUD（增加Create、查询Retrieve、更新Update、删除Delete）的应用时显得很“固执”（原文为 opinionated,意指没有太多的其他方式）。
+	  但是，尽管它很“固执”，它仍然能确保它的“固执”只是在你构建应用的起点，并且你仍能灵活变动。AngularJS的一些出众之处如下：
+	  构建一个CRUD应用可能用到的全部内容包括：数据绑定、基本模板标识符、表单验证、路由、深度链接、组件重用、依赖注入。
+	  测试方面包括：单元测试、端对端测试、模拟和自动化测试框架。
+	  具有目录布局和测试脚本的种子应用作为起点。
+					AngularJS的可爱之处 
+		AngularJS通过为开发者呈现一个更高层次的抽象来简化应用的开发。
+		如同其他的抽象技术一样，这也会损失一部分灵活性。换句话说，并不是所有的应用都适合用AngularJS来做。
+		AngularJS主要考虑的是构建CRUD应用。幸运的是，至少90%的WEB应用都是CRUD应用。
+		但是要了解什么适合用AngularJS构建，就得了解什么不适合用AngularJS构建。
+		如游戏，图形界面编辑器，这种DOM操作很频繁也很复杂的应用，和CRUD应用就有很大的不同，它们不适合用AngularJS来构建。
+		像这种情况用一些更轻量、简单的技术如jQuery可能会更好。
+					
+					-->
+							<!--
+							debug 麻烦
 							AngularJS 给出的调用链又深、又难理解。
 
 							另外还有两个可以注意的旧版本问题，最近新版本已经解决（还没发布到 bower）：
 							- $resource 对 promise 的支持；$resource 功能稍弱.缺少很多必要的 HTTP 方法，需要自定义；缺少全局配置；内部 $http 的 PATCH 方法对低版 IE 不兼容；
 							- directive 对动画的支持；
-						-->
+							-->
 						</li>
 					</ul>
 
@@ -1298,7 +1476,7 @@ IE处理非标准标签名会产生问题。问题可以分为两类，每类都
 							<span>如何实现工程化？</span>
 						</li>
 					</ul>
-					
+
 					<!--
 					http://angularjs.cn/A08H
 					ng-include 怎么加loading
@@ -1307,13 +1485,14 @@ IE处理非标准标签名会产生问题。问题可以分为两类，每类都
 
 				</section>
 
-				
 				<!--
 				///////////////////////////////////////////// 结束 /////////////////////////////////////////////
 				-->
 				<section class="future" style="display: none;">
 					<h1>THE END</h1>
-					<br/><br/><br/>
+					<br/>
+					<br/>
+					<br/>
 					<h3 class="fragment">Angular & U</h3>
 					<h3 class="fragment">Bring together by Kenny</h3>
 					<h3 class="fragment">have a happy time later on ...</h3>
@@ -1321,25 +1500,41 @@ IE处理非标准标签名会产生问题。问题可以分为两类，每类都
 				<section class="future" style="display: none;">
 					<h2>Thanks</h2>
 					<ol>
-							<li><a href="http://www.cnblogs.com/lcllao/archive/2012/10/18/2728787.html">AngularJs学习笔记--Guide教程系列文章索引</a></li>
-							<li><a href="http://www.ng-newsletter.com/">ng-newsletter</a></li>
-							<li><a href="http://angularjs.cn/T001">AngularJs中文社区</a></li>
-							<li><a href="http://woxx.sinaapp.com/">用AngularJS开发下一代Web应用</a></li>
-							
+						<li>
+							<a href="http://www.cnblogs.com/lcllao/archive/2012/10/18/2728787.html">
+								AngularJs学习笔记--Guide教程系列文章索引
+							</a>
+						</li>
+						<li>
+							<a href="http://www.ng-newsletter.com/">
+								ng-newsletter
+							</a>
+						</li>
+						<li>
+							<a href="http://angularjs.cn/T001">
+								AngularJs中文社区
+							</a>
+						</li>
+						<li>
+							<a href="http://woxx.sinaapp.com/">
+								用AngularJS开发下一代Web应用
+							</a>
+						</li>
+
 					</ol>
 				</section>
-				
+
 				<section class="future" style="display: none;">
 					<h1>Q &amp; A</h1>
 				</section>
-				
+
 				<!--<section class="future" style="display: none;">
-						<svg width="800px" height="600px">
-								<path id="my_path" d="M 20,260 C 40,180 80,180 100,260"  />
-								<text>
-										<textPath xlink:href="#my_path">如何实现工程化？</textPath>
-								</text>
-						</svg>
+				<svg width="800px" height="600px">
+				<path id="my_path" d="M 20,260 C 40,180 80,180 100,260"  />
+				<text>
+				<textPath xlink:href="#my_path">如何实现工程化？</textPath>
+				</text>
+				</svg>
 				</section>-->
 
 			</div>
@@ -1353,85 +1548,126 @@ IE处理非标准标签名会产生问题。问题可以分为两类，每类都
 				<div class="down"></div>
 			</aside>
 			<aside id="coverbox" style="display: block;">
-					<div class="clock" id="clock">
-						<div class="clock-xin"></div>
-						<div class="clock-xin2"></div>
-						<div id="date" class="date"></div>
-						<!--
-						<div id="hour" class="hour"></div>
-						<div id="min" class="min"></div>
-						-->
-						<div id="sec" class="sec"></div>
-					</div>
-					<div id="mincounter">0 Mins</div>
+				<div class="clock" id="clock">
+					<div class="clock-xin"></div>
+					<div class="clock-xin2"></div>
+					<div id="date" class="date"></div>
+					<!--
+					<div id="hour" class="hour"></div>
+					<div id="min" class="min"></div>
+					-->
+					<div id="sec" class="sec"></div>
+				</div>
+				<div id="mincounter">
+					0 Mins
+				</div>
 			</aside>
-			
+			<aside id="btn_viewdemo">
+				View full demo
+			</aside>
 		</div>
 
+		<script type="text/javascript">
+			var pageIndex = {h:0,v:0};
+			var demo_map = {
+					'2_1' : "demo_task_todo.html",
+					'2_6' : "demo_task_todo.html"
+			};
+			var viewdemoClickfn = function(){
+				var demo_page_adress = null;
+				for (var _page in demo_map)
+				{
+					if(_page == pageIndex.h + '_' + pageIndex.v){
+							demo_page_adress = demo_map[_page];
+							break;
+					}
+				}
+
+				if( demo_page_adress == null){
+					return;
+				}
+				window.open('./angualrJs/'+ demo_page_adress, "_blank", '');
+			}
+			var $view_demo = document.getElementById('btn_viewdemo');
+			if($view_demo.addEventListener){  
+					$view_demo.addEventListener("click",viewdemoClickfn,false);  
+			}else if($view_demo.attachEvent){  
+					$view_demo.attachEvent("onclick",viewdemoClickfn); 
+			} 
+		</script>
+		
 		<script type="text/javascript" src="js/head.js"></script>
 		<script type="text/javascript" src="js/reveal.min.js"></script>
 		<script type="text/javascript">
-				// Full list of configuration options available here: https://github.com/hakimel/reveal.js#configuration
-				Reveal.initialize({
-						controls : true,
-						progress : true,
-						history : true,
-						mouseWheel: false,
-						overview: true,
-						keyboard : true,
-						rollingLinks : true,
-						slideNumber: true,
-						theme : Reveal.getQueryHash().theme, // available themes are in /css/theme
-						transition : Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/none
-							
-						// Optional libraries used to extend on reveal.js
-						dependencies : [{
-								src : 'js/plugin/classList.js',
-								condition : function() {
-										return !document.body.classList;
-								}
-						}, {
-								src : 'js/plugin/showdown.js',
-								condition : function() {
-										return !!document.querySelector('[data-markdown]');
-								}
-						}, {
-								src : 'js/plugin/markdown.js',
-								condition : function() {
-										return !!document.querySelector('[data-markdown]');
-								}
-						}, {
-								src : 'js/plugin/zoom.js',
-								async : true,
-								condition : function() {
-										return !!document.body.classList;
-								}
-						}, {
-								src : 'js/plugin/notes.js',
-								async : true,
-								condition : function() {
-										return !!document.body.classList;
-								}
-						}]
-				});
+			// Full list of configuration options available here: https://github.com/hakimel/reveal.js#configuration
+			Reveal.initialize({
+				controls : true,
+				progress : true,
+				history : true,
+				mouseWheel : false,
+				overview : true,
+				keyboard : true,
+				rollingLinks : true,
+				slideNumber : true,
+				theme : Reveal.getQueryHash().theme, // available themes are in /css/theme
+				transition : Reveal.getQueryHash().transition || 'linear', // default/cube/page/concave/zoom/linear/none
+
+				// Optional libraries used to extend on reveal.js
+				dependencies : [{
+					src : 'js/plugin/classList.js',
+					condition : function() {
+						return !document.body.classList;
+					}
+				}, {
+					src : 'js/plugin/showdown.js',
+					condition : function() {
+						return !!document.querySelector('[data-markdown]');
+					}
+				}, {
+					src : 'js/plugin/markdown.js',
+					condition : function() {
+						return !!document.querySelector('[data-markdown]');
+					}
+				}, {
+					src : 'js/plugin/zoom.js',
+					async : true,
+					condition : function() {
+						return !!document.body.classList;
+					}
+				}, {
+					src : 'js/plugin/notes.js',
+					async : true,
+					condition : function() {
+						return !!document.body.classList;
+					}
+				}]
+			});
+			Reveal.addEventListener( 'ready', function( event ) {
+				
+			});
+			Reveal.addEventListener( 'slidechanged', function( event ) {
+				pageIndex.h = event.indexh;
+				pageIndex.v = event.indexv;
+				$view_demo.style.display="block";
+			});
 		</script>
-		
-		<script type="text/javascript" src="js/clock.js"></script>
-		
 		<script type="text/javascript" src="js/plugin/zoom.js"></script>
 		<script type="text/javascript" src="js/plugin/notes.js"></script>
 
 		<!--Refer to angular 1.2.24-->
 		<script type="text/javascript" src="./angualrJs/angular.min.js"></script>
 		<script type="text/javascript">
-				var app = angular.module("myTipsModule", []);
+			var app = angular.module("myTipsModule", []);
 		</script>
 		<script type="text/javascript" src="./angualrJs/controller/myTipsCtr.js"></script>
+		<script type="text/javascript" src="./angualrJs/controller/helloCtr.js"></script>
+
+		<script type="text/javascript" src="js/clock.js"></script>
 		
 		<!--
 		TODO : ng-click="showPic(startUp)";
 		<div class="img_popup"> <img src="./img/startup.png"/> </div>
 		-->
-		
+
 	</body>
 </html>
