@@ -3,9 +3,8 @@
 	line-height:26px;
 	padding-left:30px;
 }
-#s_who_is_ajs span{
+#s_who_is_ajs em{
 	font-size:20px;
-	line-height:10px;
 }
 #coverbox {
 	position: absolute;

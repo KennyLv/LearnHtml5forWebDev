@@ -251,31 +251,45 @@
 							上图--主站/github/历史
 							http://www.cnblogs.com/powertoolsteam/p/angularjs-introdection.html
 							-->
-							<span>
-								首先，它是一个框架，不是类库，是像backbone一样提供一整套方案用于设计web应用。<br/>
-								它不仅仅是一个javascript框架，因为它的核心其实是对HTML标签的增强，何为HTML标签增强？<br/>
-								其实就是使你能够用标签完成一部分页面逻辑，具体方式就是通过自定义标签、自定义属性等，这些HTML原生没有的标签/属性在ng中有一个名字：指令（directive）。<br/>
-								后面会详细介绍。那么，什么又是动态web应用呢？与传统web系统相区别，web应用能为用户提供丰富的操作，能够随用户操作不断更新视图而不进行url跳转。<br/>
+								<em>
+								AngularJS is an MV* framework that is ideal for use when building client-side single-page apps. 
+								It is not a library, but a framework for building dynamic web pages. 
+								It focuses on extending HTML and providing dynamic data binding, and it plays well with other frameworks (e.g., jQuery).<br/>
+								</em>
+							<span class="fragment">
+								1，它是一个框架，不是类库。<br/>
+							</span>
+							<span class="fragment">
+								2，它构建了一个MVC/MVVM的解决方案用于客户端动态web应用<!--，-->。<br/>
+							</span>
+							<span class="fragment">
+								3，它的核心是对HTML的扩展增强，并实现动态的数据绑定。<br/>
+							</span>
+							<span class="fragment">
+								4，它能够兼容其他的前端框架，和平共处，如jQuery。<br/><br/>
+							</span>
+						<my-Tips  class="fragment" 
+								tips="{contents : '这一点很重要，因为它的官方也声明，AngularJs更适用于开发CRUD应用，即数据操作比较多的应用，而非是其他DOM操作很频繁也很复杂的应用。',
+								style:{direction:'l',position:{top:'470px',left:'480px'}}}">
+						</my-Tips>
+							
+							<p class="fragment">
+									好像是个不错的对象哈，怎么做到的呢？先去相相再问吧。。。
+									<!--
+									何为HTML标签增强？<br/>
+									后面会详细介绍：其实就是使你能够用标签完成一部分页面逻辑，具体方式就是通过自定义标签、自定义属性等，这些HTML原生没有的标签/属性在ng中有一个名字：指令（directive）。<br/>
+							
+								那么，什么又是动态web应用呢？与传统web系统相区别，web应用能为用户提供丰富的操作，能够随用户操作不断更新视图而不进行url跳转。
 								ng官方也声明它更适用于开发CRUD应用，即数据操作比较多的应用，而非是游戏或图像处理类应用。<br/>
+								
 								为了实现这些，ng引入了一些非常棒的特性，包括模板机制、数据绑定、模块、指令、依赖注入、路由。<br/>
 								通过数据与模板的绑定，能够让我们摆脱繁琐的DOM操作，而将注意力集中在业务逻辑上。<br/>
-								这些我将在以后的学习中一一研究。
-							</span>
+								这些我将在以后的学习中一一研究。<br/><br/>
+								
+								-->
+							</p>
 					</section>
-					<section>
-						<h4>Who is AngularJs?</h4>
-						<div>
-								<span>
-										AngularJS通过使用我们称为标识符(directives)的结构，
-										例如：
-												使用双大括号{{}}语法进行数据绑定；
-												使用DOM控制结构来实现迭代或者隐藏DOM片段；
-										好处：
-												能将逻辑代码关联到相关的DOM元素上；
-												能将HTML分组成可重用的组件。
-								</span>
-						</div>
-					</section>
+					
 				</section>
 
 				<!--
@@ -294,61 +308,71 @@
 					
 				</section>
 
-				<!--<my-Tips  class="fragment" ng-app="myTipsModule" ng-controller="myTipsCtr" ng-init="Tips.style.direction='r';Tips.contents='this is a Test!'"> </my-Tips>-->
-
 				<section class="future" style="display: none;">
-					<h4>About AngularJs</h4>
-					<!--
-					<my-Tips  class="fragment" ng-app="myTipsModule" ng-controller="myTipsCtr" ng-init="Tips.style.direction='t';Tips.style.position.top='200px';Tips.style.position.left='20px';Tips.contents='this is a Test 1 !'"> </my-Tips>
-
-					<my-Tips  class="fragment" ng-app="myTipsModule" ng-controller="myTipsCtr" ng-init="Tips={contents : 'This is a test 2 !',style:{direction:'r',position:{top:'10px',left:'50px'}}}"> </my-Tips>
-					-->
-					<!--
-					<my-Tips  class="fragment" tips="tips1"> </my-Tips>
-					<my-Tips  class="fragment" tips="tips2"> </my-Tips>
-					<my-Tips  class="fragment" tips="{contents : 'This is a test3 !',style:{direction:'r',position:{top:'300px',left:'50px'}}}"> </my-Tips>
-					-->
-
-					<!--
-					Example -- Hello world!
-					-->
-					<!--
-					Modules -- Where our application components live.
-					Directives --HTML annotations that trigger Javascript behaviors.
-					Controllers -- Where we add application behavior.
-					Expressions -- How values get displayed within the page.
-					-->
-					<!--
-					Services
-					-->
-
+					<section>
+						<h4>About AngularJs</h4>
+							<div>
+									<span>
+										何为HTML标签增强？<br/>
+										后面会详细介绍：其实就是使你能够用标签完成一部分页面逻辑，具体方式就是通过自定义标签、自定义属性等，这些HTML原生没有的标签/属性。
+										
+										
+									为了实现这些，ng引入了一些非常棒的特性，包括模板机制、数据绑定、模块、指令、依赖注入、路由。<br/>
+									通过数据与模板的绑定，能够让我们摆脱繁琐的DOM操作，而将注意力集中在业务逻辑上。<br/>
+										
+											AngularJS通过使用我们称为标识符(directives)的结构，
+									</span>
+							</div>
+					</section>
+					<section>
+						<h4>About AngularJs</h4>
+							<div>
+									<span>
+											Example 剖析-- Hello world!
+									</span>
+							</div>
+					</section>
+					<section>
+						<h4>About AngularJs</h4>
+							<div>
+									<span>
+											
+											Modules -- Where our application components live.
+											Directives --HTML annotations that trigger Javascript behaviors.
+											Controllers -- Where we add application behavior.
+											Views ( Expressions ) -- How values get displayed within the page.
+											Services ... ...
+									</span>
+							</div>
+					</section>
 				</section>
 
 				<section class="future" style="display: none;">
 					<h4>Module</h4>
-
+					Modules的声明方式，
+					<!--
+					放在后面讲
+					factory，provider，service注入
+					-->
 				</section>
 
 				<section class="future" style="display: none;">
 					<h4>Directive</h4>
-					<!--
-					Why use directives?
-					-->
-
-					<!--
-					How to build a customer directives?
-
+					
+					简单的示例：
+					How To create one,
+					命名规则
 					Attribute vs Elements directives
-
+					restrict & template
+					
+					<!--
+					放在后面讲：
+					Why use directives?
+					How to build a customer directives?
 					AngularJS Custom Directives
 					http://my.oschina.net/ilivebox/blog/289670
-
-					-->
-
-					<!--
-					restrict: 'A',
-					template
-					link
+					
+					仔细讲解Compile / link
 					-->
 
 				</section>
@@ -378,9 +402,73 @@
 				<section class="future" style="display: none;">
 					<h4>View</h4>
 
+							例如：
+									使用双大括号{{}}语法进行数据绑定；
+									使用DOM控制结构来实现迭代或者隐藏DOM片段；
+							好处：
+									能将逻辑代码关联到相关的DOM元素上；
+									能将HTML分组成可重用的组件。
 					<!--
 					AngularJS 自定义控件
 					http://my.oschina.net/ilivebox/blog/289670
+					-->
+
+
+					<!--
+					ng-src
+					-->
+					<!--
+					ng-repeat
+					-->
+				</section>
+
+				<section class="future" style="display: none;">
+					<h4>The overall impression of Angular</h4>
+					<span>	
+					模块可以说是AngularJS 的根本。它包含配置、控制、过滤、工厂模式、指令及其它模块。
+					AngularJS .NET  摘要
+					module Assembly 应用开发模块
+
+					controller ViewModel 控制器，启到不同层面间的组织作用
+
+					scope DataContext 为视图提供绑定数据
+
+					filter ValueConverter 数据传输到视图之前修改数据
+
+					directive Component 可复用的UI元素，也可以理解为前端插件
+
+					factory, service Utility classes 为其他模块元素提供服务
+					</span>		<br/><br/>
+					<p>印象挺好，了解下吧。。。</p>
+				</section>
+
+				<!--
+				///////////////////////////////////////////// 入门 /////////////////////////////////////////////
+				-->
+				<section class="cover present" style="display: block;">
+					<h1>Part2 - Get closer to AngularJs</h1>
+					
+					<!--
+					加入事件的讲解
+					加入service的讲解
+					-->
+				</section>
+
+				<section class="future" style="display: none;">
+					<h4>How Model works -- $scope</h4>
+					<!--
+					$rootScope
+					-->
+
+					<!--
+					isolate scope
+					-->
+				</section>
+
+				<section class="future" style="display: none;">
+					<h4>How the view works</h4>
+					<!--
+					{{}}
 					-->
 
 					<!--
@@ -412,56 +500,11 @@
 					Angular的这个处理方式，产生了一个稳定的DOM。这意味着在DOM元素的生命周期里，一直与某model的实例绑定着，这个关系不会发生改变。这也意味着代码可以保持对某DOM对象的引用，对其注册事件函数，并且这个引用不会被模版数据合并所销毁。
 
 					-->
-
 					<!--
-					ng-src
+					放在后面讲
+					Angular编译器（html compiler）
 					-->
-					<!--
-					ng-repeat
-					-->
-				</section>
-
-				<section class="future" style="display: none;">
-					<h4>The overall impression of Angular</h4>
-					模块可以说是AngularJS 的根本。它包含配置、控制、过滤、工厂模式、指令及其它模块。
-					AngularJS .NET  摘要
-					module Assembly 应用开发模块
-
-					controller ViewModel 控制器，启到不同层面间的组织作用
-
-					scope DataContext 为视图提供绑定数据
-
-					filter ValueConverter 数据传输到视图之前修改数据
-
-					directive Component 可复用的UI元素，也可以理解为前端插件
-
-					factory, service Utility classes 为其他模块元素提供服务
-				</section>
-
-				<!--
-				///////////////////////////////////////////// 入门 /////////////////////////////////////////////
-				-->
-				<section class="cover present" style="display: block;">
-					<h1>Part2 - Get closer to AngularJs</h1>
-				</section>
-
-				<section class="future" style="display: none;">
-					<h4>How Model works -- $scope</h4>
-					<!--
-					$rootScope
-					-->
-
-					<!--
-					isolate scope
-					-->
-				</section>
-
-				<section class="future" style="display: none;">
-					<h4>Expression</h4>
-					<!--
-					{{}}
-					-->
-
+					
 				</section>
 
 				<section class="future" style="display: none;">
@@ -525,7 +568,7 @@
 
 				<section class="future" style="display: none;">
 					<h4>事件处理</h4>
-
+						ng-click
 				</section>
 
 				<section class="future" style="display: none;">
@@ -611,6 +654,7 @@
 				-->
 				<section class="cover present" style="display: block;">
 					<h1>Part3 - Interested in AngularJs</h1>
+					
 				</section>
 
 				<section class="future" style="display: none;">

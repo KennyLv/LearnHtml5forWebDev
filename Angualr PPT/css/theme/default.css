@@ -80,6 +80,11 @@ body {
 }
 .reveal h4 {
   color: #49F804;
+  margin-left: -80px;
+}
+.reveal span {
+	font-size:20px;
+	line-height:10px;
 }
 
 /*********************************************
