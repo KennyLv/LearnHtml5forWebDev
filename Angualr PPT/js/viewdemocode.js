@@ -5,7 +5,7 @@ var demo_map = {
 		'2_6' : "controller/helloCtr.js"
 };
 var viewdemoClickfn = function(){
-	var demo_page_adress = null;
+	var demo_page_adress = "demo/demo_code.html?img=1";
 	for (var _page in demo_map)
 	{
 		if(_page == pageIndex.h + '_' + pageIndex.v){
@@ -14,10 +14,6 @@ var viewdemoClickfn = function(){
 		}
 	}
 
-	if( demo_page_adress == null){
-		return;
-	}
-	//alert('./angularJs/'+ demo_page_adress);
 	window.open('./angularJs/'+ demo_page_adress, "_blank", '');
 }
 
