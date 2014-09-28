@@ -5,10 +5,12 @@ app.directive('Names', function() {
 			//templateUrl: 'angualrJs/view_templates/myTips.html',
 			template :'<ul></ul>',
   }
-}).controller('helloCtr', ['$scope', function($scope) {
+});
+
+app.controller('helloCtr', ['$scope', function($scope) {
 		$scope.Names= [{
-				"name": "Jacke",
-				"description": "This is Jacke from Nanjing ..."
+				"name": "Tom",
+				"description": "This is Tom ..."
 			},
 			{
 				"name": "Emma",
