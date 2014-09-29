@@ -1,8 +1,9 @@
 
 var demo_map = {
+		'2_6' : "controller/helloCtr.js",
 		'5_0' : "demo/demo_code.html?img=1",
 		'6_0' : "demo/demo_direct_basic.html",
-		'2_6' : "controller/helloCtr.js"
+		'12_1' : "demo/demo_filter.html"
 };
 var viewdemoClickfn = function(){
 	var demo_page_adress = "demo/demo_code.html?img=1";
