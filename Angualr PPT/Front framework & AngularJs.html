@@ -1234,15 +1234,77 @@
 
 					<!--
 					How to build a customer Service?
-					创建服务
+					创建服务：应该从通过一个模块（module）注册一个服务工厂方法开始（可以使用Module#factory api或者直接使用模块配置方法中的$provide api）。
+					angular.service('PostService', function ($http) {
+							var posts = {};
+							return {
+									getById: function (id) {
+											if (!posts[id]) {
+													this.find(id)
+											}; 
+											return posts[id]; 
+									},
+									find: function (id) {
+											return $http.get('posts/' + id).then(function (data) {
+													posts[id] = data;
+													return data;
+											});
+									}
+							};
+					}); 
+					
+					
+					注册服务：注册带有通过Module Api的模块的服务
+					var myModule = angular.module('myModule', []);
+					myModule.factory('serviceId', function() {
+							var shinyNewServiceInstance;
+							//factory function body that constructs shinyNewServiceInstance
+							return shinyNewServiceInstance;
+					});
+					注册服务：注册在模块配置方法中使用$provide服务的模块
+					angular.module('myModule', [], function($provide) {
+							$provide.factory('serviceId', function() {
+									var shinyNewServiceInstance;
+									//factory function body that constructs shinyNewServiceInstance
+									return shinyNewServiceInstance;
+							});
+					});
+					注册服务：你不是在注册一个服务实例，而是工厂方法将会在创建服务实例的时候被调用。
 
-					注册服务
 					http://angularjs.cn/A00N
 
 					http://www.cnblogs.com/sitemanager/p/3459941.html
 					http://www.cnblogs.com/sitemanager/archive/2013/12/05/3459516.html
+					http://www.cnblogs.com/sitemanager/p/3459516.html
+					
+					使用Angular 服务：使用inject
+					var MyController = function($location) { ... };
+					MyController.$inject = ['$location'];
+					myModule.controller('MyController', MyController);
+					使用Angular 服务：提供一个内联的注入“注释”：
+					var myService = function($http) { ... };
+					myModule.factory('myService', ['$http', myService]);
+					
+					
 					-->
 
+					<!--
+					服务依赖：服务不仅仅可以被依赖，还可以有它们自己的依赖。这些依赖能够被作为工厂方法的参数指定。
+					angular.module('myModule', [], function($provide) {
+							$provide.factory('notify', ['$window', function(win) {
+									var msgs = [];
+									return function(msg) {
+											msgs.push(msg);
+											if (msgs.length == 3) {
+													win.alert(msgs.join("\n"));
+													msgs = [];
+											}
+									};
+							}]);
+					});
+					
+					-->
+					
 					<!--
 					How does Controller use a service?
 					//Dependency Injection!

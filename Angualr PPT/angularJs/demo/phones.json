@@ -1,0 +1,38 @@
+﻿[
+    {
+        "id": "Angola",
+        "name": "安哥拉",
+        "age": "AO",
+        "phone": "244"
+    },
+    {
+        "id": "Afghanistan",
+        "name": "阿富汗",
+        "age": "AF",
+        "phone": "93"
+    },
+    {
+        "id": "Albania",
+        "name": "阿尔巴尼亚",
+        "age": "AL",
+        "phone": "355"
+    },
+    {
+        "id": "Algeria",
+        "name": "阿尔及利亚",
+        "age": "DZ",
+        "phone": "213"
+    },
+    {
+        "id": "Andorra",
+        "name": "安道尔共和国",
+        "age": "AD",
+        "phone": "376"
+    },
+    {
+        "id": "Anguilla",
+        "name": "安圭拉岛",
+        "age": "AI",
+        "phone": "1264"
+    }
+]
