@@ -13,6 +13,8 @@ http://www.cnblogs.com/dxy1982/category/349848.html
 
 >>权威开发入门：https://developer.mozilla.org/cn/Canvas_tutorial
 
+>>JS图形操作与处理 http://kb.cnblogs.com/page/503312/
+
 > SVG
 
 >>官方文档：http://www.w3.org/TR/SVG11/
