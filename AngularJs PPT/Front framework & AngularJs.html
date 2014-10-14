@@ -2163,7 +2163,86 @@ scope在expression求值之时提供上下文环境。例如，{{username}}表�
 
 					值得庆幸的是，IE的这种限制只存在在标签名上，标签属性名没有限制。所以，当在IE上使用<div my-tag your:tag> </div>.这样的形式时没有特殊要求。
 					-->
+					
+										
+					<!-- 代码组织
+					
+					如何组织大型JavaScript应用中的代码？
+					http://kb.cnblogs.com/page/176541/
+					//方式一
+							controllers/
+										LoginController.js
+										RegistrationController.js
+										ProductDetailController.js
+										SearchResultsController.js
+							directives.js
+							filters.js
+							models/
+									CartModel.js
+									ProductModel.js
+									SearchResultsModel.js
+									UserModel.js
+							services/
+									CartService.js
+									UserService.js
+									ProductService.js
+					//方式二	
+							cart/
+									CartModel.js
+									CartService.js
+							common/
+									directives.js
+									filters.js
+							product/
+									search/
+											SearchResultsController.js
+											SearchResultsModel.js
+									ProductDetailController.js
+									ProductModel.js
+									ProductService.js
+							user/
+									LoginController.js
+									RegistrationController.js
+									UserModel.js
+									UserService.js
+					//方式三
+					http://www.cnblogs.com/powertoolsteam/p/angularjs-introdection.html
+						Root 
+								default.html 
+								styles 
+									   app.css 
+								partials 
+									   home.html 
+									   product.html 
+									   store.html 
+								scripts 
+									   app.js 
+									   controllers 
+											   productCtrl.js 
+											   storeCtrl.js 
+									   directives 
+											   gridDctv.js 
+											   chartDctv.js 
+									   filters 
+											   formatFilter.js 
+									   services 
+											   dataSvc.js 
+									   vendor 
+											   angular.js 
+											   angular.min.js
 
+						AngularJS+requireJS项目的目录结构设想
+						http://www.cnblogs.com/jmtbai/p/3861897.html
+						
+						AngularJS 最佳实践
+						http://www.lovelucy.info/angularjs-best-practices.html
+					-->
+					
+				<!--	Angular 与Require.js
+					RequireJS与AngularJS的集成
+					http://segmentfault.com/blog/moejser/1190000000492238
+
+					-->
 				</section>
 
 				<section class="future" style="display: none;">
