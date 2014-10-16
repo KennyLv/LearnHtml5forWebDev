@@ -1392,6 +1392,76 @@
 					
 					-->
 				</section>
+				
+
+				<section class="future" style="display: none;">
+					<h4>Animation</h4>
+					<!--
+					AngularJS开发指南-Animations
+					http://www.tuicool.com/articles/jEvY3a
+					
+					AngularJS自1.2版本起，可以在一些常用的directive上绑定animation，比如ngRepeat, ngSwitch和ngView，也可以在自定义的directive上绑定animation（使用$animation）。
+					在使用了某些directives的元素的生命周期中，能够通过一些animation的钩子来触发animation事件，当触发时，会表现出动画效果（动画效果通过css或javascript定义）。
+					可以使用纯css（遵循AngularJS中的一些规范）或者javascript代码（定义在服务中）来设置animation。
+					
+					它的方式是比如你用angular的ng-hide，想使它有动画效果。在你把ng-animate引入并加载模块后，它会把ng-hide分成ng-in,ng-in-active,ng-leave,ng-leave-active四个阶段。
+					当检测到数据变化触发ng-hide的时候会依次给这个dom增加这四个class，你的动画效果就写在这四个class里。
+					
+					在我使用的时候我发现很不精细，比如我不能控制一堆的ng-hide是从上倒下动画隐藏呢还是从下到上，
+					而且这中间如果你想让这些ng-hide动画一依次进行还必须除了上面四个class外再加一个它指定的class，还只能匀速。
+					我看了它的源码，依次进行的效果是通过setinterval进行的…
+					
+					The ngAnimate module provides support for JavaScript, CSS3 transition and CSS3 keyframe animation hooks within existing core and custom directives.
+					Keep in mind that if an animation is running, any child elements cannot be animated until the parent element's animation has completed.
+					
+					哪些指令（directive）支持animation？
+					一少部分常用的directives在它们的生命周期中，任何时间都支持并能够触发animation绑定。
+						ngRepeat	enter, leave and move
+						ngView	enter and leave
+						ngInclude	enter and leave
+						ngSwitch	enter and leave
+						ngIf	enter and leave
+						ngClass or	enter and remove
+						ngShow&ngHide	enter and remove
+					
+					-->
+					
+					<!--
+					使用Animation前，需要在你的应用中添加对ngAnimate Module的依赖。
+					
+					Animation在angular中完全基于css。只要为元素添加一个css类型，就可以在此元素上应用animation。
+					
+					JavaScript-defined Animations
+					ng-repeat
+					在此使用ng-repeat的模板中，当在items中新增一项时，ngRepeat会为新产生的元素添加一个ng-enter类；
+					当删除一项时会为将被删除的元素添加一个ng-leave类，当元素交换位置时，回为响应元素添加ng-move类。
+					
+					ng-hide/ng-show
+					
+					 使用javascript可以实现相同的动画效果
+					 如果为一个元素同时定义了css动画和javascript动画，则AngularJS会同时执行这两个动画。
+					--->
+					
+					<!--
+					CSS-defined Animations
+					class和ngClass动画绑定
+
+					当元素的类（class）发生变化时，angular可以通过触发绑定的add和remove来添加动画效果。
+					这句话的意思是，当一个元素绑定或删除某个class时，在该class被添加或移除的过程中，AngularJS可以触发响应的动画效果
+					（注意：AngularJS只能捕获到通过表达式或ng-class改变的class）
+					
+					
+					CSS Staggering Animations
+					--->
+					
+					<!--
+					在自定义的directives中使用animation
+					$animate service
+					
+					-->
+					
+				</section>
+
 
 				<!--
 				///////////////////////////////////////////// 理解 /////////////////////////////////////////////
