@@ -1,0 +1,203 @@
+
+/*
+ ==================================ANIMATIONS=========================================== 
+	.ng-enter 			{ animation: scaleUp 0.5s both ease-in; z-index: 8888; }
+	.ng-leave 			{ animation: slideOutLeft 0.5s both ease-in; z-index: 9999; }
+	.ng-enter 		{ z-index: 8888; }
+	.ng-leave 		{ z-index: 9999; }
+	
+	.page-home.ng-enter 		{ animation: scaleUp 0.5s both ease-in; }
+	.page-home.ng-leave         { transform-origin: 0% 0%; animation: rotateFall 1s both ease-in; }
+	.page-about.ng-enter 		{ animation:slideInRight 0.5s both ease-in; }
+	.page-about.ng-leave        { animation:slideOutLeft 0.5s both ease-in; }
+	.page-contact.ng-leave      { transform-origin: 50% 50%; animation: rotateOutNewspaper .5s both ease-in; }
+	.page-contact.ng-enter 		{ animation:slideInUp 0.5s both ease-in; }
+	
+	
+	ng-repeat
+.phone-listing.ng-enter,
+.phone-listing.ng-leave,
+.phone-listing.ng-move {
+  -webkit-transition: 0.5s linear all;
+  -moz-transition: 0.5s linear all;
+  -o-transition: 0.5s linear all;
+  transition: 0.5s linear all;
+}
+
+.phone-listing.ng-enter,
+.phone-listing.ng-move {
+  opacity: 0;
+  height: 0;
+  overflow: hidden;
+}
+
+.phone-listing.ng-move.ng-move-active,
+.phone-listing.ng-enter.ng-enter-active {
+  opacity: 1;
+  height: 120px;
+}
+
+.phone-listing.ng-leave {
+  opacity: 1;
+  overflow: hidden;
+}
+
+.phone-listing.ng-leave.ng-leave-active {
+  opacity: 0;
+  height: 0;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+*/
+
+/* rotate and fall */
+@keyframes rotateFall {
+	0% 		{ transform: rotateZ(0deg); }
+	20% 	{ transform: rotateZ(10deg); animation-timing-function: ease-out; }
+	40% 	{ transform: rotateZ(17deg); }
+	60% 	{ transform: rotateZ(16deg); }
+	100% 	{ transform: translateY(100%) rotateZ(17deg); }
+}
+
+/* slide in from the bottom */
+@keyframes slideOutLeft {
+	to 		{ transform: translateX(-100%); }
+}
+
+/* rotate out newspaper */
+@keyframes rotateOutNewspaper {
+	to 		{ transform: translateZ(-3000px) rotateZ(360deg); opacity: 0; }
+}
+
+/* entering animations --------------------------------------- */
+/* scale up */
+@keyframes scaleUp {
+	from 	{ opacity: 0.3; -webkit-transform: scale(0.8); }
+}
+
+/* slide in from the right */
+@keyframes slideInRight {
+	from 	{ transform:translateX(100%); }
+	to 		{ transform: translateX(0); }
+}
+
+/* slide in from the bottom */
+@keyframes slideInUp {
+	from 	{ transform:translateY(100%); }
+	to 		{ transform: translateY(0); }
+}
+
+/*
+Unfortunately each browser vendor requires its own definition of keyframe animation code...
+*/
+@keyframes my_animation_show {
+		from { opacity:0; }
+		to { opacity:1; }
+}
+@-webkit-keyframes my_animation_show {
+		from { opacity:0; }
+		to { opacity:1; }
+}
+@-moz-keyframes my_animation_show {
+		from { opacity:0; }
+		to { opacity:1; }
+}
+@-o-keyframes my_animation_show {
+		from { opacity:0; }
+		to { opacity:1; }
+}
+
+@keyframes my_animation_hide {
+		from { opacity:1; }
+		to { opacity:0; }
+}
+@-webkit-keyframes my_animation_hide {
+		from { opacity:1; }
+		to { opacity:0; }
+}
+@-moz-keyframes my_animation_hide {
+		from { opacity:1; }
+		to { opacity:0; }
+}
+@-o-keyframes my_animation_hide {
+		from { opacity:1; }
+		to { opacity:0; }
+}
+
+
+.mydescr {
+		padding:10px;
+		background-color:lightblue;
+		border:1px solid black;
+}
+/*
+.mydescr.ng-hide-add, 
+.mydescr.ng-hide-remove {
+		-webkit-transition:all linear 5s;
+		-moz-transition:all linear 5s;
+		-o-transition:all linear 5s;
+		transition:all linear 5s;
+		display:block;
+}
+*/
+.mydescr.ng-hide-add, 
+.mydescr.ng-hide-add-active{
+		-webkit-animation:2s my_animation_hide;
+		-moz-animation:2s my_animation_hide;
+		-o-animation:2s my_animation_hide;
+		animation:2s my_animation_hide;
+}
+
+.mydescr.ng-hide-remove, 
+.mydescr.ng-hide-remove-active {
+		-webkit-animation:2s my_animation_show;
+		-moz-animation:2s my_animation_show;
+		-o-animation:2s my_animation_show;
+		animation:2s my_animation_show;
+}
+
+
+
+/*
+We're using CSS transitions for when the enter and move events are triggered for the element that has the .repeated-item class
+*/
+/*
+.repeated-item.ng-enter,
+.repeated-item.ng-move {
+		-webkit-transition:5s linear all;
+		-moz-transition:5s linear all;
+		-o-transition:5s linear all;
+		transition:5s linear all;
+		opacity:0;
+}
+*/
+
+/*
+The ng-enter-active and ng-move-active are where the transition destination properties are set so that the animation knows what to animate.
+*/
+.repeated-item.ng-enter, 
+.repeated-item.ng-enter-active{
+		-webkit-animation:5s my_animation_show;
+		-moz-animation:5s my_animation_show;
+		-o-animation:5s my_animation_show;
+		animation:5s my_animation_show;
+}
+
+.repeated-item.ng-move, 
+.repeated-item.ng-move-active {
+		-webkit-animation:5s my_animation_show;
+		-moz-animation:5s my_animation_show;
+		-o-animation:5s my_animation_show;
+		animation:5s my_animation_show;
+}
+
+/*
+We're using CSS keyframe animations for when the leave event is triggered for the element that has the .repeated-item class
+*/
+.repeated-item.ng-leave,
+.repeated-item.ng-leave-active {
+		-webkit-animation:5s my_animation_hide;
+		-moz-animation:5s my_animation_hide;
+		-o-animation:5s my_animation_hide;
+		animation:5s my_animation_hide;
+}
