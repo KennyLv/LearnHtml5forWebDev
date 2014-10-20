@@ -8,8 +8,9 @@
         ul,li{margin:0;list-style: none}
     </style>
 </head>
-<body ng-app="app" ng-controller="appcon">
-<div slider id="ngSlide" effect="top">
+<body ng-app="app">
+
+<div slider id="ngSlide" effect="top"  ng-controller="appcon">
         <li>
             <img src="imgs/Bridge.png" alt=""/>
         </li>
@@ -30,16 +31,69 @@
     </li>
 </div>
 
-<script type="text/javascript" src="../../assets/js/angular_1.2.25/angular.min.js"></script>
-<script type="text/javascript" src="../../assets/js/jquery-2.1.1.min.js"></script>
+<div slider id="ngSlide1" effect="leftLoop"  ng-controller="appcon">
+        <li>
+            <img src="imgs/Bridge.png" alt=""/>
+        </li>
+    <li>
+            <img src="imgs/Forest.png" alt=""/>
+    </li>
+    <li>
+            <img src="imgs/Lake.png" alt=""/>
+    </li>
+    <li>
+            <img src="imgs/Mountains.png" alt=""/>
+    </li>
+    <li>
+            <img src="imgs/Rain.png" alt=""/>
+    </li>
+    <li>
+            <img src="imgs/Water.png" alt=""/>
+    </li>
+</div>
+
+<div id="jQSlide" class="cc tibooslider">
+<ul class="cc" id="jQSlideul">
+        <li>
+            <img src="imgs/Bridge.png" alt=""/>
+        </li>
+    <li>
+            <img src="imgs/Forest.png" alt=""/>
+    </li>
+    <li>
+            <img src="imgs/Lake.png" alt=""/>
+    </li>
+    <li>
+            <img src="imgs/Mountains.png" alt=""/>
+    </li>
+    <li>
+            <img src="imgs/Rain.png" alt=""/>
+    </li>
+    <li>
+            <img src="imgs/Water.png" alt=""/>
+    </li>
+</ul>
+</div>
+
+
+
+<script type="text/javascript" src="../../jquery-2.1.1.min.js"></script>
+<script type="text/javascript" src="../../angular_1.2.25/angular.min.js"></script>
 
 <script src="js/jquery.SuperSlide.js"></script>
 <script src="js/ngslider.js"></script>
 
 <script>
-angular.module("app",['ngSlide']).controller("appcon",function($scope){
+$(document).ready(function(){
+		//TODO : 
+		$("#jQSlide").slide({mainCell:"#jQSlideul",effect:"fade",autoPlay:true});
+});
 
+angular.module("app",['ngSlide']).controller("appcon",function($scope){
+		//TODO : 
 });
 </script>
+
+
 </body>
 </html>
