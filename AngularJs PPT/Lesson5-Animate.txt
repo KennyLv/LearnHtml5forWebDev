@@ -1,0 +1,14 @@
+http://www.ngnice.com/docs/api/ngAnimate
+
+http://www.cnblogs.com/amosli/p/3729083.html
+
+http://scotch.io/tutorials/javascript/animating-angularjs-apps-ngview
+
+
+
+
+
+
+http://www.oschina.net/translate/angularjs-multi-step-form-using-ui-router
+http://www.oschina.net/translate/setting-up-states-from-a-json-file-in-angularjs-applications
+
