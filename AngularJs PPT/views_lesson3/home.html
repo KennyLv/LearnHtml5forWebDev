@@ -1,0 +1,90 @@
+﻿
+<h1>Date with AngularJs 3 -- <span style="color:red;">AngularJs的运行原理</span></h1>
+<!--
+http://www.cnblogs.com/lcllao/archive/2012/09/07/2671227.html
+-->
+<section  ng-show="currentShow == 'home'">
+<h3>About AngularJs </h3>
+	<pre>
+		AngularJS is an MV* framework that is ideal for use when building client-side single-page apps. 
+		It is not a library, but a framework for building dynamic web pages. 
+		It focuses on extending HTML and providing dynamic data binding, and it plays well with other frameworks (e.g., jQuery).</pre>
+		
+	<ol>
+		<li>
+		TA是一个框架，不是类库。是Google推出Web应用开发框架，构建了一个MVC/MVVM的解决方案用于客户端动态web应用。
+		</li>
+		<li>
+		TA的核心是对HTML的扩展增强，并实现动态的数据绑定。
+		</li>
+	</ol>
+	
+
+</section>
+
+<section  ng-show="currentShow == 'mv'">
+
+	<h4>Angular的视图模版</h4>
+
+	<p><strong>什么是基于字符串的模板？</strong>	</p>
+	<p>如: ejs、handlebar、jade等，是通过建立带有特殊标记的HTML字符串，通过独立的parser来处理特有语法来实现的，它的一般工作原理是：</p>
+	<ol>
+			<li>parse 字符串模板， 输出中间状态 (函数或者ast->函数)</li>
+			<li>输入data，生成字符串，输出之后数据data与输出字符串不再有关联</li>
+			<li>插入字符串到指定位置(innerHTML等)</li>
+	</ol>
+	<p>特点是:</p> 
+	<ul>
+			<li>语法灵活，自由度高，只输出必要的部分 </li>
+			<li>编译完成之后数据与输出不再关联，当数据发生改变时，这个过程需要一次又一次地重复，模版的粒度与DOM更新的粒度一致，即它是"死的"</li>
+	</ul>
+	
+	<p><strong>什么又是基于Dom的模板？</strong>	</p>
+	<p>如: angularjs, knockoutjs, avalonjs等，它们没有自己的parse过程，一般工作原理是：</p>
+	<ol>
+			<li>将模板字符串（依然需要在HTML中写入一些字符串，但依旧是HTML）插入到dom中，生成初始dom结构。</li>
+			<li>自顶向下遍历输出的dom结构，提取指令事件等信息(通过getAttribute)，改写dom结构(link)或形成绑定关系</li>
+			<li>输入数据data, 根据绑定关系触发dom结构变化(这一步可能与步骤2同时进行)</li>
+	</ol>
+	<p>它的特点是:</p> 
+	<ul>
+			<li>无parse，需要利用停留在初始dom结构上的属性信息来处理业务逻辑, 逻辑能力普遍基于指令或类似的定义，灵活度低。</li>
+			<li>生成的dom仍与data有关联，即是“活的”</li>
+	</ul>
+	
+
+		<p>	
+		Angular模版的不同之处，在于它是基于DOM的而不是基于字符串的。模版依然需要在HTML中写入一些字符串，但依旧是HTML（不是通过在里面嵌入模版）。
+		浏览器把HTML转换为DOM，然后DOM成为了compiler（angular的模版引擎）的输入。
+		Compiler查找directives，依次在model中设置watches。得出的结果，是一个一直更新的view，不需要重新拼接model与template。
+		model成为了view的唯一数据来源（single source of truth）。
+		</p>
+		
+			<li>将模板字符串（依然需要在HTML中写入一些字符串，但依旧是HTML）插入到dom中，生成初始dom结构。</li>
+			<li>自顶向下遍历输出的dom结构，提取指令事件等信息(通过getAttribute)，改写dom结构(link)或形成绑定关系</li>
+			<li>输入数据data, 根据绑定关系触发dom结构变化(这一步可能与步骤2同时进行)</li>
+		
+		
+	
+	<h4>Angular的Model	</h4>
+		与很多其他框架不一样，angular对model没有任何限制与要求。不需要额外添加class，也不需要通过特殊的特权方法去访问或者改变model。Model的数据类型，可以是原始的类型（string、number……），可以是键值对象({a:1,b:2})，也可以是函数（function() {…}）。简要地说，angular的model只需要是一个普通的javascript对象。
+
+		View
+
+		view是用户所能看到的东西。view诞生于模版。它与model结合，最终呈现为浏览器DOM。Angular采取一个对于其他很多模版系统来说，很不一样的方式去呈现View。
+
+
+
+</section>
+
+
+
+<section  ng-show="currentShow == 'ehtml'">
+<h3>HTML扩展的实现</h3>
+
+Directives
+
+　　Directive是一个行为（例如之前文章的例子“躲猫猫”）或DOM转换（自定义标签，里面包含一组DOM），将其名称放在属性、标签名、class名里面都可以触发该directive。Directive允许你以声明的方式扩展HTML的标签。
+
+
+</section>
