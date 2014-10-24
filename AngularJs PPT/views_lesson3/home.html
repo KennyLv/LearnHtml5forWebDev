@@ -24,7 +24,7 @@ http://www.cnblogs.com/lcllao/archive/2012/09/07/2671227.html
 
 <section  ng-show="currentShow == 'mv'">
 
-	<h4>Angular的视图模版</h4>
+	<h3>AngularJs的视图模版</h3>
 
 	<p><strong>什么是基于字符串的模板？</strong>	</p>
 	<p>如: ejs、handlebar、jade等，是通过建立带有特殊标记的HTML字符串，通过独立的parser来处理特有语法来实现的，它的一般工作原理是：</p>
@@ -36,7 +36,7 @@ http://www.cnblogs.com/lcllao/archive/2012/09/07/2671227.html
 	<p>特点是:</p> 
 	<ul>
 			<li>语法灵活，自由度高，只输出必要的部分 </li>
-			<li>编译完成之后数据与输出不再关联，当数据发生改变时，这个过程需要一次又一次地重复，模版的粒度与DOM更新的粒度一致，即它是"死的"</li>
+			<li>编译完成之后数据与输出不再关联，当数据发生改变时，这个过程需要一次又一次地重复。</li>
 	</ul>
 	
 	<p><strong>什么又是基于Dom的模板？</strong>	</p>
@@ -44,47 +44,85 @@ http://www.cnblogs.com/lcllao/archive/2012/09/07/2671227.html
 	<ol>
 			<li>将模板字符串（依然需要在HTML中写入一些字符串，但依旧是HTML）插入到dom中，生成初始dom结构。</li>
 			<li>自顶向下遍历输出的dom结构，提取指令事件等信息(通过getAttribute)，改写dom结构(link)或形成绑定关系</li>
-			<li>输入数据data, 根据绑定关系触发dom结构变化(这一步可能与步骤2同时进行)</li>
+			<li>输入数据data, 根据绑定关系触发dom结构变化(这一步可能与上一步同时进行)</li>
 	</ol>
 	<p>它的特点是:</p> 
 	<ul>
-			<li>无parse，需要利用停留在初始dom结构上的属性信息来处理业务逻辑, 逻辑能力普遍基于指令或类似的定义，灵活度低。</li>
+			<li>需要利用停留在初始dom结构上的属性信息来处理业务逻辑, 逻辑能力普遍基于特定标识，灵活度低。</li>
 			<li>生成的dom仍与data有关联，即是“活的”</li>
 	</ul>
+	<p>	<strong>
+	Angular的视图模版是基于DOM的，依然需要在HTML中写入一些字符串，但依旧是HTML（不是通过在里面嵌入模版）。
+	浏览器把HTML转换为DOM，然后DOM成为了angular的模版引擎 -- compiler的输入。Compiler查找directives，依次在model中设置监听。
+	得出的结果是一个一直更新的view，不需要重新拼接model与template。</strong>
+	</p>
+		
+	<br/>
 	
+	<h3>AngularJs的Model	</h3>
+	<p>	与很多其他框架不一样，angular对model没有任何限制与要求。不需要额外添加class，也不需要通过特殊的特权方法去访问或者改变model。Model的数据类型：</p>
+	<ul>
+			<li>可以是原始的类型（string、number……），</li>
+			<li>可以是键值对象({a:1,b:2})，</li>
+			<li>也可以是函数（function() {…}）。</li>
+	</ul>
+	<p>	<strong>简要地说，angular的model只需要是一个普通的javascript对象。	</strong></p>
 
-		<p>	
-		Angular模版的不同之处，在于它是基于DOM的而不是基于字符串的。模版依然需要在HTML中写入一些字符串，但依旧是HTML（不是通过在里面嵌入模版）。
-		浏览器把HTML转换为DOM，然后DOM成为了compiler（angular的模版引擎）的输入。
-		Compiler查找directives，依次在model中设置watches。得出的结果，是一个一直更新的view，不需要重新拼接model与template。
-		model成为了view的唯一数据来源（single source of truth）。
-		</p>
-		
-			<li>将模板字符串（依然需要在HTML中写入一些字符串，但依旧是HTML）插入到dom中，生成初始dom结构。</li>
-			<li>自顶向下遍历输出的dom结构，提取指令事件等信息(通过getAttribute)，改写dom结构(link)或形成绑定关系</li>
-			<li>输入数据data, 根据绑定关系触发dom结构变化(这一步可能与步骤2同时进行)</li>
-		
-		
+	<br/>
 	
-	<h4>Angular的Model	</h4>
-		与很多其他框架不一样，angular对model没有任何限制与要求。不需要额外添加class，也不需要通过特殊的特权方法去访问或者改变model。Model的数据类型，可以是原始的类型（string、number……），可以是键值对象({a:1,b:2})，也可以是函数（function() {…}）。简要地说，angular的model只需要是一个普通的javascript对象。
+	<h3>AngularJs的*	</h3>
+	<p>通常，AngularJs介绍里面的*会被当作Contorller来理解，因为AngularJs的视图模板和Model的结合正是通过它的Controller来完成的：</p>
+	<p>Controller是在view背后的代码，它的职责是构建model，并通过回调函数，将其（model）推送到view中。</p>
+	<p>Controller与view分离是很重要的，因为：</p>
+	<ul>
+		<li>Controller是写在javascript中的，而Javascript是命令式的（imperative），命令（imperative）是描述应用程序行为的一个好方法，不应该包含任何显示信息的逻辑（DOM引用或者HTML片段）</li>
+		<li>View模版是写在HTML里的。HTML是声明式的。声明式（的HTML）是描述UI的好方法。View不应该包含任何行为。</li>
+	</ul>
+	<!--
+由于Controller不知道自己需要对应哪一个View，使得一个Controller可以（间接）使用多个View。
+这对于re-skinning（更换皮肤？）、其他设备特定的视图（例如手机与桌面）还有代码的可测性是很重要的。-->
+ 
 
-		View
-
-		view是用户所能看到的东西。view诞生于模版。它与model结合，最终呈现为浏览器DOM。Angular采取一个对于其他很多模版系统来说，很不一样的方式去呈现View。
-
-
+	<br/>
+	<br/>
+	<br/>
 
 </section>
 
 
-
 <section  ng-show="currentShow == 'ehtml'">
-<h3>HTML扩展的实现</h3>
+<h3>AngularJs的Directives</h3>
+<p>AngularJs的Directives允许你以声明的方式扩展HTML的标签。</p>
+<p>将其名称放在属性、标签名、class名里面都可以触发该directive，在DOM编译期间，directives匹配HTML并注册行为或者转换DOM结构。</p>
+<p>因此可以将Directive理解为是一个行为或DOM转换（自定义标签，里面包含一组DOM）</p>
+<pre>
+&lt;li ng-repeat="a1 in navbar"&gt;
+	&lt;a href="{{ a1.link }}" ng-click="go()"&gt;{{ a1.label }} &lt;/a&gt;
+&lt;/li&gt;
+</pre>
+				
+<h3>AngularJs的页面表达式</h3>
+<pre>
+&lt;p&gt;Hello ｛｛name｝｝!&lt;/p&gt;
+</pre>
+<p>
+AngularJS不是通过javascript的eval()对表达式进行求值，而是内置的$parse服务解析执行。这体现在：</p>
+<ul>
+	<li>AngularJS的表达式解析环境的上下文是scope，而javascript则是window（严格模式evel的时候）。</li>
+	<li>AngularJS需要通过$window访问global window对象。</li>
+</ul>
 
-Directives
+<br/>
 
-　　Directive是一个行为（例如之前文章的例子“躲猫猫”）或DOM转换（自定义标签，里面包含一组DOM），将其名称放在属性、标签名、class名里面都可以触发该directive。Directive允许你以声明的方式扩展HTML的标签。
+<h3>它们是怎样在浏览器里解析的呢？</h3>
 
+<!--
+controller和directive两者都与scope有引用，但它们两者之间没有（引用）。
+这样的安排，将controller从directive和DOM中隔离开来。
 
+在编译过程中，compiler通过$interpolate服务匹配文本与属性中的嵌入表达式（如{{something}}）。这些表达式将会注册为watches，并且作为digest cycle(之前不是digest-loop吗？！)的一部分，一同更新。下面是一个简单的interpolation：
+-->
+<br/>
+<br/>
+<br/>
 </section>
