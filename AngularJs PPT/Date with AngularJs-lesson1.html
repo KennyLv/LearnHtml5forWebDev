@@ -1487,12 +1487,7 @@ function emailRouteConfig($routeProvider){
 					
 					
 					-->
-
-<!--	
-
-动画： 且看下一节
-
-		-->			
+					
 				</section>
 				
 
@@ -1837,8 +1832,11 @@ templateUrl - 与template基本一致，但模版通过指定的url进行加载�
 					<h4>Event Loop</h4>
 
 					<!--
-					什么是Event Loop
-					http://www.ruanyifeng.com/blog/2013/10/event_loop.html-->
+					JavaScript 运行机制详解：什么是Event Loop
+					http://www.ruanyifeng.com/blog/2013/10/event_loop.html
+					JavaScript 运行机制详解：再谈Event Loop
+					http://www.ruanyifeng.com/blog/2014/10/event-loop.html
+					-->
 
 					<!--
 					<img src="./img/startup.png"/>
@@ -1913,6 +1911,9 @@ templateUrl - 与template基本一致，但模版通过指定的url进行加载�
 				<section class="future" style="display: none;">
 					<h4>AngularJS Runtime -- To $apply, or Not to $apply?</h4>
 					<!--
+					
+					angular JS之$apply()方法
+					http://www.2cto.com/kf/201311/256848.html
 					
 					http://www.cnblogs.com/lcllao/archive/2012/09/23/2698651.html
 二、scope的特性
@@ -2113,9 +2114,74 @@ scope在expression求值之时提供上下文环境。例如，{{username}}表�
 
 					
 					<p>Promise</p>
+					
+					<!--
+					Promises与Javascript异步编程
+					http://www.uedsc.com/promises-javascript.html
+					
+					JavaScript Promise：去而复返
+					http://segmentfault.com/blog/amio/1190000000363893?page=1
+					
+					Javascript异步编程的4种方法
+					http://www.ruanyifeng.com/blog/2012/12/asynchronous%EF%BC%BFjavascript.html
+					
+					//
+					http://wiki.commonjs.org/wiki/Promises
+					Promises/A by Kris Zyp — "Thenables"   
+					Promises/B by Kris Kowal — Opaque Q API
+					Promises/KISS by AJ ONeal
+					Promises/C has been redacted
+					Promises/D by Kris Kowal — "Promise-sendables", for interoperable instances of Promises/B.
+					
+					Javascript异步编程模型Promise模式详细介绍
+					http://www.jb51.net/article/49898.htm
+					
+					JavaScript异步编程Promise模式的6个特性
+					http://www.jb51.net/article/48680.htm
+					
+					//
+					A+Promises -- by Forbes Lindesay			https://www.promisejs.org/
+					JavaScript异步编程助手：Promise模式
+					http://www.csdn.net/article/2013-08-12/2816527-JavaScript-Promise
+					
+					JavaScript Promises
+					http://wildermuth.com/2013/8/3/JavaScript_Promises
+					-->
+					
+					<!--
+					Javascript中的异步编程规范Promises/A详细介绍
+					http://www.jb51.net/article/50725.htm
+					
+					这篇文章主要介绍了Javascript中的异步编程规范Promises/A详细介绍,同时介绍了jQuery 中的 Deferred 和 Promises,需要的朋友可以参考下
+					Javascript里异步编程逐渐被大家接受，先前大家一般通过回调嵌套，setTimeout、setInterval等方式实现，代码看起来非常不直观，不看整个代码逻辑很难快速理解。Javascript里异步函数大概有I/O函数（Ajax、postMessage、img load、script load等）、计时函数（setTimeout、setInterval）等。
+这些我们都很熟悉，在复杂的应用中往往会嵌套多层，甚至以为某些步骤未完成而导致程序异常，最简单的例子：比如你往DOM中注入节点，你必须等待节点注入后在操作这个节点，当大量节点注入的时候，时间往往很难把握。如果我们得代码依赖第三方api的数据。我们无法获悉一个API响应的延迟时间，应用程序的其他部分可能会被阻塞，直到它返回结果。Promises对这个问题提供了一个更好的解决方案，它是非阻塞的，并且与代码完全解耦 。
+那么，我看看Javascript里异步编程，首先推荐大家看看相对来说比较流行的Promises/A规范。
+Promises/A规范
+注：为了便于理解，描述可能和Promises/A规范有所出入；
+CommonJS之Promises/A规范，通过规范API接口来简化异步编程，使我们的异步逻辑代码更易理解。
+遵循Promises/A规范的实现我们称之为Promise对象，Promise对象有且仅有三种状态：unfulfilled（未完成）、fulfilled（已完成）、failed（失败/拒绝）；初始创建的时候是unfulfilled（未完成）状态，状态只可以从unfulfilled（未完成）变成fulfilled（已完成），或者unfulfilled（未完成）变成failed（失败/拒绝）。状态一旦变成fulfilled（已完成）或者failed（失败/拒绝），状态就不能再变了。
+Promises/A规范提供了一个在程序中描述延时（或将来）概念的解决方案。主要的思想不是执行一个方法然后阻塞应用程序等待结果返回后再回调其他方法，而是返回一个Promise对象来满足未来监听。fulfilled状态和failed状态都可以被监听。Promise通过实现一个then接口来返回Promise对象来注册回调：
+.then(fulfilledHandler, errorHandler, progressHandler)；
+then接口用于监听一个Promise的不同状态。fulfilledHandler用于监听fulfilled（已完成）状态，errorHandler用于监听failed（失败/拒绝）状态，progressHandler用于监听unfulfilled（未完成）状态。Promise不强制实现unfulfilled（未完成）的事件监听（例如我们知道旧版本的jQuery（1.5，1.6）的Deferred就是一个Promise的实现，但没有实现对unfulfilled（未完成）状态的监听来回调progressHandler）。
+一般认为，then接口返回的是一个新的Promise对象，而不是原来的Promise对象，这个新的新的Promise对象可以理解为是原来Promise对象的一个视图，它只包含原有Promise对象的一组方法，这些方法只能观察原有Promise对象的状态，而无法更改deferred对象的内在状态。这样可以避免多个调用者之间的冲突，多个调用者可以通过改变新的Promise对象状态而不影响别的调用者。
+另外，Promise提供了resolve（实现状态由未完成到已完成）和reject（实现状态由未完成到拒绝或失败）两个接口实现状态的转变。
+发一张图片帮助理解一下：
+<img src="./img/promiseA.png" />
+
+有了Promise，就可以以同步的思维去编写异步的逻辑了。在异步函数里，不能使用try/catch捕获异常，也不能抛出异常。有了Promise，我们可以直接显式定义errorHandler，相当于捕获异常。
+以下是几个遵循Promises/A规范的类库，when，q，rsvp.js，jQuery.Deferred等等。
+					
+					-->
+					
+					
+					<p>AngularJS中的promise</p>
 					<!--
 					$q -- AngularJS中的服务
 					http://blog.csdn.net/renfufei/article/details/19174015
+					
+					AngularJS $q学习：轮询图表数据
+					http://blog.csdn.net/salmonellavaccine/article/details/38741743
+					
 					
 					卡通方式趣解AngularJS中的promise
 					http://blog.jobbole.com/51178/
@@ -2129,12 +2195,41 @@ scope在expression求值之时提供上下文环境。例如，{{username}}表�
 					-->
 					<p>$Http, ngResource--RESTful APIs</p>
 					<!--
+					
+					angular $httpProvider配置
+					http://blog.csdn.net/ristal/article/details/38539875
+					http://my.oschina.net/buwei/blog/191640
+					
+					Make AngularJS $http service behave like jQuery.ajax()
+					http://victorblog.com/2012/12/20/make-angularjs-http-service-behave-like-jquery-ajax/
+					
+					
+					说说Angular $http service中的缓存
+					http://www.html-js.com/article/1828
+					
+					Power up Angular's $http service with caching
+					http://blog.csdn.net/salmonellavaccine/article/details/38310657
+					
+					AngularJS的$resource
+					http://blog.csdn.net/violet_day/article/details/17403207
+					
+					AngularJS $resource RESTful example
+					http://blog.csdn.net/myweishanli/article/details/17952977
+					
 					AngularJS —— 使用 ngResource、RESTful APIs 和 Spring MVC 框架提交数据
 					http://www.oschina.net/translate/post-data-ngresource-restful-apis-spring-mvc
 					
-					
+					$http.get
+					$http.head
+					$http.post
+					$http.put
+					$http.delete
+					$http.jsonp
 					
 					-->
+					
+					
+					
 					
 					
 					<!--
@@ -2743,7 +2838,7 @@ Additional Resources
 					-->
 					
 					<p>代码组织</p>
-					<!-- 
+					<!--
 					
 					如何组织大型JavaScript应用中的代码？
 					http://kb.cnblogs.com/page/176541/
@@ -2809,25 +2904,47 @@ Additional Resources
 											   angular.js 
 											   angular.min.js
 
-						AngularJS+requireJS项目的目录结构设想
-						http://www.cnblogs.com/jmtbai/p/3861897.html
-						
-						AngularJS 最佳实践
-						http://www.lovelucy.info/angularjs-best-practices.html
 					-->
 					
-				<!--	Angular 与Require.js
+					<!-- 
+					使用AngularJS构建大型Web应用
+					http://www.infoq.com/cn/news/2013/02/angular-web-app/
+					
+					Building large apps with Angular.js
+					http://www.pseudobry.com/building-large-apps-with-angular-js/
+					
+					Building Huuuuuge Apps with AngularJS
+					http://briantford.com/blog/huuuuuge-angular-apps
+					
+					AngularJS+requireJS项目的目录结构设想
+					http://www.cnblogs.com/jmtbai/p/3861897.html
+					
+					AngularJS 最佳实践
+					http://www.lovelucy.info/angularjs-best-practices.html
+					-->
+					
+					<p>注意 ： angularjs的“坑”</p>
+					<!--
+					用angularjs遇到的坑们
+					http://www.cnblogs.com/zhrj000/p/3383898.html
+					-->
+					
+					<p>Angular 与Require.js</p>
+					<!--	
 					RequireJS与AngularJS的集成
 					http://segmentfault.com/blog/moejser/1190000000492238
 
 					-->
-				</section>
-
-				<section class="future" style="display: none;">
-					<h4>Using jQuery</h4>
+					
+					<p>Using jQuery</p>
 					<!---
+					与jquery类库的协作
 					http://www.angularjs.cn/A0fG
-					angularjs与其他类库 jquery的协作
+					
+					angularJS指令实战，制作一个可复用的幻灯组件(二) --- 怎样打包jQuery插件
+					http://angularjs.cn/A0MO
+					https://github.com/RenShine/ngSlide
+					
 
 					http://angularjs.cn/A0cj
 					angularjs 与 jquerymobile兼容问题
