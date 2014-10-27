@@ -2051,7 +2051,7 @@ scope在expression求值之时提供上下文环境。例如，{{username}}表�
 				</section>
 
 				<section class="future" style="display: none;">
-					<h4>$Watch , $Resource,$location,$provide</h4>
+					<h4>$Watch , $location,$provide</h4>
 
 					<!--
 					http://angularjs.cn/A00M
@@ -2109,8 +2109,34 @@ scope在expression求值之时提供上下文环境。例如，{{username}}表�
 				</section>
 
 				<section class="future" style="display: none;">
-					<h4>$http and promise</h4>
+					<h4>$resource, $http and promise</h4>
 
+					
+					<p>Promise</p>
+					<!--
+					$q -- AngularJS中的服务
+					http://blog.csdn.net/renfufei/article/details/19174015
+					
+					卡通方式趣解AngularJS中的promise
+					http://blog.jobbole.com/51178/
+					http://www.lupaworld.com/article-233188-1.html
+					http://www.lupaworld.com/article-233188-2.html
+					
+					
+					你应该使用内建的$http方法而不是外部的XHR包装，它将返回一个$q promise， 执行这个promise的任何回调函数都会调用$rootScope.$apply()。 
+					一些返回$q promise的模块将会隐式的调用$rootScope.$apply()。
+					
+					-->
+					<p>$Http, ngResource--RESTful APIs</p>
+					<!--
+					AngularJS —— 使用 ngResource、RESTful APIs 和 Spring MVC 框架提交数据
+					http://www.oschina.net/translate/post-data-ngresource-restful-apis-spring-mvc
+					
+					
+					
+					-->
+					
+					
 					<!--
 					$http with promise Working with Servers and Login
 					-->
@@ -2213,20 +2239,363 @@ scope在expression求值之时提供上下文环境。例如，{{username}}表�
 					<section>
 						<h4>配合度高How to implement a UT</h4>
 
+						
 						<!--
-						端到端测试
-						http://angularjs.cn/A00E
-						-->
+Unit and End to End Testing in AngularJS
+						http://www.sitepoint.com/unit-and-e2e-testing-in-angularjs/
+						http://www.sitepoint.com/unit-and-e2e-testing-in-angularjs/
 
+						Unit testing is a technique that helps developers validate isolated pieces of code. End to end testing (E2E) comes into play when you want to ascertain that a set of components, when integrated together, work as expected. AngularJS, being a modern JavaScript MVC framework, offers full support for unit tests and E2E tests. Writing tests while developing Angular apps can save you great deal of time which you would have otherwise wasted fixing unexpected bugs. This tutorial will explain how to incorporate unit tests and E2E tests in an Angular application. The tutorial assumes that you are familiar with AngularJS development. You should also be comfortable with different components that make up an Angular application.
+						We will use Jasmine as the testing framework and Karma as the test runner. You can use Yeoman to easily scaffold a project for you, or just quickly grab the angular seed app from GitHub.
+						In case you don’t have a testing environment just follow these steps:
+									Download and install Node.js, if you don’t already have it.
+									Install Karma using npm (npm install -g karma).
+									Download this tutorial’s demo app from GitHub and unzip it.
+						Inside the unzipped app, you can find tests in the test/unit and test/e2e directories. To see the result of unit tests just run scripts/test.bat, which starts the Karma server. Our main HTML file is app/notes.html, and it can be accessed at http://localhost/angular-seed/app/notes.html.
+						
+Getting Started With Unit Tests
+
+					Instead of just looking at how unit tests are written, let’s build a simple Angular app and see how unit test fits into the development process. So, let’s start with an application and simulataneously apply unit tests to the various components. In this section you will learn how to unit test:
+								Controllers
+								Directives
+								Filters
+								Factories
+					We are going to build a very simple to-do note taking app. Our markup will contain a text field where the user can write a simple note. When a button is pressed, the note is added to the list of notes. We will use HTML5 local storage to store the notes. The initial HTML markup is shown below. Bootstrap is used to quickly build the layout.
+									<html ng-app="todoApp">
+									  <head>
+										<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1"/>
+										<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.2.2/angular.min.js" type="text/javascript"></script>
+										<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js" type="text/javascript"></script>
+										<link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.3/css/bootstrap.min.css" type="text/css"/>
+										<script type="text/javascript" src="js/app.js"></script>
+										<style>
+										  .center-grey{
+												 background:#f2f2f2;
+												 margin-top:20;
+										  }
+										  .top-buffer {
+												  margin-top:20px; 
+										  }
+										  button{
+												  display: block; 
+												  width: 100%;
+										  }
+										</style>
+										<title>Angular Todo Note App</title>
+									  </head>
+									  <body>
+										<div class="container center-grey" ng-controller="TodoController">
+										  <div class="row top-buffer" >
+											<span class="col-md-3"></span>
+											<span class="col-md-5">
+											  <input class="form-control" type="text" ng-model="note" placeholder="Add a note here"/> 
+											</span>
+											<span class="col-md-1">
+											  <button ng-click="createNote()" class="btn btn-success">Add</button>
+											</span>
+											<span class="col-md-3"></span>
+										  </div>
+										  <div class="row top-buffer" >
+											<span class="col-md-3"></span>
+											<span class="col-md-6">
+											  <ul class="list-group">
+												<li ng-repeat="note in notes track by $index" class="list-group-item">
+												  <span>{{note}}</span>
+												</li>
+											  </ul>
+											</span>
+											<span class="col-md-3"></span>
+										  </div>
+										</div>
+									  </body>
+									</html>
+					As you can see in the above markup, our Angular module is todoApp and the controller is TodoController. The input text is bound to the note model. 
+					There is also a list which shows all the note items that have been added. Furthermore, when the button is clicked, our TodoController‘s createNote() function runs. 
+					Now let’s open up the included app.js file and create the module and controller. Add the following code to app.js.
+									var todoApp = angular.module('todoApp',[]);
+									todoApp.controller('TodoController', function($scope, notesFactory) {
+									  $scope.notes = notesFactory.get();
+									  $scope.createNote = function() {
+										notesFactory.put($scope.note);
+										$scope.note = '';
+										$scope.notes = notesFactory.get();
+									  }
+									});
+									 
+									todoApp.factory('notesFactory', function() {
+									  return {
+										put: function(note) {
+										  localStorage.setItem('todo' + (Object.keys(localStorage).length + 1), note);
+										},
+										get: function() {
+										  var notes = [];
+										  var keys = Object.keys(localStorage);
+									 
+										  for(var i = 0; i < keys.length; i++) {
+											notes.push(localStorage.getItem(keys[i]));
+										  }
+									 
+										  return notes;
+										}
+									  };
+									}); 
+						Our TodoController uses a factory called notesFactory to store and retrieve the notes. 
+						When the createNote() function runs, it uses the factory to put a note into localStorage and then clears the note model. 
+						So, if we were to unit test the TodoController we would need to ensure that when the controller is initialized, the scope contains a certain number of notes. 
+						After running the scope’s createNote() function, the number of notes should be one more than the previous count. The code for our unit test is shown below.
+												describe('TodoController Test', function() {
+												  beforeEach(module('todoApp')); // will be run before each it() function
+												 
+												  // we don't need the real factory here. so, we will use a fake one.
+												  var mockService = {
+													notes: ['note1', 'note2'], //just two elements initially
+													get: function() {
+													  return this.notes;
+													},
+													put: function(content) {
+													  this.notes.push(content);
+													}
+												  };
+												 
+												  // now the real thing: test spec
+												  it('should return notes array with two elements initially and then add one',
+													inject(function($rootScope, $controller) { //injects the dependencies
+													  var scope = $rootScope.$new();
+												 
+													  // while creating the controller we have to inject the dependencies too.
+													  var ctrl = $controller('TodoController', {$scope: scope, notesFactory:mockService});
+												 
+													  // the initial count should be two
+													  expect(scope.notes.length).toBe(2);
+												 
+													  // enter a new note (Just like typing something into text box)
+													  scope.note = 'test3';
+												 
+													  // now run the function that adds a new note (the result of hitting the button in HTML)
+													  scope.createNote();
+												 
+													  // expect the count of notes to have been increased by one!
+													  expect(scope.notes.length).toBe(3);
+													})
+												  );
+												});
+												
+Explanation
+
+							The describe() method defines the test suite. It just says which tests are included in the suite. Inside that we have a beforeEach() function that executes just before each it() function runs. The it() function is our test spec and has the actual test to be conducted. So, before each test is executed, we need to load our module.
+
+							As this is a unit test, we don’t need external dependencies. You already know our controller depends on notesFactory for handling notes. So, to unit test the controller we need to use a mock factory or service. That’s why we have created mockService, which just simulates the real notesFactory and has the same functions, get() and put(). While our real factory uses localStorage to store notes, the fake one uses an underlying array.
+
+							Now let’s examine the it() function which is used to carry out the test. You can see that it declares two dependencies $rootScope and $controller which are injected automatically by Angular. These two services are required for getting root scope for the app and creating controllers respectively.
+
+							The $controller service requires two arguments. The first is the name of the controller to create. The second is an object respresenting the dependencies of the controller. The $rootScope.$new() returns a new child scope which is required by our controller. Notice we have also passed our fake factory implementation to the controller.
+
+							Now, expect(scope.notes.length).toBe(2) asserts that when the controller is initialized scope.notes contains exactly two notes. If it has more or less than two notes, this test will fail. Similarly we populate the note model with a new item and run the createNote() function which is supposed to add a new note. Now expect(scope.notes.length).toBe(3) checks for this. Since in the beginning we initialized our array with two items, after running createNote() it should have one more (three items). You can see which tests failed/succeeded in Karma.
+
+Testing the Factory
+
+							Now we want to unit test the factory to ensure that it works as expected. The test case for notesFactory is shown below.
+													
+												describe('notesFactory tests', function() {
+												  var factory;
+												 
+												  // excuted before each "it()" is run.
+												  beforeEach(function() {
+													// load the module
+													module('todoApp');
+												 
+													// inject your factory for testing
+													inject(function(notesFactory) {
+													  factory = notesFactory;
+													});
+												 
+													var store = {
+													  todo1: 'test1',
+													  todo2: 'test2',
+													  todo3: 'test3'
+													};
+												 
+													spyOn(localStorage, 'getItem').andCallFake(function(key) {
+													  return store[key];
+													});
+												 
+													spyOn(localStorage, 'setItem').andCallFake(function(key, value) {
+													  return store[key] = value + '';
+													});
+												 
+													spyOn(localStorage, 'clear').andCallFake(function() {
+													  store = {};
+													});
+												 
+													spyOn(Object, 'keys').andCallFake(function(value) {
+													  var keys=[];
+												 
+													  for(var key in store) {
+														keys.push(key);
+													  }
+												 
+													  return keys;
+													});
+												  });
+												 
+												  // check to see if it has the expected function
+												  it('should have a get function', function() {
+													expect(angular.isFunction(factory.get)).toBe(true);
+													expect(angular.isFunction(factory.put)).toBe(true);
+												  });
+												 
+												  //check to see if it returns three notes initially
+												  it('should return three todo notes initially', function() {
+													var result = factory.get();
+												 
+													expect(result.length).toBe(3);
+												  });
+												 
+												  //check if it successfully adds a new item
+												  it('should return four todo notes after adding one more', function() {
+													factory.put('Angular is awesome');
+												 
+													var result = factory.get();
+													expect(result.length).toBe(4);
+												  });
+												});
+						The test procedure is the same as for the TodoController except in few places. Remember, the actual factory uses localStorage to store and retrieve the note items. But, as we are unit testing we don’t want to depend on external services. So, we need to convert the function calls like localStorage.getItem() and localStorage.setItem() into fake ones to use our own store instead of using localStorage‘s underlying data store. spyOn(localStorage, 'setItem').andCallFake() does this. The first argument to spyOn() specifies the object of interest, and the second argument denotes the function on which we want to spy. andCallFake() gives us a way to write our own implementation of the function. So, in this test we have configured the localStorage functions to use our custom implementation. In our factory we also use the Object.keys() function for iteration and getting the total number of notes. So, in this simple case we can also spy on Object.keys(localStorage)to return keys from our own store, not local storage.
+
+						Next, we check if the factory contains the required functions (get() and put()). This is done through angular.isFunction(). Then we check if the factory has three notes initially. In the last test we add a new note and assert that it increased the notes count by one.
+
+Testing a Filter
+
+						Now, say we need to modify the way notes are shown on the page. If a note’s text has more than 20 characters we should show only the first 10. 
+						Let’s write a simple filter for this and name it truncate as shown below.
+											todoApp.filter('truncate', function() {
+											  return function(input,length) {
+												return (input.length > length ? input.substring(0, length) : input );
+											  };
+											});
+						In the markup, it can be used like this:
+											{{note | truncate:20}}
+						To unit test it, the following code can be used.
+											describe('filter tests', function() {
+											  beforeEach(module('todoApp'));
+											  it('should truncate the input to 10 characters',
+												//this is how we inject a filter by appending Filter to the end of the filter name
+												inject(function(truncateFilter) {
+												  expect(truncateFilter('abcdefghijkl', 10).length).toBe(10);
+												})
+											  );
+											});
+					The previous code is pretty straightforward. Just note that you inject a filter by appending Filter to the end of the actual filter name. Then you can call it as usual.
+
+Testing a Directive
+
+						Let’s just create a simple directive that gives a background color to the element it’s applied on. This can be done very easily with CSS. But, just to demonstrate the testing of directives let’s stick to the following:
+						
+											todoApp.directive('customColor', function() {
+											  return {
+												restrict: 'A',
+												link: function(scope, elem, attrs) {
+												  elem.css({'background-color': attrs.customColor});
+												}
+											  };
+											});
+						This can be applied to any element, e.g. <ul custom-color="rgb(128, 128, 128)"></ul>. The test code is shown below.
+											describe('directive tests', function() {
+												beforeEach(module('todoApp'));
+											  it('should set background to rgb(128, 128, 128)',
+												inject(function($compile,$rootScope) {
+												  scope = $rootScope.$new();
+											 
+												  // get an element representation
+												  elem = angular.element("<span custom-color=\"rgb(128, 128, 128)\">sample</span>");
+											 
+												  // create a new child scope
+												  scope = $rootScope.$new();
+											 
+												  // finally compile the HTML
+												  $compile(elem)(scope);
+											 
+												  // expect the background-color css property to be desirabe one
+												  expect(elem.css("background-color")).toEqual('rgb(128, 128, 128)');
+												 })
+											  );
+											});
+						We need a service called $compile (injected by Angular) to actually compile and test the element on which a directive is applied. angular.element() creates a jqLite or jQuery (if available) element for us to use. Then, we compile it with a scope, and it’s ready to be tested. In this case we expect the background-color CSS property to be rgb(128, 128, 128). Refer to this doc to know which methods you can call on element.
+						
+Testing a Service
+				测试服务 http://angularjs.cn/A00Q
+						
+						
+E2E Tests With Angular
+				
+				端到端测试 http://angularjs.cn/A00E   -- Angular Scenario Runner
+				
+					In E2E tests we fit together a set of components and check whether the overall process works as expected. In our case we need to ensure that when a user enters something into the text field and clicks on the button it’s added to localStorage and appears in the list below the text field.
+
+					This E2E test uses an Angular scenario runner. If you have downloaded the demo app and unzipped it, you can see that there is a runner.html inside test/e2e. This is our scenario runner file. The scenarios.js file contains the e2e tests (you will write the tests here). After writing the tests you can run http://localhost/angular-seed/test/e2e/runner.html to see the results. The E2E test to be added to scenarios.js is shown below.
+												describe('my app', function() {
+													  beforeEach(function() {
+														browser().navigateTo('../../app/notes.html');
+													  });
+													 
+													  var oldCount = -1;
+													 
+													  it("entering note and performing click", function() {
+														element('ul').query(function($el, done) {
+														  oldCount = $el.children().length;
+														  done();
+														});
+													 
+														input('note').enter('test data');
+													 
+														element('button').query(function($el, done) {
+														  $el.click();
+														  done();
+														});
+													  });
+													 
+													  it('should add one more element now', function() {
+														expect(repeater('ul li').count()).toBe(oldCount + 1);
+													  });        
+													});
+													
+					Note: In the past, end to end testing could be done with a deprecated tool called Angular Scenario Runner . That tool is now in maintenance mode.
+					Note: In the past, end to end testing could be done with a deprecated tool called Angular Scenario Runner . That tool is now in maintenance mode.
+					
+					
+					Using Protractor : （https://github.com/angular/protractor） //http://localhost:8056/LearnHtml5forWebDev/angular_1.2.25/docs/guide/e2e-testing
+
+						
+Explanation
+
+						As we are performing a complete test we should first navigate to our main HTML page, app/notes.html. This is achieved through browser.navigateTo(). The element.query() function selects the ul element to record how many note items are present initially. This value is stored in the oldCount variable. Next, we simulate entering a note into the text field through input('note').enter(). Just note that you need to pass the model name to the input() function. In our HTML page the input is bound to the ng-model note. So, that should be used to identify our input field. Then we perform a click on the button and check whether it added a new note (li element) to the list. We do this by comparing the new count (got by repeater('ul li').count()) with the old count.
+
+Conclusion
+
+						AngularJS is designed with solid JavaScript testing in mind, and favors Test Driven Development. So, always test your code while you are developing. This may seem time consuming, but it actually saves your time by eliminating most of the bugs that would appear later.
+
+Additional Resources
+						
+						ngMock
+						If your service/factory uses the http service to call a remote API you can return fake data from it for unit testing. Here is a guide for this （https://docs.angularjs.org/api/ngMock/service/$httpBackend）.
+						
+						Unit Testing  &&  E2E Testing
+						This doc from the Angular website has some good information regarding unit testing. （https://docs.angularjs.org/guide/dev_guide.unit-testing）
+						
+						Angular testing framework : Protractor
+						If you are starting a new Angular project consider using Protractor for E2E tests. （https://github.com/angular/protractor）
+												
+												
+						
+						-->
+						
+						
+						
 						<!--
 						jasmine
 						http://blog.fens.me/nodejs-jasmine-bdd/
 						-->
 
-						<!--
-						测试服务
-						http://angularjs.cn/A00Q
-						-->
+						
 
 						<!--Pagination Service with unit test-->
 
@@ -2342,8 +2711,39 @@ scope在expression求值之时提供上下文环境。例如，{{username}}表�
 					值得庆幸的是，IE的这种限制只存在在标签名上，标签属性名没有限制。所以，当在IE上使用<div my-tag your:tag> </div>.这样的形式时没有特殊要求。
 					-->
 					
-										
-					<!-- 代码组织
+					<p>框架对比</p>
+					<!--
+					Anatomy of a JavaScript MV* Framework -- Compare with  AngularJS, Backbone, and Ember 
+					http://www.sitepoint.com/anatomy-javascript-mv-framework/
+						- Routing
+						- Data Binding
+						- Templates/Views
+						- Models
+						- Data Access
+						- Conclusion
+					-->
+
+					<!--
+					WHAT IS THE RIGHT JAVASCRIPT FRAMEWORK FOR MY PROJECT?
+					http://www.funnyant.com/javascript-framework-guide/
+					
+					-->
+					<p>应用架构 / 项目实践</p>
+					<!--
+					BUILDING ANGULAR APPS USING FLUX ARCHITECTURE
+					http://victorsavkin.com/post/99998937651/building-angular-apps-using-flux-architecture
+					-->
+
+					<!--
+					https://thinkster.io/angulartutorial/mean-stack-tutorial/
+					AngularJS Tutorial: Learn to Build Modern Web Apps with MEAN
+					
+					The acronym "MEAN" stands for "MongoDB Express.js AngularJS Node.js" and represents a group of technologies which are known to synergize well together.
+					
+					-->
+					
+					<p>代码组织</p>
+					<!-- 
 					
 					如何组织大型JavaScript应用中的代码？
 					http://kb.cnblogs.com/page/176541/
