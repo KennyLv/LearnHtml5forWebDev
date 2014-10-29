@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<meta chaset="utf-8">
+<head>
+    <link rel="stylesheet" href="js/skins/default.css"/>
+
+	<script type="text/javascript" src="../../jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="js/lhgdialog.min.js"></script>
+	<script type="text/javascript" >
+			(function(config){
+					config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+					config['lock'] = false;
+					config['fixed'] = true;
+			})($.dialog.setting);
+			// 如果只设置一个或少量全局配置也可这样：
+			//$.dialog.setting.extendDrag = true;
+	</script>
+</head>
+<body ng-app="app">
+
+<div ng-controller="mydialogCtrl">
+		<div ui-Dialog2="{showModel: 'isDialogShow', dialogId: 'dialogA', lock: true}" title="DIALOG"  style="display: none;"></div>
+		<button ng-click="open()">Open</button> 
+		{{isDialogShow}}
+		<button ng-click="close()">Close</button>
+</div>
+
+
+<script type="text/javascript" src="../../angular_1.2.25/angular.min.js"></script>
+<script type="text/javascript"  src="js/ngDialog.js"></script>
+<script type="text/javascript" >
+angular.module("app",['ngDialog']).controller("mydialogCtrl",function($scope){
+		//$scope.detail = {name: 'kerry'};
+		$scope.isDialogShow = false;
+
+		$scope.open = function(){
+		  //$scope.detail = {name: ''};
+		  $scope.isDialogShow = true;
+		};
+		$scope.close = function(){
+		  $scope.isDialogShow = false;
+		};
+});
+</script>
+
+
+</body>
+</html>

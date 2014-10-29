@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<meta chaset="utf-8">
+<head>
+    <link rel="stylesheet" href="js/skins/default.css"/>
+
+	<script type="text/javascript" src="../../jquery-2.1.1.min.js"></script>
+	<script type="text/javascript" src="js/lhgdialog.min.js"></script>
+	<script type="text/javascript" >
+			(function(config){
+					config['extendDrag'] = true; // 注意，此配置参数只能在这里使用全局配置，在调用窗口的传参数使用无效
+					config['lock'] = false;
+					config['fixed'] = true;
+			})($.dialog.setting);
+			// 如果只设置一个或少量全局配置也可这样：
+			//$.dialog.setting.extendDrag = true;
+	</script>
+</head>
+<body>
+		<div id="jQDialog">
+		<!--
+		http://blog.csdn.net/motian06/article/details/7992263
+		-->
+		</div>
+
+		<script type="text/javascript" >
+		
+		$(document).ready(function(){
+				$.dialog({
+					title:"Title", 
+					width:400,  
+					height:300,  
+					content:'<span style="color:red;">this is a test</span>', //url:jq_dialog_temp.html',  
+					max:false,  
+					min:false,  
+					lock:true,
+					icon: '../../loading.gif',
+					ok: function(){
+							this.title('3秒后自动关闭').time(3);
+							return false;
+					},
+					cancel: true, /*为true等价于function(){}*/
+					okVal:'Ok',
+					cancelVal:'Cancel'
+				}); 
+				/*
+				Title：弹窗的上标题； 
+				Content：弹窗中的内容（当然可以以一个页面为内容，用URL连接）； 
+				Ok：弹窗的确定键（可以是function）是布尔类型的； 
+				Cancel：取消键（同上）； 
+				Cancelval：取消键的键值（就是显示的内容）； 
+				Max：弹窗的最大化键 
+				Min：弹窗的最小化键 
+				Time；可以设定时间（多长时间后关闭） 
+				Button：可以自己添加一些按键，它的属性有： 
+				Name：按键的值 
+				Callback：回调函数 
+				Disabled：按键的激活与否 
+				Width：弹窗的宽度 
+				Height：弹窗的高度 
+				Fixed：弹窗固定 
+				Left：弹窗的位置（距浏览器左边框的距离） 
+				Top：（同上） 
+				Drag：弹窗是否可以拖拽 
+				Resize：弹窗是否可以调整大小 
+				Lock：弹窗弹出后下面的网页是否蒙板（支持多层蒙板但是要parent属性） 
+				Icon；弹窗中导入图片 
+				Init；初始化 
+				Close：关闭 
+				*/					
+		});
+		</script>
+</body>
+</html>
