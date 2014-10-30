@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<meta chaset="utf-8">
+<head>
+</head>
+<body ng-app="app">
+
+<div ng-controller="mydialogCtrl">
+			<my-dialog ng-hide="dialogIsHidden" on-close="dialogIsHidden = true">
+					Check out the contents, {{name}}!
+			</my-dialog>
+</div>
+
+<div my-draggable>Drag ME</div>
+
+
+<script type="text/javascript" src="../../angular_1.2.25/angular.min.js"></script>
+<script type="text/javascript"  src="js/ngDialog_ng.js"></script>
+<script type="text/javascript" >
+angular.module("app", ['ngDialog']).controller("mydialogCtrl",function($scope){
+		$scope.name = 'Tobias'; 
+		$scope.hideDialog = function () {
+				$scope.dialogIsHidden = true;
+				$timeout(function () {
+						$scope.dialogIsHidden = false;
+				}, 2000);
+		};
+});
+</script>
+
+
+</body>
+</html>

@@ -19,7 +19,7 @@
 <body ng-app="app">
 
 <div ng-controller="mydialogCtrl">
-		<div ui-Dialog2="{showModel: 'isDialogShow', dialogId: 'dialogA', lock: true}" title="DIALOG"  style="display: none;"></div>
+		<div ui-Dialog2="{showModel: 'isDialogShow', dialogId: 'dialogA', lock: true}" title="DIALOG"  style="display: none;">this is a test!</div>
 		<button ng-click="open()">Open</button> 
 		{{isDialogShow}}
 		<button ng-click="close()">Close</button>
@@ -27,7 +27,7 @@
 
 
 <script type="text/javascript" src="../../angular_1.2.25/angular.min.js"></script>
-<script type="text/javascript"  src="js/ngDialog.js"></script>
+<script type="text/javascript"  src="js/ngDialog_jq.js"></script>
 <script type="text/javascript" >
 angular.module("app",['ngDialog']).controller("mydialogCtrl",function($scope){
 		//$scope.detail = {name: 'kerry'};
