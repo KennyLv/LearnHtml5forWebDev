@@ -13,6 +13,26 @@
 
 <div my-draggable>Drag ME</div>
 
+<div ng-controller="MyCtrl">
+		<button ng-click="show=true">show</button>
+		<new-Dialog title="Hello {{username}}"
+				visible="{{show}}"
+				on-cancel="show=false;"
+				on-ok="show=false;methodInParentScope();">
+				<!--上面的on-cancel、on-ok，是在directive的isoloate scope中通过&引用的。如果表达式中包含函数，那么需要将函数绑定在parent scope（当前是MyCtrl的scope）中-->
+				Body goes here: username:{{username}} , title:{{title}}.
+			<ul>
+				<!--这里还可以这么玩~names是parent scope的-->
+				<li ng-repeat="name in names">{{name}}</li>
+			</ul>
+		</new-Dialog>
+</div>
+
+
+
+
+
+
 
 <script type="text/javascript" src="../../angular_1.2.25/angular.min.js"></script>
 <script type="text/javascript"  src="js/ngDialog_ng.js"></script>
@@ -24,6 +44,14 @@ angular.module("app", ['ngDialog']).controller("mydialogCtrl",function($scope){
 				$timeout(function () {
 						$scope.dialogIsHidden = false;
 				}, 2000);
+		};
+}).controller("MyCtrl", function ($scope) {
+		$scope.names = ["name1", "name2", "name3"];
+		$scope.show = false;
+		$scope.username = "Lcllao";
+		$scope.title = "parent title";
+		$scope.methodInParentScope = function() {
+					alert("记住。。scope里面通过&定义的东东，是在父scope中玩的！！。。。");
 		};
 });
 </script>
