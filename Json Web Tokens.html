@@ -1,0 +1,767 @@
+﻿
+<!DOCTYPE html>
+<html class="no-js" lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Json Web Tokens: Introduction - Angular Tips</title>
+  <!--
+  http://angular-tips.com/blog/2014/05/json-web-tokens-introduction/
+  http://angular-tips.com/blog/2014/05/json-web-tokens-examples/
+  -->
+  <style>
+  body{
+		font-size:14px;
+  }
+  h1{
+		color:red;
+		font-size:24px;
+  }
+  h2{
+		color:blue;
+		font-size:20px;
+  }
+  </style>
+  
+</head>
+<body>
+
+<div>
+
+<article>
+  
+  <h1>Json Web Tokens</h1>
+  
+  <h2>Introduction</h2>
+  
+
+
+<div class="entry-content"><p>Even when is not directly related to <code>Angular</code>, we need to fight with authentication from time to time. So let me explain what&rsquo;s is this <code>JWT</code> (pronounced <code>jot</code>) which everybody is talking about.</p>
+
+<p>I spent the last few weeks researching about auth methods so bear with me if I make a mistake and send a PR to amend it :P</p>
+
+<!--more-->
+
+
+<h2>How we used to do authentication</h2>
+
+<p>As we know, the HTTP protocol is <em>stateless</em> that means that it can&rsquo;t remember us so if we login once, on the next request it already forgot who we are. Imagine having to log in on every request&hellip; that is a pain.</p>
+
+<p>What is/was the solution? A session. A session is basically composed from two parts. An object that resides on the server, like a box, and a cookie on the client&rsquo;s browser, like a key. When you enter on a page for the first time, it will create a session object on the server and a cookie that will be installed on your browser. With that, the web app can remember us and track what we do. For example: On a book store, it can remember what books we put on the shopping cart, so when we enter the page again, the browser sends the cookie, the web will load our session and then our items will be still there.</p>
+
+<p>When we log in, we find the requested user on the database and we can store it on the session, so on the next requests, the page won&rsquo;t need to ask for our credentials again.</p>
+
+<p>By default, when we close the browser, the cookie gets deleted, so we would need to log in again the next time we visit that page. We can modify that behavior changing the cookie expire time to some date on the future (as opposed to session cookies which are the ones that gets deleted when we close the browser). Doing that, the page will remember us even if we reboot our computer.</p>
+
+<p>Alright, I like what I read, what&rsquo;s the problem? Well, the web is not what used to be, we now have mobiles and stuff like that and the session auth is not the best option anymore (but still an option!).</p>
+
+<p>To say a few problems&hellip;</p>
+
+<ul>
+<li><strong>Sessions</strong>: We need to store our sessions somewhere. By default they are just stored on server&rsquo;s memory and having thousand of them doesn&rsquo;t help. Redis does help but without sessions there are no problems then :P</li>
+<li><strong>Mobile</strong>: Native mobile apps seems to have problems working with cookies so if we need to query a remote API, maybe session auth is not the best solution.</li>
+<li><strong>CSRF</strong>: If we go down the cookies way, you really need to do <code>CSRF</code> to avoid cross site requests. That is something we can forget when using JWT as you will see.</li>
+<li><strong>CORS</strong>: Have you fight with CORS and cookies? I hope it went right because when it doesn&rsquo;t, we have a problem.</li>
+</ul>
+
+
+<p>There are a couple more (check the link at the bottom) but that is enough for now :P.</p>
+
+<h2>Json Web Tokens, a simile</h2>
+
+<p>So as you guessed, JWT doesn&rsquo;t use sessions, has no problems with mobile, it doesn&rsquo;t need <code>CSRF</code> and it works like a charm with <code>CORS</code>. But how does it work? I have a lot of questions&hellip;</p>
+
+<p>I have a good simile to explain JWT:</p>
+
+<p>Imagine a hotel. You browse the web and you see a good offer so you fill a form and you <strong>register</strong> yourself. The day come, you go to the hotel&rsquo;s desk and you give your <strong>credentials</strong>. The employee gives you a card. What can you do with the card? In that concrete hotel, you can access your room, the garage, or even to go to the hotel&rsquo;s restaurant.</p>
+
+<p>Having this in mind, we know some facts: We can go into our room but we can&rsquo;t use our card to go into other room. Who has the card? The hotel? No, we have. When we leave, if we don&rsquo;t return the card, we will have a useless piece of plastic.</p>
+
+<p>Let&rsquo;s translate that into JWT:</p>
+
+<p>Imagine a web app. You browse it and you decide you want to <strong>register</strong> yourself. Then you put your <strong>credentials</strong> on a login form. The web page will send you a token via JSON. What can you do with that token? In that concrete app, you can access your user profile, your messages or even add new friends.</p>
+
+<p>The same fact applies: You can access your profile but not others profiles (Imagining they are private) and you can&rsquo;t certainly remove friends from your partner account :P</p>
+
+<h2>How JWT works</h2>
+
+<p>Now that we have an idea of how JWT works, let&rsquo;s see it from a more technique perspective.</p>
+
+<p>A JWToken is self-contained, so when we create one, it will have all the necessary pieces needed inside of it. What are those pieces? A token is divided in 3 parts:</p>
+
+<ul>
+<li>A header</li>
+<li>A payload</li>
+<li>A signature</li>
+</ul>
+
+
+<p>The header normally contains two things: The type of the token and the algorithm name (more on the algorithm later). Something like: <code>{typ: 'JWT', alg: 'HS256'}</code>. This gets encoded into base64.</p>
+
+<p>The payload is the information you want to pass into it, some examples are: <code>{user: 2}</code> or even <code>{user: 2, admin: true}</code>. This gets encoded into base64.</p>
+
+<p>For the signature, we get our encoded header, encoded payload, a secret key that we provide, the algorithm (the one we have on the header) and we sign that.</p>
+
+<p>At the end of the day a token is something like: <code>xxxxxxxxxxx.yyyy.zzzzzzzzzzzz</code>. Where the <code>x</code> is the encoded header, the <code>y</code> is the encoded payload and the <code>z</code> is the signature.</p>
+
+<p>So on <code>Angular</code> we can decode the <code>yyyy</code> part (the payload) if we need.</p>
+
+<p>So back to our example. When we login in our page, we will get the token and with that token, we can do any request we want to the server just by giving it our token (normally, on the header). Good, but how can we work with it back on the server? Because if we don&rsquo;t have a session to remember the user and we are not storing that token on our database, how can we identify the user?</p>
+
+<p>When we do a request, we send the token back to the server. There we decode it (the library would do it for you actually) which decodes the payload and also the header to see the type and the algorithm used. With that it will verify it with the signature and if all is correct, it will return the payload. Since we stored there our <code>user_id</code>, we can query our database for our user if we need to.</p>
+
+<p>So the flow is: I login > I get a token > I request my messages with my token > The token gets decoded > and with my user_id on the hand I query for all my messages which are returned back to angular via json.</p>
+
+<p>I see, but if the backend is using our payload to identify us&hellip; What if I tamper it with another <code>user_id</code> or even better with an admin flag? Ha! That won&rsquo;t work. The signature of the token is composed of the original header and payload, so any alteration invalidates the token. The only way to tamper a token is having the secret we used to sign it, but we are not going to publish that, are we? :)</p>
+
+<p>There is also something important for advanced usages. If our library allows it (the node one does, but the ruby one doesn&rsquo;t for now) we can set an expiry date (which will be saved in the payload) so we can force a token to be re-issued with a new expiry date. That is handy if we want to force a user to re-logging every X days.</p>
+
+<h2>The conclusion</h2>
+
+<p>Now that we know how it works, let&rsquo;s see&hellip; What are the advantages? We have no session to manage and we don&rsquo;t need <code>CSRF</code> because if you don&rsquo;t have the token, you can&rsquo;t do anything.</p>
+
+<p>On the other hand&hellip; Where do we store this token? Not on the server of course, where does the hotel&rsquo;s card get stored? On the client pocket, AKA in our session storage or local storage (depending if you want to force a login the next time the user opens the browser or not). We could even share our token with a friend if we want them to be able to login in our page without giving them our credentials.</p>
+
+<p>There is something to have in mind thought. Having the pair <code>&lt; header - payload &gt;</code> the resulting token will be the same. That means that no matter how many times you log in, the token will be the same. Worry not, if you need more security, you can use a different secret per user and rotate it upon login.</p>
+
+<p>We can see how this approach is different. We used to store some state on our server about us but with JWT, the concept of login / register / logout is less rigid. It is just a way to receive a token. In fact, there is no need to create a logout endpoint, we just need to delete the token from our browser.</p>
+
+<p>I know that you are now thinking of how could you implement all of this in your own backends, but I have you covered. On the next article I will show you two different backends (Rails and Sails) and one angular approach to handle it.</p>
+
+<p>Ah, before I forget. It is really important to use SSL with this approach because the token will be sent on every request!</p>
+
+<p>You can read more about JWT <a href="https://auth0.com/blog/2014/01/07/angularjs-authentication-with-cookies-vs-token/">here</a></p>
+
+<p>Also, many thanks to mt friend <a href="https://github.com/robwormald">robdubya</a> for his infinite patience on my JWT learning.</p>
+</div>
+
+
+<h2>Json Web Tokens: Examples</h2>
+
+
+<div class="entry-content"><p>So you liked my article about <a href="#" data="http://angular-tips.com/blog/2014/05/json-web-tokens-introduction">JWT</a> and you want to see some examples right?</p>
+
+<p>I have you covered with two basic but functional implementations of it both in <code>Sails</code> and <code>Rails</code> which you can adapt to you own framework of choice without hassle.</p>
+
+<!--more-->
+
+
+<h2>Sails implementation</h2>
+
+<p>First, I created a service to handle the <code>encode</code> / <code>decode</code> (this JWT implementation calls those methods <code>sign</code> and <code>verify</code> respectively), let&rsquo;s see it:</p>
+
+<figure class='code'>
+<figcaption><span>api/services/sailsTokenAuth.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">jwt</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">issueToken</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">token</span> <span class="o">=</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">sign</span><span class="p">(</span><span class="nx">payload</span><span class="p">,</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TOKEN_SECRET</span> <span class="o">||</span> <span class="s2">&quot;our biggest secret&quot;</span><span class="p">);</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">token</span><span class="p">;</span>
+</span><span class='line'><span class="p">};</span>
+</span><span class='line'>
+</span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">verifyToken</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">token</span><span class="p">,</span> <span class="nx">verified</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="nx">jwt</span><span class="p">.</span><span class="nx">verify</span><span class="p">(</span><span class="nx">token</span><span class="p">,</span> <span class="nx">process</span><span class="p">.</span><span class="nx">env</span><span class="p">.</span><span class="nx">TOKEN_SECRET</span> <span class="o">||</span> <span class="s2">&quot;our biggest secret&quot;</span><span class="p">,</span> <span class="p">{},</span> <span class="nx">verified</span><span class="p">);</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We export two functions, one that will issue a token and one that will verify it. Here you can see how we pass our payload and the secret key. I suggest you to use an <code>ENV</code> variable to hold our secret, much better than a simple string. Also, a large random string is much harder to crack.</p>
+
+<p>For the decoding, we pass there our token, our secret, no options (for advanced usages of JWT) and a callback that will be fired when the verifying is done.</p>
+
+<p>Good, let&rsquo;s see our <code>AuthController</code>:</p>
+
+<p>First the <code>authenticate</code> method:</p>
+
+<figure class='code'><figcaption><span>api/controllers/AuthController.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">authenticate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">email</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">password</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">);</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">email</span> <span class="o">||</span> <span class="o">!</span><span class="nx">password</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="mi">401</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="s1">&#39;email and password required&#39;</span><span class="p">});</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">User</span><span class="p">.</span><span class="nx">findOneByEmail</span><span class="p">(</span><span class="nx">email</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="mi">401</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="s1">&#39;invalid email or password&#39;</span><span class="p">});</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">User</span><span class="p">.</span><span class="nx">validPassword</span><span class="p">(</span><span class="nx">password</span><span class="p">,</span> <span class="nx">user</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">valid</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="mi">403</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="s1">&#39;forbidden&#39;</span><span class="p">});</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">valid</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="mi">401</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="s1">&#39;invalid email or password&#39;</span><span class="p">});</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="nx">user</span><span class="o">:</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">token</span><span class="o">:</span> <span class="nx">sailsTokenAuth</span><span class="p">.</span><span class="nx">issueToken</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">)});</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>  <span class="p">})</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We check that we passed credentials, then we find our user and we call a custom <code>validPassword</code> function (not interesting for this article but you can check it on the demo) to see if our user / pass combination is correct. So if our credentials are valid, we issue a token using our <code>user.id</code> as a payload and we also pass the complete user on the json (so <code>angular</code> can have it without hassle).</p>
+
+<p>So: We send our credentials > we check its validity and if they are ok > we receive our user and a token via json.</p>
+
+<p>Nothing fancy right? No special session stuff or code, just a normal function that returns a token.</p>
+
+<p>The register method is not fancy either:</p>
+
+<figure class='code'><figcaption><span>api/controllers/AuthController.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">register</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="c1">//TODO: Do some validation on the input</span>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">password</span> <span class="o">!==</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">confirmPassword</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="mi">401</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="s1">&#39;Password doesn\&#39;t match&#39;</span><span class="p">});</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">User</span><span class="p">.</span><span class="nx">create</span><span class="p">({</span><span class="nx">email</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">email</span><span class="p">,</span> <span class="nx">password</span><span class="o">:</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">password</span><span class="p">}).</span><span class="nx">exec</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">status</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="nx">err</span><span class="p">});</span>
+</span><span class='line'>      <span class="k">return</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">({</span><span class="nx">user</span><span class="o">:</span> <span class="nx">user</span><span class="p">,</span> <span class="nx">token</span><span class="o">:</span> <span class="nx">sailsTokenAuth</span><span class="p">.</span><span class="nx">issueToken</span><span class="p">(</span><span class="nx">user</span><span class="p">.</span><span class="nx">id</span><span class="p">)});</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">}</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We just create a user with those new credentials and if they are valid, we issue a token like we did on the <code>authenticate</code> method. We do that so the user doesn&rsquo;t need to login by hand after registering.</p>
+
+<p>So, how we manage incoming requests? Sails has a concept called <code>Policies</code> which are basically middlewares that runs before a controller. There we can check for our token, let&rsquo;s see:</p>
+
+<figure class='code'><figcaption><span>api/policies/tokenAuth.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="kd">var</span> <span class="nx">token</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">headers</span> <span class="o">&amp;&amp;</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="kd">var</span> <span class="nx">parts</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">.</span><span class="nx">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">parts</span><span class="p">.</span><span class="nx">length</span> <span class="o">==</span> <span class="mi">2</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">scheme</span> <span class="o">=</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span>
+</span><span class='line'>        <span class="nx">credentials</span> <span class="o">=</span> <span class="nx">parts</span><span class="p">[</span><span class="mi">1</span><span class="p">];</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="sr">/^Bearer$/i</span><span class="p">.</span><span class="nx">test</span><span class="p">(</span><span class="nx">scheme</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">token</span> <span class="o">=</span> <span class="nx">credentials</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="mi">401</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="s1">&#39;Format is Authorization: Bearer [token]&#39;</span><span class="p">});</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">token</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;token&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="c1">// We delete the token from param to not mess with blueprints</span>
+</span><span class='line'>    <span class="k">delete</span> <span class="nx">req</span><span class="p">.</span><span class="nx">query</span><span class="p">.</span><span class="nx">token</span><span class="p">;</span>
+</span><span class='line'>  <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="mi">401</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="s1">&#39;No Authorization header was found&#39;</span><span class="p">});</span>
+</span><span class='line'>  <span class="p">}</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">sailsTokenAuth</span><span class="p">.</span><span class="nx">verifyToken</span><span class="p">(</span><span class="nx">token</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="nx">err</span><span class="p">)</span> <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="mi">401</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="s1">&#39;The token is not valid&#39;</span><span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">req</span><span class="p">.</span><span class="nx">token</span> <span class="o">=</span> <span class="nx">token</span><span class="p">;</span>
+</span><span class='line'>
+</span><span class='line'>    <span class="nx">next</span><span class="p">();</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>First we check if we have the token on the header which basically is a header called <code>authorization</code> with the content <code>Bearer token_string</code>. If we have this kind of header we store the <code>token_string</code> part. If there is no header, we also check if we have it on the query string like: <code>/api/foo?token=token_string</code>.</p>
+
+<p>When we finally have the token, we just verify it, extract its payload and assign it to <code>req.token</code> so we can access it from a controller. If there is no token, we just send an error json.</p>
+
+<p>Now that we have our token verified and saved on the request object, we could do stuff like (this is not in the demo because <code>Sails</code> generates a virtual REST for you):</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">index</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">token</span><span class="p">).</span><span class="nx">exec</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="c1">// Work with the user here</span>
+</span><span class='line'>  <span class="p">});</span>
+</span><span class='line'><span class="p">};</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Since our token is just our user id, we can use it to query it when needed.</p>
+
+<p>There is nothing more to add. Surprised? We just needed a simple library to manage the encoding/decoding of the token and just issue it when we register or login and check for its existence before each request.</p>
+
+<h2>Rails implementation</h2>
+
+<p>You will be surprised to see that this implementation is almost the same (if we ignore my Rails ignorance this days). I created a lib for the encoding/decoding:</p>
+
+<figure class='code'><figcaption><span>lib/auth_token.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">AuthToken</span>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">AuthToken</span><span class="o">.</span><span class="nf">issue_token</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
+</span><span class='line'>    <span class="no">JWT</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">secrets</span><span class="o">.</span><span class="n">secret_key_base</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="k">def</span> <span class="nc">AuthToken</span><span class="o">.</span><span class="nf">valid?</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">begin</span>
+</span><span class='line'>      <span class="no">JWT</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">secrets</span><span class="o">.</span><span class="n">secret_key_base</span><span class="p">)</span>
+</span><span class='line'>    <span class="k">rescue</span>
+</span><span class='line'>      <span class="kp">false</span>
+</span><span class='line'>    <span class="k">end</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>Basically it does the same as the sails one. The secret we are using here is the one that comes with the rails instalation. We can use what we want, I just took the advantage of having a good one already created.</p>
+
+<p>So for the <code>AuthController</code>, let&rsquo;s begin with register:</p>
+
+<figure class='code'><figcaption><span>app/controllers/auth_controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">register</span>
+</span><span class='line'>  <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">user_params</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">save</span>
+</span><span class='line'>    <span class="n">token</span> <span class="o">=</span> <span class="no">AuthToken</span><span class="o">.</span><span class="n">issue_token</span><span class="p">({</span> <span class="n">user_id</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span> <span class="p">})</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">json</span><span class="p">:</span> <span class="p">{</span> <span class="ss">user</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+</span><span class='line'>                   <span class="ss">token</span><span class="p">:</span> <span class="n">token</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">json</span><span class="p">:</span> <span class="p">{</span> <span class="ss">errors</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">errors</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We create an user and if all is correct, we issue a new token which we will return with our user via json.</p>
+
+<p>For the authenticate method:</p>
+
+<figure class='code'><figcaption><span>app/controllers/auth_controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">authenticate</span>
+</span><span class='line'>  <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">email</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:email</span><span class="o">].</span><span class="n">downcase</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">if</span> <span class="n">user</span> <span class="o">&amp;&amp;</span> <span class="n">user</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:password</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>    <span class="n">token</span> <span class="o">=</span> <span class="no">AuthToken</span><span class="o">.</span><span class="n">issue_token</span><span class="p">({</span> <span class="n">user_id</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span> <span class="p">})</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">json</span><span class="p">:</span> <span class="p">{</span> <span class="ss">user</span><span class="p">:</span> <span class="n">user</span><span class="p">,</span>
+</span><span class='line'>                   <span class="ss">token</span><span class="p">:</span> <span class="n">token</span> <span class="p">}</span>
+</span><span class='line'>  <span class="k">else</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">json</span><span class="p">:</span> <span class="p">{</span> <span class="ss">error</span><span class="p">:</span> <span class="s2">&quot;Invalid email/password combination&quot;</span> <span class="p">},</span> <span class="ss">status</span><span class="p">:</span> <span class="ss">:unauthorized</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>No surprises here. If the credentials are valid, we issue the token and return it via json with our user.</p>
+
+<p>How do we manage the request here? I created a base controller for all the API controllers (which I assume that all of them needs authentication) and there I created a method like:</p>
+
+<figure class='code'><figcaption><span>app/controllers/api/base_controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_action</span> <span class="ss">:authenticate</span>
+</span><span class='line'>
+</span><span class='line'><span class="k">def</span> <span class="nf">authenticate</span>
+</span><span class='line'>  <span class="k">begin</span>
+</span><span class='line'>    <span class="n">token</span> <span class="o">=</span> <span class="n">request</span><span class="o">.</span><span class="n">headers</span><span class="o">[</span><span class="s1">&#39;Authorization&#39;</span><span class="o">].</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span><span class="o">.</span><span class="n">last</span>
+</span><span class='line'>    <span class="n">payload</span><span class="p">,</span> <span class="n">header</span> <span class="o">=</span> <span class="no">AuthToken</span><span class="o">.</span><span class="n">valid?</span><span class="p">(</span><span class="n">token</span><span class="p">)</span>
+</span><span class='line'>    <span class="vi">@current_user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="nb">id</span><span class="p">:</span> <span class="n">payload</span><span class="o">[</span><span class="s1">&#39;user_id&#39;</span><span class="o">]</span><span class="p">)</span>
+</span><span class='line'>  <span class="k">rescue</span>
+</span><span class='line'>    <span class="n">render</span> <span class="ss">json</span><span class="p">:</span> <span class="p">{</span> <span class="ss">error</span><span class="p">:</span> <span class="s1">&#39;Authorization header not valid&#39;</span><span class="p">},</span> <span class="ss">status</span><span class="p">:</span> <span class="ss">:unauthorized</span>
+</span><span class='line'>  <span class="k">end</span>
+</span><span class='line'><span class="k">end</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>To be honest, my <code>Sails</code> implementation is far more complete, and we can certainly do all those checkings here, but for the demo I was simple. We split the header, we get the token and we verify it. If it is valid, we create our <code>@current_user</code> based on the payload we had on the token. We could just store the id as we did in <code>Sails</code> but I decided to always have our user ready too show you that all of this implementation is really flexible.</p>
+
+<p>And that is all! We don&rsquo;t need anything else. Of course we assume we have a <code>User</code> model with some password digest system like <code>has_secure_password</code> but that is really up to you. You can issue a token when you want to but the most common way is the login/pass. Nothing stops you of writing valid tokens on paper and give them away on the street like propaganda.</p>
+
+<h2>Angular consumption</h2>
+
+<p>Well, how we decide to work with the token on angular is really personal and I won&rsquo;t lie, this is the first time I do auth on angular but I am quite happy with my approach.</p>
+
+<p>I decided to store the token on the local storage, so I don&rsquo;t need to login everytime I enter the page, but that is based on your personal use case.</p>
+
+<p>Let&rsquo;s see the auth service:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;Auth&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">,</span> <span class="nx">LocalService</span><span class="p">,</span> <span class="nx">AccessLevels</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">authorize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">access</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">access</span> <span class="o">===</span> <span class="nx">AccessLevels</span><span class="p">.</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="k">this</span><span class="p">.</span><span class="nx">isAuthenticated</span><span class="p">();</span>
+</span><span class='line'>      <span class="p">}</span> <span class="k">else</span> <span class="p">{</span>
+</span><span class='line'>        <span class="k">return</span> <span class="kc">true</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">isAuthenticated</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">LocalService</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">login</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">credentials</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">login</span> <span class="o">=</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/auth/authenticate&#39;</span><span class="p">,</span> <span class="nx">credentials</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">login</span><span class="p">.</span><span class="nx">success</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">LocalService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">result</span><span class="p">));</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">login</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">logout</span><span class="o">:</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+</span><span class='line'>      <span class="c1">// The backend doesn&#39;t care about logouts, delete the token and you&#39;re good to go.</span>
+</span><span class='line'>      <span class="nx">LocalService</span><span class="p">.</span><span class="nx">unset</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">register</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">formData</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">LocalService</span><span class="p">.</span><span class="nx">unset</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">register</span> <span class="o">=</span> <span class="nx">$http</span><span class="p">.</span><span class="nx">post</span><span class="p">(</span><span class="s1">&#39;/auth/register&#39;</span><span class="p">,</span> <span class="nx">formData</span><span class="p">);</span>
+</span><span class='line'>      <span class="nx">register</span><span class="p">.</span><span class="nx">success</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">result</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">LocalService</span><span class="p">.</span><span class="nx">set</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">,</span> <span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">result</span><span class="p">));</span>
+</span><span class='line'>      <span class="p">});</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">register</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>For the login, we make a post with our credentials and if it succeds, we store the token (and also the user, I got lazy here) into the localstorage. For the registering, we remove the token if any and well, same thing as login.</p>
+
+<p>To see if we are authenticated I decided to check for the token existence. Since the backend doens&rsquo;t know about logins, having the token means that we can query our stuff so if the token exist, we are &ldquo;logged in&rdquo;. Of course the server can reject it on the next request if the user no longer exist, it expired or we used the &ldquo;rotate tokens&rdquo; technique.</p>
+
+<p>Look how the logout works! We just need to delete the token because as I said, the backend is not concerned about logins as there is no sessions or stuff like that.</p>
+
+<p>The authorize method is a helper method I use to check if a user is authenticated or not before I enter a route (more on this later).</p>
+
+<p>I also created a <code>AuthInterceptor</code> to handle the request/response:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;AuthInterceptor&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$q</span><span class="p">,</span> <span class="nx">$injector</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
+</span><span class='line'>    <span class="nx">request</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">LocalService</span> <span class="o">=</span> <span class="nx">$injector</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;LocalService&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="kd">var</span> <span class="nx">token</span><span class="p">;</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">LocalService</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">token</span> <span class="o">=</span> <span class="nx">angular</span><span class="p">.</span><span class="nx">fromJson</span><span class="p">(</span><span class="nx">LocalService</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">)).</span><span class="nx">token</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">token</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">config</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">Authorization</span> <span class="o">=</span> <span class="s1">&#39;Bearer &#39;</span> <span class="o">+</span> <span class="nx">token</span><span class="p">;</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">config</span><span class="p">;</span>
+</span><span class='line'>    <span class="p">},</span>
+</span><span class='line'>    <span class="nx">responseError</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">401</span> <span class="o">||</span> <span class="nx">response</span><span class="p">.</span><span class="nx">status</span> <span class="o">===</span> <span class="mi">403</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">LocalService</span><span class="p">.</span><span class="nx">unset</span><span class="p">(</span><span class="s1">&#39;auth_token&#39;</span><span class="p">);</span>
+</span><span class='line'>        <span class="nx">$injector</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;$state&#39;</span><span class="p">).</span><span class="nx">go</span><span class="p">(</span><span class="s1">&#39;anon.login&#39;</span><span class="p">);</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>      <span class="k">return</span> <span class="nx">$q</span><span class="p">.</span><span class="nx">reject</span><span class="p">(</span><span class="nx">response</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">};</span>
+</span><span class='line'><span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If there is a token saved, put it on a header so every request we make, will have it (just what we need!). For the response, if we get a 401 or 403, redirect me to login and delete the token if any.</p>
+
+<p>The routes are like:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+<span class='line-number'>9</span>
+<span class='line-number'>10</span>
+<span class='line-number'>11</span>
+<span class='line-number'>12</span>
+<span class='line-number'>13</span>
+<span class='line-number'>14</span>
+<span class='line-number'>15</span>
+<span class='line-number'>16</span>
+<span class='line-number'>17</span>
+<span class='line-number'>18</span>
+<span class='line-number'>19</span>
+<span class='line-number'>20</span>
+<span class='line-number'>21</span>
+<span class='line-number'>22</span>
+<span class='line-number'>23</span>
+<span class='line-number'>24</span>
+<span class='line-number'>25</span>
+<span class='line-number'>26</span>
+<span class='line-number'>27</span>
+<span class='line-number'>28</span>
+<span class='line-number'>29</span>
+<span class='line-number'>30</span>
+<span class='line-number'>31</span>
+<span class='line-number'>32</span>
+<span class='line-number'>33</span>
+<span class='line-number'>34</span>
+<span class='line-number'>35</span>
+<span class='line-number'>36</span>
+<span class='line-number'>37</span>
+<span class='line-number'>38</span>
+<span class='line-number'>39</span>
+<span class='line-number'>40</span>
+<span class='line-number'>41</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$stateProvider</span><span class="p">,</span> <span class="nx">$urlRouterProvider</span><span class="p">,</span> <span class="nx">AccessLevels</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">$stateProvider</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="s1">&#39;anon&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kr">abstract</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">template</span><span class="o">:</span> <span class="s1">&#39;&lt;ui-view/&gt;&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">access</span><span class="o">:</span> <span class="nx">AccessLevels</span><span class="p">.</span><span class="nx">anon</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="s1">&#39;anon.home&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;home.html&#39;</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="s1">&#39;anon.login&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/login&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;auth/login.html&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">controller</span><span class="o">:</span> <span class="s1">&#39;LoginController&#39;</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="s1">&#39;anon.register&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/register&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;auth/register.html&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">controller</span><span class="o">:</span> <span class="s1">&#39;RegisterController&#39;</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">$stateProvider</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="s1">&#39;user&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>      <span class="kr">abstract</span><span class="o">:</span> <span class="kc">true</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">template</span><span class="o">:</span> <span class="s1">&#39;&lt;ui-view/&gt;&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+</span><span class='line'>        <span class="nx">access</span><span class="o">:</span> <span class="nx">AccessLevels</span><span class="p">.</span><span class="nx">user</span>
+</span><span class='line'>      <span class="p">}</span>
+</span><span class='line'>    <span class="p">})</span>
+</span><span class='line'>    <span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="s1">&#39;user.messages&#39;</span><span class="p">,</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">url</span><span class="o">:</span> <span class="s1">&#39;/messages&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">templateUrl</span><span class="o">:</span> <span class="s1">&#39;user/messages.html&#39;</span><span class="p">,</span>
+</span><span class='line'>      <span class="nx">controller</span><span class="o">:</span> <span class="s1">&#39;MessagesController&#39;</span>
+</span><span class='line'>    <span class="p">});</span>
+</span><span class='line'>
+</span><span class='line'>  <span class="nx">$urlRouterProvider</span><span class="p">.</span><span class="nx">otherwise</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">);</span>
+</span><span class='line'>  <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>We have a parent state for anonymous routes and a parent state for authenticated users. The important part here is that we have an access data there to give a nice UX on our page.</p>
+
+<p>To handle the routes I do:</p>
+
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
+<span class='line-number'>2</span>
+<span class='line-number'>3</span>
+<span class='line-number'>4</span>
+<span class='line-number'>5</span>
+<span class='line-number'>6</span>
+<span class='line-number'>7</span>
+<span class='line-number'>8</span>
+</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$rootScope</span><span class="p">,</span> <span class="nx">$state</span><span class="p">,</span> <span class="nx">Auth</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>  <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$on</span><span class="p">(</span><span class="s1">&#39;$stateChangeStart&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">toState</span><span class="p">,</span> <span class="nx">toParams</span><span class="p">,</span> <span class="nx">fromState</span><span class="p">,</span> <span class="nx">fromParams</span><span class="p">)</span> <span class="p">{</span>
+</span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">Auth</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="nx">toState</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">access</span><span class="p">))</span> <span class="p">{</span>
+</span><span class='line'>      <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>
+</span><span class='line'>
+</span><span class='line'>      <span class="nx">$state</span><span class="p">.</span><span class="nx">go</span><span class="p">(</span><span class="s1">&#39;anon.login&#39;</span><span class="p">);</span>
+</span><span class='line'>    <span class="p">}</span>
+</span><span class='line'>  <span class="p">});</span>
+</span></code></pre></td></tr></table></div></figure>
+
+
+<p>If we are not authorized to enter the page (using the access data we put on the routes) we redirect to login. Here I use the method I have on the <code>Auth</code> service to basically check if the user is authenticated for the user routes. We can expand this implementation to put more roles like an admin one.</p>
+
+<p>And that is it! Since the token goes via header, we can query our backend as we normally do. There is no need to do something extra.</p>
+
+<h2>Live demo</h2>
+
+<p>I have a live demo <a href="http://quiet-inlet-7398.herokuapp.com/">here</a>. You can login with <code>user@example.com / 123123</code> or create your own user. About if the live demo is sails or rails&hellip; I forgot, they behave the same :)</p>
+
+<h2>Demos</h2>
+
+<p><a href="https://github.com/Foxandxss/sails-angular-jwt-example">Sails demo</a>
+<a href="https://github.com/Foxandxss/rails-angular-jwt-example">Rails demo</a></p>
+</div>
+
+
+</article>
+
+<br/>
+原文链接: 
+<br/>
+<a href="http://angular-tips.com/blog/2014/05/json-web-tokens-introduction/">Json Web Tokens : Introduction</a>
+<br/>
+<a href="http://angular-tips.com/blog/2014/05/json-web-tokens-examples/">Json Web Tokens : Example</a>
+<br/><br/><br/><br/>
+
+</div>
+</body>
+</html>
