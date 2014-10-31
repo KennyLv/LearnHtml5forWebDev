@@ -1,0 +1,261 @@
+<html>
+<head>
+<link href='http://fonts.googleapis.com/css?family=VT323' rel='stylesheet' type='text/css'>
+
+<style>
+.coin-box {
+  background: #F2CC00;
+  width: 200px;
+  height: 200px;
+  margin: 250px auto 40px;
+  border-radius: 4px;
+  border-width: 4px;
+  border-style: solid;
+  border-top-color: rgba(255, 255, 255, 0.5);
+  border-left-color: rgba(0, 0, 0, 0.3);
+  border-right-color: rgba(0, 0, 0, 0.3);
+  border-bottom-color: rgba(0, 0, 0, 0.8);
+  position: relative;
+  text-align: center;
+  line-height: 200px;
+  font-family: monospace;
+  font-size: 220px;
+  color: white;
+  font-family: "VT323";
+  text-shadow: 1px 1px rgba(0, 0, 0, 0.8), 2px 2px rgba(0, 0, 0, 0.8), -1px -1px rgba(0, 0, 0, 0.4), -2px -2px rgba(0, 0, 0, 0.4);
+  z-index: 2;
+}
+
+.medallion {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #977D15;
+  border-radius: 50%;
+  box-shadow: inset 0 4px rgba(0, 0, 0, 0.5);
+}
+
+.medallion-top-left {
+  top: 10px;
+  left: 10px;
+}
+
+.medallion-top-right {
+  top: 10px;
+  right: 10px;
+}
+
+.medallion-bottom-left {
+  bottom: 10px;
+  left: 10px;
+}
+
+.medallion-bottom-right {
+  bottom: 10px;
+  right: 10px;
+}
+
+.coin {
+  -webkit-transform: rotateY(45deg);
+  -moz-transform: rotateY(45deg);
+  -ms-transform: rotateY(45deg);
+  -o-transform: rotateY(45deg);
+  transform: rotateY(45deg);
+  background: #E8CB00;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  box-shadow: 10px 0 0 3px #F6D321;
+  margin: 0 auto;
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  margin-left: -70px;
+  z-index: 1;
+}
+.coin::after {
+  -webkit-transform: rotateY(45deg);
+  -moz-transform: rotateY(45deg);
+  -ms-transform: rotateY(45deg);
+  -o-transform: rotateY(45deg);
+  transform: rotateY(45deg);
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -20px;
+  margin-top: -50px;
+  width: 40px;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.4);
+}
+.coin::before {
+  -webkit-transform: rotateY(45deg);
+  -moz-transform: rotateY(45deg);
+  -ms-transform: rotateY(45deg);
+  -o-transform: rotateY(45deg);
+  transform: rotateY(45deg);
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin-left: -20px;
+  margin-top: -50px;
+  width: 20px;
+  height: 100px;
+  background: rgba(0, 0, 0, 0.2);
+}
+
+@media screen and (max-height: 400px) {
+  body {
+    margin-top: -200px;
+  }
+
+  .coin {
+    top: 100px;
+  }
+}
+</style>
+
+</head>
+<body>
+
+<div class="coin-box">
+  <div class="medallion medallion-top-left"></div>
+  <div class="medallion medallion-top-right"></div>
+  <div class="medallion medallion-bottom-left"></div>
+  <div class="medallion medallion-bottom-right"></div>
+  
+  ?
+  
+</div>
+
+<div class="coin"></div>
+
+
+<script>
+
+		var $coinBox = $('.coin-box');
+		var $coin = $('.coin');
+		$coinBox.on('click', function(){
+			console.log($coinBox);
+		  $coinBox.velocity({translateY: '-20px'}, 200).velocity({translateY : 0}, 200);
+		  $coin.velocity({translateY: '-300px'}, 400).velocity({translateY: '-150px', opacity: 0}, 300).velocity({translateY: 0, opacity: 1}, 0);
+		});
+
+
+</script>
+</body>
+</html>
+
+<!-- SCSS
+
+
+ 
+.coin-box{
+  background: #F2CC00;
+  width: 200px;
+  height: 200px;
+  margin: 250px auto 40px;
+  border-radius: 4px;
+  border-width: 4px;
+  border-style: solid;
+  border-top-color: rgba(255,255,255,.5);
+  border-left-color: rgba(0,0,0,.3);
+  border-right-color: rgba(0,0,0,.3);
+  border-bottom-color: rgba(0,0,0,.8);
+  position: relative;
+  text-align: center;
+  line-height: 200px;
+  font-family: monospace;
+  font-size: 220px;
+  color: white;
+  font-family: 'VT323', ;  
+  text-shadow: 1px 1px rgba(0,0,0,.8), 2px 2px rgba(0,0,0,.8), -1px -1px rgba(0,0,0,.4), -2px -2px rgba(0,0,0,.4);
+  z-index: 2;
+}
+
+.medallion{
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  background: #977D15;
+  border-radius: 50%;
+  box-shadow: inset  0 4px rgba(0,0,0,.5);
+}
+
+.medallion-top-left{
+  top: 10px;
+  left: 10px;
+}
+
+.medallion-top-right{
+  top: 10px;
+  right: 10px;
+}
+
+.medallion-bottom-left{
+  bottom: 10px;
+  left: 10px;
+}
+
+.medallion-bottom-right{
+  bottom: 10px;
+  right: 10px;
+}
+
+.coin{
+  @include transform(rotateY(45deg));
+  
+  background: #E8CB00;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  box-shadow: 10px 0 0 3px #F6D321 ;
+  margin: 0 auto;
+  position: absolute;
+  top: 300px;
+  left: 50%;
+  margin-left: -70px;
+  z-index: 1;
+  
+  &::after{
+      @include transform(rotateY(45deg));
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -20px;
+    margin-top: -50px;
+    width: 40px;
+    height: 100px;
+    background: rgba(0,0,0,.4);
+  }
+   &::before{
+      @include transform(rotateY(45deg));
+    content: "";
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin-left: -20px;
+    margin-top: -50px;
+    width: 20px;
+    height: 100px;
+    background: rgba(0,0,0,.2);
+  }
+}
+
+// some media queries to make the pen more obvious in preview.
+@media screen and (max-height:400px) {
+  body{
+     margin-top: -200px;
+  }
+  
+  .coin{
+    top: 100px;  
+  }
+}
+
+
+-->
+

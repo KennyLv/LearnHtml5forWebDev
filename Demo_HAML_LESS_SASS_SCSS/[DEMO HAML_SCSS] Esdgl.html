@@ -1,0 +1,843 @@
+<html>
+<head>
+
+
+<style>
+body {
+  background: #111;
+  overflow: hidden;
+  perspective: 3000px;
+  padding: 100px;
+}
+
+.rap {
+  transform-style: preserve-3d;
+  position: absolute;
+  left: 50%;
+  transform-origin: 50% 150px;
+  animation: spin 30s linear infinite;
+}
+
+@keyframes spin {
+  100% {
+    transform: rotate(1turn);
+  }
+}
+.rap:after {
+  content: '';
+  width: 50px;
+  height: 500px;
+  background: rgba(255, 255, 255, 0.5);
+  background: linear-gradient(to right, #0e0e0e 0%, #7d7e7d 50%, #0e0e0e 100%);
+  position: absolute;
+  top: -100px;
+  left: -3px;
+}
+
+.tube:nth-child(0) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(0deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: 0s;
+}
+
+.tube:nth-child(1) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(9deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -0.55556s;
+}
+
+.tube:nth-child(2) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(18deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -1.11111s;
+}
+
+.tube:nth-child(3) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(27deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -1.66667s;
+}
+
+.tube:nth-child(4) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(36deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -2.22222s;
+}
+
+.tube:nth-child(5) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(45deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -2.77778s;
+}
+
+.tube:nth-child(6) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(54deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -3.33333s;
+}
+
+.tube:nth-child(7) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(63deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -3.88889s;
+}
+
+.tube:nth-child(8) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(72deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -4.44444s;
+}
+
+.tube:nth-child(9) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(81deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -5.0s;
+}
+
+.tube:nth-child(10) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(90deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -5.55556s;
+}
+
+.tube:nth-child(11) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(99deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -6.11111s;
+}
+
+.tube:nth-child(12) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(108deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -6.66667s;
+}
+
+.tube:nth-child(13) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(117deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -7.22222s;
+}
+
+.tube:nth-child(14) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(126deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -7.77778s;
+}
+
+.tube:nth-child(15) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(135deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -8.33333s;
+}
+
+.tube:nth-child(16) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(144deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -8.88889s;
+}
+
+.tube:nth-child(17) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(153deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -9.44445s;
+}
+
+.tube:nth-child(18) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(162deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -10.0s;
+}
+
+.tube:nth-child(19) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(171deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -10.55556s;
+}
+
+.tube:nth-child(20) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(180deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -11.11111s;
+}
+
+.tube:nth-child(21) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(189deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -11.66667s;
+}
+
+.tube:nth-child(22) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(198deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -12.22222s;
+}
+
+.tube:nth-child(23) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(207deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -12.77778s;
+}
+
+.tube:nth-child(24) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(216deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -13.33333s;
+}
+
+.tube:nth-child(25) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(225deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -13.88889s;
+}
+
+.tube:nth-child(26) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(234deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -14.44445s;
+}
+
+.tube:nth-child(27) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(243deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -15.0s;
+}
+
+.tube:nth-child(28) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(252deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -15.55556s;
+}
+
+.tube:nth-child(29) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(261deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -16.11111s;
+}
+
+.tube:nth-child(30) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(270deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -16.66667s;
+}
+
+.tube:nth-child(31) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(279deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -17.22222s;
+}
+
+.tube:nth-child(32) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(288deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -17.77778s;
+}
+
+.tube:nth-child(33) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(297deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -18.33333s;
+}
+
+.tube:nth-child(34) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(306deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -18.88889s;
+}
+
+.tube:nth-child(35) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(315deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -19.44445s;
+}
+
+.tube:nth-child(36) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(324deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -20.0s;
+}
+
+.tube:nth-child(37) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(333deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -20.55556s;
+}
+
+.tube:nth-child(38) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(342deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -21.11111s;
+}
+
+.tube:nth-child(39) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(351deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -21.66667s;
+}
+
+.tube:nth-child(40) {
+  opacity: .6;
+  width: 40px;
+  height: 300px;
+  background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+  background-position: 300px 0;
+  position: absolute;
+  transform: rotate(0deg) rotateX(-160deg) rotateY(360deg) translateZ(126px);
+  animation: tube 33s linear infinite;
+  animation-delay: -22.22222s;
+}
+
+@keyframes tube {
+  100% {
+    background-position: 300px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 271px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 242px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 213px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 184px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 155px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 126px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 97px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 68px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 39px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: 10px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -19px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -48px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -77px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -106px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -135px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -164px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -193px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -222px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -251px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -280px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -309px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -338px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -367px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -396px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -425px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -454px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -483px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -512px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -541px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -570px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -599px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -628px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -657px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -686px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -715px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -744px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -773px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -802px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -831px 0;
+  }
+}
+@keyframes tube {
+  100% {
+    background-position: -860px 0;
+  }
+}
+
+</style>
+
+</head>
+<body>
+
+<div class='rap'>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+  <div class='tube'></div>
+</div>
+
+</body>
+</html>
+
+<!-- HAML
+
+.rap
+  -40.times do
+    .tube
+
+-->
+
+<!-- SCSS
+
+body{
+  background: #111;
+  overflow: hidden;
+  perspective: 3000px;
+  padding: 100px;
+}
+.rap{
+  transform-style: preserve-3d;
+  position: absolute;
+  left: 50%;
+  transform-origin: 50% 150px;
+  animation: spin 30s linear infinite;
+}
+@keyframes spin{
+  100%{transform: rotate(1turn);}
+}
+.rap:after{
+  content:'';
+  width: 50px;
+  height: 500px;
+  background: rgba(255,255,255,.5);
+  background: linear-gradient(to right, #0e0e0e 0%,#7d7e7d 50%,#0e0e0e 100%);
+  position: absolute;
+  top: -100px;
+  left: -3px;
+}
+@for $i from 0 through 40{
+  .tube:nth-child(#{$i}){
+    opacity: .6;
+    width: 40px;
+    height: 300px;
+    background: url(http://mavensnotebook.com/wp-content/uploads/2013/07/water-world-300x300.jpg);
+    background-position: 300 - ($i*0)+px 0;
+    position: absolute;
+    transform: rotate(-0deg) rotateX(-160deg) rotateY($i*9deg) translateZ(126px);
+    animation: tube 33s linear infinite;
+    animation-delay: $i*-.5555556s; 
+  }
+}
+@for $i from 0 through 40{
+  @keyframes tube{
+    100%{background-position: 300 - ($i*29)+px 0;
+     }
+   }
+ }
+
+-->
+

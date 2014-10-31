@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>SVG TEST</title>
+		<style>
+		
+		
+/*
+credit: http://codepen.io/loumontano/pen/eJByH
+*/
+
+body {
+  padding: 100px;
+  text-align: center;
+  background-color: #000;
+  overflow: hidden;
+}
+
+.main {
+  -webkit-perspective: 100px;
+  width:250px;
+  height:250px;
+  text-align: center;
+  display: inline-block;
+}
+
+.cont {
+  text-align: center;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  -webkit-transform-style: preserve-3d;
+  -webkit-transform: rotateX(-15deg) rotateY(15deg);
+  -webkit-animation: rotateCube 5s infinite linear;
+}
+
+.cube {
+  position: absolute;
+  /*border: 1px solid #888;*/
+  background: #FFF;
+  opacity: .85;
+  background-size: auto 100%;
+}
+
+.cube-front {
+  width: 250px;
+  height: 250px;
+  -webkit-transform: translate3d(0, 0, 125px);
+  background-color: #000;
+}
+
+.cube-back {
+  width: 250px;
+  height: 250px;
+  -webkit-transform: rotateY(180deg) translate3d(0, 0, 125px);
+  background-color: #000;
+}
+
+.cube-top {
+  width: 250px;
+  height: 250px;
+  -webkit-transform: rotateX(90deg) translate3d(0, 0, 125px);
+  background-color: #000;
+}
+
+.cube-bottom {
+  width: 250px;
+  height: 250px;
+  -webkit-transform: rotateX(-90deg) translate3d(0, 0, 125px);
+  background-color: #000;
+}
+
+.cube-left {
+  width: 250px;
+  height: 250px;
+  left: 50%;
+  margin-left: -125px;
+  -webkit-transform: rotateY(-90deg) translate3d(0, 0, 125px);
+  background-color: #000;
+}
+
+.cube-right {
+  width: 250px;
+  height: 250px;
+  left: 50%;
+  margin-left: -125px;
+  -webkit-transform: rotateY(90deg) translate3d(0, 0, 125px);
+  background-color: #000;
+}
+
+@-webkit-keyframes rotateCube {
+  0% {
+    -webkit-transform: rotateY(0deg) rotateX(0deg);
+  }
+
+  100% {
+    -webkit-transform: rotateY(-360deg) rotateX(-360deg);
+  }
+}
+
+</style>
+	</head>
+	<body>
+	<!--Normally svgs would be a single external file used as a background images in the CSS.-->
+
+<div class="main">        
+    <div class="cont">
+      <div class="cube cube-front">
+        <!--logo-->
+        <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg"   xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	     viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
+          <polygon fill="#FFFFFF" points="214.3,500 0,500 0,285.7 71.4,285.7 71.4,428.6 142.9,428.6 142.9,285.7 214.3,285.7 "/>
+          <polygon fill="#FFFFFF" points="214.3,214.3 142.9,214.3 142.9,71.4 71.4,71.4 71.4,214.3 0,214.3 0,0 214.3,0 "/>
+          <rect x="285.7" y="428.6" fill="#FFFFFF" width="214.3" height="71.4"/>
+          <polygon fill="#FFFFFF" points="500,357.1 285.7,357.1 285.7,285.7 428.6,285.7 428.6,214.3 285.7,214.3 285.7,142.9 500,142.9 "/>
+          <rect x="285.7" fill="#FFFFFF" width="214.3" height="71.4"/>
+        </svg>
+      </div>
+      
+      <div class="cube cube-back">
+        <!--logo-->
+        <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg"   xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	     viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
+          <polygon fill="#FFFFFF" points="214.3,500 0,500 0,285.7 71.4,285.7 71.4,428.6 142.9,428.6 142.9,285.7 214.3,285.7 "/>
+          <polygon fill="#FFFFFF" points="214.3,214.3 142.9,214.3 142.9,71.4 71.4,71.4 71.4,214.3 0,214.3 0,0 214.3,0 "/>
+          <rect x="285.7" y="428.6" fill="#FFFFFF" width="214.3" height="71.4"/>
+          <polygon fill="#FFFFFF" points="500,357.1 285.7,357.1 285.7,285.7 428.6,285.7 428.6,214.3 285.7,214.3 285.7,142.9 500,142.9 "/>
+          <rect x="285.7" fill="#FFFFFF" width="214.3" height="71.4"/>
+        </svg>
+      </div>
+      <div class="cube cube-top">
+        <!--logo-->
+        <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg"   xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	     viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
+          <polygon fill="#FFFFFF" points="214.3,500 0,500 0,285.7 71.4,285.7 71.4,428.6 142.9,428.6 142.9,285.7 214.3,285.7 "/>
+          <polygon fill="#FFFFFF" points="214.3,214.3 142.9,214.3 142.9,71.4 71.4,71.4 71.4,214.3 0,214.3 0,0 214.3,0 "/>
+          <rect x="285.7" y="428.6" fill="#FFFFFF" width="214.3" height="71.4"/>
+          <polygon fill="#FFFFFF" points="500,357.1 285.7,357.1 285.7,285.7 428.6,285.7 428.6,214.3 285.7,214.3 285.7,142.9 500,142.9 "/>
+          <rect x="285.7" fill="#FFFFFF" width="214.3" height="71.4"/>
+        </svg>
+      </div>
+      <div class="cube cube-bottom">
+        <!--logo-->
+        <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg"   xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	     viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
+          <polygon fill="#FFFFFF" points="214.3,500 0,500 0,285.7 71.4,285.7 71.4,428.6 142.9,428.6 142.9,285.7 214.3,285.7 "/>
+          <polygon fill="#FFFFFF" points="214.3,214.3 142.9,214.3 142.9,71.4 71.4,71.4 71.4,214.3 0,214.3 0,0 214.3,0 "/>
+          <rect x="285.7" y="428.6" fill="#FFFFFF" width="214.3" height="71.4"/>
+          <polygon fill="#FFFFFF" points="500,357.1 285.7,357.1 285.7,285.7 428.6,285.7 428.6,214.3 285.7,214.3 285.7,142.9 500,142.9 "/>
+          <rect x="285.7" fill="#FFFFFF" width="214.3" height="71.4"/>
+        </svg>
+      </div>
+      <div class="cube cube-left">
+        <!--logo-->
+        <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg"   xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	     viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
+          <polygon fill="#FFFFFF" points="214.3,500 0,500 0,285.7 71.4,285.7 71.4,428.6 142.9,428.6 142.9,285.7 214.3,285.7 "/>
+          <polygon fill="#FFFFFF" points="214.3,214.3 142.9,214.3 142.9,71.4 71.4,71.4 71.4,214.3 0,214.3 0,0 214.3,0 "/>
+          <rect x="285.7" y="428.6" fill="#FFFFFF" width="214.3" height="71.4"/>
+          <polygon fill="#FFFFFF" points="500,357.1 285.7,357.1 285.7,285.7 428.6,285.7 428.6,214.3 285.7,214.3 285.7,142.9 500,142.9 "/>
+          <rect x="285.7" fill="#FFFFFF" width="214.3" height="71.4"/>
+        </svg>
+      </div>
+      <div class="cube cube-right">
+        <!--logo-->
+        <svg version="1.0" id="Layer_1" xmlns="http://www.w3.org/2000/svg"   xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	     viewBox="0 0 500 500" enable-background="new 0 0 500 500" xml:space="preserve">
+          <polygon fill="#FFFFFF" points="214.3,500 0,500 0,285.7 71.4,285.7 71.4,428.6 142.9,428.6 142.9,285.7 214.3,285.7 "/>
+          <polygon fill="#FFFFFF" points="214.3,214.3 142.9,214.3 142.9,71.4 71.4,71.4 71.4,214.3 0,214.3 0,0 214.3,0 "/>
+          <rect x="285.7" y="428.6" fill="#FFFFFF" width="214.3" height="71.4"/>
+          <polygon fill="#FFFFFF" points="500,357.1 285.7,357.1 285.7,285.7 428.6,285.7 428.6,214.3 285.7,214.3 285.7,142.9 500,142.9 "/>
+          <rect x="285.7" fill="#FFFFFF" width="214.3" height="71.4"/>
+        </svg>
+    </div>  
+</div>
+
+	</body>
+	
+	
+</html>
