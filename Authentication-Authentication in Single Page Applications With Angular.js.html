@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html>
+<head>
+		<meta http-equiv="Content-Type" content="text/html" charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+		<title>Authentication in Single Page Applications With Angular.js</title>
+		<link rel="canonical" href="http://www.frederiknakstad.com/2013/01/21/authentication-in-single-page-applications-with-angular-js/" />
+		
+		<link rel="stylesheet" href="highlight_theme_solarized_dark.min.css">
+		<script src="highlight.min.js"></script>
+</head>
+
+<body>
+
+    <article style="font-size:18px;">
+        
+            <section  style="background-color:rgb(208, 206, 206);">
+                <h4>Frederik Nakstad</h4>
+                <p>Full-stack developer specializing in web development currently doing graduate studies at Tokyo&#x27;s Waseda University. Feel free to contact me about freelance work or interesting open-source projects.</p>
+				
+				<a href="https://github.com/fnakstad" class="float-shadow" target="_blank">
+					github
+				</a>&nbsp;&nbsp;
+				<a href="http://www.linkedin.com/in/frederiknakstad" class="float-shadow" target="_blank">
+					linkedin
+				</a>&nbsp;&nbsp;
+                <a href="http://twitter.com/share?text=Authentication in Single Page Applications With Angular.js&url=http://www.frederiknakstad.com/2013/01/21/authentication-in-single-page-applications-with-angular-js/">
+                    Twitter
+                </a>&nbsp;&nbsp;
+                <a href="https://www.facebook.com/sharer/sharer.php?u=http://www.frederiknakstad.com/2013/01/21/authentication-in-single-page-applications-with-angular-js/">
+                    Facebook
+                </a>&nbsp;&nbsp;
+                <a href="https://plus.google.com/share?url=http://www.frederiknakstad.com/2013/01/21/authentication-in-single-page-applications-with-angular-js/">
+                    Google+
+                </a>&nbsp;&nbsp;
+				 <a href="http://frederiknakstad.com/2013/01/21/authentication-in-single-page-applications-with-angular-js/">Part-1 原文链接</a>
+				 <a href="http://frederiknakstad.com/2013/08/04/authentication-in-single-page-applications-with-angular-js-part-2/">Part-1 原文链接</a>
+            </section>
+
+			
+		
+        <h1 style="font-size:26px;color:red;">Part-1 : Authentication in Single Page Applications With Angular.js</h1>
+        <section class="contentpost__articlecontent post-content">
+            <p><strong>9/2/2014 update:</strong>
+<em>The GitHub repo now uses <a href="https://github.com/angular-ui/ui-router">UI-router</a> instead of the standard <a href="http://docs.angularjs.org/api/ngRoute">ngRoute</a> routing module. This blog post will still illustrate the original technique utilizing ngRoute, while information regarding the UI-router approach can be found in the <a href="https://github.com/fnakstad/angular-client-side-auth">GitHub repo</a> as well as <a href="http://www.frederiknakstad.com/2014/02/09/ui-router-in-angular-client-side-auth/">this blogpost</a>. The example app in the repo has been deployed to Heroku, so now you can test it out live for yourself <a href="http://angular-client-side-auth.herokuapp.com/">right here</a>. A separate blogpost discussing the complementing server-side code <a href="http://www.frederiknakstad.com/2013/08/04/authentication-in-single-page-applications-with-angular-js-part-2/">can be found here</a>.</em></p>
+
+<p>I have been working a lot with Angular.js lately, and love how easy it makes it to create web applications with rich client-side functionality. It's an extremely useful asset in keeping your own client-side code lean, making it easy to separate business logic and declarative markup for anything view specific.  However, it's not all roses, and I'm still struggling to find the best solutions to some problems I have encountered. One of which is a problem that exceeds the scope of Angular...</p>
+
+<p><strong><em>How do I deal with authentication and authorization in single page applications?</em></strong></p>
+
+<p>Since only the initial load of the app is a full page load, and subsequent communication with the server is entirely done via XHRs I need a slightly different model from the traditional one. One option I tried out was to have a traditional login page which, on success, redirects to a secured URL which loads the actual application. This has the added benefit that the client side code and view templates used for pages intended for logged in users are not accessible to anyone not logged in. However, in many cases this is not much of a concern as long as the communication against the resource API is properly secured. Preventing anyone from getting or modifying sensitive data is a server-side issue, and should therefore be properly handled there. I wanted a seamless user experience with no full page reloads beyond the initial page load, so I decided to play around a little and see if I could come up with an alternative. These are the core characteristics of the solution I set out to implement:</p>
+
+<ol>
+<li>The server needs to communicate what permissions/role the client has on inital page load.  </li>
+<li>The client app then needs to keep track of the user's login status, and change it accordingly when the user logs in or out. These operations should not cause a full page reload.  </li>
+<li>The access level of the routes should be declared as part of the rest of the routing configuration.</li>
+</ol>
+
+<h2 id="configuringaccesslevelsanduserroles">Configuring access levels and user roles</h2>
+
+<p>To indicate the available user roles and access levels to be used in the routing system, I decided to make a separate module which could be used both on the client and server side (with Node.js):</p>
+
+<pre><code class="javascript">(function(exports){
+
+    var userRoles = {
+        public: 1, // 001
+        user:   2, // 010
+        admin:  4  // 100
+    };
+
+    exports.userRoles = userRoles;
+    exports.accessLevels = {
+        public: userRoles.public | // 111
+                userRoles.user   | 
+                userRoles.admin,   
+        anon:   userRoles.public,  // 001
+        user:   userRoles.user |   // 110
+                userRoles.admin,                    
+        admin:  userRoles.admin    // 100
+    };
+
+})(typeof exports === 'undefined'? this['routingConfig']={}: exports);
+</code></pre>
+
+<p>Both the user roles and access levels are defined as numbers so that it is possible to calculate permissions using binary operations. User roles are defined by which bit is set to 1, while access levels indicate whether that user role has access by setting the corresponding bit to either 1 or 0 in the bitmask<sup id="fnref:1"><a href="#fn:1" rel="footnote">1</a></sup>. So, here is an example of binary operations that can be calculated to see whether the user role <code>user</code> has access to the access levels <code>admin</code> and <code>public</code>:</p>
+
+<pre><code>    010 // = userRole: user
+AND 100 // = accessLevel admin  
+=   000 // = false, no access
+
+    010 // = userRole: user
+AND 111 // = accessLevel public  
+=   010 // = true, go ahead
+</code></pre>
+
+<h2 id="settingupclientsiderouting">Setting up client-side routing</h2>
+
+<p>When I define my routes I want to indicate what access level each route should have, so I add a new property to each route, called <code>access</code>, like so:</p>
+
+<pre><code class="javascript">angular.module('myApp', ['myApp.services', 'ngCookies'])  
+.config(['$routeProvider', '$locationProvider',
+    function ($routeProvider, $locationProvider) {
+
+    // ...
+
+    var access = routingConfig.accessLevels;
+
+    $routeProvider.when('/register',
+        {
+            templateUrl:    'partials/register',
+            controller:     RegisterCtrl,
+            access:         access.anon
+        });
+    $routeProvider.when('/private',
+        {
+            templateUrl:    'partials/private',
+            controller:     PrivateCtrl,
+            access:         access.user
+        });
+    $routeProvider.when('/admin',
+        {
+            templateUrl:    'partials/admin',
+            controller:     AdminCtrl,
+            access:         access.admin
+        });
+
+    // ...
+
+}]);
+</code></pre>
+
+<h2 id="communicatingloginstatustoclientsideapponinitialpageload">Communicating login status to client side app on initial page load</h2>
+
+<p>When the user first loads the client side app, whether he's trying to access a restricted or public route initially, the server needs to communicate the current role of the user. Since the client side app can't decrypt the authentication cookie set by the server, I decided to communicate login status via the HTTP response which serves up the single page application. I decided on doing this by setting a cookie, which the client would clear upon reading it. I feel like there's something icky about doing it this way, so I'm open to any alternative solutions here. Anyway, the server sets the cookie like so:</p>
+
+<pre><code class="javascript">app.get('/*', function(req, res){  
+    var role = userRoles.public, username = '';
+    if(req.user) {
+        role = req.user.role;
+        username = req.user.username;
+    }
+
+    res.cookie('user', JSON.stringify({
+        'username': username,
+        'role': role
+    }));
+
+    res.render('index');
+});
+</code></pre>
+
+<p>On the client-side I have an Angular service, <code>Auth</code>, which upon initialization will read in this cookie, save the login status, then discard the cookie. This service will also make the access levels, user roles, and current user available to the rest of the application.</p>
+
+<pre><code class="javascript">angular.module('angular-client-side-auth')  
+.factory('Auth', function($http, $rootScope, $cookieStore){
+
+    var accessLevels = routingConfig.accessLevels
+        , userRoles = routingConfig.userRoles
+        , currentUser = $cookieStore.get('user') || 
+                        { username: '', role: userRoles.public };
+
+    // ...
+
+    return {
+
+        // ...
+
+        accessLevels: accessLevels,
+        userRoles: userRoles,
+        user: currentUser
+    };
+
+});
+</code></pre>
+
+<p>So, now my Angular app knows what login status the user has, and can perform the client side routing based on this status.</p>
+
+<h2 id="enforcingtheroutingpolicyclientside">Enforcing the routing policy client-side</h2>
+
+<p><strong>Warning: I want to stress the importance of securing your server-side API once-again. The routing policy we're "enforcing" client-side is <em>very</em> easy to get around using Chrome Developer Tools or Firebug. The technique I'm describing is used as a way of tailoring your views and giving a better user experience, but malicious users can still change their user role and get access to client-side routes that should be restricted to them. This is not a problem as long as any sensitive data is accessed via your server-side API, and the proper authentication/authorization strategy is implemented there.</strong></p>
+
+<p>Now that I have access to the current user's role and the access level of each route I can actually enforce the policy I've configured. So now I can add functionality like logging in, registering new users, authorizing a route, etc. to the <code>Auth</code> service I mentioned earlier.</p>
+
+<pre><code class="javascript">angular.module('angular-client-side-auth')  
+.factory('Auth', function($http, $rootScope, $cookieStore){
+
+    // ...
+
+    $rootScope.accessLevels = accessLevels;
+    $rootScope.userRoles = userRoles;
+
+    return {
+        authorize: function(accessLevel, role) {
+            if(role === undefined)
+                role = $rootScope.user.role;
+            return accessLevel &amp;amp; role;
+        },
+
+        isLoggedIn: function(user) {
+            if(user === undefined)
+                user = $rootScope.user;
+            return user.role === userRoles.user || user.role === userRoles.admin;
+        },
+
+        register: function(user, success, error) {
+            $http.post('/register', user).success(success).error(error);
+        },
+
+        login: function(user, success, error) {
+            $http.post('/login', user).success(function(user){
+                $rootScope.user = user;
+                success(user);
+            }).error(error);
+        },
+
+        logout: function(success, error) {
+            $http.post('/logout').success(function(){
+                $rootScope.user = {
+                    username = '',
+                    role = userRoles.public
+                };
+                success();
+            }).error(error);
+        },
+
+        accessLevels: accessLevels,
+        userRoles: userRoles
+    };
+});
+</code></pre>
+
+<p>This service can easily be reused by injecting it into any other component of my Angular application. For example, to actually enforce my routing policy I need to utilize the <code>authorize()</code> and <code>isLoggedIn()</code> functions in an event handler on <code>$routeChangeStart</code>:</p>
+
+<pre><code class="javascript">angular.module('angular-client-side-auth', ['ngCookies'])  
+.run(['$rootScope', '$location', 'Auth', function ($rootScope, $location, Auth) {
+
+    $rootScope.$on("$routeChangeStart", function (event, next, current) {
+        if (!Auth.authorize(next.access)) {
+            if(Auth.isLoggedIn()) $location.path('/');
+            else                  $location.path('/login');
+        }
+    });
+
+}]);
+</code></pre>
+
+<p>Now, whenever a route is accessed, the proper authorization check will be performed before serving up the view, and a redirect will happen in case the user has insufficient permissions.</p>
+
+<p>One gotcha here is that the session could time out making the client believe the user is logged in when in fact he is declined when communicating with the server resource API. However this can be rectified by using an HTTP interceptor to detect API calls that were denied. Mine is pretty simple, and just redirects to the login page in case of a 401.</p>
+
+<pre><code class="javascript">angular.module('angularAuth', ['ngCookies'])  
+.config([
+    '$routeProvider', 
+    '$locationProvider', 
+    '$httpProvider', 
+    function ($routeProvider, $locationProvider, $httpProvider) {
+
+    // ...
+
+    var interceptor = ['$location', '$q', function($location, $q) {
+        function success(response) {
+            return response;
+        }
+
+        function error(response) {
+
+            if(response.status === 401) {
+                $location.path('/login');
+                return $q.reject(response);
+            }
+            else {
+                return $q.reject(response);
+            }
+        }
+
+        return function(promise) {
+            return promise.then(success, error);
+        }
+    }];
+
+    $httpProvider.responseInterceptors.push(interceptor);
+});
+</code></pre>
+
+<h2 id="customizingviewsbasedonuserrole">Customizing views based on user role</h2>
+
+<p>I also want to introduce a directive I've made which you can use to show/hide elements based on the current user's role. Here's what it looks like:</p>
+
+<pre><code class="javascript">angular.module('angular-client-side-auth')  
+.directive('accessLevel', ['$rootScope', 'Auth', function($rootScope, Auth) {
+    return {
+        restrict: 'A',
+        link: function(scope, element, attrs) {
+            var prevDisp = element.css('display');
+            $rootScope.$watch('user.role', function(role) {
+                if(!Auth.authorize(attrs.accessLevel))
+                    element.css('display', 'none');
+                else
+                    element.css('display', prevDisp);
+            });
+        }
+    };
+}]);
+</code></pre>
+
+<p>So, whenever you decorate a tag with the <code>access-level</code> directive, it will check the role of the current user, perform an authorization check using the injected <code>Auth</code>, and then show/hide the element. It also remembers the previous <code>display</code> property of the element in case the user logs out, thus changing her role.</p>
+
+<p>I really want to stress again the point that this scheme exposes all the routing logic and view templates to the client, and can easily be manipulated by the end user. So, you still have to make sure that the calls to the server are properly authenticated and authorized there.</p>
+
+<p>I have made a complete example with all the code available in <em><a href="https://github.com/fnakstad/angular-client-side-auth">this GitHub repository</a></em>, which might illustrate my approach better than I have been able to in this blogpost.</p>
+
+
+<p>The routingConfig module in the <a href="https://github.com/fnakstad/angular-client-side-auth">GitHub repo</a> will now automatically generate the required bit masks for you!
+</p>
+
+
+</section>
+
+
+<h1 style="font-size:26px;color:red;">Part-2 : Authentication in Single Page Applications with Angular.js Part 2</h1>
+        
+		
+		<section class="contentpost__articlecontent post-content">
+            <p>As you may have gathered from the title, this is a follow-up to <a href="http://www.frederiknakstad.com/authentication-in-single-page-applications-with-angular-js/">a post I wrote a some time ago</a> regarding role-based authentication/authorization in single page applications. This time I'd like to highlight how I implemented routing and authorization in the Node.js server that complements my Angular client.</p>
+
+<p><strong>Since you can never trust that the client code hasn’t been tampered with by the user, it’s paramount to have a good authentication/authorization strategy on the server. The client-side auth scheme I introduced earlier is simply a convenient way to customize the user interface – proper authentication/authorization should always be left up to the server-side.</strong> </p>
+
+<p>I am using Node.js/Express along with the excellent Passport.js authentication middleware, but hopefully it shouldn't be too much bother to apply the same patterns to other server-side frameworks. You can see an example of this scheme implemented in <a href="https://github.com/fnakstad/angular-client-side-auth">this GitHub repo</a>, and I have a live version of it <a href="http://angular-client-side-auth.herokuapp.com/">running on Heroku</a>. </p>
+
+<p>Well, let's get right to it!</p>
+
+<h2 id="projectlayout">Project layout</h2>
+
+<p>Node.js/Express is very non-prescriptive in terms of dictating how to lay out your code, so I’ll try to give a quick overview how I structure my projects first. When working with Node.js/Angular I usually divide my code into server and client directories, and then split my server side code into controllers and models. So my directory structure will look something like this:</p>
+
+<p><img src="http://res.cloudinary.com/a-modest-proposal/image/upload/v1391249175/project_layout_qodqa0.png" alt="Project Layout"></p>
+
+<p>The <strong>client</strong> directory contains all my client-side Javascript (including all my Angular.js code), HTML, and CSS resources. This is because I want a clear division between the resources that will be running in the browser and those that will be run server-side. The client folder is served as a static directory structure by Node.js. My <strong>server</strong> directory contains the code for defining my REST API. So, when the client has been downloaded in the user’s browser it will communicate with the server by sending XHRs to fetch data, login/logout users, fetch partial views, and so on. The starting point is the <strong>server.js</strong> file in the root directory where I bootstrap the server application by configuring Express and Passport and setting up other middleware components.</p>
+
+<h2 id="routing">Routing</h2>
+
+<p>Before I actually start up the server in <strong>server.js</strong> I will register my own routes by calling the module defined in <strong>routes.js</strong>. Let’s take a closer look at it.</p>
+
+<pre><code class="javascript">var routes = [  
+    // Partial views
+    {
+        path: '/partials/*',
+        httpMethod: 'GET',
+        middleware: [function (req, res) {
+            var requestedView = path.join('./', req.url);
+            res.render(requestedView);
+        }]
+    },
+
+    // ... Lots of OAUTH and Local Auth routes here
+
+    // User resource
+    {
+        path: '/users',
+        httpMethod: 'GET',
+        middleware: [ensureAuthorized, UserCtrl.index],
+        accessLevel: accessLevels.admin
+    },
+
+    // All other get requests should be handled by 
+    // AngularJS's client-side routing system
+    {
+        path: '/*',
+        httpMethod: 'GET',
+        middleware: [function(req, res) {
+            var role = userRoles.public, username = '';
+            if(req.user) {
+                role = req.user.role;
+                username = req.user.username;
+            }
+            res.cookie('user', JSON.stringify({
+                'username': username,
+                'role': role
+            }));
+            res.render('index');
+        }]
+    }
+];
+
+// ...
+</code></pre>
+
+<p>Since I want to set up my server-side routes somewhat similarly to how I did on the client-side, I create an array called routes which contains objects defining each route. This gives me the freedom to customize what kind of metadata I want to associate with each route. These are the properties I expect in a route object:</p>
+
+<table>  
+<thead>  
+<tr>  
+<th>Property    </th>  
+<th> Description</th>  
+</tr>  
+</thead>  
+<tbody>  
+<tr>  
+<td><strong>path</strong>        </td>  
+<td> The url you want the route to map to</td>  
+</tr>  
+<tr>  
+<td><strong>httpMethod</strong>  </td>  
+<td> HTTP Method, GET, POST, PUT, or DELETE</td>  
+</tr>  
+<tr>  
+<td><strong>middleware</strong>  </td>  
+<td> An array of functions which will be executed in the order left to right</td>  
+</tr>  
+<tr>  
+<td><strong>accessLevel</strong> </td>  
+<td> The access level of the route. If the user requesting the route doesn’t have access a 403 Unauthorized will be returned. If this property is not present, an access level of public is assumed.</td>  
+</tr>  
+</tbody>  
+</table>
+
+<p><br></p>
+
+<h2 id="authorization">Authorization</h2>
+
+<p>One of the more interesting properties here is the <code>accessLevel</code> property, which is used to restrict access to the route for certain user roles. This property is not required unless you want to restrict access to a route for a certain set of users. As you might remember from <a href="http://www.frederiknakstad.com/authentication-in-single-page-applications-with-angular-js/">my previous post</a>, I made a module wherein I declared all user roles and access levels. I used a little trick to make this module usable both in the browser and by Node.js. This ensures that the values used to define access levels and user roles are equal on the server- and client-side. Of course the end-user can tamper with the values in his browser, but that won’t affect what’s running server-side. This is why I have been stressing the point that you need to make sure your server-side resources are properly secured. In case you forgot, here’s what the code looks like:</p>
+
+<pre><code class="javascript">(function(exports){
+
+    var userRoles = {
+        public: 1, // 001
+        user:   2, // 010
+        admin:  4  // 100
+    };
+
+    exports.userRoles = userRoles;
+    exports.accessLevels = {
+        public: userRoles.public | // 111
+                userRoles.user   | 
+                userRoles.admin,   
+        anon:   userRoles.public,  // 001
+        user:   userRoles.user |   // 110
+                userRoles.admin,                    
+        admin:  userRoles.admin    // 100
+    };
+})(typeof exports === 'undefined'? this['routingConfig']={}: exports);
+</code></pre>
+
+<p>To enforce the access levels I’ve set on my routes I made a middleware component. This middleware component will calculate whether the current user has access to the requested route using a bitwise AND operation on the access level of the route and role of the requesting user. If the user is found to not have access the sever will respond with a HTTP 403, and break out of the middleware chain. You might also notice that I fall back on the respective <code>public</code> values for access levels and user roles by default if no user is logged in or if the route does not contain the accessLevel property.</p>
+
+<pre><code class="javascript">function ensureAuthorized(req, res, next) {  
+    var role;
+    if(!req.user) role = userRoles.public;
+    else          role = req.user.role;
+
+    var accessLevel = _.findWhere(routes, 
+        { path: req.route.path }).accessLevel 
+        || accessLevels.public;
+
+    if(!(accessLevel.bitMask &amp; role.bitMask)) 
+        return res.send(403);
+
+    return next();
+}
+</code></pre>
+
+<p>So, now I need to register my routes with express and make sure that the <code>ensureAuthorized</code> middleware is run on all of them. I usually perform this logic in the function I export from the <strong>routes.js</strong> file, so that I can easily call it, and thus register my routes, from my <strong>server.js</strong> file. The function loops over the <code>routes</code> array, prepending each route’s middleware arrays with the <code>ensureAuthorized</code> component, and then registering it with express according to the other route metadata.</p>
+
+<pre><code class="javascript">module.exports = function(app) {
+
+    _.each(routes, function(route) {
+        var args = _.flatten([route.path, route.middleware]);
+
+        switch(route.httpMethod.toUpperCase()) {
+            case 'GET':
+                app.get.apply(app, args);
+                break;
+            case 'POST':
+                app.post.apply(app, args);
+                break;
+            case 'PUT':
+                app.put.apply(app, args);
+                break;
+            case 'DELETE':
+                app.delete.apply(app, args);
+                break;
+            default:
+                throw new Error(
+                    'Invalid HTTP method specified for route '
+                    + route.path);
+                break;
+        }
+    });
+}
+</code></pre>
+
+<p>And that’s it! I want to remind that you can see a more comprehensive example in <a href="https://github.com/fnakstad/angular-client-side-auth">this Github repo</a>. If you want a better understanding of how this approach works, I highly recommend that you clone and mess around with it a little bit. And if you have any questions or issues, just post a comment here or an issue on Github.</p>
+        </section>
+		
+		
+</article>
+
+<script type="text/javascript">
+  hljs.initHighlightingOnLoad();
+</script>
+
+</body>
+</html>

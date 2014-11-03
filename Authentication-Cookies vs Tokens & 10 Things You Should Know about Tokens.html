@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>10 Things You Should Know about Tokens</title>
+
+	<!--
+	
+    <script type="text/javascript" src="//use.typekit.net/iws6ohy.js"></script>
+    <script type="text/javascript">try{Typekit.load();}catch(e){}</script>
+
+    <script type="text/javascript" src="//cdn.auth0.com/w2/auth0-widget-5.0.min.js"></script>
+    <script type="text/javascript" src="//cdn.auth0.com/web-header/latest/standalone.min.js"></script>
+    <link rel="stylesheet" href="cdn.auth0.com/web-header/latest/standalone.min.css" />
+    <link rel="canonical" href="/blog/2014/01/27/ten-things-you-should-know-about-tokens-and-cookies/" />
+    
+    <link rel="shortcut icon" href="https://auth0.com/auth0-styleguide/img/favicon.png">
+    <link rel="alternate" type="application/rss+xml" title="RSS" href="http://feeds.feedburner.com/auth0">
+    <link type="application/opensearchdescription+xml" rel="search" href="/osd.xml"/>
+
+    <link rel="stylesheet" href="/blog/css/site.css" />
+	-->
+	
+ <style type="text/css">
+    body{font-size: 16px;}
+    header.site-header{border-bottom: 1px solid #f1f1f1;}
+</style>
+
+
+<link rel="stylesheet" href="highlight_theme_solarized_dark.min.css">
+<script src="highlight.min.js"></script>
+		
+		
+</head>
+<body>
+
+
+        <h1>
+            <a href="https://auth0.com/blog/2014/01/07/angularjs-authentication-with-cookies-vs-token/">Cookies vs Tokens. Getting auth right with Angular.JS</a>
+        </h1>
+
+        <div class="entry-meta">
+	<span class="meta-prep meta-prep-author">By </span>
+	<span class="author vcard">
+		<a href="http://twitter.com/thepose">Alberto Pose</a>
+	</span>
+	<span class="meta-sep meta-sep-entry-date"> | </span>
+	<span class="meta-prep meta-prep-entry-date">Published: </span>
+	<span class="entry-date">
+		<abbr title="January 07, 2014" class="published updated">January 07, 2014</abbr>
+	</span>
+</div>
+
+
+        <div class="entry-content">
+      
+	  
+
+<h3>Introduction</h3>
+
+<p>There are basically two different ways of implementing server side authentication for apps with a frontend and an API:</p>
+
+<ul>
+<li><p>The most adopted one, is <strong>Cookie-Based Authentication</strong> (you can find an example <a href="http://frederiknakstad.com/authentication-in-single-page-applications-with-angular-js/">here</a>) that uses server side cookies to authenticate the user on every request.</p></li>
+<li><p>A newer approach, <strong>Token-Based Authentication</strong>, relies on a signed token that is sent to the server on each request.</p></li>
+</ul>
+
+
+<!-- more -->
+
+
+<h3>Token based vs. Cookie based</h3>
+
+<p>The following diagram explains how both of these methods work.</p>
+
+<p><a target="_new" href="https://docs.google.com/drawings/d/1wtiF_UK2e4sZVorvfBUZh2UCaZq9sTCGoaDojSdwp7I/edit?usp=sharing"><img src="https://dl.dropboxusercontent.com/u/21665105/cookie-token-auth.png" alt="cookie-based vs. modern token-based auth"></a></p>
+
+<p>What are the benefits of using a token-based approach?</p>
+
+<ul>
+<li><strong>Cross-domain / CORS</strong>: cookies + CORS don't play well across different domains. A token-based approach allows you to make AJAX calls to any server, on any domain because you use an HTTP header to transmit the user information.</li>
+<li><strong>Stateless (a.k.a. Server side scalability)</strong>: there is no need to keep a session store, the token is a self-contanined entity that conveys all the user information. The rest of the state lives in cookies or local storage on the client side.</li>
+<li><strong>CDN</strong>: you can serve all the assets of your app from a CDN (e.g. javascript, HTML, images, etc.), and your server side is just the API.</li>
+<li><strong>Decoupling</strong>: you are not tied to a particular authentication scheme. The token might be generated anywhere, hence your API can be called from anywhere with a single way of authenticating those calls.</li>
+<li><strong>Mobile ready</strong>: when you start working on a native platform (iOS, Android, Windows 8, etc.) cookies are not ideal when consuming a secure API (you have to deal with cookie containers). Adopting a token-based approach simplifies this a lot.</li>
+<li><strong>CSRF</strong>: since you are not relying on cookies, you don't need to protect against cross site requests (e.g. it would not be possible to <code>&lt;iframe&gt;</code> your site, generate a POST request and re-use the existing authentication cookie because there will be none).</li>
+<li><strong>Performance</strong>: we are not presenting any hard perf benchmarks here, but a network roundtrip (e.g. finding a session on database) is likely to take more time than calculating an <a href="http://en.wikipedia.org/wiki/Hash-based_message_authentication_code"><code>HMACSHA256</code></a> to validate a token and parsing its contents.</li>
+<li><strong>Login page is not an special case</strong>: If you are using <a href="https://github.com/angular/protractor">Protractor</a> to write your functional tests, you don't need to handle <a href="https://github.com/angular/protractor/issues/51">any special case for login</a>.</li>
+<li><strong>Standard-based</strong>: your API could accepts a standard <a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token">JSON Web Token</a> (JWT). This is a standard and there are multiple backend libraries (<a href="https://www.nuget.org/packages?q=JWT">.NET</a>, <a href="http://rubygems.org/search?utf8=%E2%9C%93&amp;query=jwt">Ruby</a>, <a href="https://code.google.com/p/jsontoken/">Java</a>, <a href="https://github.com/davedoesdev/python-jwt">Python</a>, <a href="https://github.com/firebase/php-jwt">PHP</a>) and companies backing their infrastructure (e.g. <a href="https://www.firebase.com/docs/security/custom-login.html">Firebase</a>, <a href="https://developers.google.com/accounts/docs/OAuth2ServiceAccount#overview">Google</a>, <a href="https://github.com/MSOpenTech/AzureAD-Node-Sample/wiki/Windows-Azure-Active-Directory-Graph-API-Access-Using-OAuth-2.0">Microsoft</a>). As an example, <a href="https://www.firebase.com/docs/security/custom-login.html">Firebase</a> allows their customers to use any authentication mechanism, as long as you generate a JWT with certain pre-defined properties, and signed with the shared secret to call their API.</li>
+</ul>
+
+
+<blockquote><p> What's JSON Web Token? <strong>JSON Web Token</strong> (<strong>JWT</strong>, pronounced <em>jot</em>) is a relatively new token format used in space-constrained environments such as HTTP Authorization headers. <em>JWT</em> is architected as a method for transferring security <a href="http://en.wikipedia.org/wiki/Claims-based_identity"><em>claims based</em></a> between parties.</p></blockquote>
+
+<h2>Implementation</h2>
+
+<p>Asuming you have a node.js app, below you can find the components of this architecture.</p>
+
+<h3>Server Side</h3>
+
+<p>Let's start by installing <code>express-jwt</code> and <code>jsonwebtoken</code>:</p>
+
+<pre><code>$ npm install express-jwt jsonwebtoken
+</code></pre>
+
+<p>Configure the express middleware to protect every call to <code>/api</code>.</p>
+
+<pre><code>var expressJwt = require('express-jwt');
+var jwt = require('jsonwebtoken');
+
+// We are going to protect /api routes with JWT
+app.use('/api', expressJwt({secret: secret}));
+
+app.use(express.json());
+app.use(express.urlencoded());
+</code></pre>
+
+<p>The angular app will perform a POST through AJAX with the user's credentials:</p>
+
+<pre><code>app.post('/authenticate', function (req, res) {
+  //TODO validate req.body.username and req.body.password
+  //if is invalid, return 401
+  if (!(req.body.username === 'john.doe' &amp;&amp; req.body.password === 'foobar')) {
+    res.send(401, 'Wrong user or password');
+    return;
+  }
+
+  var profile = {
+    first_name: 'John',
+    last_name: 'Doe',
+    email: 'john@doe.com',
+    id: 123
+  };
+
+  // We are sending the profile inside the token
+  var token = jwt.sign(profile, secret, { expiresInMinutes: 60*5 });
+
+  res.json({ token: token });
+});
+</code></pre>
+
+<p>GET'ing a resource named <code>/api/restricted</code> is straight forward. Notice that the credentials check is performed by the <code>expressJwt</code> middleware.</p>
+
+<pre><code>app.get('/api/restricted', function (req, res) {
+  console.log('user ' + req.user.email + ' is calling /api/restricted');
+  res.json({
+    name: 'foo'
+  });
+});
+</code></pre>
+
+<h3>Angular Side</h3>
+
+<p>The first step on the client side using AngularJS is to retrieve the JWT Token. In order to do that we will need user credentials. We will start by creating a view with a form where the user can input its username and password.</p>
+
+<pre><code>&lt;div ng-controller="UserCtrl"&gt;
+  &lt;span&gt;&lt;/span&gt;
+  &lt;form ng-submit="submit()"&gt;
+    &lt;input ng-model="user.username" type="text" name="user" placeholder="Username" /&gt;
+    &lt;input ng-model="user.password" type="password" name="pass" placeholder="Password" /&gt;
+    &lt;input type="submit" value="Login" /&gt;
+  &lt;/form&gt;
+&lt;/div&gt;
+</code></pre>
+
+<p>And a controller where to handle the submit action:</p>
+
+<pre><code>myApp.controller('UserCtrl', function ($scope, $http, $window) {
+  $scope.user = {username: 'john.doe', password: 'foobar'};
+  $scope.message = '';
+  $scope.submit = function () {
+    $http
+      .post('/authenticate', $scope.user)
+      .success(function (data, status, headers, config) {
+        $window.sessionStorage.token = data.token;
+        $scope.message = 'Welcome';
+      })
+      .error(function (data, status, headers, config) {
+        // Erase the token if the user fails to log in
+        delete $window.sessionStorage.token;
+
+        // Handle login errors here
+        $scope.message = 'Error: Invalid user or password';
+      });
+  };
+});
+</code></pre>
+
+<p>Now we have the JWT saved on <code>sessionStorage</code>. If the token is set, we are going to set the <code>Authorization</code> header for every outgoing request done using <code>$http</code>. As value part of that header we are going to use <code>Bearer &lt;token&gt;</code>.</p>
+
+<blockquote><p><code>sessionStorage</code>: Although is not supported in all browsers (you can use a <a href="https://github.com/inexorabletash/polyfill/blob/master/storage.js">polyfill</a>) is a good idea to use it instead of cookies (<code>$cookies</code>, <code>$cookieStore</code>) and <code>localStorage</code>: The data persisted there lives until the browser tab is closed.</p></blockquote>
+
+<pre><code>myApp.factory('authInterceptor', function ($rootScope, $q, $window) {
+  return {
+    request: function (config) {
+      config.headers = config.headers || {};
+      if ($window.sessionStorage.token) {
+        config.headers.Authorization = 'Bearer ' + $window.sessionStorage.token;
+      }
+      return config;
+    },
+    response: function (response) {
+      if (response.status === 401) {
+        // handle the case where the user is not authenticated
+      }
+      return response || $q.when(response);
+    }
+  };
+});
+
+myApp.config(function ($httpProvider) {
+  $httpProvider.interceptors.push('authInterceptor');
+});
+</code></pre>
+
+<p>After that, we can send a request to a restricted resource:</p>
+
+<pre><code>$http({url: '/api/restricted', method: 'GET'})
+.success(function (data, status, headers, config) {
+  console.log(data.name); // Should log 'foo'
+});
+</code></pre>
+
+<p>The server logged to the console:</p>
+
+<pre><code>user foo@bar.com is calling /api/restricted
+</code></pre>
+
+<p>The <a href="https://github.com/auth0/angular-token-auth">source code is here</a> together with an AngularJS seed app.</p>
+
+<h3>What's next?</h3>
+
+<p>In upcoming posts we will revisit:</p>
+
+<ul>
+<li>How to handle social authentication?</li>
+<li>How to handle session expiration?</li>
+</ul>
+
+
+<h3 style="color: rgb(255, 90, 136)"> UPDATE: we published two new blog posts</h3>
+
+
+<ul>
+<li><a href="/blog/2014/01/15/auth-with-socket-io/">Token based authentication in realtime frameworks like Socket.io</a></li>
+<li><a href="/blog/2014/01/27/ten-things-you-should-know-about-tokens-and-cookies/">10 Things you should know about Tokens</a></li>
+</ul>
+
+
+<h3>Bottom Line</h3>
+
+<p>When building Single Page Applications, consider using a token-based authentication design over cookie-based authentication. Leave a comment or <a href="https://news.ycombinator.com/item?id=7018529">discuss on HN</a>.</p>
+
+<h3>Aside: how it works with Auth0?</h3>
+
+<p>Auth0 issue <strong>JSON Web Tokens</strong> on every login. That means that you can have a solid identity infrastructure, including <strong>Single Sign On</strong>, <strong>User Management</strong>, support for <strong>Social</strong>, <strong>Enterprise</strong> and <strong>your own database</strong> of users with just a few lines of code. We implemented a tight integration with Angular: <a href="https://github.com/auth0/auth0-angular">https://github.com/auth0/auth0-angular</a></p>
+
+<p><a href="https://docs.google.com/a/auth10.com/drawings/d/1ErB68gFj55Yg-ck1_CZByEwN5ql0Pj2Mzd-6S5umv2o/edit"><img src="https://docs.google.com/drawings/d/1ErB68gFj55Yg-ck1_CZByEwN5ql0Pj2Mzd-6S5umv2o/pub?w=1219&amp;h=559" style="border: 1px solid #ccc;padding: 10px;"></a></p>
+
+<p>More about Auth0 and Angular: <a href="https://github.com/auth0/auth0-angular">https://github.com/auth0/auth0-angular</a></p>
+
+        </div>
+
+		
+		<br/><br/><br/><br/>
+		
+        <h1>
+            <a href="https://auth0.com/blog/2014/01/15/auth-with-socket-io/">Token-based Authentication with Socket.IO</a>
+        </h1>
+
+<div class="entry-meta">
+<span class="meta-prep meta-prep-author">By </span>
+<span class="author vcard">
+<a href="http://joseoncode.com">José F. Romaniello</a>
+</span>
+<span class="meta-sep meta-sep-entry-date"> | </span>
+<span class="meta-prep meta-prep-entry-date">Published: </span>
+<span class="entry-date">
+<abbr title="January 15, 2014" class="published updated">January 15, 2014</abbr>
+</span>
+</div>
+
+
+        <div class="entry-content">
+        <h2>Introduction</h2>
+
+<p>Authentication in realtime frameworks can be challenging. Perhaps this is because the way these systems work is quite different from a regular web app. The risk of not correctly authenticating your sockets traffic is that you could end up sniffing information on other users streams. <strong>The socket server will not automagically know about the logged-in user, thus anyone could join any stream</strong>.</p>
+
+<!-- more -->
+
+
+<p>This first diagram shows this common misconception:</p>
+
+<p><a href="https://docs.google.com/a/auth10.com/drawings/d/1_t1TV5CqUutrj3I7iTg3_u0z2ep4sEvV8gP7gC7ejqU" target="_blank"><img title="Session cookie authentication does not mean sockets are authenticated" src="https://docs.google.com/drawings/d/1_t1TV5CqUutrj3I7iTg3_u0z2ep4sEvV8gP7gC7ejqU/pub?w=509&amp;h=536">
+</a></p>
+
+<blockquote><p>It is a common misconception that a user who is authenticated in the hosting web appliction, is also authenticated in the socket stream. These are two completely different channels.</p></blockquote>
+
+<h2>Cookie-based and Token-based Auth</h2>
+
+<p>There are two ways of solving this problem: the traditional cookie-based approach or a token-based approach. The following diagram explains how each of these methods work:</p>
+
+<p><a href="https://docs.google.com/drawings/d/1RNkaJ7wHXBLlg3YAdtBOrOb5uxj_6oiNQ-96-YA8X74" target="_blank"><img title="socket.io auth token vs cookiesokies" src="https://docs.google.com/drawings/d/1RNkaJ7wHXBLlg3YAdtBOrOb5uxj_6oiNQ-96-YA8X74/pub?w=990&amp;h=529">
+</a></p>
+
+<p>In our previous article, we wrote about the benefits of a token-based architecture: <a href="http://blog.auth0.com/2014/01/07/angularjs-authentication-with-cookies-vs-token/">Cookies vs Tokens.  Getting auth right with Angular.JS</a>. Here are some specific considerations with cookies and realtime frameworks:</p>
+
+<ul>
+<li><strong>Coupling</strong>: the first issue when using cookies is that you have to couple the web application authentication mechanism with the socket server authentication. This might be ok in some cases, but it means you are tied to the semantics of the authentication framework which was written with a specific web use case in mind. e.g.: the session cookie is handled by the web framework and you don't have access to that easily unless you know the internals.</li>
+<li><strong>Hard to configure</strong>: The configuration is error prone. A year ago I wrote <a href="http://github.com/jfromaniello/passport.socketio">passport-socketio</a> that basically bridges the passport information stored in the express session with socket.io auth. Looking at the <a href="http://github.com/jfromaniello/passport.socketio/issues">issues</a>, most of the problems are related to the configuration or people being unfamiliar with <code>passport.js</code>.</li>
+<li><strong>Not ready for devices</strong>: If you are connecting to a socket from a device, cookies are not there (well, they are but you have to get into cookie containers and what not), so you end up implementing something different for a device.</li>
+<li><strong>Requires session configuration</strong>: you have to rely on a session store (e.g. Mongodb, Redis, or store the session on a cookie).</li>
+<li><strong>PHP + Socket.IO</strong>: Reading the PHP cookie and session from node is not easy, <a href="http://simplapi.wordpress.com/2012/04/13/php-and-node-js-session-share-redi/">here is a blogpost explaining it</a>. Same thing applies to other technologies (django, java, etc.).</li>
+</ul>
+
+
+<h2>Authenticating Sockets using Tokens</h2>
+
+<p>By now you should not be surprised if we proposed a different alternative to cookies: using tokens. Let's look at a simple sample that uses <a href="http://expressjs.com/">express</a>, <a href="http://socket.io">socket.io</a> and handles authentication using Json Web Tokens (JWT).</p>
+
+<h3>Server Side</h3>
+
+<p>Code speaks by itself. Focus on the <code>/login</code> and the usage of <code>socketioJwt.authorize</code>.</p>
+
+<pre><code>var jwt = require('jsonwebtoken');
+// other requires
+
+app.post('/login', function (req, res) {
+
+  // TODO: validate the actual user user
+  var profile = {
+    first_name: 'John',
+    last_name: 'Doe',
+    email: 'john@doe.com',
+    id: 123
+  };
+
+  // we are sending the profile in the token
+  var token = jwt.sign(profile, jwtSecret, { expiresInMinutes: 60*5 });
+
+  res.json({token: token});
+});
+
+var server = http.createServer(app);
+</code></pre>
+
+<p>Then the socket.io server</p>
+
+<pre><code>var socketioJwt = require('socketio-jwt');
+
+var sio = socketIo.listen(server);
+
+sio.set('authorization', socketioJwt.authorize({
+  secret: jwtSecret,
+  handshake: true
+}));
+
+sio.sockets
+  .on('connection', function (socket) {
+     console.log(socket.handshake.decoded_token.email, 'connected');
+     //socket.on('event');
+  });
+
+server.listen(9000, function () {
+  console.log('listening on http://localhost:9000');
+});
+</code></pre>
+
+<p>The JWT is signed with the <code>jwtSecret</code> which is stored only on the server.</p>
+
+<p>Here we are using the <a href="https://github.com/LearnBoost/socket.io/wiki/Authorizing">global authorization callback</a> on socket.io. We are also using a simple module wrote (<a href="https://github.com/auth0/socketio-jwt">socketio-jwt</a>) to help us with the details of handling the JWT. This module expects the JWT in the querystring during the handshake.</p>
+
+<p>If the client sends a valid JWT, the handshake completes successfully and the <code>connection</code> event is triggered.</p>
+
+<h3>Client Side</h3>
+
+<p>A simple js client side code that uses this server is shown bellow:</p>
+
+<pre><code>function connect_socket (token) {
+  var socket = io.connect('', {
+    query: 'token=' + token
+  });
+
+  socket.on('connect', function () {
+    console.log('authenticated');
+  }).on('disconnect', function () {
+    console.log('disconnected');
+  });
+}
+
+$('#login').submit(function (e) {
+  e.preventDefault();
+  $.post('/login', {
+    username: $('username').val(),
+    password: $('password').val()
+  }).done(function (result) {
+    connect_socket(result.token);
+  });
+});
+</code></pre>
+
+<p>As stated before, this is much simpler than using cookies and sessions, and it is much easier to implement across different technologies.</p>
+
+<p>The complete sample is available for <a href="https://github.com/auth0/socketio-jwt/tree/master/example">download here</a>.</p>
+
+<p>You could use a very similar approach with WebSockets, <a href="https://gist.github.com/jfromaniello/8418116">this is an example with <strong>einaros/ws</strong></a>.</p>
+
+        </div>
+		
+		
+		<br/><br/><br/><br/>
+
+        <h1>
+            <a href="https://auth0.com/blog/2014/01/27/ten-things-you-should-know-about-tokens-and-cookies/" title="Published: January 27, 2014">10 Things You Should Know about Tokens</a>
+        </h1>
+		<div class="entry-meta">
+			<span class="meta-prep meta-prep-author">By <a href="http://twitter.com/woloski">Matias Woloski</a></span><br/>
+			<span class="meta-prep meta-prep-entry-date">Published: January 27, 2014	</span>
+		</div>
+
+
+        <div class="entry-content" >
+		
+
+<p>Couple weeks ago we published a short article about <a href="/blog/2014/01/07/angularjs-authentication-with-cookies-vs-token/">cookies vs tokens in the context of single page applications</a>, in particular applied to AngularJs apps. It seems the community is interested in this topic, so we published a second article on <a href="/blog/2014/01/15/auth-with-socket-io/">token based authentication in realtime frameworks like socket.io</a>. There is a great interest in this subject so we decided to continue with an article that explores in more detail some of the most common questions around token-based authentication. So here we go...</p>
+
+<!-- more -->
+
+
+
+
+<ol>
+  <li><a href="#token-storage">Tokens need to be stored somewhere (local/session storage or cookies)</a></li>
+  <li><a href="#token-expiration">Tokens can expire like cookies, but you have more control</li>
+  <li><a href="#token-cross-domains">Local/session storage won't work across domains, use a marker cookie</li>
+  <li><a href="#preflight">Preflight requests will be sent on each CORS request</li>
+  <li><a href="#file-downloads">When you need to stream something, use the token to get a signed request</li>
+  <li><a href="#xss-xsrf">It's easier to deal with XSS than XSRF</li>
+  <li><a href="#token-size">The token gets sent on every request, watch out its size</li>
+  <li><a href="#confidential-info">If you store confidential info, encrypt the token</li>
+  <li><a href="#token-oauth">JSON Web Tokens can be used in OAuth</li>
+  <li><a href="#fine-grained-authorization">Tokens are not silver bullets, think about your authorization use cases carefully</li>
+</ol>
+
+
+<p><a name="token-storage"></a></p>
+
+<h2>1. Tokens need to be stored somewhere (local/session storage or cookies)</h2>
+
+<p>In the context of tokens being used on single page applications, some people have brought up the issue about refreshing the browser, and what happens with the token. The answer is simple: you have to <a href="https://github.com/auth0/angular-token-auth/blob/master/auth.client.js#L31">store the token somewhere: in session storage, local storage or a client side cookie</a>. Most session storage polyfills fallback to cookies when the browser doesn't support it.</p>
+
+<p>If you are wondering <em>"but if I store the token in the cookie I'm back to square one"</em>. Not really, in this case you are using cookies as a storage mechanism, <a href="http://sitr.us/2011/08/26/cookies-are-bad-for-you.html">not as an authentication mechanism</a> (i.e. the cookie won't be used by the web framework to authenticate a user, hence no XSRF attack)</p>
+
+<p><a name="token-expiration"></a></p>
+
+<h2>2. Tokens can expire like cookies, but you have more control</h2>
+
+<p>Tokens have an expiration (in <a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token-15#section-4.1.4">JSON Web Tokens</a> is represented by <code>exp</code> property), otherwise someone could authenticate forever to the API once they logged in at least once. Cookies also have expiration for the same reasons.</p>
+
+<p>In the world of cookies, there are different options to control the lifetime of the cookie:</p>
+
+<ol>
+<li> Cookies can be destroyed after the browser is closed (session cookies).</li>
+<li> In addition to this you can implement a server side check (typically done for you by the web framework in use), and you could implement expiration or sliding window  expiration.</li>
+<li> Cookies can be persistent (not destroyed after the browser is closed) with an expiration.</li>
+</ol>
+
+
+<p>In the tokens world, once the token expires, you simply want to get a new one. You could implement an endpoint to refresh a token that will:</p>
+
+<ol>
+<li>Validate the old token</li>
+<li>Check if the user still exists or access hasn't been revoked or whatever makes sense for your application</li>
+<li>Issue a new token with a renewed expiration</li>
+</ol>
+
+
+<p>You can even store in the token the original issue date, and enforce a re-login after two weeks or so.</p>
+
+<pre><code>app.post('/refresh_token', function (req, res) {
+  // verify the existing token
+  var profile = jwt.verify(req.body.token, secret);
+
+  // if more than 14 days old, force login
+  if (profile.original_iat - new Date() &gt; 14) { // iat == issued at
+    return res.send(401); // re-logging
+  }
+
+  // check if the user still exists or if authorization hasn't been revoked
+  if (!valid) return res.send(401); // re-logging
+
+  // issue a new token
+  var refreshed_token = jwt.sign(profile, secret, { expiresInMinutes: 60*5 });
+  res.json({ token: refreshed_token });
+});
+</code></pre>
+
+<p>If you need revocation of tokens (useful if tokens are long-lived) you will need to have some sort of registry of issued tokens to check against.</p>
+
+<p><a name="token-cross-domains"></a></p>
+
+<h2>3. Local/session storage won't work across domains, use a marker cookie</h2>
+
+<p>If you set a cookie's domain to <code>.yourdomain.com</code> it can be accessed from <code>yourdomain.com</code> and <code>app.yourdomain.com</code>, making it easier to detect from the main domain (where you probably have, let's say, your marketing site) that the user is already logged in and redirect her to <code>app.yourdomain.com</code>.</p>
+
+<p>Tokens stored in local/session storage, on the other hand, can't be accessed from different domains (even if these are subdomains). So what can you do?</p>
+
+<p>One possible option is, when the user authenticates on <code>app.yourdomain.com</code> and you generate a token you can also set a cookie set to <code>.yourdomain.com</code></p>
+
+<pre><code>$.post('/authenticate, function() {
+  // store token on local/session storage or cookie
+    ....
+
+    // create a cookie signaling that user is logged in
+  $.cookie('loggedin', profile.name, '.yourdomain.com');
+});
+</code></pre>
+
+<p>Then, in <code>youromdain.com</code> you can check the existance of that cookie and redirect to <code>app.yourdomain.com</code> if the cookie exists. The token will be available on app subdomain, and from there on, the usual flow applies (if the token is still valid use it, if not get a new one unless last login was more than the threshold you set up).</p>
+
+<p>It could happen that the cookie exists but the token was deleted or something else happened. In that case, the user would have to login again. But what's important to highlight here is, as we said before, we are not using the cookie as an authentication mechanism, just as a storage mechanism that happens to support storing information across different domains.</p>
+
+<p><a name="preflight"></a></p>
+
+<h2>4. Preflight requests will be sent on each CORS request</h2>
+
+<p>Someone pointed out that the Authorization header is not a <a href="http://www.w3.org/TR/cors/">simple header</a>, hence a pre-flight request would be required for all the requests to a particular URLs.</p>
+
+<pre><code>OPTIONS https://api.foo.com/bar
+GET https://api.foo.com/bar
+   Authorization: Bearer ....
+
+OPTIONS https://api.foo.com/bar2
+GET https://api.foo.com/bar2
+   Authorization: Bearer ....
+
+GET https://api.foo.com/bar
+   Authorization: Bearer ....
+</code></pre>
+
+<p>But this happens if you are sending <code>Content-Type: application/json</code> for instance. So this is already happening for most applications.</p>
+
+<p>One small caveat, the <code>OPTIONS</code> request won't have the Authorization header itself, so your web framework should support treating <code>OPTIONS</code> and the subsequent requests differently (<strong>Note:</strong> Microsoft IIS for some reason seems to have issues with this).</p>
+
+<p><a name="file-downloads"></a></p>
+
+<h2>5. When you need to stream something, use the token to get a signed request</h2>
+
+<p>When using cookies, you can trigger a file download and stream the contents easily. However, in the tokens world, where the request is done via XHR, you can't rely on that. The way you solve this is by generating a signed request like AWS does, for example. <a href="https://github.com/hueniverse/hawk">Hawk Bewits</a> is a nice framework to enable this:</p>
+
+<h4><strong>Request</strong>:</h4>
+
+<pre><code>POST /download-file/123
+Authorization: Bearer...
+</code></pre>
+
+<h4><strong>Response</strong>:</h4>
+
+<pre><code>ticket=lahdoiasdhoiwdowijaksjdoaisdjoasidja
+</code></pre>
+
+<p>This ticket is stateless and it is built based on the URL: host + path + query + headers + timestamp + HMAC, and has an expiration. So it can be used in the next, say 5 minutes, to download the file.</p>
+
+<p>You would then redirect to <code>/download-file/123?ticket=lahdoiasdhoiwdowijaksjdoaisdjoasidja</code>. The server will check that the ticket is valid and continue with business as usual.</p>
+
+<p><a name="xss-xsrf"></a></p>
+
+<h2>6. It's easier to deal with XSS than XSRF</h2>
+
+<p>Cookies have this feature that allows setting an <code>HttpOnly</code> flag from server side so they can only be accessed on the server and not from JavaScript. This is useful because it protects the content of that cookie to be accessed by injected client-side code (XSS).</p>
+
+<p>Since tokens are stored in local/session storage or a client side cookie, they are open to an XSS attack getting the attacker access to the token. This is a valid concern, and for that reason you should keep your tokens expiration low.</p>
+
+<p>But if you think about the attack surface on cookies, one of the main ones is XSRF. The reality is that XSRF is one of the most misunderstood attacks, and the average developer, might not even understand the risk, so lots of applications lack anti-XSRF mechanism. However, everybody understands what injection is. Put simply, if you allow input on your website and then render that without escaping it, you are open to XSS. So based on our experience, it is easier to protect against XSS than protecting against XSRF. Adding to that, anti-XSRF is not built-in on every web framework. XSS on the other hand is easy to prevent by using the escape syntax available by default on most template engines.</p>
+
+<p><a name="token-size"></a></p>
+
+<h2>7. The token gets sent on every request, watch out its size</h2>
+
+<p>Every time you make an API request you have to send the token in the <code>Authorization</code> header.</p>
+
+<pre><code>GET /foo
+Authorization: Bearer ...2kb token...
+</code></pre>
+
+<p>vs.</p>
+
+<pre><code>GET /foo
+connect.sid: ...20 bytes cookie...
+</code></pre>
+
+<p>Depending on how much information you store in that token, it could get big. On the other hand, session cookies usually are just an identifier (connect.sid, PHPSESSID, etc.) and the rest of the content lives on the server (in memory if you just have one server or a database if you run on a server farm).</p>
+
+<p>Now, nothing prevents you from implementing a similar mechanism with tokens. The token would have the basic information needed and on the server side you would <strong>enrich</strong> it with more data on every API call. This is exactly the same thing cookies will do, with the difference that you have the additional benefit that this is now a conscious decision, you have full control, and is part of your code.</p>
+
+<pre><code>GET /foo
+Authorization: Bearer ……500 bytes token….
+</code></pre>
+
+<p>Then on the server:</p>
+
+<pre><code>app.use('/api',
+  // validate token first
+  expressJwt({secret: secret}),
+
+  // enrich req.user with more data from db
+  function(req, res, next) {
+    req.user.extra_data = get_from_db();
+    next();
+  });
+</code></pre>
+
+<p>It is worth mentioning that you could also have the session stored completely on the cookie (instead of being just an identifier). Some web platforms support that, others not. For instance, in node.js you can use <a href="https://github.com/mozilla/node-client-sessions">mozilla/node-client-sessions</a>.</p>
+
+<p><a name="confidential-info"></a></p>
+
+<h2>8. If you store confidential info, encrypt the token</h2>
+
+<p>The signature on the token prevents tampering with it. TLS/SSL prevents man in the middle attacks. But if the payload contains sensitive information about the user (e.g. SSN, whatever), you can also encrypt them. The <a href="http://tools.ietf.org/html/draft-ietf-oauth-json-web-token">JWT spec</a> points to the <a href="http://tools.ietf.org/html/draft-ietf-jose-json-web-encryption">JWE spec</a> but most of the libraries don't implement JWE yet, so the simplest thing is to just encrypt with AES-CBC as shown below.</p>
+
+<pre><code>app.post('/authenticate', function (req, res) {
+  // validate user
+
+  // encrypt profile
+  var encrypted = { token: encryptAesSha256('shhhh', JSON.stringify(profile)) };
+
+  // sing the token
+  var token = jwt.sign(encrypted, secret, { expiresInMinutes: 60*5 });
+
+  res.json({ token: token });
+}
+
+function encryptAesSha256 (password, textToEncrypt) {
+  var cipher = crypto.createCipher('aes-256-cbc', password);
+  var crypted = cipher.update(textToEncrypt, 'utf8', 'hex');
+  crypted += cipher.final('hex');
+  return crypted;
+}
+</code></pre>
+
+<p>Of course you can use the approach on #7 and keep confidential info in a database.</p>
+
+<p><strong>UPDATE</strong>: <a href="https://twitter.com/pmhsfelix">Pedro Felix</a> correctly pointed out that MAC-then-encrypt is vulnerable to <a href="http://www.thoughtcrime.org/blog/the-cryptographic-doom-principle/">Vaudenay-style attacks</a>. I updated the code to do encrypt-then-MAC.</p>
+
+<p><a name="token-oauth"></a></p>
+
+<h2>9. JSON Web Tokens can be used in OAuth</h2>
+
+<p>Tokens are usually associated with OAuth. <a href="http://tools.ietf.org/html/rfc6749">OAuth 2</a> is an authorization protocol that solves identity delegation. The user is prompted for consent to access his/her data and the authorization server gives back an <code>access_token</code> that can be used to call the APIs acting as that user.</p>
+
+<p>Typically these tokens are opaque. They are called <code>bearer</code> tokens and are random strings that will be stored in some kind of hash-table storage on the server (db, cache, etc.) together with an expiration, the scope requested (e.g. access to friend list) and the user who gave consent. Later, when the API is called, this token is sent and the server lookup on the hash-table, rehydrating the context to make the authorization decision (did it expire? does this token has the right scope associated for the API that wants to be accessed?).</p>
+
+<p>The main difference between these tokens and the ones we've been discussing is that signed tokens (e.g.: JWT) are "stateless". They don't need to be stored on a hash-table, hence it's a more lightweight approach. OAuth2 does not dictate the format of the <code>access_token</code> so you could return a JWT from the authorization server containing the scope/permissions and the expiration.</p>
+
+<p><a name="fine-grained-authorization"></a></p>
+
+<h2>10. Tokens are not silver bullets, think about your authorization use cases carefully</h2>
+
+<p>Couple of years ago we helped a big company implement a token-based architecture. This was a 100.000+ employees company with tons of information to protect. They wanted to have a centralized organization-wide store for "authentication &amp; authorization". Think about "user X can read field id and name of clincial trial Y for hospital Z on country W" use cases. This fine-grained authorization, as you can imagine, can get unmanageable pretty quickly, not only technically but also administratively.</p>
+
+<ul>
+<li>Tokens can get really big</li>
+<li>Your apps/APIs gets more complicated</li>
+<li>Whoever grant these permissions will have a hard time managing all this.</li>
+</ul>
+
+
+<p>We ended up working more on the information architecture side of things to make sure the right scopes and permissions were created. Conclusion: resist the temptation of putting everything into tokens and do some analysis and sizing before going all the way with this approach.</p>
+
+<hr />
+
+<p><strong>Disclaimer</strong>: when dealing with security, make sure you do the proper due dilligence. Any code/recommendation that you get here is provided as-is.</p>
+
+<p>Please leave a comment or <a href="https://news.ycombinator.com/item?id=7137498">discuss on HN</a>.</p>
+
+<p>Happy tokenizing!</p>
+
+<p><em>Photo taken from: http://alfanatic.webs.com/</em></p>
+
+        </div>
+		
+		
+		
+	
+<br />
+
+
+	
+    <!--
+	<script type="text/javascript">
+        window.widget = new Auth0Widget({
+          domain:         'auth0.auth0.com',
+          clientID:       'zEYfpoFzUMEzilhkHilcWoNkrFfJ3hAI',
+          callbackURL:    'https://app.auth0.com/callback',
+          dict: {
+            signup: {
+              footerText: 'By signing up, you agree to our <a href="/terms" target="_new">terms of service</a> and <a href="/privacy" target="_new">privacy policy</a>'
+            }
+          },
+          showIcon: true,
+          icon: '//auth0.com/boot/badge.png'
+        });
+
+        widget.getClient().getSSOData(false, function (err, data) {
+          if (!data || !data.sso) return;
+          $('.login').remove();
+          $('.signup')
+            .attr('href', 'https://app.auth0.com')
+            .html('Open Dashboard');
+        });
+
+        window.login = function () {
+          hideWidget(onclose);
+
+          function onclose() {
+            widget
+            .once('closed', onceclosed)
+            .signin({});
+          }
+
+          function onceclosed() {
+            $('#a0-widget').remove();
+            show_widget_demo();
+            show_small_widget();
+          }
+        };
+
+        window.signup = function() {
+          hideWidget(onclose);
+
+          function onclose() {
+            widget
+            .once('closed', onceclosed)
+            .once('signup_ready', sendanalytics)
+            .signup({
+              enableReturnUserExperience: true,
+              enableADRealmDiscovery: false
+            });
+          }
+
+          function sendanalytics() {
+            ga('send', 'event', 'signup', 'open', 'website');
+          }
+
+          function onceclosed() {
+            $('#a0-widget').remove();
+            show_widget_demo();
+          }
+
+        }
+
+        window.show_widget_demo = function() {
+          if (!$('#root').length) return;
+          // prevent from closing login/signup
+          if ($('#a0-widget').length) return console.log('Widget is already open.');
+
+          widget.signin({
+            container: 'root',
+            chrome: true,
+            _avoidInitialFocus: true,
+            enableReturnUserExperience: false,
+            enableADRealmDiscovery: false
+          });
+        }
+
+        function hideWidget(cb) {
+          widget.once('closed', function() {
+            $('#a0-widget').remove();
+            cb && cb();
+          });
+          widget._hideSignIn();
+        }
+
+        // prettyPrint
+        $(function() {
+          $('pre').addClass("prettyprint");
+        });
+
+        $.fn.isOnScreen = function(){
+            var win = $(window);
+            var viewport = {
+                top : win.scrollTop(),
+                left : win.scrollLeft()
+            };
+            viewport.right = viewport.left + win.width();
+            viewport.bottom = viewport.top + win.height();
+
+            var bounds = win.offset();
+            if (!bounds) return;
+
+            bounds.right = bounds.left + win.outerWidth();
+            bounds.bottom = bounds.top + win.outerHeight();
+
+            return (!(viewport.right < bounds.left || viewport.left > bounds.right || viewport.bottom < bounds.top || viewport.top > bounds.bottom));
+        };
+    </script>
+	-->
+
+	
+<script type="text/javascript">
+  hljs.initHighlightingOnLoad();
+</script>
+
+	
+</body>
+</html>
