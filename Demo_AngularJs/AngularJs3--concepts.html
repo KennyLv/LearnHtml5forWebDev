@@ -15,7 +15,7 @@
     <input ng-model="name" class="ng-cloak"/>
     <p ng-init="name='Kitty';hi='Hello'">{{hi}} {{name}}!</p>
 	
-<script src="./AngularJS1.2.24/angular.js" type="text/javascript"></script>
+<script type="text/javascript" src="../_Resource/angular_1.2.25/angular.min.js"></script>
 </body>
 </html>-->
 
@@ -50,7 +50,7 @@
     <button ng-click="doIt()">DoIt!!</button>
 </div>
 
-<script src="./AngularJS1.2.24/angular.js" type="text/javascript"></script>
+<script type="text/javascript" src="../_Resource/angular_1.2.25/angular.min.js"></script>
 <script type="text/javascript">
     function ControllerA($scope) {
         $scope.name = 'Kitty';
@@ -94,7 +94,7 @@
 <div ng-model="content" contenteditable="true">My Little Dada123456</div>
 <pre class="ng-cloak">modelValue = {{content}}</pre>
 <button ng-click="reset()">reset(change model)</button>
-<script src="./AngularJS1.2.24/angular.js" type="text/javascript"></script>
+<script type="text/javascript" src="../_Resource/angular_1.2.25/angular.min.js"></script>
 <script type="text/javascript">
 		angular.module("myDirective",[]).directive("contenteditable",function() {
 			return {
@@ -154,7 +154,7 @@
 
 
 
-<script src="./AngularJS1.2.24/angular.js" type="text/javascript"></script>
+<script type="text/javascript" src="../_Resource/angular_1.2.25/angular.min.js"></script>
 <script type="text/javascript">
     angular.module("timeExample", []).factory("myClock", function ($timeout) {
         var time = {};
