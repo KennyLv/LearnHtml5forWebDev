@@ -8,19 +8,23 @@
   http://angular-tips.com/blog/2014/05/json-web-tokens-introduction/
   http://angular-tips.com/blog/2014/05/json-web-tokens-examples/
   -->
-  <style>
-  body{
-		font-size:14px;
-  }
-  h1{
-		color:red;
-		font-size:24px;
-  }
-  h2{
-		color:blue;
-		font-size:20px;
-  }
-  </style>
+	<style>
+	body{
+			font-size:14px;
+	}
+	h1{
+			color:red;
+			font-size:24px;
+	}
+	h2{
+			color:blue;
+			font-size:20px;
+	}
+	.highlight{
+			background-color: rgb(27, 53, 82);
+			color: chartreuse;
+	}
+	</style>
   
 </head>
 <body>
@@ -150,18 +154,8 @@
 <p>First, I created a service to handle the <code>encode</code> / <code>decode</code> (this JWT implementation calls those methods <code>sign</code> and <code>verify</code> respectively), let&rsquo;s see it:</p>
 
 <figure class='code'>
-<figcaption><span>api/services/sailsTokenAuth.js</span></figcaption><div class="highlight"><table><tr><td class="gutter">
-<pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'>
+<figcaption><span>api/services/sailsTokenAuth.js</span></figcaption><div class="highlight"><table><tr>
+<td class='code'>
 <pre><code class='javascript'><span class='line'><span class="kd">var</span> <span class="nx">jwt</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;jsonwebtoken&#39;</span><span class="p">);</span>
 </span><span class='line'>
 </span><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="p">.</span><span class="nx">issueToken</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">payload</span><span class="p">)</span> <span class="p">{</span>
@@ -183,33 +177,7 @@
 
 <p>First the <code>authenticate</code> method:</p>
 
-<figure class='code'><figcaption><span>api/controllers/AuthController.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">authenticate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+<figure class='code'><figcaption><span>api/controllers/AuthController.js</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">authenticate</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>  <span class="kd">var</span> <span class="nx">email</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;email&#39;</span><span class="p">);</span>
 </span><span class='line'>  <span class="kd">var</span> <span class="nx">password</span> <span class="o">=</span> <span class="nx">req</span><span class="p">.</span><span class="nx">param</span><span class="p">(</span><span class="s1">&#39;password&#39;</span><span class="p">);</span>
 </span><span class='line'>
@@ -246,23 +214,8 @@
 
 <p>The register method is not fancy either:</p>
 
-<figure class='code'><figcaption><span>api/controllers/AuthController.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">register</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+<figure class='code'><figcaption><span>api/controllers/AuthController.js</span></figcaption><div class="highlight"><table><tr>
+<td class='code'><pre><code class='javascript'><span class='line'><span class="nx">register</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>  <span class="c1">//TODO: Do some validation on the input</span>
 </span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">password</span> <span class="o">!==</span> <span class="nx">req</span><span class="p">.</span><span class="nx">body</span><span class="p">.</span><span class="nx">confirmPassword</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">return</span> <span class="nx">res</span><span class="p">.</span><span class="nx">json</span><span class="p">(</span><span class="mi">401</span><span class="p">,</span> <span class="p">{</span><span class="nx">err</span><span class="o">:</span> <span class="s1">&#39;Password doesn\&#39;t match&#39;</span><span class="p">});</span>
@@ -285,38 +238,7 @@
 
 <p>So, how we manage incoming requests? Sails has a concept called <code>Policies</code> which are basically middlewares that runs before a controller. There we can check for our token, let&rsquo;s see:</p>
 
-<figure class='code'><figcaption><span>api/policies/tokenAuth.js</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
+<figure class='code'><figcaption><span>api/policies/tokenAuth.js</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">,</span> <span class="nx">next</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>  <span class="kd">var</span> <span class="nx">token</span><span class="p">;</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="k">if</span> <span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">headers</span> <span class="o">&amp;&amp;</span> <span class="nx">req</span><span class="p">.</span><span class="nx">headers</span><span class="p">.</span><span class="nx">authorization</span><span class="p">)</span> <span class="p">{</span>
@@ -356,12 +278,7 @@
 
 <p>Now that we have our token verified and saved on the request object, we could do stuff like (this is not in the demo because <code>Sails</code> generates a virtual REST for you):</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">index</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">index</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">req</span><span class="p">,</span> <span class="nx">res</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>  <span class="nx">User</span><span class="p">.</span><span class="nx">findOne</span><span class="p">(</span><span class="nx">req</span><span class="p">.</span><span class="nx">token</span><span class="p">).</span><span class="nx">exec</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">err</span><span class="p">,</span> <span class="nx">message</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>    <span class="c1">// Work with the user here</span>
 </span><span class='line'>  <span class="p">});</span>
@@ -377,20 +294,7 @@
 
 <p>You will be surprised to see that this implementation is almost the same (if we ignore my Rails ignorance this days). I created a lib for the encoding/decoding:</p>
 
-<figure class='code'><figcaption><span>lib/auth_token.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">AuthToken</span>
+<figure class='code'><figcaption><span>lib/auth_token.rb</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='ruby'><span class='line'><span class="k">module</span> <span class="nn">AuthToken</span>
 </span><span class='line'>  <span class="k">def</span> <span class="nc">AuthToken</span><span class="o">.</span><span class="nf">issue_token</span><span class="p">(</span><span class="n">payload</span><span class="p">)</span>
 </span><span class='line'>    <span class="no">JWT</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">payload</span><span class="p">,</span> <span class="no">Rails</span><span class="o">.</span><span class="n">application</span><span class="o">.</span><span class="n">secrets</span><span class="o">.</span><span class="n">secret_key_base</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">end</span>
@@ -410,17 +314,7 @@
 
 <p>So for the <code>AuthController</code>, let&rsquo;s begin with register:</p>
 
-<figure class='code'><figcaption><span>app/controllers/auth_controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">register</span>
+<figure class='code'><figcaption><span>app/controllers/auth_controller.rb</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">register</span>
 </span><span class='line'>  <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">new</span><span class="p">(</span><span class="n">user_params</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">if</span> <span class="n">user</span><span class="o">.</span><span class="n">save</span>
 </span><span class='line'>    <span class="n">token</span> <span class="o">=</span> <span class="no">AuthToken</span><span class="o">.</span><span class="n">issue_token</span><span class="p">({</span> <span class="n">user_id</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span> <span class="p">})</span>
@@ -437,17 +331,7 @@
 
 <p>For the authenticate method:</p>
 
-<figure class='code'><figcaption><span>app/controllers/auth_controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">authenticate</span>
+<figure class='code'><figcaption><span>app/controllers/auth_controller.rb</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='ruby'><span class='line'><span class="k">def</span> <span class="nf">authenticate</span>
 </span><span class='line'>  <span class="n">user</span> <span class="o">=</span> <span class="no">User</span><span class="o">.</span><span class="n">find_by</span><span class="p">(</span><span class="ss">email</span><span class="p">:</span> <span class="n">params</span><span class="o">[</span><span class="ss">:email</span><span class="o">].</span><span class="n">downcase</span><span class="p">)</span>
 </span><span class='line'>  <span class="k">if</span> <span class="n">user</span> <span class="o">&amp;&amp;</span> <span class="n">user</span><span class="o">.</span><span class="n">authenticate</span><span class="p">(</span><span class="n">params</span><span class="o">[</span><span class="ss">:password</span><span class="o">]</span><span class="p">)</span>
 </span><span class='line'>    <span class="n">token</span> <span class="o">=</span> <span class="no">AuthToken</span><span class="o">.</span><span class="n">issue_token</span><span class="p">({</span> <span class="n">user_id</span><span class="p">:</span> <span class="n">user</span><span class="o">.</span><span class="n">id</span> <span class="p">})</span>
@@ -464,18 +348,7 @@
 
 <p>How do we manage the request here? I created a base controller for all the API controllers (which I assume that all of them needs authentication) and there I created a method like:</p>
 
-<figure class='code'><figcaption><span>app/controllers/api/base_controller.rb</span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-</pre></td><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_action</span> <span class="ss">:authenticate</span>
+<figure class='code'><figcaption><span>app/controllers/api/base_controller.rb</span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='ruby'><span class='line'><span class="n">before_action</span> <span class="ss">:authenticate</span>
 </span><span class='line'>
 </span><span class='line'><span class="k">def</span> <span class="nf">authenticate</span>
 </span><span class='line'>  <span class="k">begin</span>
@@ -501,40 +374,7 @@
 
 <p>Let&rsquo;s see the auth service:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;Auth&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">,</span> <span class="nx">LocalService</span><span class="p">,</span> <span class="nx">AccessLevels</span><span class="p">)</span> <span class="p">{</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;Auth&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$http</span><span class="p">,</span> <span class="nx">LocalService</span><span class="p">,</span> <span class="nx">AccessLevels</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
 </span><span class='line'>    <span class="nx">authorize</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">access</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>      <span class="k">if</span> <span class="p">(</span><span class="nx">access</span> <span class="o">===</span> <span class="nx">AccessLevels</span><span class="p">.</span><span class="nx">user</span><span class="p">)</span> <span class="p">{</span>
@@ -580,29 +420,7 @@
 
 <p>I also created a <code>AuthInterceptor</code> to handle the request/response:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;AuthInterceptor&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$q</span><span class="p">,</span> <span class="nx">$injector</span><span class="p">)</span> <span class="p">{</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">factory</span><span class="p">(</span><span class="s1">&#39;AuthInterceptor&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">$q</span><span class="p">,</span> <span class="nx">$injector</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>  <span class="k">return</span> <span class="p">{</span>
 </span><span class='line'>    <span class="nx">request</span><span class="o">:</span> <span class="kd">function</span><span class="p">(</span><span class="nx">config</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>      <span class="kd">var</span> <span class="nx">LocalService</span> <span class="o">=</span> <span class="nx">$injector</span><span class="p">.</span><span class="nx">get</span><span class="p">(</span><span class="s1">&#39;LocalService&#39;</span><span class="p">);</span>
@@ -631,48 +449,7 @@
 
 <p>The routes are like:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-<span class='line-number'>9</span>
-<span class='line-number'>10</span>
-<span class='line-number'>11</span>
-<span class='line-number'>12</span>
-<span class='line-number'>13</span>
-<span class='line-number'>14</span>
-<span class='line-number'>15</span>
-<span class='line-number'>16</span>
-<span class='line-number'>17</span>
-<span class='line-number'>18</span>
-<span class='line-number'>19</span>
-<span class='line-number'>20</span>
-<span class='line-number'>21</span>
-<span class='line-number'>22</span>
-<span class='line-number'>23</span>
-<span class='line-number'>24</span>
-<span class='line-number'>25</span>
-<span class='line-number'>26</span>
-<span class='line-number'>27</span>
-<span class='line-number'>28</span>
-<span class='line-number'>29</span>
-<span class='line-number'>30</span>
-<span class='line-number'>31</span>
-<span class='line-number'>32</span>
-<span class='line-number'>33</span>
-<span class='line-number'>34</span>
-<span class='line-number'>35</span>
-<span class='line-number'>36</span>
-<span class='line-number'>37</span>
-<span class='line-number'>38</span>
-<span class='line-number'>39</span>
-<span class='line-number'>40</span>
-<span class='line-number'>41</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$stateProvider</span><span class="p">,</span> <span class="nx">$urlRouterProvider</span><span class="p">,</span> <span class="nx">AccessLevels</span><span class="p">)</span> <span class="p">{</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">config</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$stateProvider</span><span class="p">,</span> <span class="nx">$urlRouterProvider</span><span class="p">,</span> <span class="nx">AccessLevels</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>
 </span><span class='line'>  <span class="nx">$stateProvider</span>
 </span><span class='line'>    <span class="p">.</span><span class="nx">state</span><span class="p">(</span><span class="s1">&#39;anon&#39;</span><span class="p">,</span> <span class="p">{</span>
@@ -720,15 +497,7 @@
 
 <p>To handle the routes I do:</p>
 
-<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class="gutter"><pre class="line-numbers"><span class='line-number'>1</span>
-<span class='line-number'>2</span>
-<span class='line-number'>3</span>
-<span class='line-number'>4</span>
-<span class='line-number'>5</span>
-<span class='line-number'>6</span>
-<span class='line-number'>7</span>
-<span class='line-number'>8</span>
-</pre></td><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$rootScope</span><span class="p">,</span> <span class="nx">$state</span><span class="p">,</span> <span class="nx">Auth</span><span class="p">)</span> <span class="p">{</span>
+<figure class='code'><figcaption><span></span></figcaption><div class="highlight"><table><tr><td class='code'><pre><code class='javascript'><span class='line'><span class="nx">app</span><span class="p">.</span><span class="nx">run</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">$rootScope</span><span class="p">,</span> <span class="nx">$state</span><span class="p">,</span> <span class="nx">Auth</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>  <span class="nx">$rootScope</span><span class="p">.</span><span class="nx">$on</span><span class="p">(</span><span class="s1">&#39;$stateChangeStart&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">event</span><span class="p">,</span> <span class="nx">toState</span><span class="p">,</span> <span class="nx">toParams</span><span class="p">,</span> <span class="nx">fromState</span><span class="p">,</span> <span class="nx">fromParams</span><span class="p">)</span> <span class="p">{</span>
 </span><span class='line'>    <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">Auth</span><span class="p">.</span><span class="nx">authorize</span><span class="p">(</span><span class="nx">toState</span><span class="p">.</span><span class="nx">data</span><span class="p">.</span><span class="nx">access</span><span class="p">))</span> <span class="p">{</span>
 </span><span class='line'>      <span class="nx">event</span><span class="p">.</span><span class="nx">preventDefault</span><span class="p">();</span>

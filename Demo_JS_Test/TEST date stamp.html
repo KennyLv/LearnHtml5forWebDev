@@ -79,12 +79,19 @@
 	console.log(parseDateFromTimestamp(1372111200));
 	*/
 	
-	var eventTime = "2014-10-30";//2014-12-31 // 2014-10-29 // 
 	
-	console.log(new Date(eventTime) > new Date());
+	var dateTimeStr = "2013-07-04";
+	var eventTime = dateTimeStr.split("T")[0];
+			
+	//var eventTime = "2014-11-13";//2014-12-31 // 2014-10-29 // 
+	
+	alert(new Date(eventTime));
+	
+	alert(new Date(eventTime) > new Date("2014-11-23"));
 	
 </script>
 </head>
 <body>
+<div id="result"></div>
 </body>
 </html>

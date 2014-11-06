@@ -173,6 +173,7 @@
 				});
 				//当span被去掉的时候，取消更新
 				element.bind("$destroy", function () {
+					console.log("in destory function..."); 
 					clearInterval(intervalId);
 				});
 
