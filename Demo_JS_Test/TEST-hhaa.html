@@ -15,6 +15,29 @@
                                                                        \ \____/
                                                                         \/___/
 </pre>
+
+
 </div>
+
+<div id="ds">
+</div>
+
+<script>
+	
+	var _cardCreator = function(_cardId, _cardName, _cardImg){
+			var cardHtml =	'<div class="demo">'
+						+'<div class="box viewport-flip" cardId=card_' + _cardId + '  isopened="false" cardName="'+ _cardName +'" >'
+						+'<a href="" class="list flip out"><img src="' + _cardImg + '" alt="Ö½ÅÆÕýÃæ"></a>'
+						+'<a href="" class="list flip in"><img src="puke-back.png" alt="Ö½ÅÆ±³Ãæ"></a>'
+						+'</div>'
+						+'</div>';
+			return cardHtml;
+	}
+
+	var templateHtml =  _cardCreator(2, "sdadas", "../../RunYun/Fanpai/img/1.jpg");
+	console.log(templateHtml);
+	document.getElementById('ds').innerHtml(templateHtml);
+
+</script>
 </body>
 </html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+
+</head>
+<body>
+
+<div id="test_value" style="font-size: 50pt;" >--</div>
+<script type="text/javascript">
+	/*
+	for(var i=0; i<30; i++){
+			var ran = Math.random();
+			console.log(ran + "--"  + ran*6 + "--"  +Math.floor(ran*6));
+			console.log("-=-=-=-=-");
+	}
+	*/
+var pairs = [
+					{ "id" : "0", "src" : "img/1.png"},
+					{ "id" : "1", "src" : "img/2.png"},
+					{ "id" : "2", "src" : "img/3.png"},
+					{ "id" : "3", "src" : "img/4.png"},
+					{ "id" : "4", "src" : "img/5.png"},
+					{ "id" : "5", "src" : "img/6.png"}
+			];
+
+			
+			
+			
+
+			
+			
+			
+function ShuffleArray_General(arr, len)
+{
+		var suff_time = len;
+		for(var idx=0; idx<suff_time; idx++) {
+				var	i = Math.floor(Math.random() * len);
+				var  j = Math.floor(Math.random() * len);
+				var temp = arr[i];
+				arr[i] = arr[j];
+				arr[j] = temp;
+		}
+}
+
+var newArray = chooseParis.concat(chooseParis);
+
+ShuffleArray_General(newArray, 16);
+
+for(var i=0; i<newArray.length; i++) {
+	console.log(newArray[i]);
+}
+	
+</script>
+
+</body>
+</html>
