@@ -150,7 +150,7 @@ define(function(require, exports, module) {
 			
 			start : function(statusChangesCallback){
 				gameStaus.score=0;
-				gameStaus.remainTime = 50;
+				gameStaus.remainTime = 60;
 				gameStaus.statusChangedNotification = statusChangesCallback;
 				$("#score").html(gameStaus.score);
 				$("#clock").html(gameStaus.remainTime);

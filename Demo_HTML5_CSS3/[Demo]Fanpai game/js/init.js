@@ -65,7 +65,8 @@
 	
 	
 	function pagePack(data){
-			showScreen("loading");
+			showScreen("startup");
+			//showScreen("loading");
 			var gameCanvas = $('#gameCanvas');
 			var images = [
 					{ "id" : "0", "src" : "img/1.jpg"},
@@ -78,17 +79,12 @@
 		
 			game.setUp(gameCanvas, images);
 			
-			/*function(){
-				$("#startup_startBtn").on("click",function(){
-						showScreen("game");
-						game.start();
-				});
-				showScreen("startup");
+
+			$("#startup_startBtn").on("click",function(){
+					showScreen("game");
+					game.start(gameStatusChangedCallback);
 			});
-			*/
-			
-			game.start(gameStatusChangedCallback);
-			
+		
 	}
 	
 	function gameStatusChangedCallback(_data){
@@ -100,17 +96,19 @@
 							console.log("stopped");
 					break;
 					case "FINISHED":
-							alert("You finshed in  " + (60 - _data.remainTime) + "s, share or retry?");
+							showScreen("result");
+							$("#msg").html("You finshed in  " + (60 - _data.remainTime) + "s, share or retry?");
 					break;
 					case "FAILED":
-							alert("You have get " + _data.score + ", retry?");
+							showScreen("result");
+							$("#msg").html("You have get " + _data.score + ", retry?");
 					break;
 			}
 	}
 	
 	function showScreen(screenClass){
-			$(".m-"+ screenClass).css("display","block");
 			$(".page").css("display","none");
+			$(".m-"+ screenClass).css("display","block");
 	}
 	
 	

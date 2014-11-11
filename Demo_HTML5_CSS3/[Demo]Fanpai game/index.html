@@ -8,6 +8,7 @@
 	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
 	<meta http-equiv="Expires" content="-1" />
 	<meta http-equiv="pragram" content="no-cache" />
+	
 	<link rel="stylesheet" type="text/css" href="./css/main.css" />
 
 	<script type="text/javascript">
@@ -43,12 +44,24 @@
 	</div>
 	-->
 		<div id="main">
-			<div id="score">0</div>
-			<div id="clock">0</div>
-			<div id="body" class="light">
-				<div id="gameCanvas" class="show">
-				</div>
-			</div>
+				<section class="page m-result">
+						<div id="msg"></div>
+						<div id="retry">Retry</div>
+						<div id="share">Share</div>
+				</section>
+				<section class="page m-game light">
+						<div id="score">0</div>
+						<div id="clock">0</div>
+						<div id="gameCanvas" class="show"></div>
+				</section>
+				<!--<section class="page m-loading">
+					 <img src="./img/dataload.gif" alt="loading" />loading...
+				</section>-->
+				<section class="page m-startup">
+					 <div id="startup_startBtn">
+						开始
+					 </div> 
+				</section>
 		</div>
 	
 </body>
