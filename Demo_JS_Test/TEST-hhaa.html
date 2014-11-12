@@ -22,6 +22,42 @@
 <div id="ds">
 </div>
 
+<canvas id="ca" width="400" height="300">ca</canvas> 
+<br />
+<span id="jg">点图形看结果</span><br />
+<script type="text/javascript">
+var ca = document.getElementById('ca');
+var ctx = ca.getContext('2d');
+ctx.arc(100,100,50,0,Math.PI*2);
+ctx.fillStyle = "rgba(234,1,1,0.6)";
+ctx.fill();
+//ctx.beginPath();
+
+/*
+ctx.fillStyle = 'rgba(1,234,1,0.7)';
+ctx.fillRect(100,100,70,100);
+*/
+ca.onclick = function  (e) {
+	var x = e.clientX,
+		y = e.clientY,
+		caL = ca.getBoundingClientRect().left,
+		caT = ca.getBoundingClientRect().top;
+	var X = x-caL, Y = y-caT;
+	// console.log('X:'+X+',Y:'+Y);
+	var imagedata = ctx.getImageData(X,Y,10,10);
+	for(var i=0,dl = imagedata.data.length;i<dl;i+=4) {
+		imagedata.data[i] = 255-imagedata.data[i];
+		imagedata.data[i+1] = 255-imagedata.data[i];
+		imagedata.data[i+2] = 255-imagedata.data[i];
+	}
+	ctx.putImageData(imagedata,X,Y);
+	// jg.innerHTML = data.data;
+	console.log(imagedata);
+}
+//]]>
+</script>
+<!--
+
 <script>
 	
 	var _cardCreator = function(_cardId, _cardName, _cardImg){
@@ -38,6 +74,6 @@
 	console.log(templateHtml);
 	document.getElementById('ds').innerHtml(templateHtml);
 
-</script>
+</script>-->
 </body>
 </html>

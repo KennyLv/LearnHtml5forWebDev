@@ -1,0 +1,40 @@
+<!doctype html>
+<html>
+<head>
+<meta name="apple-touch-fullscreen" content="YES" />
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta name="format-detection" content="telephone=no" />
+<meta name="apple-mobile-web-app-capable" content="yes" />
+<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" />
+<script type="text/javascript">
+		if(/Android (\d+\.\d+)/.test(navigator.userAgent)){
+			var version = parseFloat(RegExp.$1);
+			if(version>2.3){
+				var phoneScale = parseInt(window.screen.width)/640;
+				document.write('<meta name="viewport" content="width=640, minimum-scale = '+ phoneScale +', maximum-scale = '+ phoneScale +', target-densitydpi=device-dpi">');
+			}else{
+				document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+			}
+		}else{
+			document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+		}
+	</script>
+</head>
+<body>
+
+<div style="position:relative; left:50px;">
+<div style="position:relative;left:40px;"  id="testDiv">
+		<div  style="position:relative" >329chdiwyr7</div>
+		<canvas id="clearCanvas"> </canvas>
+</div>
+</div>
+
+
+</body>
+<script type="text/javascript" src="../js/lib/seajs/sea.js"></script>
+<script type="text/javascript">
+	seajs.use('../js/init');
+</script>
+</html>
