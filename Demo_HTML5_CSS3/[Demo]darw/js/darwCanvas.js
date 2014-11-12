@@ -1,17 +1,17 @@
 define(function(require,exports,module){
 
 		var w, h;
-		var offsetX, offsetY;
+		var offsetX=0, offsetY=0;
 		var percent = 0.15;
 		var stocketWidth = 15;
-		
+		var canvas = null;
 		var ctx = null;
 		var returnFn = null;
 		
 		var mousedown = false;
 		var eventDown = function(e){
 				e.preventDefault();
-				console.log("dss");
+				//console.log("dss");
 				mousedown=true;
 		}
 		var eventMove = function(e){
@@ -28,7 +28,7 @@ define(function(require,exports,module){
 						fill();
 					}
 					
-					console.log("dsad" + x + 'd' + y);
+					//console.log("dsad" + x + 'd' + y);
 				}
 		}
 		var eventUp = function(e){
@@ -59,10 +59,12 @@ define(function(require,exports,module){
 					_canvas.style.width=_style.width + 'px';
 					_canvas.style.height=_style.height + 'px';
 					
-					console.log(_canvas.offsetParent);
+					//console.log(_canvas.offsetParent.offsetLeft);
 					
-					offsetX = _canvas.offsetLeft;
-					offsetY = _canvas.offsetTop;
+					var realOffset = getOffset(_canvas,  {"x" : 0, "y" : 0} );
+					offsetX = realOffset.x;
+					offsetY = realOffset.y;
+					
 					w = _style.width;
 					h = _style.height;
 					
@@ -81,15 +83,30 @@ define(function(require,exports,module){
 
 					//_p.appendChild(_canvas);
 					console.log("render canvas finished...");
-					
-					
+					return _canvas;
 		}
 		
-    exports.ShowCanvas = function(_canvas, _canvasStyle, _printStyle, _completeFn) {
-					returnFn = _completeFn;
-					percent = _printStyle.finishedPercent;
-					stocketWidth = _printStyle.brush;
-					_renderCanvas(_canvas, _canvasStyle);
 					
+		var getOffset = function(ele, _offset){
+				var parentNode = ele.offsetParent;
+				if(parentNode != null){
+					var addedOffsetX = _offset.x +  ele.offsetLeft;
+					var addedOffsetY = _offset.y +  ele.offsetTop;
+					return getOffset(ele.offsetParent, {"x" : addedOffsetX, "y" : addedOffsetY});
+				}else{
+					return _offset;
+				}
+		}
+		
+    exports.showCanvas = function(_canvas, _canvasStyle, _printStyle, _completeFn) {
+			returnFn = _completeFn;
+			percent = _printStyle.finishedPercent;
+			stocketWidth = _printStyle.brush;
+			canvas = _renderCanvas(_canvas, _canvasStyle);
+		};
+    exports.onNotifyPositionChanged = function() {
+			var realOffset = getOffset(canvas,  {"x" : 0, "y" : 0} );
+			offsetX = realOffset.x;
+			offsetY = realOffset.y;
 		};
 });

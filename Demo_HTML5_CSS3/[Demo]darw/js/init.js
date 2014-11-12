@@ -20,7 +20,13 @@
 			var onFinishedFn = function(){
 					alert("OK");
 			}
-			darwCanvas.ShowCanvas(loadCanvas, canvaStyle, printStyle, onFinishedFn);
+			darwCanvas.showCanvas(loadCanvas, canvaStyle, printStyle, onFinishedFn);
+			
+			setTimeout(function(){
+					document.getElementById("rootDiv").style.top = "300px";
+					darwCanvas.onNotifyPositionChanged();
+			}, 3000);
+			
 	});
 	
 	
