@@ -1,7 +1,6 @@
 ﻿define(function(require, exports, module) {
 	// 加载Zepto核心组件和选择器组件
-	var $ = require('./lib/zepto/zepto'),$=require('./lib/zepto/animationShow');
-	var utils = require('./utils/utils');
+	var $ = require('./zepto/zepto'),$=require('./zepto/animationShow');
 	var darwCanvas = require('./darwCanvas');
 	
 	$(function(){
