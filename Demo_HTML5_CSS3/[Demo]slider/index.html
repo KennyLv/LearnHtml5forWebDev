@@ -1,0 +1,40 @@
+﻿<!doctype html>
+<head>
+	<title></title>
+	<meta charset="utf-8" />
+	<meta name="apple-touch-fullscreen" content="YES" />
+	<meta name="format-detection" content="telephone=no" />
+	<meta name="apple-mobile-web-app-capable" content="yes" />
+	<meta name="apple-mobile-web-app-status-bar-style" content="black" />
+	<meta http-equiv="Expires" content="-1" />
+	<meta http-equiv="pragram" content="no-cache" />
+	
+	<script type="text/javascript">
+		if(/Android (\d+\.\d+)/.test(navigator.userAgent)){
+			var version = parseFloat(RegExp.$1);
+			if(version>2.3){
+				var phoneScale = parseInt(window.screen.width)/640;
+				document.write('<meta name="viewport" content="width=640, minimum-scale = '+ phoneScale +', maximum-scale = '+ phoneScale +', target-densitydpi=device-dpi">');
+			}else{
+				document.write('<meta name="viewport" content="width=640, target-densitydpi=device-dpi">');
+			}
+		}else{
+			document.write('<meta name="viewport" content="width=640, user-scalable=no, target-densitydpi=device-dpi">');
+		}
+	</script>
+	
+</head>
+<body>
+		<div>
+			<span id="title">dadsd</span>
+			<div id="jQSlide" class="cc tibooslider">
+			</div>
+			<span id="result">you have choose : </span>
+		</div>
+	
+</body>
+<script type="text/javascript" src="./js/lib/seajs/sea.js"></script>
+<script type="text/javascript">
+	seajs.use('./js/init');
+</script>
+</html>
