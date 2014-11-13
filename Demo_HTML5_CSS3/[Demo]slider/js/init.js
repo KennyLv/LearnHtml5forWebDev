@@ -1,5 +1,5 @@
 ﻿define(function(require, exports, module) {
-	var $ = require('./lib/zepto/zepto');
+	var $ = require('./lib/zepto/zepto'),$ = require('./lib/zepto/touch');
 	var slider = require('./slider');
 
 	$(function() {
@@ -51,6 +51,16 @@
 			slider.registerDisplayChangedListener(onDisplayChangedCallback);
 			slider.registerSlectedListener(onSlectedCallback);
 			slider.getReadyForPlay();
+			
+			$("#body").swipeLeft(function(){
+					slider.next();
+			});
+			
+			$("#body").swipeRight(function(){
+					slider.previous();
+			});
+			
+			
 		});
 	});
 

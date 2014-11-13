@@ -7,80 +7,118 @@
 define(function(require, exports, module) {
   var Zepto = require('./zepto');
   module.exports = Zepto;
-    
-  ;(function($){
-    var data = {}, dataAttr = $.fn.data, camelize = $.camelCase,
-      exp = $.expando = 'Zepto' + (+new Date()), emptyArray = []
+  
+;(function($){
 
-    // Get value from node:
-    // 1. first try key as given,
-    // 2. then try camelized key,
-    // 3. fall back to reading "data-*" attribute.
-    function getData(node, name) {
-      var id = node[exp], store = id && data[id]
-      if (name === undefined) return store || setData(node)
-      else {
-        if (store) {
-          if (name in store) return store[name]
-          var camelName = camelize(name)
-          if (camelName in store) return store[camelName]
-        }
-        return dataAttr.call($(node), name)
-      }
-    }
+var touch = {},
+  touchTimeout, tapTimeout, swipeTimeout,
+  longTapDelay = 750, longTapTimeout
 
-    // Store value under camelized key on node
-    function setData(node, name, value) {
-      var id = node[exp] || (node[exp] = ++$.uuid),
-        store = data[id] || (data[id] = attributeData(node))
-      if (name !== undefined) store[camelize(name)] = value
-      return store
-    }
+function parentIfText(node) {
+  return 'tagName' in node ? node : node.parentNode
+}
 
-    // Read all "data-*" attributes from a node
-    function attributeData(node) {
-      var store = {}
-      $.each(node.attributes || emptyArray, function(i, attr){
-        if (attr.name.indexOf('data-') == 0)
-          store[camelize(attr.name.replace('data-', ''))] =
-            $.zepto.deserializeValue(attr.value)
-      })
-      return store
-    }
+function swipeDirection(x1, x2, y1, y2) {
+  var xDelta = Math.abs(x1 - x2), yDelta = Math.abs(y1 - y2)
+  return xDelta >= yDelta ? (x1 - x2 > 0 ? 'Left' : 'Right') : (y1 - y2 > 0 ? 'Up' : 'Down')
+}
 
-    $.fn.data = function(name, value) {
-      return value === undefined ?
-        // set multiple values via object
-        $.isPlainObject(name) ?
-          this.each(function(i, node){
-            $.each(name, function(key, value){ setData(node, key, value) })
-          }) :
-          // get value from first element
-          this.length == 0 ? undefined : getData(this[0], name) :
-        // set value on all elements
-        this.each(function(){ setData(this, name, value) })
-    }
+function longTap() {
+  longTapTimeout = null
+  if (touch.last) {
+    touch.el.trigger('longTap')
+    touch = {}
+  }
+}
 
-    $.fn.removeData = function(names) {
-      if (typeof names == 'string') names = names.split(/\s+/)
-      return this.each(function(){
-        var id = this[exp], store = id && data[id]
-        if (store) $.each(names || store, function(key){
-          delete store[names ? camelize(this) : key]
-        })
-      })
-    }
+function cancelLongTap() {
+  if (longTapTimeout) clearTimeout(longTapTimeout)
+  longTapTimeout = null
+}
 
-    // Generate extended `remove` and `empty` functions
-    ;['remove', 'empty'].forEach(function(methodName){
-      var origFn = $.fn[methodName]
-      $.fn[methodName] = function() {
-        var elements = this.find('*')
-        if (methodName === 'remove') elements = elements.add(this)
-        elements.removeData()
-        return origFn.call(this)
-      }
+function cancelAll() {
+  if (touchTimeout) clearTimeout(touchTimeout)
+  if (tapTimeout) clearTimeout(tapTimeout)
+  if (swipeTimeout) clearTimeout(swipeTimeout)
+  if (longTapTimeout) clearTimeout(longTapTimeout)
+  touchTimeout = tapTimeout = swipeTimeout = longTapTimeout = null
+  touch = {}
+}
+
+$(document).ready(function(){
+  var now, delta
+
+  $(document.body)
+    .bind('touchstart', function(e){
+      now = Date.now()
+      delta = now - (touch.last || now)
+      touch.el = $(parentIfText(e.touches[0].target))
+      touchTimeout && clearTimeout(touchTimeout)
+      touch.x1 = e.touches[0].pageX
+      touch.y1 = e.touches[0].pageY
+      if (delta > 0 && delta <= 250) touch.isDoubleTap = true
+      touch.last = now
+      longTapTimeout = setTimeout(longTap, longTapDelay)
     })
-  })(Zepto)
+    .bind('touchmove', function(e){
+      cancelLongTap()
+      touch.x2 = e.touches[0].pageX
+      touch.y2 = e.touches[0].pageY
+      if (Math.abs(touch.x1 - touch.x2) > 10)
+        e.preventDefault()
+    })
+    .bind('touchend', function(e){
+       cancelLongTap()
 
+      // swipe
+      if ((touch.x2 && Math.abs(touch.x1 - touch.x2) > 30) ||
+          (touch.y2 && Math.abs(touch.y1 - touch.y2) > 30))
+
+        swipeTimeout = setTimeout(function() {
+          touch.el.trigger('swipe')
+          touch.el.trigger('swipe' + (swipeDirection(touch.x1, touch.x2, touch.y1, touch.y2)))
+          touch = {}
+        }, 0)
+
+      // normal tap
+      else if ('last' in touch)
+
+        // delay by one tick so we can cancel the 'tap' event if 'scroll' fires
+        // ('tap' fires before 'scroll')
+        tapTimeout = setTimeout(function() {
+
+          // trigger universal 'tap' with the option to cancelTouch()
+          // (cancelTouch cancels processing of single vs double taps for faster 'tap' response)
+          var event = $.Event('tap')
+          event.cancelTouch = cancelAll
+          touch.el.trigger(event)
+
+          // trigger double tap immediately
+          if (touch.isDoubleTap) {
+            touch.el.trigger('doubleTap')
+            touch = {}
+          }
+
+          // trigger single tap after 250ms of inactivity
+          else {
+            touchTimeout = setTimeout(function(){
+              touchTimeout = null
+              touch.el.trigger('singleTap')
+              touch = {}
+            }, 250)
+          }
+
+        }, 0)
+
+    })
+    .bind('touchcancel', cancelAll)
+
+  $(window).bind('scroll', cancelAll)
+})
+
+;['swipe', 'swipeLeft', 'swipeRight', 'swipeUp', 'swipeDown', 'doubleTap', 'tap', 'singleTap', 'longTap'].forEach(function(m){
+  $.fn[m] = function(callback){ return this.bind(m, callback) }
+})
+})(Zepto)
+  
 });

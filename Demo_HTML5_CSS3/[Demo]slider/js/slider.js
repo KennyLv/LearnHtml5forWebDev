@@ -316,6 +316,12 @@
 		},
 		getReadyForPlay : function(statusChangesCallback) {
 			_bindevent();
+		},
+		next : function() {
+			_playNext();
+		},
+		previous : function() {
+			_playPrevious();
 		}
 	}
 
