@@ -1,69 +1,190 @@
-﻿body{
-		background:#a0b3d6; 
+﻿
+@font-face {
+font-family:"LanTinGBKMobil";
+src: url('../audio/LanTinGBKMobil.TTF') format('truetype');
+font-style:normal;
+font-weight:normal;
+}
+
+
+body{
 		font-size:84%; 
 		margin:0; 
 		line-height:1.5; 
 		color:#333; 
-		font-family:Arial, sans-serif;
+		font-family:LanTinGBKMobil,Arial, sans-serif;
+		
 }
-
 /*
 h1{line-height:40px; margin:0; text-align:center; font-size:13px; font-family:'楷体','微软雅黑'; text-shadow:0px 1px 0px #f2f2f2;}
 h3{line-height:30px; margin:0; font-size:1.1em; padding-left:10px; border-bottom:1px solid #ededed; color:#4e4e4e; text-shadow:0px 1px 0px white;}
 */
-
 #main{
 		width:100%;
 		overflow:hidden;
 }
-
 .page {
-		position: absolute;
-		z-index: 1;
 		width: 100%;
 		height: 100%;
 		border: 0;
 		overflow: hidden;
+		display:none;
 }
 
-#startup_startBtn{
-		background:red;
-		color:blue;
-}
-
-.show{
-		padding-bottom:20px; 
-		width:600px;
-}
-
-.light{
-		padding:0;
-		overflow:hidden;
-		z-index:1;
-}
 .m-result{
-		background:lightblue;
-		z-index:30;
+		z-index: 3;
 }
 
 .m-game{
-		background:#f0f3f9;
-		z-index:20;
+		z-index:2;
+		padding:0;
+		overflow:hidden;
 }
+
+.m-loading{
+		position: relative;
+		margin:auto;
+		padding-top: 300px;
+}
+
+.m-loading img{
+		width: 640px;
+}
+
 .m-startup{
-		background:yellow;
-		z-index:10;
+		z-index:1;
+}
+.shardowBg{
+		position: absolute;
+		top:0px;
+		margin:auto;
+		width: 100%;
+		height: 100%;
+		background-color: black;
+		opacity: 0.4;
+		z-index:2;
+}
+.button_parent{
+		position: absolute;
+		bottom:220px;
+		height: 50px;
+		margin: auto;
+		width: 100%;
+}
+.btn{
+		color:blue;
+		width: 239px;
+		height: 114px;
+		font-size: 30px;
+		padding: 10px 20px;
+		cursor: pointer;
+		border-radius: 15px;
+}
+
+#startUpPage, #resultPage{
+		width: 100%;
+		height: 100%;
+		position: absolute;
+}
+
+#startup_startBtn{
+		position: relative;
+		margin: auto;
+}
+
+#gameTimer{
+		height:50px;
+		width:100%;
+		position: relative;
+		margin:auto;
+		padding:10px 0px;
+		border-bottom: 2px solid #99cc33;
+		font-size:20px;
+		font-weight:bolder;
+}
+#score, #clock{
+	font-size:30px;
+	color: #99cc33;
+}
+#score{
+float:left;
+margin-left:60px;
+}
+#clock{
+float:right;
+margin-right:60px;
 }
 
 #gameCanvas{
-		min-height:1000px; 
-		border:solid #cad5eb; 
-		border-width:0 2px; 
-		font-family:'Lucida Grande',Verdana;
+		padding-bottom:20px; 
+		width:640px;
+}
+.canvasCover{
+	position: absolute;
+	width:100%;
+	height:100%;
+	top: 0;
+	left: 0;
+	opacity:0.2;
+	z-index:30;
+	background-color:black;
+	display:none;
+}
+#game_over{
+	position: absolute;
+	top: 200px;
+	left: 50px;
+	display:none;
+	z-index:110;
+}
+a{ text-decoration:none;}
+a:hover{text-decoration:none;}
+
+#msg{
+height:140px;
+font-size:16px;
+color:yellow;
 }
 
-a{color:#34538b; text-decoration:none;}
-a:hover{text-decoration:underline;}
+#actionBtns{
+	position: relative;
+	width:600px;
+	height:100%;
+	margin:auto;
+	padding:50px;
+}
+
+#retry, #share{
+	float:left;
+	width:200px;
+	margin:240px 20px 0px 20px;
+}
+#shareguideImg{
+	width:640px;
+}
+#pageshareguide{
+	opacity: 0.6;  
+	position: absolute;
+	top:0;
+	left:0;
+}
+@-webkit-keyframes popin {
+    from {  -webkit-transform: scale(.8); opacity: 0; }
+    to {   -webkit-transform: scale(1);   opacity: 1;    }
+}
+@keyframes popin {
+    from {  transform: scale(.8);  opacity: 0;   }
+    to {   transform: scale(1); opacity: 1;  }
+}
+@-webkit-keyframes popinscan {
+    from {  -webkit-transform: scale(.8); opacity: 0; }
+    to {   -webkit-transform: scale(3);   opacity: 1;    }
+}
+@keyframes popinscan {
+    from {  transform: scale(.8);  opacity: 0;   }
+    to {   transform: scale(3); opacity: 1;  }
+}
+
 
 /*
 .JYFP_gameScreen{

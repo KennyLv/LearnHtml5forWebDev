@@ -322,16 +322,19 @@
 	animation-name: flipintoright;
 	animation-duration: 225ms;
 }
+/*
 .flip.out.reverse {
+
 	-webkit-transform: rotateY(90deg) scale(.9);
 	-webkit-animation-name: flipouttoright;
 	transform: rotateY(90deg) scale(.9);
 	animation-name: flipouttoright;
+
 }
 .flip.in.reverse {
 	-webkit-animation-name: flipintoleft;
 	animation-name: flipintoleft;
-}
+}*/
 @-webkit-keyframes flipouttoleft {
     from { -webkit-transform: rotateY(0); }
     to { -webkit-transform: rotateY(-90deg) scale(.9); }

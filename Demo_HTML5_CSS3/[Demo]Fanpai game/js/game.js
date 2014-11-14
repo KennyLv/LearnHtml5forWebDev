@@ -1,46 +1,52 @@
-define(function(require, exports, module) {
+ï»¿define(function(require, exports, module) {
 
 	var cardcss = require('../css/card.css');
 	var animate = require('../css/animate.css');
 	
 	var gameInfo = {
 			canvas:null,
-			shuffleTimes : 8,
-			selectedCards : [],
 			timerInterval : null,
+			card_back : "./img/card_back.jpg",
 			cardsNum : 16,
+			timeLimit:60,
 			cardImgs : []
 	};
+	
+	var selectedCards = [];
+	var statusChangedNotification = null;
 	
 	var gameStaus = {
 			score : 0,
 			remainTime : 60,
-			status : "STOPPED", // "STARTED" "FINISHED" "FAILED"
-			statusChangedNotification : null
+			status : "STOPPED" // "STARTED" "FINISHED" "FAILED"
+			
 	}
 	
 	var _updateStatus = function(_status){
 			gameStaus.status= _status;
-			if(gameStaus.statusChangedNotification != null){
-					gameStaus.statusChangedNotification(gameStaus);
+			if(statusChangedNotification != null){
+					statusChangedNotification(gameStaus);
 			}
 	}
 	
-	var _shuffleCard = function(_cardImgs, _cardsNum, _shuffleTimes){
-			//Ëæ»úÑ¡ÔñÍ¼Æ¬Éú²ú¿¨ÅÆ×ÜÊıÒ»°ëµÄÅÆ
+	var _shuffleCard = function(_cardImgs){
+			//éšæœºé€‰æ‹©å›¾ç‰‡ç”Ÿäº§å¡ç‰Œæ€»æ•°ä¸€åŠçš„ç‰Œ
 			var chooseParis = [];
 			var imgNum = _cardImgs.length;
-			var half= Math.floor(_cardsNum/2);
+			var half= Math.floor( (gameInfo.cardsNum)/2);
+			
 			for(var j=0; j<half; j++){
-			var	r = Math.floor(Math.random() * imgNum);
+					var	r = Math.floor(Math.random() * imgNum);
 					chooseParis.push(_cardImgs[r]);
 			}
-			//ËùÓĞÅÆ³Ë¶ş
+			
+			//æ‰€æœ‰ç‰Œä¹˜äºŒ
 			var newArray = chooseParis.concat(chooseParis);
-			//Ï´ÅÆËã·¨£¬ÈÎÒâ¶à´ÎÂÖÏ´
-			for(var idx=0; idx<_shuffleTimes; idx++) {
-					var	i = Math.floor(Math.random() * _shuffleTimes);
-					var  j = Math.floor(Math.random() * _shuffleTimes);
+			
+			//æ´—ç‰Œç®—æ³•ï¼Œä»»æ„å¤šæ¬¡è½®æ´—
+			for(var idx=0; idx< gameInfo.cardsNum; idx++) {
+					var	i = Math.floor(Math.random() * gameInfo.cardsNum);
+					var  j = Math.floor(Math.random() * gameInfo.cardsNum);
 					var temp = newArray[i];
 					newArray[i] = newArray[j];
 					newArray[j] = temp;
@@ -49,10 +55,10 @@ define(function(require, exports, module) {
 	}
 	
 	var _cardCreator = function(_cardId, _cardName, _cardImg){
-			var cardHtml =	'<div class="demo">'
+			var cardHtml =	'<div class="card">'
 						+'<div class="box viewport-flip" cardId=card_' + _cardId + '  isopened="false" cardName="'+ _cardName +'" >'
-						+'<a href="" class="list flip out"><img src="' + _cardImg + '" alt="Ö½ÅÆÕıÃæ"></a>'
-						+'<a href="" class="list flip in"><img src="./img/puke-back.png" alt="Ö½ÅÆ±³Ãæ"></a>'
+						+'<div class="list flip out"><img src="' + _cardImg + '" alt="card front"></div>'
+						+'<div class="list flip in"><img src="'+ gameInfo.card_back +'" alt="card back"></div>'
 						+'</div>'
 						+'</div>';
 			return cardHtml;
@@ -63,15 +69,15 @@ define(function(require, exports, module) {
 			for(var index=0; index <_cardArr.length; index++){
 					cardCanvas.append(_cardCreator(index, _cardArr[index].id, _cardArr[index].src));
 			}
-			
-			$(".box").bind("click", function() {
+			$(".box").bind("click", function(e) {
+			//$(".box").on('touchstart',function(e){
+					e.preventDefault(); // é˜»æ­¢"é»˜è®¤å†’æ³¡è¡Œä¸º"
 					var currentCard = $(this);
-					if(currentCard.attr('isopened') == 'false' && gameInfo.selectedCards.length <2){
-					
+					if(currentCard.attr('isopened') == 'false' && selectedCards.length <2){
 							currentCard.attr('isopened','true');
 							_flipCard(currentCard);
-							gameInfo.selectedCards.push(currentCard);
-							if(gameInfo.selectedCards.length >1){
+							selectedCards.push(currentCard);
+							if(selectedCards.length >1){
 									setTimeout(function() {
 											_checkCard();
 									},400);
@@ -82,46 +88,54 @@ define(function(require, exports, module) {
 	}
 	
 	var _checkCard = function(){
-			if(gameInfo.selectedCards.length >1){
-					//console.log("opened " + gameInfo.selectedCards.length);
+			if(selectedCards.length >1){
+					//console.log("opened " + selectedCards.length);
 					if(_isTheSamePic()){
-							for(var i = 0; i < gameInfo.selectedCards.length; i++){
-									gameInfo.selectedCards[i].parent().empty();
+							for(var i = 0; i < selectedCards.length; i++){
+									selectedCards[i].parent().empty();
 							}
 							gameStaus.score += 1;
-							$("#score").html(gameStaus.score);
+							$("#score").html("å¾—åˆ† : " + gameStaus.score);
 							if($(".box").length <1){
 									_updateStatus("FINISHED");
+									clearInterval(gameInfo.timerInterval);
 							}
 							
 					}else{
-							for(var i = 0; i < gameInfo.selectedCards.length; i++){
-									if(gameInfo.selectedCards[i].attr('isopened') == 'true'){
+							for(var i = 0; i < selectedCards.length; i++){
+									if(selectedCards[i].attr('isopened') == 'true'){
 											//console.log("closeCard");
-											gameInfo.selectedCards[i].attr('isopened','false');
-											_flipCard(gameInfo.selectedCards[i]);
+											selectedCards[i].attr('isopened','false');
+											_flipCard(selectedCards[i]);
 									}
 							}
 					}
-					gameInfo.selectedCards=[];
+					selectedCards=[];
 			}
 	};
 	
 	var _isTheSamePic = function(){
 			var issame = false;
-			if(gameInfo.selectedCards[0].attr('cardName') == gameInfo.selectedCards[1].attr('cardName')){
+			if(selectedCards[0].attr('cardName') == selectedCards[1].attr('cardName')){
 				issame = true;
 			}
 			return issame;
 	};
 
 	var _flipCard = function(card){
-			// ÇĞ»»µÄË³ĞòÈçÏÂ
-			// 1. µ±Ç°ÔÚÇ°ÏÔÊ¾µÄÔªËØ·­×ª90¶ÈÒş²Ø, ¶¯»­Ê±¼ä225ºÁÃë
-			// 2. ½áÊøºó£¬Ö®Ç°ÏÔÊ¾ÔÚºóÃæµÄÔªËØÄæÏò90¶È·­×ªÏÔÊ¾ÔÚÇ°
-			// 3. Íê³É·­ÃæĞ§¹û
+			// åˆ‡æ¢çš„é¡ºåºå¦‚ä¸‹
+			// 1. å½“å‰åœ¨å‰æ˜¾ç¤ºçš„å…ƒç´ ç¿»è½¬90åº¦éšè—, åŠ¨ç”»æ—¶é—´225æ¯«ç§’
+			// 2. ç»“æŸåï¼Œä¹‹å‰æ˜¾ç¤ºåœ¨åé¢çš„å…ƒç´ é€†å‘90åº¦ç¿»è½¬æ˜¾ç¤ºåœ¨å‰
+			// 3. å®Œæˆç¿»é¢æ•ˆæœ
 			var back = card.find('.in');
 			var front = card.find('.out');
+			/*back.animate({transform: "rotateY(90deg) scale(.9)"},225,function(){
+					//back.addClass("out").removeClass("in");
+					front.animate({transform: "rotateY(0deg) scale(.9)"},225,function(){
+							//front.addClass("in").removeClass("out");
+					});
+					
+			});*/
 			back.addClass("out").removeClass("in");
 			setTimeout(function() {
 					front.addClass("in").removeClass("out");
@@ -131,29 +145,33 @@ define(function(require, exports, module) {
 	var _timerFn = function(){
 			gameStaus.remainTime -= 1;
 			if(gameStaus.remainTime >= 0){
-					$("#clock").html(gameStaus.remainTime);
+					$("#clock").html("å‰©ä½™æ—¶é—´ : " + gameStaus.remainTime);
 			}else{
-					clearInterval(gameInfo.timerInterval);
 					_updateStatus("FAILED");
+					clearInterval(gameInfo.timerInterval);
 			}
 	}
 	
 	module.exports={
-			setUp : function(_gameCanvas, _imgs){
+			setUp : function(_gameCanvas, _imgs, _backImg , _options, statusChangesCallback ){
 					gameInfo.canvas = _gameCanvas;
 					gameInfo.cardImgs = _imgs;
-					gameInfo.cardsNum = 20;
-					gameInfo.shuffleTimes = 8;
+					gameInfo.card_back = _backImg;
+					gameInfo.cardsNum = _options.totalCardsNum;//20;
+					gameInfo.timeLimit = _options.timeLimit;// 60;
 					_gameCanvas.empty();
-					_render(_shuffleCard(gameInfo.cardImgs, gameInfo.cardsNum , gameInfo.shuffleTimes) , _gameCanvas);
+					statusChangedNotification = statusChangesCallback;
+					var shuffedCards = _shuffleCard(gameInfo.cardImgs);
+					_render(shuffedCards , _gameCanvas);
 			},
 			
-			start : function(statusChangesCallback){
+			start : function(){
 				gameStaus.score=0;
-				gameStaus.remainTime = 60;
-				gameStaus.statusChangedNotification = statusChangesCallback;
-				$("#score").html(gameStaus.score);
-				$("#clock").html(gameStaus.remainTime);
+				gameStaus.remainTime = gameInfo.timeLimit;
+				_updateStatus("STARTED");
+				selectedCards = [];
+				$("#score").html("å¾—åˆ† : " + gameStaus.score);
+				$("#clock").html("å‰©ä½™æ—¶é—´ : " + gameStaus.remainTime);
 				
 				
 				if(gameInfo.timerInterval != null){

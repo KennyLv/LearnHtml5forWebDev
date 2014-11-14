@@ -45,25 +45,45 @@
 	-->
 		<div id="main">
 				<section class="page m-result">
-						<div id="msg"></div>
-						<div id="retry">Retry</div>
-						<div id="share">Share</div>
+						<div id="resultPage" ></div>
+						<div id="result">
+								<div id="msg">
+								</div>
+								<div id="actionBtns">
+										<div id="retry"  class="btn"> </div>
+										<div id="share" class="btn"> </div>
+								</div>
+						</div>
+						<div id="pageshareguide" class="page">
+								<img id="shareguideImg" src=""/>
+								<div><h1>点击右上角分享你的成绩！</h1></div>
+						</div>
+						<!--<div id="resultCanvasCover" class="canvasCover" style="display:block;"></div>-->
 				</section>
-				<section class="page m-game light">
-						<div id="score">0</div>
-						<div id="clock">0</div>
-						<div id="gameCanvas" class="show"></div>
+				<section class="page m-game">
+						<div id="gameTimer">
+								<div id="score">0</div>
+								<div id="clock">0</div>
+						</div>
+						<div id="gameCanvasCover" class="canvasCover"></div>
+						<div id="gameCanvas"></div>
+						<img id="game_over" src="" />
 				</section>
 				<section class="page m-loading">
-					 <span>Ready</span>
+					 <img id="loading_reday" src="" />
+					 <img id="loading_go" src=""  style="display:none;"  />
 				</section>
 				<section class="page m-startup">
-					 <div id="startup_startBtn">
-						开始
-					 </div> 
+					<div id="startUpPage" ></div>
+					 <div class="button_parent">
+							 <div id="startup_startBtn" class="btn"></div> 
+					 </div>
 				</section>
 		</div>
-	
+		<!--
+		TODO : Add sound play when touch the screen
+		<embed src="audio/flip.mp3" autostart="true" hidden="true" loop="false">
+		-->
 </body>
 <script type="text/javascript" src="./js/lib/seajs/sea.js"></script>
 <script type="text/javascript">
