@@ -45,29 +45,30 @@
 	-->
 		<div id="main">
 				<section class="page m-result">
-						<div id="resultPage" ></div>
-						<div id="result">
-								<div id="msg">
-								</div>
-								<div id="actionBtns">
-										<div id="retry"  class="btn"> </div>
-										<div id="share" class="btn"> </div>
-								</div>
-						</div>
 						<div id="pageshareguide" class="page">
 								<img id="shareguideImg" src=""/>
-								<div><h1>点击右上角分享你的成绩！</h1></div>
 						</div>
-						<!--<div id="resultCanvasCover" class="canvasCover" style="display:block;"></div>-->
 				</section>
 				<section class="page m-game">
 						<div id="gameTimer">
 								<div id="score">0</div>
 								<div id="clock">0</div>
 						</div>
-						<div id="gameCanvasCover" class="canvasCover"></div>
 						<div id="gameCanvas"></div>
-						<img id="game_over" src="" />
+						
+						<div id="resultPage">
+								<img id="game_over" src="" />
+								
+								<div id="msg_current_score" style=""></div>
+								<div id="msg_history_score" style=""></div>
+								<div id="msg" style=""></div>
+								<div id="actionBtns">
+										<div id="retry"  class="btn"> </div>
+										<div id="share" class="btn"> </div>
+								</div>
+								
+						</div>
+						<div id="gameCanvasCover" class="canvasCover"></div>
 				</section>
 				<section class="page m-loading">
 					 <img id="loading_reday" src="" />

@@ -81,7 +81,7 @@ h3{line-height:30px; margin:0; font-size:1.1em; padding-left:10px; border-bottom
 		border-radius: 15px;
 }
 
-#startUpPage, #resultPage{
+#startUpPage{
 		width: 100%;
 		height: 100%;
 		position: absolute;
@@ -125,39 +125,45 @@ margin-right:60px;
 	height:100%;
 	top: 0;
 	left: 0;
-	opacity:0.2;
+	opacity:0.6;
 	z-index:30;
 	background-color:black;
 	display:none;
 }
+
+ #resultPage{
+		width: 100%;
+		height: 100%;
+		z-index:110;
+		position: absolute;
+		display:none;
+}
 #game_over{
-	position: absolute;
-	top: 200px;
-	left: 50px;
-	display:none;
-	z-index:110;
+	position: relative;
+	margin:auto;
+	padding-left:20px;
+	margin-bottom:30px;
+	z-index:30;
 }
 a{ text-decoration:none;}
 a:hover{text-decoration:none;}
 
-#msg{
-height:140px;
-font-size:26px;
-color:drakgreen;
-}
 
+#msg_current_score, #msg_history_score{
+font-size:50px;
+margin-left:80px;
+margin-top:40px;
+color: darkgreen;
+}
 #actionBtns{
 	position: relative;
-	width:600px;
-	height:100%;
 	margin:auto;
-	padding:50px;
 }
 
 #retry, #share{
 	float:left;
 	width:200px;
-	margin:240px 20px 0px 20px;
+	margin:30px 12px 0px 42px;
 }
 #shareguideImg{
 	width:640px;

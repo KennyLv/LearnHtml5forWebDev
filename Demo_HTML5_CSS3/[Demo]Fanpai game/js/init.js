@@ -78,19 +78,10 @@
 			$("#loading_reday").attr("src", "" + "./img/ready.png" + "");
 			$("#loading_go").attr("src", "" +  "./img/go.png"  + "");
 			$("#game_over").attr("src", "" +  "./img/gameover.png"  + "");
-			
-			$("#resultPage").css("background", "url(" + resultBgImg + ") center center no-repeat");
-			
+			$("#resultPage").css("background", "url(" + resultBgImg + ") 20px 100px no-repeat");
 			$("#retry").css("background", "url(" + retryBtnImg + ") no-repeat");
 			$("#share").css("background", "url(" + shareBtnImg + ") no-repeat");
-			
 			$("#shareguideImg").attr("src", "" + guideImg + "");
-			
-			$("#pageshareguide").on('click',function(e){
-			//$("#pageshareguide").on('touchend',function(e){
-					e.preventDefault(); // 阻止"默认冒泡行为"
-					$("#pageshareguide").css("display", "none");
-			});
 			
 			showScreen("startup");//
 			
@@ -117,21 +108,36 @@
 			//$("#retry").on('touchend',function(e){
 					e.preventDefault();
 					startNewGame( images, cardBgImg, gameStatusChangedCallback );
-					showScreen("game");
+					$("#gameCanvasCover").css("display", "none");
+					$("#resultPage").css("display", "none");
+					//showScreen("game");
 					game.start();
 			});
 		
 			$("#share").on('click',function(e){
 			//$("#share").on('touchend',function(e){
 					e.preventDefault();
+					showScreen("result");
 					$("#pageshareguide").css("display", "block");
 			});
+			
+			$("#pageshareguide").on('click',function(e){
+			//$("#pageshareguide").on('touchend',function(e){
+					e.preventDefault(); // 阻止"默认冒泡行为"
+					//$("#pageshareguide").css("display", "none");
+					/*
+					startNewGame( images, cardBgImg, gameStatusChangedCallback );
+					showScreen("game");
+					game.start();
+					*/
+			});
+			
 		
 	}
 	
 	function startNewGame(sourceImgs, backImgs, statusChangedCallback ){
 					var gameCanvas = $('#gameCanvas');
-					game.setUp(gameCanvas, sourceImgs, backImgs, {"totalCardsNum":20, "timeLimit":10},statusChangedCallback);
+					game.setUp(gameCanvas, sourceImgs, backImgs, {"totalCardsNum":20, "timeLimit":1},statusChangedCallback);
 	}
 	
 	function playMusic(){
@@ -152,13 +158,17 @@
 					break;
 					case "FAILED":
 							$("#gameCanvasCover").css("display", "block");
-							$("#game_over").css("display", "block");
+							$("#resultPage").css("display", "block");
+							$("#msg_current_score").html("当前得分 ：" + _data.score);
+							$("#msg_history_score").html("历史最高 ：" + _data.score);
+							/*
 							$("#game_over").animate("popinscan", 1500, "ease-out", function(){
 									$("#game_over").css("display", "none");
 									$("#gameCanvasCover").css("display", "none");
 									showScreen("result");
 									$("#msg").html("You have get " + _data.score + ", retry?");
 							});
+							*/
 					break;
 			}
 	}
