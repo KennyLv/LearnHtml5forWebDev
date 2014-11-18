@@ -65,12 +65,10 @@ define(function(require,exports,module){
 					offsetX = realOffset.x;
 					offsetY = realOffset.y;
 					
+					ctx.strokeStyle = 'red';
 					ctx.fillStyle = '#808080';
 					ctx.fillRect(0, 0, w, h);
 					ctx.globalCompositeOperation = 'destination-out';
-					
-					//ctx.save(); //保存了当前context的状态
-					//ctx.restore(); //恢复到刚刚保存的状态
 					
 					_canvas.addEventListener('touchstart', eventDown);
 					_canvas.addEventListener('touchend', eventUp);
@@ -125,9 +123,8 @@ define(function(require,exports,module){
 					ctx.globalCompositeOperation = 'lighter'; //source-over,source-out,destination-over,destination-atop,lighter,copy
 					ctx.fillStyle = '#808080';
 					ctx.fillRect(0, 0, w, h);
-					
+					//
 					ctx.globalCompositeOperation = 'destination-out';
-					ctx.stroke();
 			}else{
 				return "Canvas is null...";
 			}
