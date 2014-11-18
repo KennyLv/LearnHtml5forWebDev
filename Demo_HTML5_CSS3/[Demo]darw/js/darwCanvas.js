@@ -65,14 +65,12 @@ define(function(require,exports,module){
 					offsetX = realOffset.x;
 					offsetY = realOffset.y;
 					
-					w = _style.width;
-					h = _style.height;
-					
-					ctx=_canvas.getContext('2d');
-					ctx.fillStyle = 'gray';
+					ctx.fillStyle = '#808080';
 					ctx.fillRect(0, 0, w, h);
 					ctx.globalCompositeOperation = 'destination-out';
 					
+					//ctx.save(); //保存了当前context的状态
+					//ctx.restore(); //恢复到刚刚保存的状态
 					
 					_canvas.addEventListener('touchstart', eventDown);
 					_canvas.addEventListener('touchend', eventUp);
@@ -83,7 +81,7 @@ define(function(require,exports,module){
 
 					//_p.appendChild(_canvas);
 					console.log("render canvas finished...");
-					return _canvas;
+					//return _canvas;
 		}
 		
 					
@@ -99,10 +97,40 @@ define(function(require,exports,module){
 		}
 		
     exports.showCanvas = function(_canvas, _canvasStyle, _printStyle, _completeFn) {
-			returnFn = _completeFn;
-			percent = _printStyle.finishedPercent;
-			stocketWidth = _printStyle.brush;
-			canvas = _renderCanvas(_canvas, _canvasStyle);
+				returnFn = _completeFn;
+				percent = _printStyle.finishedPercent;
+				stocketWidth = _printStyle.brush;
+				w = _canvasStyle.width;
+				h = _canvasStyle.height;
+				canvas = _canvas;
+				ctx=_canvas.getContext('2d');
+				_renderCanvas(_canvas, _canvasStyle);
+		};
+		exports.reDrawCanvas = function() {
+			if(canvas !=null){
+					console.log("Canvas is not null...");
+					ctx.clearRect(0, 0, w, h);
+					/*
+							source-over	默认。在目标图像上显示源图像。
+							source-atop	在目标图像顶部显示源图像。源图像位于目标图像之外的部分是不可见的。
+							source-in	在目标图像中显示源图像。只有目标图像内的源图像部分会显示，目标图像是透明的。
+							source-out	在目标图像之外显示源图像。只会显示目标图像之外源图像部分，目标图像是透明的。
+							destination-over	在源图像上方显示目标图像。
+							destination-atop	在源图像顶部显示目标图像。源图像之外的目标图像部分不会被显示。
+							destination-in	在源图像中显示目标图像。只有源图像内的目标图像部分会被显示，源图像是透明的。
+							destination-out	在源图像外显示目标图像。只有源图像外的目标图像部分会被显示，源图像是透明的。
+							lighter	显示源图像 + 目标图像。
+							copy	显示源图像。忽略目标图像。
+					*/
+					ctx.globalCompositeOperation = 'lighter'; //source-over,source-out,destination-over,destination-atop,lighter,copy
+					ctx.fillStyle = '#808080';
+					ctx.fillRect(0, 0, w, h);
+					
+					ctx.globalCompositeOperation = 'destination-out';
+					ctx.stroke();
+			}else{
+				return "Canvas is null...";
+			}
 		};
     exports.onNotifyPositionChanged = function() {
 			var realOffset = getOffset(canvas,  {"x" : 0, "y" : 0} );

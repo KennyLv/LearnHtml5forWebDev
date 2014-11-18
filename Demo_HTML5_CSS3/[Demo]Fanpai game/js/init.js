@@ -137,7 +137,7 @@
 	
 	function startNewGame(sourceImgs, backImgs, statusChangedCallback ){
 					var gameCanvas = $('#gameCanvas');
-					game.setUp(gameCanvas, sourceImgs, backImgs, {"totalCardsNum":20, "timeLimit":1},statusChangedCallback);
+					game.setUp(gameCanvas, sourceImgs, backImgs, {"totalCardsNum":20, "timeLimit":10},statusChangedCallback);
 	}
 	
 	function playMusic(){
@@ -160,7 +160,7 @@
 							$("#gameCanvasCover").css("display", "block");
 							$("#resultPage").css("display", "block");
 							$("#msg_current_score").html("当前得分 ：" + _data.score);
-							$("#msg_history_score").html("历史最高 ：" + _data.score);
+							$("#msg_history_score").html("历史最高 ：" + _data.highestScore);
 							/*
 							$("#game_over").animate("popinscan", 1500, "ease-out", function(){
 									$("#game_over").css("display", "none");

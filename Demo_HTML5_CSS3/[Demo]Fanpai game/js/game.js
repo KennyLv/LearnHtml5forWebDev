@@ -16,6 +16,7 @@
 	var statusChangedNotification = null;
 	
 	var gameStaus = {
+			highestScore : 0,
 			score : 0,
 			remainTime : 60,
 			status : "STOPPED" // "STARTED" "FINISHED" "FAILED"
@@ -23,6 +24,10 @@
 	}
 	
 	var _updateStatus = function(_status){
+			gameStaus.status= _status;
+			if(gameStaus.score>gameStaus.highestScore){
+					gameStaus.highestScore = gameStaus.score;
+			}
 			gameStaus.status= _status;
 			if(statusChangedNotification != null){
 					statusChangedNotification(gameStaus);

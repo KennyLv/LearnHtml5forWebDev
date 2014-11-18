@@ -9,23 +9,18 @@
 			var canvaStyle={
 					"width" : "300",
 					"height" : "120",
-					"top" : "20",
-					"left" : "120"
+					"top" : "10",
+					"left" : "10"
 			};
 			var printStyle = {
-					finishedPercent : 0.2,
+					finishedPercent : 0.6,
 					brush : 15
 			}
 			var onFinishedFn = function(){
-					alert("OK");
+					console.log("finished...");
+					darwCanvas.reDrawCanvas();
 			}
 			darwCanvas.showCanvas(loadCanvas, canvaStyle, printStyle, onFinishedFn);
-			
-			setTimeout(function(){
-					document.getElementById("rootDiv").style.top = "300px";
-					darwCanvas.onNotifyPositionChanged();
-			}, 3000);
-			
 	});
 	
 	
