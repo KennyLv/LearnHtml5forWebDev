@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<!-- saved from url=(0062)http://city41.github.io/breakouts/craftyjs/index.html?usetiles -->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<script type="text/javascript" src="crafty.js"></script>
+		<script type="text/javascript" src="launch.js"></script>
+		<script type="text/javascript" src="edges.js"></script>
+		<script type="text/javascript" src="center.js"></script>
+		<script type="text/javascript" src="ball.js"></script>
+		<script type="text/javascript" src="brick.js"></script>
+		<script type="text/javascript" src="paddle.js"></script>
+		<script type="text/javascript" src="countdown.js"></script>
+		<script type="text/javascript" src="powerup.js"></script>
+		<script type="text/javascript" src="powerdown.js"></script>
+		<script type="text/javascript" src="common.js"></script>
+		<script type="text/javascript" src="loading.js"></script>
+		<script type="text/javascript" src="levelsetups.js"></script>
+		<script type="text/javascript" src="menu.js"></script>
+		<script type="text/javascript" src="play.js"></script>
+		<script type="text/javascript" src="gameover.js"></script>
+		<script type="text/javascript" src="win.js"></script>
+
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+
+		<title>CraftyJS -- Breakouts</title>
+		<style>
+			body, html {
+				margin: 0;
+				padding: 0;
+				overflow: hidden;
+				font-family: Arial;
+				font-size: 20px;
+				background-color: black;
+			}
+			#cr-stage {
+				margin: 0 auto;
+				color: white;
+				cursor: none;
+			}
+			@media (min-width: 641px) {
+				#cr-stage {
+					position: absolute !important;
+					left: 0;
+					right: 0;
+					top: 0;
+					bottom: 0;
+					margin: auto;
+				}
+			}
+
+		</style>
+
+	</head>
+	<body>
+		<div id="cr-stage" style="width: 320px; height: 416px; overflow: hidden; position: relative; background: rgb(0, 0, 0);">
+			<div style="position: absolute; z-index: 1; -webkit-transform: scale(1, 1); transform: scale(1, 1);">
+				<div id="ent2152" class="2D DOM logo Sprite obj" style="position: absolute; visibility: visible; width: 131px; height: 175px; opacity: 1; transform: translate3d(94px, 38px, 0px); -webkit-transform: translate3d(94px, 38px, 0px); background: url(./media/logo.png) 0px 0px no-repeat;"></div>
+				<div id="ent2153" class="2D DOM Text obj" style="position: absolute; font-weight: bold; font-size: 30px; text-align: center; visibility: visible; width: 320px; opacity: 1; transform: translate3d(0px, 213px, 0px); -webkit-transform: translate3d(0px, 213px, 0px); color: rgb(0, 0, 0);">
+					Breakout
+				</div>
+				<div id="ent2154" class="2D DOM Text obj" style="position: absolute; text-align: center; visibility: visible; width: 320px; height: 30px; opacity: 1; transform: translate3d(0px, 268px, 0px); -webkit-transform: translate3d(0px, 268px, 0px); color: rgb(0, 0, 0);">
+					click to start
+				</div>
+				<div id="ent2155" class="2D DOM Text obj" style="position: absolute; text-align: center; visibility: visible; width: 320px; height: 30px; opacity: 1; transform: translate3d(0px, 348px, 0px); -webkit-transform: translate3d(0px, 348px, 0px); color: rgb(0, 0, 0);">
+					during the game:
+					use L/R arrow keys to skip levels
+				</div>
+				<div id="ent2156" class="2D DOM Mouse Text obj" style="position: absolute; visibility: visible; width: 320px; height: 480px; opacity: 1; transform: translate3d(0px, 0px, 0px); -webkit-transform: translate3d(0px, 0px, 0px);"></div>
+			</div>
+			<canvas width="320" height="416" style="position: absolute; left: 0px; top: 0px;"></canvas>
+		</div>
+
+	</body>
+</html>

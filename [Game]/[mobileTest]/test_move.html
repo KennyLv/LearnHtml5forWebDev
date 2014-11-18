@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+		<title>mobile test</title>
+		<style>
+			body{ 
+				margin:0px;
+				height:100%; 
+				background-color: lightblue;
+			} 
+		</style>
+	</head>
+	<body>
+			<div id="myTextresult">+</div>
+	</body>
+	<script type="text/javascript">
+			var testResult = document.getElementById("myTextresult");
+			var startX, startY;
+			
+			document.body.addEventListener('touchstart', function(event) {
+				event.preventDefault();
+				
+				alert();
+				var touch = event.touches[0];
+				startX = touch.pageX;
+				startY = touch.pageY;
+				
+				
+			}, false);
+			
+			document.body.addEventListener('touchmove', function(event) {
+				event.preventDefault();
+				
+				testResult.innerHTML= touch.pageX;
+				
+			}, false);
+			
+			document.body.addEventListener('touchend', function(event) {
+				event.preventDefault();
+				var touch = event.touches[0];
+				var endX = touch.pageX, endY = touch.pageY;
+				
+				var moveX = endX - startX;
+				var moveY = endY - startY;
+				
+				if(Math.abs(moveY) > Math.abs(moveX)){
+					if(moveY>0){
+						testResult.innerHTML="об";
+					}else{
+						testResult.innerHTML="ио";
+					}
+				}else{
+					if(moveX>0){
+						testResult.innerHTML="вС";
+					}else{
+						testResult.innerHTML="ср";
+					}
+				}
+			}, false);
+			
+		</script>  
+</html>

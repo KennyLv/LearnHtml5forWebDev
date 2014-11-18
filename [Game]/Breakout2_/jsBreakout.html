@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<!-- saved from url=(0035)http://3demax.github.io/jsBreakout/ -->
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+		<title>jsBreakout</title>
+		<meta charset="UTF-8">
+		<link rel="stylesheet" href="field.css" type="text/css">
+		<!--	RightJS library-->
+		<script type="text/javascript" src="right.js"></script>
+		<!--	helper scripts	-->
+		<script type="text/javascript" src="classes.js"></script>
+		<script type="text/javascript" src="physics.js"></script>
+		<!--	Main script-->
+		<script type="text/javascript" src="main.js"></script>
+		<script type="text/javascript">
+			function AppLoop() {
+				if (App.running) {
+					App.update();
+				}
+				setTimeout(AppLoop, App.cycleDuration);
+			}
+
+
+			$(document).on('ready', function() {
+				App.load();
+				App.reset();
+				AppLoop();
+			});
+		</script>
+	</head>
+
+	<body>
+		<div id="wrapper">
+			<div id="field">
+				<div id="bricks-layer">
+					<div class="brick p7" id="0">
+						<p></p>
+					</div>
+					<div class="brick p7" id="1">
+						<p></p>
+					</div>
+					<div class="brick p7" id="2">
+						<p></p>
+					</div>
+					<div class="brick p7" id="3">
+						<p></p>
+					</div>
+					<div class="brick p7" id="4">
+						<p></p>
+					</div>
+					<div class="brick p7" id="5">
+						<p></p>
+					</div>
+					<div class="brick p7" id="6">
+						<p></p>
+					</div>
+					<div class="brick p7" id="7">
+						<p></p>
+					</div>
+					<div class="brick p7" id="8">
+						<p></p>
+					</div>
+					<div class="brick p7" id="9">
+						<p></p>
+					</div>
+					<div class="brick p5" id="10">
+						<p></p>
+					</div>
+					<div class="brick p5" id="11">
+						<p></p>
+					</div>
+					<div class="brick p5" id="12">
+						<p></p>
+					</div>
+					<div class="brick p5" id="13">
+						<p></p>
+					</div>
+					<div class="brick p5" id="14">
+						<p></p>
+					</div>
+					<div class="brick p5" id="15">
+						<p></p>
+					</div>
+					<div class="brick p5" id="16">
+						<p></p>
+					</div>
+					<div class="brick p5" id=""></div>
+					<div class="brick p5" id="18">
+						<p></p>
+					</div>
+					<div class="brick p5" id="19">
+						<p></p>
+					</div>
+					<div class="brick p3" id="20">
+						<p></p>
+					</div>
+					<div class="brick p3" id="21">
+						<p></p>
+					</div>
+					<div class="brick p3" id="22">
+						<p></p>
+					</div>
+					<div class="brick p3" id="23">
+						<p></p>
+					</div>
+					<div class="brick p3" id=""></div>
+					<div class="brick p3" id="25">
+						<p></p>
+					</div>
+					<div class="brick p3" id="26">
+						<p></p>
+					</div>
+					<div class="brick p3" id=""></div>
+					<div class="brick p3" id="28">
+						<p></p>
+					</div>
+					<div class="brick p3" id="29">
+						<p></p>
+					</div>
+				</div>
+				<div id="ball" style="left: 318px; top: 110px; transition: 0.2s; -webkit-transition: 0.2s;"></div>
+				<div id="racket" style="left: 299px;"></div>
+				<div id="display">
+					<p id="message" style="display: none;">
+						&nbsp;
+					</p>
+				</div>
+			</div>
+			<div id="arrows">
+				<button id="arrow-left">
+					←
+				</button>
+				<button id="arrow-right">
+					→
+				</button>
+			</div>
+			<div id="info">
+				<dl>
+					<dt>
+						jsBREAKOUT
+					</dt>
+					<dd id="about">
+						A clone of the classic Atari game. Use arrow keys or mouse to move the pad and destroy bricks with the ball.
+					</dd>
+					<dt>
+						points:
+					</dt>
+					<dd id="points">
+						11
+					</dd>
+					<dt>
+						lives left:
+					</dt>
+					<dd id="lives">
+						4
+					</dd>
+				</dl>
+			</div>
+			<audio id="player" src="sounds/brick-low.wav" preload="auto" autobuffer=""></audio>
+		</div>
+
+	</body>
+</html>
