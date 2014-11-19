@@ -1,13 +1,14 @@
 define(function(require,exports,module){
-
-		var w, h;
+		var w=0,h=0;
+		var cover_start_x=0,cover_start_y=0,cover_width=0,cover_height=0;
 		var offsetX=0, offsetY=0;
 		var percent = 0.15;
-		var stocketWidth = 15;
+		var stocketWidth = 10;
 		var canvas = null;
 		var ctx = null;
 		var returnFn = null;
-		
+		var x = document.getElementById("x");//
+		var y = document.getElementById("y");//
 		var mousedown = false;
 		var eventDown = function(e){
 				e.preventDefault();
@@ -20,11 +21,12 @@ define(function(require,exports,module){
 					if(e.changedTouches){
 							e=e.changedTouches[e.changedTouches.length-1];
 					}
-					var x = (e.clientX + document.body.scrollLeft || e.pageX) - offsetX || 0, y = (e.clientY + document.body.scrollTop || e.pageY) - offsetY || 0;
-					
+					var _x = (e.clientX + document.body.scrollLeft || e.pageX) - offsetX || 0, _y = (e.clientY + document.body.scrollTop || e.pageY) - offsetY || 0;
+					x.innerText = _x + "-";
+					y.innerText = _y + "-";
 					with(ctx) {
 						beginPath();
-						arc(x, y, stocketWidth, 0, Math.PI * 2);
+						arc(_x, _y, stocketWidth, 0, Math.PI * 2);
 						fill();
 					}
 					
@@ -35,13 +37,16 @@ define(function(require,exports,module){
 				e.preventDefault();
 				mousedown = false;
 				
-				var data=ctx.getImageData(0,0,w,h).data;
+				var data=ctx.getImageData(cover_start_x,cover_start_y,cover_width,cover_height).data;
+				
 				for(var i=0,j=0;i<data.length;i+=4){
 						if(data[i] && data[i+1] && data[i+2] && data[i+3]){
-								j++;
+								if(data[i+3] != 0){
+										j++;
+								}
 						}
 				}
-				if(j<=w*h*percent){
+				if(j<=cover_width*cover_height*percent){
 						if(typeof (returnFn) === "function"){
 								returnFn();
 						}
@@ -56,16 +61,19 @@ define(function(require,exports,module){
 					_canvas.style.position = 'absolute';
 					_canvas.style.top = _style.top + 'px';
 					_canvas.style.left = _style.left + 'px';
-					_canvas.style.width=_style.width + 'px';
-					_canvas.style.height=_style.height + 'px';
+					_canvas.width=_style.width;
+					_canvas.height=_style.height;
 					
 					//console.log(_canvas.offsetParent.offsetLeft);
 					
-					var realOffset = getOffset(_canvas,  {"x" : 0, "y" : 0} );
+					/*var realOffset = getOffset(_canvas,  {"x" : 0, "y" : 0} );
 					offsetX = realOffset.x;
 					offsetY = realOffset.y;
+					*/
+					offsetX = _canvas.offsetLeft;
+					offsetY = _canvas.offsetTop;
 					
-					ctx.strokeStyle = 'red';
+					//ctx.strokeStyle = 'red';
 					ctx.fillStyle = '#808080';
 					ctx.fillRect(0, 0, w, h);
 					ctx.globalCompositeOperation = 'destination-out';
@@ -98,8 +106,13 @@ define(function(require,exports,module){
 				returnFn = _completeFn;
 				percent = _printStyle.finishedPercent;
 				stocketWidth = _printStyle.brush;
+				
 				w = _canvasStyle.width;
 				h = _canvasStyle.height;
+				cover_start_x = _canvasStyle.cover_start_x;
+				cover_start_y = _canvasStyle.cover_start_y;
+				cover_width = _canvasStyle.cover_width;
+				cover_height = _canvasStyle.cover_height;
 				canvas = _canvas;
 				ctx=_canvas.getContext('2d');
 				_renderCanvas(_canvas, _canvasStyle);

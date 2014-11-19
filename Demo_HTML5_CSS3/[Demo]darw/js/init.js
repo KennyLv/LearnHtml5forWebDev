@@ -4,17 +4,20 @@
 	var darwCanvas = require('./darwCanvas');
 	
 	$(function(){
-	
 			var loadCanvas = document.getElementById("clearCanvas");//
 			var canvaStyle={
-					"width" : "300",
-					"height" : "120",
-					"top" : "10",
-					"left" : "10"
+					"width" : "600",
+					"height" : "300",
+					"top" : "100",
+					"left" : "100",
+					"cover_start_x" : "100",
+					"cover_start_y" : "50",
+					"cover_width" : "50",
+					"cover_height" : "50"
 			};
 			var printStyle = {
-					finishedPercent : 0.6,
-					brush : 15
+					finishedPercent : 0.3,
+					brush : 10
 			}
 			var onFinishedFn = function(){
 					console.log("finished...");
