@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>HTML5 TEST</title>
+<script type="text/javascript">
+		var conf={
+				appid : "A151F5-A1DF1-5SD3-1CV5S-D1FC5-SDF1S3-DF51AS"
+		};
+		function localstorage(){
+					this.setItem = function(key,value){
+						if(conf.appid){
+							window.localStorage.setItem(conf.appid+"_"+key,value);
+						}else{
+							window.localStorage.setItem(key,value);
+						}
+					}
+					
+					this.getItem = function(key){
+						if(conf.appid){
+							return window.localStorage.getItem(conf.appid+"_"+key);
+						}else{
+							return window.localStorage.getItem(key);
+						}
+					}
+					
+					this.removeItem = function(key){
+						if(conf.appid){
+							window.localStorage.removeItem(conf.appid+"_"+key);
+						}else{
+							window.localStorage.removeItem(key);
+						}
+					}
+					
+					this.clearStorage = function(){
+						window.localStorage.clear();
+						if(1!=1){
+							for(var i=0;i<window.localStorage.length;i++){
+								window.localStorage.removeItem(window.localStorage.key(i));
+							}
+						}
+					}
+					
+					this.getAll = function(){
+							if(window.localStorage.length<1){
+									console.log("window.localStorage is empty...");
+									return;
+							}
+							for(var i in window.localStorage){
+									console.log( i + "  :  " + window.localStorage[i]);
+							}
+					}
+		}
+		
+		var ls = new localstorage();
+</script>
+</head>
+<body>
+<input type="button"   value="getLocalStorage" onclick="ls.getAll();"    />
+<input type="button"   value="addONE" onclick="ls.setItem('ONE','test');"    />
+<input type="button"   value="addONE1" onclick="ls.setItem('ONE','test1');"    />
+<input type="button"   value="removeONE" onclick="ls.removeItem('ONE');"    />
+<input type="button"   value="clearStorage" onclick="ls.clearStorage();"    />
+</body></html>
