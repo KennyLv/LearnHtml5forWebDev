@@ -1,0 +1,1074 @@
+<!DOCTYPE html><!--http://blog.xebia.com/2014/02/23/promises-and-design-patterns-in-angularjs/-->
+<html lang="en">
+
+	<head>
+		<meta charset="UTF-8" />
+		<title>Promises and design patterns in AngularJS | Xebia Blog</title>
+
+
+		<style type="text/css">
+			body{
+				font-family: 'Open Sans';
+				font-size:20px;
+			}
+			pre{
+				padding: 1px 20px 1px 20px;
+				background-color: lightblue;
+				font-size: 16px;
+			}
+		</style>
+
+
+
+	</head>
+
+	<body>
+				<!-- Main Content -->
+				<div id="main">
+
+					<!--post-->
+					<div class="post single clearfix">
+						<div class="post-header">
+							<div class="post-title">
+								<a href="http://blog.xebia.com/2014/02/23/promises-and-design-patterns-in-angularjs/">
+									<h2>Promises and design patterns in AngularJS</h2>
+								</a>
+							</div>
+							<div class="post-avatar">
+								Freek Wielstra
+							</div>
+						</div>
+
+						<div class="post-entry">
+							<p>
+								The traditional way to deal with asynchronous tasks in Javascript are callbacks; call a method, give it a function reference to execute once that method is done.
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+$.get('api/gizmo/42', function(gizmo) {
+  console.log(gizmo); // or whatever
+});
+</pre>
+							<p>
+								This is pretty neat, but, it has some drawbacks; for one, combining or chaining multiple asynchronous processes is tricky; it either leads to a lot of boilerplate code, or what's known as callback hell (nesting callbacks and calls in each other):
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+$.get('api/gizmo/42', function(gizmo) {
+  $.get('api/foobars/' + gizmo, function(foobar) {
+    $.get('api/barbaz/' + foobar, function(bazbar) {
+      doSomethingWith(gizmo, foobar, bazbar);
+    }, errorCallback);
+  }, errorCallback);
+}, errorCallback);
+</pre>
+							<p>
+								You get the idea. In Javascript however, there is an alternative to dealing with asynchronous code: Futures, although in Javascript they're often referred to as Promises. The CommonJS standards committee has released a spec that defines this API called
+								<a href="http://wiki.commonjs.org/wiki/Promises" target="_blank">
+									Promises
+								</a>
+								.
+							</p>
+							<p>
+								<span id="more-12536"></span>
+							</p>
+							<p>
+								The concept behind promises is pretty simple, and has two components:
+							</p>
+							<ul>
+								<li>
+									Deferreds, representing <strong>units of work</strong>, and
+								</li>
+								<li>
+									Promises, representing <strong>data</strong> from those Deferreds.
+								</li>
+							</ul>
+							<div id="attachment_12537" style="width: 490px" class="wp-caption alignleft">
+								<a href="http://blog.xebia.com/wp-content/uploads/2014/02/promises.png">
+									<img class="size-medium wp-image-12537 " src="promises_designPatterns_AngularJS.png" alt="source: http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics" width="480" height="396" />
+								</a>
+								<p class="wp-caption-text">
+									source: http://blog.mediumequalsmessage.com/promise-deferred-objects-in-javascript-pt1-theory-and-semantics
+								</p>
+							</div>
+							<p>
+								Basically, you use a Deferred as a communications object to signal the start, progress, and completion of work.
+							</p>
+							<p>
+								A Promise in turn is an object output by a Deferred that represents data; it has a certain State (pending, fulfilled or rejected), and Handlers, or callback methods that should be called once a promise resolves, rejects, or gives a progress update.
+							</p>
+							<p>
+								An important thing that differentiates promises from callbacks is that you can attach a handler <em>after</em> the promise state goes to <em>resolved</em>. This allows you to pass data that may or may not be there yet around in your application, cache it, etc, so that its consumers can perform operations on the data either immediately or as soon as it arrives.
+							</p>
+							<p>
+								For the remainder of this article we'll talk about promises and such in the context of AngularJS. AngularJS relies heavily on promises throughout its codebase, both the framework and the application code you write in it. AngularJS uses its own implementation of
+								<a title="the CommonJS Promises spec" href="http://wiki.commonjs.org/wiki/Promises" target="_blank">
+									the Promises spec
+								</a>
+								, the
+								<a title="The Angular.$q service" href="http://docs.angularjs.org/api/ng.$q" target="_blank">
+									$q service
+								</a>
+								, which in turn is a lightweight implementation of
+								<a title="Kirs Kowal's Q library on GitHub" href="https://github.com/kriskowal/q" target="_blank">
+									the Q library
+								</a>
+								.
+							</p>
+							<p>
+								<em>$q</em> implements all of the Deferred / Promise methods described above, plus a few in <em>$q</em> itself: <em>$q.defer()</em>, which creates a new Deferred object; <em>$q.all()</em>, which allows you to wait for multiple promises to resolve, and the methods <em>$q.when()</em> and <em>$q.reject()</em>, utility methods we'll go into later on.
+							</p>
+							<p>
+								<em>$q.defer()</em> returns a Deferred object, which has the methods <em>resolve()</em>, <em>reject()</em>, and <em>notify()</em>. Deferred has a property <em>promise</em>, which is the promise object that can be passed around the application.
+							</p>
+							<p>
+								The promise object has another three methods: .<em>then()</em>, which is the only method required by the Promises spec, taking three callbacks as arguments; one for success, one for failure, and one for notifications.
+							</p>
+							<p>
+								<em>$q</em> adds two methods on top of the Promise spec though: <em>catch()</em>, which can be used to have a centralized function to be called if <em>any</em> of the promises in a promise chain fails, and <em>finally()</em>, a method that will always be called regardless of success or failure of the promises. Note that these are not to be confused or used in combination with Javascript's exception handling: an exception thrown inside a promise will not be caught by <em>catch()</em>.
+							</p>
+							<h2>Simple promise example</h2>
+							<p>
+								Here's a basic example of using $q, Deferred, and Promise in one. As a disclaimer, none of the code examples in this post have been tested; they also lack the appropriate angular service and dependency definitions, etcetera. But they should provide a good enough example to start fiddling with them yourself.
+							</p>
+							<p>
+								First, we create a new unit of work by creating a Deferred object, using <em>$q.defer()</em>:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+var deferred = $q.defer();
+</pre>
+							<p>
+								Next, we'll grab the <em>promise</em> from the Deferred and attach some behavior to it.
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+var promise = deferred.promise;
+
+promise.then(function success(data) {
+  console.log(data);
+}, function error(msg) {
+  console.error(msg);
+});
+</pre>
+							<p>
+								Finally, we perform some fake work and indicate we're done by telling the deferred:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+deferred.resolve('all done!');
+</pre>
+							<p>
+								Of course, that's not really asynchronous, so we can just fake that using Angular's <em>$timeout</em> service (or Javascript's <em>setTimeout</em>, but, prefer <em>$timeout</em> in Angular applications so you can mock / test it)
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+$timeout(function() {
+  deferred.resolve('All done... eventually');
+}, 1000);
+</pre>
+							<p>
+								And the fun part: we can attach multiple <em>then()</em>s to a single promise, as well as attach <em>then()</em>s <em>after</em> the promise has resolved:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+var deferred = $q.defer();
+var promise = deferred.promise;
+
+// assign behavior before resolving
+promise.then(function (data) {
+  console.log('before:', data);
+});
+
+deferred.resolve('Oh look we\'re done already.')
+
+// assign behavior after resolving
+promise.then(function (data) {
+  console.log('after:', data);
+});
+</pre>
+							<p>
+								Now, what if some error occurred? We'll use <em>deferred.reject()</em>, which will cause the second argument of <em>then()</em> to be called. Just like callbacks.
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+var deferred = $q.defer();
+var promise = deferred.promise;
+
+promise.then(function success(data) {
+  console.log('Success!', data);
+}, function error(msg) {
+  console.error('Failure!', msg);
+});
+
+deferred.reject('We failed :(');
+</pre>
+							<p>
+								As an alternative to passing a second argument to <em>then()</em>, you can <em>chain</em> it with a <em>catch()</em>, which will be called if anything goes wrong in the promise chain (more on chaining later):
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+promise
+  .then(function success(data) {
+    console.log(data);
+  })
+  .catch(function error(msg) {
+    console.error(msg);
+  });
+</pre>
+							<p>
+								As an aside, for longer-term processes (like uploads, long calculations, batch operations, etc), you can use <em>deferred.notify()</em> and the third argument of <em>then()</em> to give the promise's listeners a status update:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+var deferred = $q.defer();
+var promise = deferred.promise;
+
+promise
+  .then(function success(data) {
+    console.log(data);
+  },
+  function error(error) {
+    console.error(error);
+  },
+  function notification(notification) {
+    console.info(notification);
+  }));
+
+ var progress = 0;
+ var interval = $interval(function() {
+  if (progress &gt;= 100) {
+    $interval.cancel(interval);
+    deferred.resolve('All done!');
+  }
+  progress += 10;
+  deferred.notify(progress + '%...');
+ }, 100)
+</pre>
+							<h2>Chaining promises</h2>
+							<p>
+								We've seen earlier that you can attach multiple handlers (<em>then()</em>) to a single promise. The nice part about the promise API is that it allows chaining of handlers:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+promise
+  .then(doSomething)
+  .then(doSomethingElse)
+  .then(doSomethingMore)
+  .catch(logError);
+</pre>
+							<p>
+								For a simple example, this allows you to neatly separate your function calls into pure, single-purpose functions, instead of one-thing-does-all; double bonus if you can re-use those functions for multiple promise-like tasks, just like how you would chain functional methods (on lists and the like).
+							</p>
+							<p>
+								It becomes more powerful if you use the result of a previous asynchronous to trigger a next one. By default, a chain like the one above will pass the returned object to the next <em>then()</em>. Example:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+var deferred = $q.defer();
+var promise = deferred.promise;
+
+promise
+  .then(function(val) {
+    console.log(val);
+    return 'B';
+  })
+  .then(function(val) {
+    console.log(val);
+    return 'C'
+  })
+  .then(function(val) {
+    console.log(val);
+   });
+
+deferred.resolve('A');
+</pre>
+							<p>
+								This will output the following to the console:
+							</p>
+							<pre class="brush: bash; title: ; notranslate" title="">
+A
+B
+C
+</pre>
+							<p>
+								This is a simple example though. It becomes really powerful if your <em>then()</em> callback returns <em>another promise</em>. In that case, the next <em>then()</em> will only be executed once that promise resolves. This pattern can be used for serial HTTP requests, for example (where a request depends on the result of a previous one):
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+var deferred = $q.defer();
+var promise = deferred.promise;
+
+// resolve it after a second
+$timeout(function() {
+  deferred.resolve('foo');
+}, 1000);
+
+promise
+  .then(function(one) {
+    console.log('Promise one resolved with ', one);
+
+    var anotherDeferred = $q.defer();
+
+    // resolve after another second
+
+    $timeout(function() {
+      anotherDeferred.resolve('bar');
+    }, 1000);
+
+    return anotherDeferred.promise;
+  })
+  .then(function(two) {
+    console.log('Promise two resolved with ', two);
+  });
+
+</pre>
+							<p>
+								In summary:
+							</p>
+							<ul>
+								<li>
+									Promise chains will call the next 'then' in the chain with the return value of the previous 'then' callback (or undefined if none)
+								</li>
+								<li>
+									If a 'then' callback returns a promise object, the next 'then' will only execute if/when that promise resolves
+								</li>
+								<li>
+									A final 'catch' at the end of the chain will provide a single error handling point for the entire chain
+								</li>
+								<li>
+									A 'finally' at the end of the chain will always be executed regardless of promise resolving or rejection, for cleanup purposes.
+								</li>
+							</ul>
+							<h2>Parallel promises and 'promise-ifying' plain values</h2>
+							<p>
+								One method I mentioned brielfly was <em>$q.all()</em>, which allows you to wait for multiple promises to resolve in parallel, with a single callback to be executed when all promises resolve. In Angular, this method has two ways to be called: with an <em>Array</em> or an <em>Object</em>. The <em>Array</em> variant takes an array and calls the <em>.then()</em> callback with a single array result object, where the results of each promise correspond with their index in the input array:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+$q.all([promiseOne, promiseTwo, promiseThree])
+  .then(function(results) {
+    console.log(results[0], results[1], results[2]);
+  });
+</pre>
+							<p>
+								The second variant accepts an <em>Object</em> of promises, allowing you to give names to those promises in your callback method (making them more descriptive):
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+$q.all({ first: promiseOne, second: promiseTwo, third: promiseThree })
+  .then(function(results) {
+    console.log(results.first, results.second, results.third);
+  });
+</pre>
+							<p>
+								I would only recommend using the array notation if you can batch-process the result, i.e. if you treat the results equally. The object notation is more suitable for self-documenting code.
+							</p>
+							<p>
+								Another utility method is <em>$q.when()</em>, which is useful if you just want to create a promise out of a plain variable, or if you're simply not sure if you're dealing with a promise object.
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+$q.when('foo')
+  .then(function(bar) {
+    console.log(bar);
+  });
+
+$q.when(aPromise)
+  .then(function(baz) {
+    console.log(baz);
+  });
+
+$q.when(valueOrPromise)
+  .then(function(boz) {
+    // well you get the idea.
+  })
+</pre>
+							<p>
+								<em>$q.when()</em> is also useful for things like caching in services:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+angular.module('myApp').service('MyService', function($q, MyResource) {
+
+  var cachedSomething;
+
+  this.getSomething = function() {
+    if (cachedSomething) {
+      return $q.when(cachedSomething);
+    }
+
+    // on first call, return the result of MyResource.get()
+    // note that 'then()' is chainable / returns a promise,
+    // so we can return that instead of a separate promise object
+    return MyResource.get().$promise
+      .then(function(something) {
+        cachedSomething = something
+      });
+  };
+});
+</pre>
+							<p>
+								And then call it like this:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+MyService.getSomething()
+    .then(function(something) {
+        console.log(something);
+    });
+</pre>
+							<h2>Practical applications in AngularJS</h2>
+							<p>
+								Most I/O in Angular returns promises or promise-compatible ('then-able') objects, however often with a twist.
+								<a title="Angular.$http documentation" href="http://docs.angularjs.org/api/ng.$http" target="_blank">
+									$http's documentation
+								</a>
+								indicates it returns a <em>HttpPromise</em> object, which is a Promise but with two extra (utility) methods, probably to not scare off jQuery users too much. It defines the methods <em>success()</em> and <em>error()</em>, which correspond to the first and second argument of a <em>then()</em> callback, respectively.
+							</p>
+							<p>
+								Angular's <em>$resource</em> service, a wrapper around <em>$http</em> for REST-endpoints, is also a bit odd; the generated methods (<em>get()</em>, <em>save()</em> andsoforth) accept a second and third argument as success and error callbacks, while they also return an object that gets populated with the requested data when the request is resolved. It does not return a promise object directly; instead, the object returned by a resource's <em>get()</em> method has a property <em>$promise</em>, which exposes the backing promise object.
+							</p>
+							<p>
+								On the one side, it's inconsistent with <em>$http</em> and how everything in Angular is or should be a promise, but on the other side it allows a developer to simply assign the result of <em>$resource.get()</em> to the <em>$scope</em>. Previously, a developer could assign any promise to the <em>$scope</em>, but since Angular 1.2 that has been deprecated: see
+								<a title="The commit wherein relying on automatic promise unwrapping in Angular templates is deprecated" href="https://github.com/angular/angular.js/commit/5dc35b527b3c99f6544b8cb52e93c6510d3ac577" target="_blank">
+									this commit where it was deprecated
+								</a>
+								.
+							</p>
+							<p>
+								Personally, I like to have a consistent API, so I wrap pretty much all I/O in a <em>Service</em> that will always return a <em>promise</em> object, but also because calling a <em>$resource</em> is often a bit rough around the edges. Here's a random example:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+angular.module('fooApp')
+  .service('BarResource', function ($resource) {
+    return $resource('api/bar/:id');
+  })
+
+  .service('BarService', function (BarResource) {
+
+    this.getBar = function (id) {
+      return BarResource.get({
+        id: id
+      }).$promise;
+    }
+
+  });
+</pre>
+							<p>
+								This example is a bit obscure because passing the id argument to <em>BarResource</em> looks a bit duplicate, but it makes sense if you've got a complex object but need to call a service with just an ID property from it. The advantage of the above is that in your controller, you know that anything you get from a <em>Service</em> will always be a <em>promise</em> object; you don't have to wonder whether it's a promise or resource result or a <em>HttpPromise</em>, which in turn makes your code more consistent and predictable - and since Javascript is weakly typed and as far as I know there's no IDE out there yet that can tell you what type a method returns without developer-added annotations, that's pretty important.
+							</p>
+							<h2>Practical chaining example</h2>
+							<p>
+								One part of the codebase we are currently working on has calls that rely on the results of a previous call. Promises are ideal for that, and allow you to write in an easy to read code style as long as you keep your code clean. Consider the following example:
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+angular.module('WebShopApp')
+  .controller('CheckoutCtrl', function($scope, $log, CustomerService, CartService, CheckoutService) {
+
+    function calculateTotals(cart) {
+      cart.total = cart.products.reduce(function(prev, current) {
+        return prev.price + current.price;
+      };
+
+      return cart;
+    }
+
+    CustomerService.getCustomer(currentCustomer)
+      .then(CartService.getCart) // getCart() needs a customer object, returns a cart
+      .then(calculateTotals)
+      .then(CheckoutService.createCheckout) // createCheckout() needs a cart object, returns a checkout object
+      .then(function(checkout) {
+        $scope.checkout = checkout;
+      })
+      .catch($log.error)
+
+    });
+</pre>
+							<p>
+								This combines getting data asynchronously (customers, carts, creating a checkout) with processing data synchronously (<em>calculateTotals</em>); the implementation however doesn't know or need to know whether those various services are async or not, it will just wait for the methods to complete, async or not. In this case, <em>getCart()</em> could fetch data from local storage, <em>createCheckout()</em> could perform a HTTP request to make sure the products are all in stock, etcetera. But from the consumer's point of view (the one making the calls), it doesn't matter; it Just Works. And it clearly states what it's doing, just as long as you remeber that the result of the previous <em>then()</em> is passed to the next.
+							</p>
+							<p>
+								And of course it's self-documenting and concise.
+							</p>
+							<h2>Testing promise-based code</h2>
+							<p>
+								Testing promises is easy enough. You can either go the hard way and have your test create mock objects that expose a <em>then()</em> method, which is called directly. However, to keep things simple, I just use <em>$q</em> to create promises - it's a very fast library and you're guaranteed to not be missing any promise implementation subtleties. The following spec tries to demonstrate how to mock out the various services used above. Note that it is rather verbose and long, but, I haven't found a way around it yet outside of making utility methods for promise creation (pointers to making it shorter / more concise are welcome).
+							</p>
+							<pre class="brush: jscript; title: ; notranslate" title="">
+describe('The Checkout controller', function() {
+
+  beforeEach(module('WebShopApp'));
+
+  it('should do something with promises', inject(function($controller, $q, $rootScope) {
+
+    // create mocks; in this case I use jasmine, which has been good enough for me so far as a mocking library.
+    var CustomerService = jasmine.createSpyObj('CustomerService', ['getCustomer']);
+    var CartService = jasmine.createSpyObj('CartService', ['getCart']);
+    var CheckoutService = jasmine.createSpyObj('CheckoutService', ['createCheckout']);
+
+    var $scope = $rootScope.$new();
+    var $log = jasmine.createSpyObj('$log', ['error']);
+
+    // Create deferreds for each of the (promise-based) services
+    var customerServiceDeferred = $q.defer();
+    var cartServiceDeferred = $q.defer();
+    var checkoutServiceDeferred = $q.defer();
+
+    // Have the mocks return their respective deferred's promises
+    CustomerService.getCustomer.andReturn(customerServiceDeferred.promise);
+    CartService.getCart.andReturn(cartServiceDeferred.promise);
+    CheckoutService.createCheckout.andReturn(checkoutServiceDeferred.promise);
+
+    // Create the controller; this will trigger the first call (getCustomer) to be executed,
+    // and it will hold until we start resolving promises.
+    $controller(&quot;CheckoutCtrl&quot;, {
+      $scope: $scope,
+      CustomerService: CustomerService,
+      CartService: CartService,
+      CheckoutService: CheckoutService
+    });
+
+    // Resolve the first customer.
+    var firstCustomer = {id: &quot;customer 1&quot;};
+    customerServiceDeferred.resolve(firstCustomer);
+
+    // ... However: this *will not* trigger the 'then()' callback to be called yet;
+    // we need to tell Angular to go and run a cycle first:
+
+    $rootScope.$apply();
+
+    expect(CartService.getCart).toHaveBeenCalledWith(firstCustomer);
+
+    // setup the next promise resolution
+    var cart = {products: [ { price: 1 }, { price: 2 } ]}
+    cartServiceDeferred.resolve(cart);
+
+    // apply the next 'then'
+    $rootScope.$apply();
+
+    var expectedCart = angular.copy(cart);
+    cart.total = 3;
+
+    expect(CheckoutService.createCheckout).toHaveBeenCalledWith(expectedCart);
+
+    // Resolve the checkout service
+    var checkout = {total: 3}; // doesn't really matter
+    checkoutServiceDeferred.resolve(checkout);
+
+    // apply the next 'then'
+    $rootScope.$apply();
+
+    expect($scope.checkout).toEqual(checkout);
+
+    expect($log.error).not.toHaveBeenCalled();
+  }));
+});
+</pre>
+							<p>
+								As you can see, testing promise code is about ten times as long as the code itself; I don't know if / how to have the same power in less code, but, maybe there's a library out there I haven't found (or made) yet.
+							</p>
+							<p>
+								To get full test coverage, one will have to write tests wherein all three services fail to resolve, one after the other, to make sure the error is logged. While not clearly visible in the code, the code / process actually does have a lot of branches; every promise can, after all, resolve or reject; true or false, or branch out. But, that level of testing granularity is up to you in the end.
+							</p>
+							<p>
+								I hope this article gives people some insight into promises and how they can be used in any Angular application. I think I've only scratched the surface on the possibilities, both in this article and in the AngularJS projects I've done so far; for such a simple API and such simple concepts, the power and impact promises have on most Javascript applications is baffling. Combined with high-level functional utilities and a clean codebase, promises allow you to write your application in a clean, maintainable and easily altered fashion; add a handler, move them around, change the implementation, all these things are easy to do and comprehend if you've got promises under control.
+							</p>
+							<p>
+								With that in mind, it's rather odd that
+								<a title="NodeJS mailing list discussion wherein promises were removed from the NodeJS API" href="https://groups.google.com/forum/#!msg/nodejs/jaufClrXU9U/ov5WHIk7SAwJ" target="_blank">
+									promises were scrapped from NodeJS
+								</a>
+								early on in its development in favor of the current callback nature; I haven't dived into it completely yet, but it seems it had performance issues that weren't compatible with Node's own goals. I do think it makes sense though, if you consider NodeJS to be a low-level library; there are plenty of libraries out there that add the higher-level promises API to Node (like
+								<a href="https://github.com/kriskowal/q)" target="_blank">
+									the aforementioned Q
+								</a>
+								).
+							</p>
+							<p>
+								Another note is that I wrote this post with AngularJS in mind, however, promises and promise-like programming has been possible in the grandfather of Javascript libraries for a couple of years now, jQuery;
+								<a title="JQuery Deferred object documentation" href="http://api.jquery.com/category/deferred-object/" target="_blank">
+									Deferreds
+								</a>
+								were added in jQuery 1.5 (January 2011). Not all plugins may be using them consistently though.
+							</p>
+							<p>
+								Similarly,
+								<a title="BackboneJS Model documentation" href="http://backbonejs.org/#Model" target="_blank">
+									Backbone.js' Model api
+								</a>
+								also exposes promises in its methods (<em>save()</em> etc), however what I understand it doesn't really work right alongside its model events. I might be wrong though, it's been a while.
+							</p>
+							<p>
+								I would definitely recommend aiming for a promise-based front-end application whenever developing a new webapp, it makes the code so much cleaner, especially combined with functional programming paradigms. More functional programming patterns can be found in 
+								<a href="https://leanpub.com/javascript-allonge" target="_blank">
+									Reginald Braithwaite's Javascript Allongé book, free to read on LeanPub
+								</a>
+								; some of those should also be useful in writing promise-based code.
+							</p>
+						</div>
+
+					</div>
+					<!--end post-->
+					<!-- Comments -->
+					<div id="comments">
+
+						<h4>Comments (19)</h4>
+
+						<ol class="comments-list">
+							<li class="comment even thread-even depth-1" id="comment-139629">
+
+								<!--comment body-->
+								<div id="div-comment-139629">
+
+									<div class="comment-meta">
+										<h5 class="author"> Mathews  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=139629#respond' onclick='return addComment.moveForm("div-comment-139629", "139629", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											March 2, 2014 at 8:20 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Excellent write up - this was very helpful for me!
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-139701">
+
+								<!--comment body-->
+								<div id="div-comment-139701">
+
+									<div class="comment-meta">
+										<h5 class="author"> Colin Huang  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=139701#respond' onclick='return addComment.moveForm("div-comment-139701", "139701", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											March 5, 2014 at 9:21 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											A well written piece on Promises in AngularJS and up to date with the Promise API in the current version (1.2.x)
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment even thread-even depth-1" id="comment-149920">
+
+								<!--comment body-->
+								<div id="div-comment-149920">
+
+									<div class="comment-meta">
+										<h5 class="author"> leJuan5150  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=149920#respond' onclick='return addComment.moveForm("div-comment-149920", "149920", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											April 27, 2014 at 12:06 am
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Fantastic ... Been trying to wrap my head around promises, especially promise chaining.  Your article helped a ton!
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-209885">
+
+								<!--comment body-->
+								<div id="div-comment-209885">
+
+									<div class="comment-meta">
+										<h5 class="author"> Jim Beasley  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=209885#respond' onclick='return addComment.moveForm("div-comment-209885", "209885", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											June 13, 2014 at 1:50 am
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Excellent and well written! It helped me to get a better handle on promises.
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment even thread-even depth-1" id="comment-224169">
+
+								<!--comment body-->
+								<div id="div-comment-224169">
+
+									<div class="comment-meta">
+										<h5 class="author"> Robin  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=224169#respond' onclick='return addComment.moveForm("div-comment-224169", "224169", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											June 26, 2014 at 9:16 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Compiled in a very nice way. Excellent!!
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-245520">
+
+								<!--comment body-->
+								<div id="div-comment-245520">
+
+									<div class="comment-meta">
+										<h5 class="author"> Ranjan  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=245520#respond' onclick='return addComment.moveForm("div-comment-245520", "245520", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											July 22, 2014 at 3:08 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											This is great stuff..very helpful..thanks a lot.
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment even thread-even depth-1" id="comment-250180">
+
+								<!--comment body-->
+								<div id="div-comment-250180">
+
+									<div class="comment-meta">
+										<h5 class="author"> Alex Salisbury  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=250180#respond' onclick='return addComment.moveForm("div-comment-250180", "250180", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											July 28, 2014 at 10:13 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Thanks for taking the time to write this up. When issuing multiple async HTTP requests that require a specific order of execution, I was hoping to use $q.all(), but found it difficult to figure out how to pass the first function's result as an argument into the second function. So I ended up following the pattern in your "Practical Chaining Example."
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-257822">
+
+								<!--comment body-->
+								<div id="div-comment-257822">
+
+									<div class="comment-meta">
+										<h5 class="author"> guest  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=257822#respond' onclick='return addComment.moveForm("div-comment-257822", "257822", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											August 5, 2014 at 11:09 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											This article is very helpful. Can you explain how to write unit test for $interval.cancel  and in general for $interval?
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment even thread-even depth-1" id="comment-275085">
+
+								<!--comment body-->
+								<div id="div-comment-275085">
+
+									<div class="comment-meta">
+										<h5 class="author"> Guest  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=275085#respond' onclick='return addComment.moveForm("div-comment-275085", "275085", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											August 19, 2014 at 10:23 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Very nice writeup! Helped me to understand promises from scracth
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-275544">
+
+								<!--comment body-->
+								<div id="div-comment-275544">
+
+									<div class="comment-meta">
+										<h5 class="author"> Akshay  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=275544#respond' onclick='return addComment.moveForm("div-comment-275544", "275544", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											August 20, 2014 at 7:53 am
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Awesome write up. Been looking for this all along. Helped me a ton ... !!!
+											<img src="http://blog.xebia.com/wp-includes/images/smilies/icon_smile.gif" alt=":)" class="wp-smiley" />
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment even thread-even depth-1" id="comment-295409">
+
+								<!--comment body-->
+								<div id="div-comment-295409">
+
+									<div class="comment-meta">
+										<h5 class="author"> Anant  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=295409#respond' onclick='return addComment.moveForm("div-comment-295409", "295409", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											September 2, 2014 at 6:31 am
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Excellent article that explains the overall concept of promises
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-330813">
+
+								<!--comment body-->
+								<div id="div-comment-330813">
+
+									<div class="comment-meta">
+										<h5 class="author"> AE  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=330813#respond' onclick='return addComment.moveForm("div-comment-330813", "330813", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											September 25, 2014 at 5:55 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Nice read. Thanks.
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment even thread-even depth-1" id="comment-335016">
+
+								<!--comment body-->
+								<div id="div-comment-335016">
+
+									<div class="comment-meta">
+										<h5 class="author"> Heinrich Goebl  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=335016#respond' onclick='return addComment.moveForm("div-comment-335016", "335016", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											September 28, 2014 at 6:50 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Very good article - thank you very much! In Node.js I usually use the `async` library and I never missed something like promises. In AngularJS it's very handy, though.
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-355078">
+
+								<!--comment body-->
+								<div id="div-comment-355078">
+
+									<div class="comment-meta">
+										<h5 class="author"> Ankit  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=355078#respond' onclick='return addComment.moveForm("div-comment-355078", "355078", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											October 7, 2014 at 8:40 am
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											very helpful artical,thanks a lot
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment even thread-even depth-1" id="comment-358155">
+
+								<!--comment body-->
+								<div id="div-comment-358155">
+
+									<div class="comment-meta">
+										<h5 class="author"> Chriss Degrece  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=358155#respond' onclick='return addComment.moveForm("div-comment-358155", "358155", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											October 8, 2014 at 9:16 am
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Thanks a LOT, this is by far the BEST article on promises AND $q I have read the last few days I am trying to learn about promises and $q.
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-370157">
+
+								<!--comment body-->
+								<div id="div-comment-370157">
+
+									<div class="comment-meta">
+										<h5 class="author"> John_KIdd  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=370157#respond' onclick='return addComment.moveForm("div-comment-370157", "370157", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											October 13, 2014 at 3:24 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Very nice and concise blog. Covers everything I needed to know regarding angular's implementation of promises.
+										</p>
+										<p>
+											Thanks
+											<br />
+											John
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment even thread-even depth-1" id="comment-373570">
+
+								<!--comment body-->
+								<div id="div-comment-373570">
+
+									<div class="comment-meta">
+										<h5 class="author"> BR  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=373570#respond' onclick='return addComment.moveForm("div-comment-373570", "373570", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											October 15, 2014 at 10:02 am
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Thank you, very helpful article!
+											<br />
+											In unit tests, the aforementioned utility methods ($q.when() and $q.reject()) can save some lines.
+										</p>
+										<p>
+											E.g:
+										</p>
+										<p>
+											var cartServiceDeferred = $q.defer();
+											<br />
+											CartService.getCart.andReturn(cartServiceDeferred.promise);
+											<br />
+											// ...
+											<br />
+											var cart = {products: [ { price: 1 }, { price: 2 } ]};
+											<br />
+											cartServiceDeferred.resolve(cart);
+										</p>
+										<p>
+											////// with $q.when():
+										</p>
+										<p>
+											var cart = {products: [ { price: 1 }, { price: 2 } ]};
+											<br />
+											// .....
+											<br />
+											CartService.getCart.andReturn($q.when(cart));
+										</p>
+									</div>
+
+								</div>
+							</li><!-- #comment-## -->
+							<li class="comment odd alt thread-odd thread-alt depth-1 parent" id="comment-502424">
+
+								<!--comment body-->
+								<div id="div-comment-502424">
+
+									<div class="comment-meta">
+										<h5 class="author"> Johnny  -
+										<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=502424#respond' onclick='return addComment.moveForm("div-comment-502424", "502424", "respond", "12536")'>
+											Reply
+										</a></h5>
+										<p class="date">
+											November 20, 2014 at 3:45 pm
+										</p>
+									</div>
+									<div class="comment-entry">
+										<p>
+											Nice article thanks!!, My only comment is that sadly there is no way to block (for those rare and important cases you do actually need to..).
+										</p>
+										<p>
+											I.e. from your article:
+										</p>
+										<p>
+											"$q.all(), which allows you to wait for multiple promises to resolve"
+										</p>
+										<p>
+											it doesn't actually wait, the execution line returns immediately :(.
+										</p>
+									</div>
+
+								</div>
+								<ul class="children">
+									<li class="comment byuser comment-author-fwielstra bypostauthor even depth-2" id="comment-502446">
+
+										<!--comment body-->
+										<div id="div-comment-502446">
+
+											<div class="comment-meta">
+												<h5 class="author">
+												<a href='http://www.xebia.com/' rel='external nofollow' class='url'>
+													Freek Wielstra
+												</a> -
+												<a class='reply comment-reply-link' href='/2014/02/23/promises-and-design-patterns-in-angularjs/?replytocom=502446#respond' onclick='return addComment.moveForm("div-comment-502446", "502446", "respond", "12536")'>
+													Reply
+												</a></h5>
+												<p class="date">
+													November 20, 2014 at 3:50 pm
+												</p>
+											</div>
+											<div class="comment-entry">
+												<p>
+													That's true, I may have used the wrong phrasing; what I meant is that using $q.all, the .then() callback will only be executed once all promises in $q.all have resolved.
+												</p>
+											</div>
+
+										</div>
+									</li><!-- #comment-## -->
+								</ul><!-- .children -->
+							</li><!-- #comment-## -->
+						</ol>
+
+
+					</div>
+					<!-- /Comments -->
+
+				</div><!-- /Main Content -->
+
+	</body>
+</html>
