@@ -1,87 +1,124 @@
 ﻿define(function(require, exports, module) {
-	var $ = require('./lib/zepto/zepto'), $=require('./lib/zepto/animationShow'), $=require('./lib/zepto/touch');
+	// 加载Zepto核心组件和选择器组件
+	var $ = require('./lib/zepto/zepto'), 
+	$=require('./lib/zepto/animationShow'), 
+	$=require('./lib/zepto/touch'),
+	$=require('./plugins/wechat/wechat');
+	
 	var utils = require('./utils/utils');
+	// 加载配置文件
+	var conf = require('./ipconfig');
 	var game = require('./game');
 	
 	$(function(){
-	
 		init();
 		
 		var requestData = {
 				"option" : 1,
-				"id" : utils.getItem("activityId"),
-				"UserId" : utils.getItem("myUserId")
+				"id" : utils.getItem("appId"),
+				"User" : utils.getItem("user")
 		};
 		
-		//utils.doNet(requestData, pageInit);
-		
-		setTimeout(pageInit({}),100);
-		
+		utils.getCardInfo(requestData, onPageInit, onLoadError,null);
+		/*
+		setTimeout(onPageInit({
+				CashCode: "abc123",
+				CashMemo: "进入游戏-点击兑换",
+				CashRule: "0",
+				//EncourageBackImage: "/server/type/2014/11-19/aa666265-39d8-41e2-877b-1c996b16f4cc.jpg",
+				EncourageLink: "http:m.dianping.com",
+				InitBackImage: "",
+				State: "1",
+				id: "B99C1363-7D51-49DE-BCAF-CAF13EEE3152",
+				
+				CardImage : ["img/1.jpg","img/2.jpg","img/3.jpg","img/4.jpg","img/5.jpg","img/6.jpg"]
+		}),100);
+		*/
 	});
 	
 	/**
 	 * 参数初始化
 	 */
 	function init() {
-				//TODO : 重构地址解析/本地缓存
-		var myUserId = utils.getQueryString("user");
-		var ztxxid = utils.getQueryString("ztxxid");
-		var ctx = utils.getQueryString("ctx");
-		var activityId = utils.getQueryString("activityId");
-		if(activityId==null||activityId=='null'){
-				activityId = utils.getItem("activityId");
+				// 活动主键
+		var appId = utils.getQueryString("id");
+		if(appId==null||appId=='null'){
+			appId = utils.getItem("appId");
 		}
-		
-		utils.setItem("resumeUrl",window.location.href);
-		utils.setItem("activityId", activityId);
-		utils.setItem("myUserId", myUserId);
+		utils.setItem("appId", appId);
+		// 数据标识
+		var ztxxid = utils.getQueryString("ztxxid");
 		utils.setItem("ztxxid", ztxxid);
+		// 接口配置
+		var ctx = utils.getQueryString("ctx");
 		utils.setItem("ctx", ctx);
-
+		// 当前用户
+		var user=utils.getQueryString("user");
+		utils.setItem("user", user);
+		
 		
 	}
 	
-	function pageInit(data){
+	function onPageInit(data){
 		// 设置标题栏
-		/*
-		var gameView = game.init();
-		$(".m-game").html(gameView).css("display","block");
-		
-		
 		if(data.ManName){
 			document.title = data.ManName;
 			utils.setItem("ducTit",data.ManName);
 		}else{
-			document.title = "代码模板";
+			document.title = "记忆翻牌";
 		}
-		*/
+				
+		pagePack(data);
 		
+		wxShareInit(data);
 		
-			var images = [
-					{ "id" : "0", "src" : "img/1.jpg"},
-					{ "id" : "1", "src" : "img/2.jpg"},
-					{ "id" : "2", "src" : "img/3.jpg"},
-					{ "id" : "3", "src" : "img/4.jpg"},
-					{ "id" : "4", "src" : "img/5.jpg"},
-					{ "id" : "5", "src" : "img/6.jpg"}
-			];
-			var cardBgImg = "./img/back.png";
-			var themeImg = "./img/start.jpg";
+		statisticsInit(data);
+		
+	}
+	
+	/**
+	* 场景组装
+	*/
+	function pagePack(data){
+		
+		var images = [];
+		for(var i=0; i<data.CardImage.length; i++){
+				var img = {
+						 "id" : i,
+						 "src" :data.CardImage[i]
+				}
+				images.push(img);
+		}
+			
+			var themeImg =   (data.InitBackImage == "")? "./img/start.jpg" : data.InitBackImage;
+			var cardBgImg = (data.CardBackImage)? data.CardBackImage : "./img/back.png";
+			var resultBgImg = (data.OverBackImage)? data.OverBackImage : "./img/end.png";
+			var encourageBackImage = (data.EncourageBackImage)? data.EncourageBackImage : "./img/encourageBack.png";
+			
 			var startBtnImg = "./img/btnStart.png";
-			var resultBgImg = "./img/end.png";
 			var retryBtnImg = "./img/btnRetry.png";
 			var shareBtnImg = "./img/btnShare.png";
 			var guideImg = "./img/guide.png";
 			
-			$("#startUpPage").css("background", "#56b8ff url(" + themeImg + ") center bottom no-repeat;");
+			//$("#startUpPage").css("background", "#ffffff url(" + themeImg + ") center bottom no-repeat;");
+			$("#startUpPage_back_img").attr("src", "" + themeImg + "");
 			$("#startup_startBtn").css("background", "url(" + startBtnImg + ") no-repeat");
 			$("#loading_reday").attr("src", "" + "./img/ready.png" + "");
 			$("#loading_go").attr("src", "" +  "./img/go.png"  + "");
+			
+			//$("#resultPage").css("background", "url(" + resultBgImg + ") 20px 100px no-repeat");
+			$("#game_over_back_img").attr("src", "" + resultBgImg + "");
 			$("#game_over").attr("src", "" +  "./img/gameover.png"  + "");
-			$("#resultPage").css("background", "url(" + resultBgImg + ") 20px 100px no-repeat");
 			$("#retry").css("background", "url(" + retryBtnImg + ") no-repeat");
 			$("#share").css("background", "url(" + shareBtnImg + ") no-repeat");
+			
 			$("#shareguideImg").attr("src", "" + guideImg + "");
+			
+			//$("#pinCodePage").css("background", "url(" + encourageBackImage + ") left top repeat-y;");
+			$("#pincode_back_img").attr("src", "" + encourageBackImage + "");
+			$("#msg_pincode").text(data.CashCode);
+			$("#msg_pincode_memo").text(data.CashMemo);
+			$("#moregmae").attr("href",data.EncourageLink);
 			
 			showScreen("startup");//
 			
@@ -124,20 +161,25 @@
 			$("#pageshareguide").on('click',function(e){
 			//$("#pageshareguide").on('touchend',function(e){
 					e.preventDefault(); // 阻止"默认冒泡行为"
-					//$("#pageshareguide").css("display", "none");
-					/*
-					startNewGame( images, cardBgImg, gameStatusChangedCallback );
 					showScreen("game");
-					game.start();
+					/*
+					//For share callback test 
+					showScreen("game");
+					$("#resultPage").css("display", "none");
+					$("#pinCodePage").css("display", "block");
 					*/
 			});
 			
 		
 	}
 	
+	function onLoadError(error){
+			console.log(error);
+	}
+	
 	function startNewGame(sourceImgs, backImgs, statusChangedCallback ){
 					var gameCanvas = $('#gameCanvas');
-					game.setUp(gameCanvas, sourceImgs, backImgs, {"totalCardsNum":20, "timeLimit":10},statusChangedCallback);
+					game.setUp(gameCanvas, sourceImgs, backImgs, {"totalCardsNum":20, "timeLimit":30},statusChangedCallback);
 	}
 	
 	function playMusic(){
@@ -153,22 +195,18 @@
 							console.log("stopped");
 					break;
 					case "FINISHED":
-									showScreen("result");
-									$("#msg").html("你在" + (60 - _data.remainTime) + "秒内完成游戏并获得" + _data.score + "分。");
+									/*showScreen("result");
+									$("#msg").html("你在" + (60 - _data.remainTime) + "秒内完成游戏并获得" + _data.score + "分。");*/
+							$("#gameCanvasCover").css("display", "block");
+							$("#resultPage").css("display", "block");
+							$("#msg_current_score").html("当前得分 ：" + _data.score);
+							$("#msg_history_score").html("历史最高 ：" + _data.highestScore);
 					break;
 					case "FAILED":
 							$("#gameCanvasCover").css("display", "block");
 							$("#resultPage").css("display", "block");
 							$("#msg_current_score").html("当前得分 ：" + _data.score);
 							$("#msg_history_score").html("历史最高 ：" + _data.highestScore);
-							/*
-							$("#game_over").animate("popinscan", 1500, "ease-out", function(){
-									$("#game_over").css("display", "none");
-									$("#gameCanvasCover").css("display", "none");
-									showScreen("result");
-									$("#msg").html("You have get " + _data.score + ", retry?");
-							});
-							*/
 					break;
 			}
 	}
@@ -178,6 +216,47 @@
 			$(".m-"+ screenClass).css("display","block");
 	}
 	
+		
+  function wxShareInit(data){
+		if($('#r-wx-title').length==0){
+			$("body").append("<input type='hidden' id='r-wx-title'>");
+		}
+		if($('#r-wx-img').length==0){
+			$("body").append("<input type='hidden' id='r-wx-img'>");
+		}
+		if($('#r-wx-con').length==0){
+			$("body").append("<input type='hidden' id='r-wx-con'>");
+		}
+		if($('#r-wx-link').length==0){
+			$("body").append("<input type='hidden' id='r-wx-link'>");
+		}
+		
+		$('#r-wx-title').val(data.ShareTitle);
+		$('#r-wx-img').val(data.ShareIcon);
+		$('#r-wx-con').val(data.ShareContent);
+		
+		// 定义分享后的跳转处理逻辑
+		window.shareGoto = function(){
+				showScreen("game");
+				$("#resultPage").css("display", "none");
+				$("#pinCodePage").css("display", "block");
+		};
+	}
+	/**
+	 * 参数初始化
+	 */
+	function statisticsInit(data) {
+		utils.statisticsInit(data);
+	}
+	
+	/**
+	* 增加分享参数示例
+	*/
+	function addSrcUrlParam(){
+		
+		utils.packShareUrl({SrcRecord:"123455678",UserRecord:"87654321"});
+	
+	}
 	
 	window._isDisableFlipPage = false;
 	window.pageScroll = {

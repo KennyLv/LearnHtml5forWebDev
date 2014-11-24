@@ -50,23 +50,35 @@
 						</div>
 				</section>
 				<section class="page m-game">
-						<div id="gameTimer">
-								<div id="score">0</div>
-								<div id="clock">0</div>
-						</div>
-						<div id="gameCanvas"></div>
-						
-						<div id="resultPage">
-								<img id="game_over" src="" />
-								
-								<div id="msg_current_score" style=""></div>
-								<div id="msg_history_score" style=""></div>
-								<div id="msg" style=""></div>
-								<div id="actionBtns">
-										<div id="retry"  class="btn"> </div>
-										<div id="share" class="btn"> </div>
+						<div id="gamePage">
+								<div id="gameTimer">
+										<div id="score">0</div>
+										<div id="clock">0</div>
 								</div>
-								
+								<div id="gameCanvas"></div>
+						</div>
+						<div id="resultPage">
+								<img id="game_over_back_img" src="" />
+								<div>
+										<img id="game_over" src="" />
+										<div id="msg_current_score" style=""></div>
+										<div id="msg_history_score" style=""></div>
+										<!--<div id="msg" style=""></div>-->
+										<div id="actionBtns">
+												<div id="retry"  class="btn"> </div>
+												<div id="share" class="btn"> </div>
+										</div>
+								</div>
+						</div>
+						<div id="pinCodePage">
+								<img id="pincode_back_img" src="" />
+								<div id="pincode_center">
+										<p><span>兑换码 : </span><span id="msg_pincode"></span> </p>
+										<p id="msg_pincode_memo" ></p>
+										<a id="moregmae" href="">
+												<p>更多游戏 >></p>
+										</a>
+								</div>
 						</div>
 						<div id="gameCanvasCover" class="canvasCover"></div>
 				</section>
@@ -75,7 +87,7 @@
 					 <img id="loading_go" src=""  style="display:none;"  />
 				</section>
 				<section class="page m-startup">
-					<div id="startUpPage" ></div>
+					<img id="startUpPage_back_img" src=""/>
 					 <div class="button_parent">
 							 <div id="startup_startBtn" class="btn"></div> 
 					 </div>
