@@ -1,0 +1,41 @@
+#outputData, #inputP, #buttonLogin {
+  visibility: hidden; 
+}
+
+#vizDiv {
+  font-family:arial,helvetica;
+  margin-left: 25%;
+  margin-right: 25%;
+  text-align: center;
+  visibility: hidden;
+}
+
+#leftDiv {
+  float: left;
+  width: 50%;
+}
+
+#rightDiv {
+  float: right;
+  width: 50%;
+}
+
+.floatRight {
+  float: right;
+  margin-right: 18px;
+}
+
+.floatLeft {
+  float: left;
+  margin-left: 18px;
+}
+
+#leftDiv p {
+  color: blue;
+}
+#rightDiv p {
+  color: red;
+}
+#matchedTableDiv, #notMatchedTableDiv {
+  text-align: left;
+}

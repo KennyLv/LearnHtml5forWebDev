@@ -1,0 +1,70 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!--
+Copyright 2009 Google Inc. All Rights Reserved.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.
+-->
+<html>
+  <head>
+    <title>GA Export API and GViz Demo</title>
+    <link rel='stylesheet' type='text/css' href='matchDemo.css'/>
+    <script type='text/javascript' src='http://www.google.com/jsapi'></script>
+    <script type='text/javascript' src='matchDemo.js'></script>
+
+  </head>
+  <body>
+    <h2>GA Data in Google Visualization API</h2>
+    <form name='loginForm' action="#">
+      <span id='status'>Loading API Libraries...</span>
+      <input id='buttonLogin' type='button' value='Login'/>
+      <p id='inputP'>
+        Profile Id:
+        <input type='text' id='inputProfileId' value='1174'/>
+        <input type='button' value='Get Data' onclick='getDataFeed();'/>
+      </p>
+    </form>
+    <div id='vizDiv'>
+      <div id='visitsChartDiv'></div>
+      <form name='matchForm' action='#'>
+        <p>
+          Match Keywords To This Pattern:
+          <input type='text' id='filterInput' value=''/>
+          <input type='button' value='Match' onclick='drawViz();'/>
+        </p>
+      </form>
+      <div id='pieChartDiv'></div>
+        <div id='leftDiv'>
+          <div class='floatRight'>
+            <p>Keywords That Matched
+              <br/>had <span id='matchedVisitsSpan'></span> visits
+            </p>
+            <div id='matchedTableDiv'></div>
+          </div>
+        </div>
+        <div id='rightDiv'>
+          <div class='floatLeft'>
+          <p>Keywords That Didn't Match
+            <br/>had <span id='notMatchedVisitsSpan'></span> visits
+          </p>
+          <div id='notMatchedTableDiv'></div>
+        </div>
+      </div>
+    </div>
+    <!-- For the API to work in IE, an image must be requested from the same
+             domain the script is hosted on. The image doesn't actually have
+             to exist, just be requested. More info here :
+             http://code.google.com/apis/gdata/client-js.html
+    -->
+    <img style='visibility:hidden' src='__utm.gif' alt='required for GData'/>
+  </body>
+</html>

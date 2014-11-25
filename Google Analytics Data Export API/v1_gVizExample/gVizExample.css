@@ -1,0 +1,6 @@
+#outputData, #inputP, #buttonLogin {
+  visibility: hidden; 
+}
+#sourceChartDiv, #sourceColumnChartDiv {
+  float: left;
+}
