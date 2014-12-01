@@ -1,0 +1,21 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<!-- saved from url=(0066)http://www.zhangxinxu.com/study/201311/css-filter-image-blur.html -->
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  
+  <title>Css3  blur</title>
+  <style type="text/css" media="screen">
+		.blur {	
+				filter: url(blur.svg#blur); /* FireFox, Chrome, Opera */
+				-webkit-filter: blur(6px); /* Chrome, Opera */
+				-moz-filter: blur(6px);
+				-ms-filter: blur(6px);    
+				filter: blur(6px);
+				filter: progid:DXImageTransform.Microsoft.Blur(PixelRadius=10, MakeShadow=false); /* IE6~IE9 */
+		}
+  </style>
+  </head>
+<body>
+<img src="http://www.zhangxinxu.com/study/201311/mm1.jpg" />
+<img src="http://www.zhangxinxu.com/study/201311/mm1.jpg" class="blur" />
+</body>
+</html>
