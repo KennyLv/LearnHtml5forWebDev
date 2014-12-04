@@ -1,0 +1,97 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<!-- saved from url=(0043)http://www.renrousousuo.com/tools/dict.html -->
+<HTML><HEAD><TITLE>金山词霸 -- 微型网络版</TITLE>
+<META content="text/html; charset=utf-8" http-equiv=Content-Type>
+<META name=GENERATOR content="MSHTML 8.00.7600.16588"></HEAD>
+<BODY>
+<SCRIPT type=text/javascript>
+/*
+设计：王集鹄(http://blog.csdn.net/zswang)
+日期：2009年5月18日
+版权：http://www.iciba.com
+*/
+function $(id) { return document.getElementById(id); }
+
+function callScript(url, loaded, error, charset) {
+    var script = document.createElement("script");
+    if (typeof charset == "string") script.charset = charset;
+    script.onreadystatechange = function() {
+        switch (this.readyState) {
+            case "complete":
+            case "loaded":
+                if (typeof loaded == "function") loaded();
+                if (script.parentNode) script.parentNode.removeChild(script);
+                break;
+        }
+    }
+    script.onload = function() {
+        if (typeof loaded == "function") loaded();
+        if (script.parentNode) script.parentNode.removeChild(script);
+    }
+    script.onerror = function() {
+        if (typeof error == "function") error();
+        if (script.parentNode) script.parentNode.removeChild(script);
+    }
+
+    script.type = "text/javascript";
+    script.defer = "true";
+    script.src = url;
+    var parent = document.getElementsByTagName("HEAD")[0] || document.documentElement;
+    if (parent && parent.insertBefore) parent.insertBefore(script, parent.firstChild);
+}
+
+function button_translateClick() {
+    var word = encodeURIComponent($("text_word").value);
+    if (!word) {
+        alert('请输入文字');
+        $("text_word").focus();
+        return;
+    }
+    callScript("http://server.dict-co.iciba.com/jsInterface.php?uiType=0&w=" + word + "&type=6");
+    callScript("http://server.dict-co.iciba.com/jsInterface.php?uiType=0&w=" + word + "&dict=Dict,Tf,Enen,");
+    callScript("http://server.dict-co.iciba.com/jsInterface.php?uiType=0&w=" + word + "&dict=Dict,Tf,Enen,");
+    callScript("http://server.dict-co.iciba.com/jsInterface.php?uiType=0&w=" + word + "&type=2");
+}
+
+function text_wordKeydown(e) {
+    if (!e) e = window.event;
+    switch (e.keyCode | e.which | e.charCode) {
+        case 13:
+            button_translateClick();
+            break;
+    }
+}
+
+function LoveCallback(context) {
+    $("div_context").innerHTML = context;
+}
+
+function dictCallBack(context) {
+    $("div_head").innerHTML = context;
+}
+
+function tfCallback(context) {
+    $("div_thesaurus").innerHTML = context;
+}
+
+function En2enCallback(context) {
+    $("div_en2en").innerHTML = context;
+}
+
+function djCallback(context) {
+    $("div_dj").innerHTML = context;
+}
+
+function searchDictByWord(e) {
+    var element = typeof event != "undefined" ? event.srcElement : e.target;
+    $("text_word").value = element.innerHTML;
+    button_translateClick();
+}
+</SCRIPT>
+<INPUT onkeydown="text_wordKeydown(event)" id="text_word" value="hello"/>
+<INPUT type="button" onclick="button_translateClick()" value="金山词霸-单词翻译"/> 
+<DIV id=div_head></DIV>
+<DIV id=div_context></DIV>
+<DIV id=div_thesaurus></DIV>
+<DIV id=div_en2en></DIV>
+<DIV id=div_dj></DIV></BODY></HTML>
