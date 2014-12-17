@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en-US" id="hacks-mozilla-org">
+	<head>
+		<meta name="viewport" content="width=device-width">
+		<meta charset="UTF-8">
+		<meta property="og:title" content="Introducing SIMD.js">
+		<meta property="og:url" content="https://hacks.mozilla.org/2014/10/introducing-simd-js/">
+	</head>
+
+	<body class="single single-post postid-26690 single-format-standard">
+
+
+			<div id="content">
+
+				<div id="content-head">
+
+					<h1 class="page-title">Introducing SIMD.js</h1>
+
+
+					<div id="content-bar" class="single">
+						<div class="entry-meta">
+							<p class="entry-posted">
+								on <abbr class="published" title="2014-10-30T08:07:45-08:00">October 30, 2014</abbr>
+								by
+								<a href="https://hacks.mozilla.org/author/dangohman/" title="Posts by Dan Gohman" class="url fn" rel="author">
+									Dan Gohman
+								</a>
+								and
+								<a href="https://hacks.mozilla.org/author/robertnyman/" title="Posts by Robert Nyman [Editor emeritus]" class="url fn" rel="author">
+									Robert Nyman [Editor emeritus]
+								</a>
+							</p>
+						</div>
+
+					</div>
+				</div><!-- /#content-head -->
+
+				<main id="content-main" class="hfeed">
+					<article class="post" role="article">
+						<p>
+							SIMD stands for
+							<a href="http://en.wikipedia.org/wiki/SIMD">
+								Single Instruction Multiple Data
+							</a>
+							, and is the name for performing operations on multiple data elements together. For example, a SIMD add instruction can add multiple values, in parallel. SIMD is a very popular technique for accelerating computations in graphics, audio, codecs, physics simulation, cryptography, and many other domains.
+						</p>
+						<p>
+							In addition to delivering performance, SIMD also reduces power usage, as it uses fewer instructions to do the same amount of work.
+						</p>
+						<h2>SIMD.js</h2>
+						<p>
+							SIMD.js is a new API being developed by Intel, Google, and Mozilla for JavaScript which introduces several new types and functions for doing SIMD computations. For example, the Float32x4 type represents 4
+							<a href="http://en.wikipedia.org/wiki/Single-precision_floating-point_format">
+								float32
+							</a>
+							values packed up together. The API contains functions to operate on those values together, including all the basic arithmetic operations, and operations to rearrange, load, and store such values. The intent is for browsers to implement this API directly, and provide optimized implementations that make use of SIMD instructions in the underlying hardware.
+						</p>
+						<p>
+							The focus is currently on supporting both x86 platforms with SSE and ARM platforms with NEON.  We&#8217;re also interested in the possibility of supporting other platforms, potentially including
+							<a href="http://www.imgtec.com/mips/architectures/simd.asp">
+								MIPS
+							</a>
+							,
+							<a href="https://www.power.org/documentation/power-isa-version-2-07/">
+								Power
+							</a>
+							, and others.
+						</p>
+						<p>
+							SIMD.js is originally derived from the Dart SIMD specification, and it is rapidly evolving to become a more general API, and to cover additional use cases such as those that require narrower integer types, including Int8x16 and Int16x8, and saturating operations.
+						</p>
+						<p>
+							SIMD.js is a fairly low-level API, and it is expected that libraries will be written on top of it to expose higher-level functionality such as matrix operations, transcendental functions, and more.
+						</p>
+						<p>
+							In addition to being usable in regular JS, there is also work is underway to add SIMD.js to asm.js too, so that it can be used from asm.js programs such those produced by Emscripten. In Emscripten, SIMD can be achieved through the built-in autovectorization,
+							<a href="http://clang.llvm.org/docs/LanguageExtensions.html#vectors-and-extended-vectors">
+								the generic SIMD extensions
+							</a>
+							, or
+							<a href="https://github.com/kripken/emscripten/blob/master/system/include/emscripten/vector.h">
+								the new (and still growing) Emscripten-specific API
+							</a>
+							. Emscripten will also be implementing subsets of popular headers such as &lt;xmmintrin.h> with wrappers around the SIMD.js APIs, as additional ways to ease porting SIMD code in some situations.
+						</p>
+						<h2>SIMD.js Today</h2>
+						<p>
+							The SIMD.js API itself is in active development. The
+							<a href="https://github.com/johnmccutchan/ecmascript_simd">
+								ecmascript_simd github repository
+							</a>
+							is currently serving as a provision specification as well as providing a polyfill implementation to provide the functionality, though of course not the accelerated performance, of the SIMD API on existing browsers. It also includes some
+							<a href="https://github.com/johnmccutchan/ecmascript_simd/tree/master/src/benchmarks">
+								benchmarks
+							</a>
+							which also serve as examples of basic SIMD.js usage.
+						</p>
+						<p>
+							To see SIMD.js in action, check out
+							<a href="http://peterjensen.github.io/idf2014-simd/idf2014-simd">
+								the demo page accompanying the IDF2014 talk on SIMD.js
+							</a>
+							.
+						</p>
+						<p>
+							The API has been presented to TC-39, which has approved it for stage 1 (Proposal).  Work is proceeding in preparation for subsequent stages, which will involve proposing something closer to a finalized API.
+						</p>
+						<p>
+							SIMD.js implementation in Firefox Nightly is in active development. Internet Explorer has listed SIMD.js as
+							<a href="https://status.modern.ie/simdes7?term=SIMD">
+								&#8220;under consideration&#8221;
+							</a>
+							. There is also
+							<a href="https://drive.google.com/folderview?id=0B9RVWZYRtYFeU1pHUWZIeVNtN0k&amp;usp=sharing">
+								a prototype implementation in a branch of Chromium
+							</a>
+							.
+						</p>
+						<h2>Short SIMD and Long SIMD</h2>
+						<p>
+							One of the uses of SIMD is to accelerate processing of large arrays of data. If you have an array of N elements, and you want to do roughly the same thing to every element in the array, you can divide N by whatever SIMD size the platform makes available and run that many instances of your SIMD subroutine. Since N can can be very large, I call these kind of problems long SIMD problems.
+						</p>
+						<p>
+							Another use of SIMD is to accelerate processing of clusters of data. RGB or RGBA pixels, XYZW coordinates, or 4&#215;4 matrices are all examples of such clusters, and I call problems which are expressed in these kinds of types short SIMD problems.
+						</p>
+						<p>
+							SIMD is a broad domain, and the boundary between short and long SIMD isn&#8217;t always clear, but at a high level, the two styles are quite different. Even the terminology used to describe them features a split: In the short SIMD world, the operation which copies a scalar value into every element of a vector value is called a &#8220;splat&#8221;, while in the long vector world the analogous operation is called a &#8220;broadcast&#8221;.
+						</p>
+						<p>
+							SIMD.js is primarily a &#8220;short&#8221; style API, and is well suited for short SIMD problems. SIMD.js can also be used for long SIMD problems, and it will still deliver significant speedups over plain scalar code. However, its fixed-length types aren&#8217;t going to achieve maximum performance of some of today&#8217;s CPUs, so there is still room for another solution to be developed to take advantage of that available performance.
+						</p>
+						<h2>Portability and Performance</h2>
+						<p>
+							There is a natural tension in many parts of SIMD.js between the desire to have an API which runs consistently across all important platforms, and the desire to have the API run as fast as possible on each individual platform.
+						</p>
+						<p>
+							Fortunately, there is a core set of operations which are very consistent across a wide variety of platforms. These operations include most of the basic arithmetic operations and form the core of SIMD.js. In this set, little to no overhead is incurred because many of the corresponding SIMD API instructions map directly to individual instructions.
+						</p>
+						<p>
+							But, there also are many operations that perform well on one platform, and poorly on others.  These can lead to surprising performance cliffs. The current approach of the SIMD.js API is to focus on the things that can be done well with as few performance cliffs as possible.  It is also focused on providing portable behavior. In combination, the aim is to ensure that a program which runs well on one platform will likely run and run well on another.
+						</p>
+						<p>
+							In future iterations of SIMD.js, we expect to expand the scope and include more capabilities as well as mechanisms for querying capabilities of the underlying platform.  Similar to
+							<a title="WebGL" href="https://developer.mozilla.org/en/WebGL">
+								WebGL
+							</a>
+							, this will allow programs to determine what capabilities are available to them so they can decide whether to fall back to more conservative code, or disable optional functionality.
+						</p>
+						<h2>The overall vision</h2>
+						<p>
+							SIMD.js will accelerate a wide range of demanding applications today, including games, video and audio manipulation, scientific simulations, and more, on the web. Applications will be able to use the SIMD.js API directly, libraries will be able to use SIMD.js to expose higher-level interfaces that applications can use, and Emscripten will compile C++ with popular SIMD idioms onto optimized SIMD.js code.
+						</p>
+						<p>
+							Looking forward, SIMD.js will continue to grow, to provide broader functionality. We hope to eventually accompany SIMD.js with a long-SIMD-style API as well, in which the two APIs can cooperate in a manner very similar to the way that OpenCL combines explicit vector types with the implicit long-vector parallelism of the underlying programming model.
+						</p>
+						<footer class="entry-meta">
+							<p>
+								Posted by
+								<a href="https://hacks.mozilla.org/author/dangohman/" title="Posts by Dan Gohman" class="url fn" rel="author">
+									Dan Gohman
+								</a>
+								and
+								<a href="https://hacks.mozilla.org/author/robertnyman/" title="Posts by Robert Nyman [Editor emeritus]" class="url fn" rel="author">
+									Robert Nyman [Editor emeritus]
+								</a>
+								on
+								<time datetime="2014-10-30T08:07:45-08:00">
+									October 30, 2014
+								</time>
+								at
+								<time datetime="PST08:07:45-08:00">
+									08:07
+								</time>
+							</p>
+							<div class="share">
+								<div class="socialshare" data-type="small-bubbles"></div>
+							</div>
+						</footer>
+					</article>
+
+					<section id="comments">
+						<div id="comment-stream">
+							<header class="comments-head">
+								<h3>10 comments</h3>
+								<p class="closed">
+									<strong>Comments are now closed.</strong>
+								</p>
+							</header>
+
+							<ol id="comment-list" class="hfeed av">
+
+								<li id="comment-16285" class="comment even thread-even depth-1 hentry">
+									<p class="entry-title vcard">
+										<span class="photo">
+											<img alt='' src='https://secure.gravatar.com/avatar/8d1b26d1c0b5d44ad781803a8ffc1ee5?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+										</span><cite class="author fn">Peter Jensen</cite>
+										<span class="comment-meta">wrote on
+											<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16285" rel="bookmark" title="Permanent link to this comment by Peter Jensen">
+												<abbr class="published" title="2014-10-30">October 30th, 2014</abbr> at 09:37
+											</a>:</span>
+									</p>
+
+									<blockquote class="entry-content">
+										<p>
+											Great post.  One minor correction: TC39 approved this for stage 1 (Proposal) at the July-2014 meeting
+										</p>
+									</blockquote>
+
+									<p class="comment-util"></p>
+								</li><!-- #comment-## -->
+
+								<li id="comment-16286" class="comment odd alt thread-odd thread-alt depth-1 hentry">
+									<p class="entry-title vcard">
+										<span class="photo">
+											<img alt='' src='https://secure.gravatar.com/avatar/8d1b26d1c0b5d44ad781803a8ffc1ee5?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+										</span><cite class="author fn">Peter Jensen</cite>
+										<span class="comment-meta">wrote on
+											<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16286" rel="bookmark" title="Permanent link to this comment by Peter Jensen">
+												<abbr class="published" title="2014-10-30">October 30th, 2014</abbr> at 10:08
+											</a>:</span>
+									</p>
+
+									<blockquote class="entry-content">
+										<p>
+											Crosswalk(
+											<a href="https://crosswalk-project.org/" rel="nofollow">
+												https://crosswalk-project.org/
+											</a>
+											), an HTML5 web-runtime for building hybrid apps, supports the SIMD.js API as well.  Crosswalk is available via Intel&#8217;s XDK (xdk.intel.com)
+										</p>
+									</blockquote>
+
+									<p class="comment-util"></p>
+								</li><!-- #comment-## -->
+
+								<li id="comment-16287" class="comment even thread-even depth-1 hentry">
+									<p class="entry-title vcard">
+										<span class="photo">
+											<img alt='' src='https://secure.gravatar.com/avatar/87e3f166bb7ad8eca27d96cc1161c325?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+										</span><cite class="author fn">AlejandroG</cite>
+										<span class="comment-meta">wrote on
+											<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16287" rel="bookmark" title="Permanent link to this comment by AlejandroG">
+												<abbr class="published" title="2014-10-30">October 30th, 2014</abbr> at 12:12
+											</a>:</span>
+									</p>
+
+									<blockquote class="entry-content">
+										<p>
+											I think this is cool and useful but why not implementing real important things like the standard DEC64 for floating point proposed by Douglas Crockford, I mean, still creating roads on the mud.
+										</p>
+									</blockquote>
+
+									<p class="comment-util"></p>
+									<ol class="children">
+
+										<li id="comment-16293" class="comment odd alt depth-2 hentry">
+											<p class="entry-title vcard">
+												<a href="http://github.com/rwaldron" class="url" rel="nofollow external" title="http://github.com/rwaldron">
+													<span class="photo">
+														<img alt='' src='https://secure.gravatar.com/avatar/36c697d974542aadaee06a0f39cb1437?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+													</span><cite class="author fn">Rick Waldron</cite>
+												</a>
+												<span class="comment-meta">wrote on
+													<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16293" rel="bookmark" title="Permanent link to this comment by Rick Waldron">
+														<abbr class="published" title="2014-10-31">October 31st, 2014</abbr> at 10:57
+													</a>:</span>
+											</p>
+
+											<blockquote class="entry-content">
+												<p>
+													First of all, Doug Crockford is not a member of TC39 anymore. Secondly, what you&#8217;re asking for is orthogonal to SIMD. Value Types and Typed Objects are already in progress for ES7:
+													<a href="http://www.slideshare.net/BrendanEich/value-objects" rel="nofollow">
+														http://www.slideshare.net/BrendanEich/value-objects
+													</a>
+													<a href="http://wiki.ecmascript.org/doku.php?id=harmony:typed_objects" rel="nofollow">
+														http://wiki.ecmascript.org/doku.php?id=harmony:typed_objects
+													</a>
+													<a href="https://bugzilla.mozilla.org/show_bug.cgi?id=578700" rel="nofollow">
+														https://bugzilla.mozilla.org/show_bug.cgi?id=578700
+													</a>
+												</p>
+											</blockquote>
+
+											<p class="comment-util"></p>
+										</li><!-- #comment-## -->
+									</ol><!-- .children -->
+								</li><!-- #comment-## -->
+
+								<li id="comment-16288" class="comment even thread-odd thread-alt depth-1 hentry">
+									<p class="entry-title vcard">
+										<span class="photo">
+											<img alt='' src='https://secure.gravatar.com/avatar/ba78b57d00a1ed5c2dd21c1feba778d6?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+										</span><cite class="author fn">Zac Bowling</cite>
+										<span class="comment-meta">wrote on
+											<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16288" rel="bookmark" title="Permanent link to this comment by Zac Bowling">
+												<abbr class="published" title="2014-10-30">October 30th, 2014</abbr> at 15:48
+											</a>:</span>
+									</p>
+
+									<blockquote class="entry-content">
+										<p>
+											How about threading.js or pthread.js.
+										</p>
+									</blockquote>
+
+									<p class="comment-util"></p>
+									<ol class="children">
+
+										<li id="comment-16292" class="comment odd alt depth-2 hentry">
+											<p class="entry-title vcard">
+												<span class="photo">
+													<img alt='' src='https://secure.gravatar.com/avatar/6a350b21fd58489ac951a72324548184?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+												</span><cite class="author fn">Luke</cite>
+												<span class="comment-meta">wrote on
+													<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16292" rel="bookmark" title="Permanent link to this comment by Luke">
+														<abbr class="published" title="2014-10-30">October 30th, 2014</abbr> at 20:04
+													</a>:</span>
+											</p>
+
+											<blockquote class="entry-content">
+												<p>
+													You mean web workers? Or being able to use them in asm.js?
+												</p>
+											</blockquote>
+
+											<p class="comment-util"></p>
+										</li><!-- #comment-## -->
+									</ol><!-- .children -->
+								</li><!-- #comment-## -->
+
+								<li id="comment-16289" class="comment even thread-even depth-1 hentry">
+									<p class="entry-title vcard">
+										<span class="photo">
+											<img alt='' src='https://secure.gravatar.com/avatar/952cee0d1036690c8bc3c7cba15117d7?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+										</span><cite class="author fn">Ningxin Hu</cite>
+										<span class="comment-meta">wrote on
+											<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16289" rel="bookmark" title="Permanent link to this comment by Ningxin Hu">
+												<abbr class="published" title="2014-10-30">October 30th, 2014</abbr> at 17:43
+											</a>:</span>
+									</p>
+
+									<blockquote class="entry-content">
+										<p>
+											Excellent overview!
+											<br />
+											For information, you can find source of v8 SIMD.js prototype in
+											<a href="https://github.com/crosswalk-project/v8-crosswalk" rel="nofollow">
+												https://github.com/crosswalk-project/v8-crosswalk
+											</a>
+											. And you can download latest Chromium SIMD.js build at
+											<a href="https://drive.google.com/folderview?id=0B9RVWZYRtYFeOVlSMm1GdmZxM0k&#038;usp=sharing" rel="nofollow">
+												https://drive.google.com/folderview?id=0B9RVWZYRtYFeOVlSMm1GdmZxM0k&#038;usp=sharing
+											</a>
+										</p>
+									</blockquote>
+
+									<p class="comment-util"></p>
+								</li><!-- #comment-## -->
+
+								<li id="comment-16290" class="comment odd alt thread-odd thread-alt depth-1 hentry">
+									<p class="entry-title vcard">
+										<a href="http://people.csail.mit.edu/jrk" class="url" rel="nofollow external" title="http://people.csail.mit.edu/jrk">
+											<span class="photo">
+												<img alt='' src='https://secure.gravatar.com/avatar/3cf22bdb816c895841e0ffc9b6272228?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+											</span><cite class="author fn">Jonathan Ragan-Kelley</cite>
+										</a>
+										<span class="comment-meta">wrote on
+											<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16290" rel="bookmark" title="Permanent link to this comment by Jonathan Ragan-Kelley">
+												<abbr class="published" title="2014-10-30">October 30th, 2014</abbr> at 17:57
+											</a>:</span>
+									</p>
+
+									<blockquote class="entry-content">
+										<p>
+											# SIMD.js reply
+										</p>
+										<p>
+											It is good to see this sort of thing progress in real web runtimes, but one part of this seriously concerns me: your stated view of &#8220;short&#8221; vs. &#8220;long&#8221; SIMD suggests a incorrect assumptions in how even an explicitly-sized short-vector programming model should be most efficiently used on current hardware. Specifically, it has not been the case for years that vectorization across structure components of application-level short vectors is actually the most efficient vectorization strategy for most code. Instead, the fastest vectorization strategies nearly always rely on applying a &#8220;long SIMD&#8221; view, vectorizing the innermost loop over a large data parallel dimension (like the x coordinate of a pixel array) using individual short-vector-at-a-time iterations to consume 4 or 8 pixels per loop iteration with more operations to compute on R/G/B, rather than a single pixel per loop iteration to compute RGB at once.
+										</p>
+										<p>
+											This parallels the &#8220;scalarization&#8221; movement in GPU shader implementations almost a decade ago. GPU shading languages expose 3- and 4-vector types natively, as well as dot products on these, etc., because these are extremely common operations in graphics code. They *do not*, however, exploit this for &#8220;short SIMD&#8221; execution, because this is almost never as efficient as simply scalarizing this style of code (turning a dot(vec3, vec3) operation into 3 scalar MULs and 2 scalar ADDs, or a scalar MUL and 2 scalar MADs, of the individual components) and vectorizing across the larger data-parallel dimension (separate pixels).
+										</p>
+										<p>
+											This isn&#8217;t specific to GPUs—it applies equally to short-vector SIMD architectures like NEON and SSE, to say nothing of &gt;4-element short-vector SIMD architectures like AVX (or NEON/SSE when applied to partial-precision types). This is the execution strategy around which Intel&#8217;s ISPC is based, and for good reason: even on SSE, which was in no small part designed to process float32x4 vectors, this is the right strategy the vast majority of the time.
+										</p>
+										<p>
+											The reason why this is nearly always faster is easiest to show graphically, but is just a function of occupancy in these short vectors. Even if code vectorized across structure dimensions like RGBA and XYZW fully occupies the vectors on a given architecture, not all operations will be over full 4-vectors. Instead, real code—even doing geometric transforms in 3D homogeneous coordinates—involves some mix of 1-, 2-, 3-, and 4-component vectors. If we explode these into scalar operations, and then simply compute each scalar operation across 4 neighboring records simultaneously, we always fully utilize the 4 vector lanes for all operations (modulo branching), while the &#8220;short SIMD&#8221; version will only be partially utilized for any operations affecting only 1, 2, or 3 components. This is related to the fact that vectorizing across the larger data-parallel dimensions tends to yield more homogeneous operations, which take better advantage of vector instructions (it is much more often the case that your algorithm wants to treat 4 neighboring red values the same way, than that it wants to treat all of red, green, blue, and alpha the same way within a single pixel). The end result: the &#8220;short SIMD&#8221; view you emphasize gives significantly lower utilization for the significant majority of code, at least in the graphics cases where 4-vectors even are very common application data types.
+										</p>
+										<p>
+											Starting your design from this view of the world concerns me because it leads to considering almost exclusively examples of vectorization strategies which will not be the most efficient on. It also leads you to focus on different features: operating on vector condition/mask values and doing blending/predication is essential for the &#8220;scalarized&#8221; form, but rarely matters as much when vectors only encode XYZ/RGB-type tuples; similarly, if you imagine people mostly want to pack XYZ/RGB vectors, you will see little use in &gt;4-element vector types, while it might be perfectly reasonable for most code to use logically, e.g., 512-bit vectors which then get each compiled to some constant number of the underlying machine ops.
+										</p>
+										<p>
+											Said with all respect and optimism, because I&#8217;d really love to be able to target this!
+										</p>
+									</blockquote>
+
+									<p class="comment-util"></p>
+									<ol class="children">
+
+										<li id="comment-16291" class="comment byuser comment-author-dangohman bypostauthor even depth-2 hentry">
+											<p class="entry-title vcard">
+												<a href="http://sunfishcode.github.io/blog/" class="url" rel="nofollow external" title="http://sunfishcode.github.io/blog/">
+													<span class="photo">
+														<img alt='' src='https://secure.gravatar.com/avatar/d0f20c3888e5ac206b6ede4d4dc5c2ce?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+													</span><cite class="author fn">Dan Gohman</cite>
+												</a>
+												<span class="comment-meta">wrote on
+													<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16291" rel="bookmark" title="Permanent link to this comment by Dan Gohman">
+														<abbr class="published" title="2014-10-30">October 30th, 2014</abbr> at 19:56
+													</a>:</span>
+											</p>
+
+											<blockquote class="entry-content">
+												<p>
+													Indeed. In a hypothetical future where SIMD.js is running within a SPMD context, we would very likely switch implementation strategies. SIMD.js might then play the role that types like vec3 play in graphics languages today, where the JIT may choose to scalarize it. In such a system, extending SIMD.js to >4-element types would be very plausible.
+												</p>
+												<p>
+													We don&#8217;t know if SPMD will be the answer, or even if so, if the SPMD kernel language will even be JS at all. There are a lot of possibilities. What we know is that SIMD.js has several important use cases today, and that there are several directions it can evolve in to serve the needs of a variety of futures.
+												</p>
+											</blockquote>
+
+											<p class="comment-util"></p>
+										</li><!-- #comment-## -->
+									</ol><!-- .children -->
+								</li><!-- #comment-## -->
+
+								<li id="comment-16294" class="comment odd alt thread-even depth-1 hentry">
+									<p class="entry-title vcard">
+										<span class="photo">
+											<img alt='' src='https://secure.gravatar.com/avatar/b8f22804b48a5bddda1438f0d547a7e8?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+										</span><cite class="author fn">Tom</cite>
+										<span class="comment-meta">wrote on
+											<a href="https://hacks.mozilla.org/2014/10/introducing-simd-js/comment-page-1/#comment-16294" rel="bookmark" title="Permanent link to this comment by Tom">
+												<abbr class="published" title="2014-11-04">November 4th, 2014</abbr> at 10:29
+											</a>:</span>
+									</p>
+
+									<blockquote class="entry-content">
+										<p>
+											Games are slow on my Asus tablet with Intel inside.
+											<br />
+											I think this is part of the motivation here and I&#8217;m encouraged.
+										</p>
+									</blockquote>
+
+									<p class="comment-util"></p>
+								</li><!-- #comment-## -->
+							</ol>
+
+						</div>
+
+						<p class="comments-closed">
+							Comments are closed for this article.
+						</p>
+
+				</main><!-- /#content-main -->
+
+				<div id="content-sub">
+					<ul id="widgets">
+						<li class="widget author">
+							<h3>About the Authors</h3>
+							<div class="vcard">
+								<h4 class="fn">
+								<a class="url" href="http://sunfishcode.github.io/blog/" rel="external me">
+									Dan Gohman <span class="photo">
+										<img alt='' src='https://secure.gravatar.com/avatar/d0f20c3888e5ac206b6ede4d4dc5c2ce?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+									</span>
+								</a></h4>
+								<p>
+									I've worked at Cray, Apple, and Google on several different compilers in a variety of contexts. I'm currently a member of the Mozilla Research team primarily working on asm.js, SIMD.js, and Emscripten.
+								</p>
+								<ul class="author-meta">
+									<li>
+										<a href="http://sunfishcode.github.io/blog/" class="website" rel="me">
+											sunfishcode.github.io/blog/
+										</a>
+									</li>
+									<li>
+										<a href="http://twitter.com/sunfishcode" class="twitter" rel="me">
+											@sunfishcode
+										</a>
+									</li>
+								</ul>
+								<p>
+									<a class="url" href="https://hacks.mozilla.org/author/dangohman/">
+										Read more articles by Dan Gohman&hellip;
+									</a>
+								</p>
+							</div>
+							<div class="vcard">
+								<h4 class="fn">
+								<a class="url" href="http://robertnyman.com" rel="external me">
+									Robert Nyman [Editor emeritus] <span class="photo">
+										<img alt='' src='https://secure.gravatar.com/avatar/ecef2eb31083ec6f01e1ecf5335a6e8c?s=48&amp;d=https%3A%2F%2Fsecure.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D48&amp;r=G' class='avatar avatar-48 photo' height='48' width='48' />
+									</span>
+								</a></h4>
+								<p>
+									Technical Evangelist &amp; Editor of Mozilla Hacks. Gives talks &amp; blogs about HTML5, JavaScript &amp; the Open Web. Robert is a strong believer in HTML5 and the Open Web and  has been working since 1999 with Front End development for the web - in Sweden and in New York City.
+
+									He regularly also blogs at
+									<a href="http://robertnyman.com">
+										http://robertnyman.com
+									</a>
+									and loves to travel and meet people.
+								</p>
+								<ul class="author-meta">
+									<li>
+										<a href="http://robertnyman.com" class="website" rel="me">
+											robertnyman.com
+										</a>
+									</li>
+									<li>
+										<a href="http://twitter.com/robertnyman" class="twitter" rel="me">
+											@robertnyman
+										</a>
+									</li>
+									<li>
+										<a href="https://plus.google.com/u/0/118100898483063383963" class="gplus" rel="me">
+											Google+
+										</a>
+									</li>
+								</ul>
+								<p>
+									<a class="url" href="https://hacks.mozilla.org/author/robertnyman/">
+										Read more articles by Robert Nyman [Editor emeritus]&hellip;
+									</a>
+								</p>
+							</div>
+						</li>
+					
+					</ul>
+				</div><!-- /#content-sub -->
+			</div><!-- /#content -->
+
+	</body>
+</html>
+
+<!-- Dynamic page generated in 0.372 seconds. -->
+<!-- Cached page generated by WP-Super-Cache on 2014-12-16 16:07:51 -->
+
+<!-- super cache -->
