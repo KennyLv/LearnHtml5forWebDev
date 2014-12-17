@@ -1,4 +1,5 @@
-WebGames
-========
 
-my test lab for create games using html and javascript
+TODO:
+
+Add Grunt
+Add UT using Jsamine
