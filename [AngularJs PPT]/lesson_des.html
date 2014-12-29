@@ -1,0 +1,65 @@
+﻿
+<h1>Date with AngularJs {{currentShow}} -- <span style="color:red;">{{message}}</span></h1>
+<!--
+<h1>Date with AngularJs 2 -- <span style="color:red;">About  jQuery</span></h1>
+<h1>Date with AngularJs 3 -- <span style="color:red;">AngularJs的运行原理</span></h1>
+<h1>Date with AngularJs 4 -- <span style="color:red;">路由机制</span></h1>
+<h1>Date with AngularJs 4 -- <span style="color:red;"> Animate in AngularJs</span></h1>
+-->
+
+<section  ng-show="currentShow == '1'">
+		<h3><a href="./Date with AngularJs-lesson1.html" target="_blank">前情回顾</a></h3>
+		<ul>
+			<li>前端框架的发展</li>
+			<li>AngularJs的基本组件-- ng-app, ng-controller (scope)...</li>
+			<li>AngularJs的数据绑定与表达式</li>
+			<li>AngularJs的service与依赖注入</li>
+		</ul>
+		<h3><a href="./Date%20with%20AngularJs-lesson2.html#/demo/main">今天的话题</a></h3>
+		<p>AngularJs跟jQuery的不同和联系</p>
+</section>
+
+<section  ng-show="currentShow == '2'">
+		<h3>About AngularJs </h3>
+		<pre>
+			AngularJS is an MV* framework that is ideal for use when building client-side single-page apps. 
+			It is not a library, but a framework for building dynamic web pages. 
+			It focuses on extending HTML and providing dynamic data binding, and it plays well with other frameworks (e.g., jQuery).</pre>
+			
+		<ol>
+			<li>
+			TA是一个框架，不是类库。是Google推出Web应用开发框架，构建了一个MVC/MVVM的解决方案用于客户端动态web应用。
+			</li>
+			<li>
+			TA的核心是对HTML的扩展增强，并实现动态的数据绑定。
+			</li>
+		</ol>
+</section>
+
+<section  ng-show="currentShow == '3'">
+	<h3>在谈路由机制前有必要先提一下现在比较流行的单页面应用，就是所谓的{{message}}。</h3>
+	<p>
+	为了实现无刷新的视图切换，我们通常会用ajax请求从后台取数据，然后套上HTML模板渲染在页面上。
+	然而ajax的一个致命缺点就是导致浏览器后退按钮失效，尽管我们可以在页面上放一个大大的返回按钮，让用户点击返回来导航，但总是无法避免用户习惯性的点后退。
+	</p>
+
+	<p>解决此问题的一个方法是使用hash，监听hashchange事件来进行视图切换：</p>
+	<pre>&lt;a href="#sharpxiajun"&gt;Click Me&lt;/a&gt;<br/>
+	这个链接前面的#sharpxiajun就是url的hash，url的hash是不会发送给服务端的，<br/>
+	在浏览器里有专门的window事件hashchange可以监听到它，浏览器的前进与后退支持url的hash改变，<br/>
+	因此我们可以通过改变url的hash再加上ajax请求就可以模拟页面的同步提交了，同时该请求是可以使用浏览器的前进和后退操作。</pre>
+
+	<p>另一个方法是用HTML5的history API，通过pushState()记录操作历史，监听popstate事件来进行视图切换，也有人把这叫pjax技术。</p>
+	<p>	基本流程如下：</p>
+
+	<img src="./img/pjax.png" style="height:140px;"/>
+
+	<p>如此一来，便形成了通过地址栏进行导航的深度链接（deeplinking ），也就是我们所需要的路由机制。通过路由机制，一个单页应用的各个视图就可以很好的组织起来了。</p>
+</section>
+
+<section  ng-show="currentShow == '4' || currentShow == '5'">
+TODO : No implement yet!
+</section>
+
+
+	
