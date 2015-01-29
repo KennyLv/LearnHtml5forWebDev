@@ -1,0 +1,213 @@
+﻿===============================================
+			1, Ubuntu 12.10 server 安装 Jenkins
+			2, Jenkins中使用Git和Maven之基本配置
+			3, Jenkins中使用Git和Maven之多个项目
+===============================================
+Copy From : http://blog.csdn.net/csfreebird/article/details/7213226
+=============================================================
+Ubuntu 12.10 server 安装 Jenkins
+=============================================================
+在Ubuntu上安装Jenkins很简单，请参考http://pkg.jenkins-ci.org/debian/
+这里要说明一点的是，默认会安装OpenJDK的运行库。如果你想使用Oracle的JDK的话，需要安装完成后在localhost:8080的页面下找到安装JDK的选项，并输入你在Oracle注册的的帐号，选择要安装需要的JDK版本，并设置为默认的。或者取消自动安装选项，输入JDK的home目录，起个名字，保存即可。
+Jenkins安装好后，会在/etc/init.d/目录下出现一个jenkins脚本。
+可以通过service jenkins start启动服务，并通过service jenkins stop关闭服务。
+默认端口是8080，不需要安装web服务器就可以运行。并且该服务已经是开机自启动的。
+
+还会创建一个jenkins用户，可以看到：用户目录在
+[plain] view plaincopyprint?
+/var/lib/jenkins  
+[plain] view plaincopyprint?
+cat /etc/passwd | grep jenkins  
+jenkins:x:107:65534::/var/lib/jenkins:/bin/bash  
+
+65534是什么组？检查一下：
+[plain] view plaincopyprint?
+cat /etc/group | grep 65534  
+nogroup:x:65534:  
+
+原来是无组。为了给比较大的权限，现在将之加入root组中。因此运行下面的命令：
+[plain] view plaincopyprint?
+gpasswd -a jenkins root  
+Adding user jenkins to group root  
+
+=============================================================
+Jenkins中使用Git和Maven之基本配置
+=============================================================
+Jenkins有一些专用术语，请参考下面的连接：https://wiki.jenkins-ci.org/display/JENKINS/Terminology
+
+1.通过Jenkins web页面添加Git plugin
+		Manage Jenkins->Manage Plugins->Available中选择Git Plugin安装，
+		注意要填写user name和 email地址，否则日后会碰到git tag的错误
+
+2.在Jenkins使用的机器上创建Git用户所需要的公钥
+		具体步骤参考前面Git server文章 http://blog.csdn.net/sheismylife/article/details/7204345
+		但是注意，要将最后生成的.ssh目录下的公钥和私钥文件复制到/var/lib/jenkins/.ssh目录下，否则git clone命令会报错
+
+3.修改jenkins目录权限
+		chmod -R 777 /var/lib/jenkins
+
+4.现在可以通过web页面创建一个项目Test，然后设置该项目使用Git作为版本管理。
+		并且设置repository路径，比如我的：git@S1:cml.git
+
+5.在build选项的pom文件指定你需要执行的pom.xml路径
+		比如我的一个测试工程名叫client，是个maven工程，我设置为client/pom.xml
+
+6.现在可以点击左侧的Build now进行测试
+		一切OK,则没有错误日志。在Build History中可以看到测试结果，有没有错误。
+
+7.Email发送设置
+		在Manage Jenkins->Configure System->Email Notification中，设置SMTP发送的基本信息，
+		点击Advanced，可以填写用户名和密码。还有一个测试按钮可以用来发送测试设置是否正确。
+		同时在Test项目中的Building Settings打勾选中E-mail Notification,
+		点击右边的问号，会出现帮助文档，说明在四种情况下会发送email，填写接受email的地址，然后故意将client代码修改到不能编译通过。
+		然后点击Build now按钮测试一下。果然收到email.
+
+8.检查代码更新并编译
+		可以通过Poll SCM来设置定时检查编译功能
+		比如*/5 * * * * 就是每隔5分钟检查一次，如果git仓库中有更新，则执行build操作。
+
+9.使用Maven私服加快下载速度
+		如我这篇文章所述，用私服可以避免下载过慢问题，也可以绕过公司内部外网限制问题。
+		http://blog.csdn.net/sheismylife/article/details/7209722
+		Jenkins的.m2目录路径在：/var/lib/jenkins/.m2/
+		首先清空里面所有的jar包，然后创建settings.xml文件，并编辑内容如下：
+				<settings>  
+				  <mirrors>  
+					<mirror>  
+					  <!--This sends everything else to /public -->  
+					  <id>nexus</id>  
+					  <mirrorOf>*</mirrorOf>  
+					  <url>http://S1:8081/nexus/content/groups/public</url>  
+					</mirror>  
+				  </mirrors>  
+				  <profiles>  
+					<profile>  
+					  <id>nexus</id>  
+					  <!--Enable snapshots for the built in central repo to direct -->  
+					  <!--all requests to nexus via the mirror -->  
+					  <repositories>  
+						<repository>  
+						  <id>central</id>  
+						  <url>http://central</url>  
+						  <releases><enabled>true</enabled></releases>  
+						  <snapshots><enabled>true</enabled></snapshots>  
+						</repository>  
+					  </repositories>  
+					  <pluginRepositories>  
+						<pluginRepository>  
+						  <id>central</id>  
+						  <url>http://central</url>  
+						  <releases><enabled>true</enabled></releases>  
+						  <snapshots><enabled>true</enabled></snapshots>  
+						</pluginRepository>  
+					  </pluginRepositories>  
+					</profile>  
+				  </profiles>  
+				  <activeProfiles>  
+					<!--make the profile active all the time -->  
+					<activeProfile>nexus</activeProfile>  
+				  </activeProfiles>  
+				</settings>  
+		现在点击build now测试一下，打开console output，看看命令行输出结果，
+		如果发现从S1下载jar包，就正确。
+		和不用私服的比较了一下，节省了1分多钟.
+
+
+=============================================================
+ Jenkins中使用Git和Maven之多个项目
+=============================================================
+
+1.应用Aggregation管理多个子项目
+		Maven中有一个Aggregation（聚合），可以将多个项目作为模块添加到一个pom.xml中，
+		然后告诉Jenkins这个顶层pom.xml，就可以自动从Git中拿出这些项目的源代码，并build所有的子项目和运行相应的测试程序。
+		我这里使用的是TestNG。
+		比如我有两个maven项目client和email_sender，我希望一次编译并测试，在这两个项目文件夹之上的目录上添加一个pom.xml，内容如下：
+				<project xmlns="http://maven.apache.org/POM/4.0.0" 
+				xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+				xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">  
+						<modelVersion>4.0.0</modelVersion>  
+						<groupId>com.kaimei.datacenter</groupId>  
+						<artifactId>cml</artifactId>  
+						<version>2.0</version>  
+						<packaging>pom</packaging> 
+						<modules>  
+								<module>client</module>  
+								<module>email_sender</module>  
+						</modules>  
+				</project>  
+		然后只要告诉Jenkins中这个pom.xml的路径即可。
+		点击build now进行测试，可以看到两个子项目都已经被下载源代码和编译，运行了TestNG的测试程序。
+		注意module名称应该是子项目的目录名。
+
+2.多个项目之间的依赖关系管理
+		client和email_sender项目在上例中没有关联关系，
+		为了演示持续集成在依赖树的build管理，现在建立一个新的maven项目名叫mongo_utility，
+		这个项目提供了一个类DBManager封装了MongoDB的连接，代码来源于我的另一篇文章：http://blog.csdn.net/sheismylife/article/details/7090526
+		client项目和email_sender项目都通过DBManager类来和MongoDB建立连接。因此它们的pom.xml中都有这一段：
+				<dependency>  
+						<groupId>com.kaimei.datacenter</groupId>  
+						<artifactId>mongo_utility</artifactId>  
+						<version>1.0</version>        
+				</dependency>  
+		build成功。仔细看Console Output，Jenkins的行为和直接使用mvn clean compile不太一样。
+		Jenkins会将mongo_utility的源代码取出来，然后重新编译，安装到本地仓库，然后再编译其他两个工程。
+		如果直接敲mvn clean compile的话，mongo_utility-1.0.jar会直接从私服上下载然后安装，不会编译。
+
+3.多个项目共享相同的设置
+		client,email_sender和mongo_utility三个项目都用到了mongodb java library，
+		为了便于管理，没有必要让它们各自的pom.xml中都定义相同的dependency。
+		Maven将每个项目的pom.xml看作一个工程对象，通过继承可以让它们共享同一个配置。
+		在顶层的pom.xml中添加mongodb依赖：
+				<dependencies>  
+						<dependency>  
+								<groupId>org.mongodb</groupId>  
+								<artifactId>mongo-java-driver</artifactId>  
+								<version>2.7.2</version>  
+						</dependency>  
+				</dependencies>  
+		然后在client,mongo_utility和email_sender项目的pom.xml中分别删除上面的依赖，并添加如下配置：
+				<parent>  
+						<groupId>com.kaimei.datacenter</groupId>  
+						<artifactId>cml</artifactId>  
+						<version>1.0</version><!-- or whatever version you use -->  
+						<relativePath>../pom.xml</relativePath>  
+				</parent>  
+		然后测试，大功告成。
+
+4.模块部署到nexus服务器上
+		如果想将某个模块项目比如这里的mongo_utility项目部署到nexus服务器上，需要调整顶层目录的pom.xml，加上下面的配置：
+				<distributionManagement>  
+						<repository>  
+								<id>sheismylife</id>  
+								<url>http://S1:8081/nexus/content/repositories/sheismylife</url>  
+						</repository>  
+				</distributionManagement>  
+		但是这样三个模块项目都自动继承了deploy功能。
+		其实我只想mongo-utility模块部署到nexus上，暂时把问题放在这里吧。
+		然后在顶层目录上执行mvn clean deploy,一切顺利。
+		将代码提交到git仓库中，然后修改Jenkins的项目配置页面，添加clean deploy命令。
+		点击Build Now按钮，看看结果，一切OK.
+		值得一提的是，如果你通过mvn命令行执行正确，而通过Jenkins执行错误，重新启动一下Jenkins服务，或许能解决。
+		我已经碰到几次了，似乎Jenkins有bug.
+
+5.通过Jenkins将web项目部署到Glassfish或者Tomcat
+		 基本做法还是通过Maven项目的plugin来完成部署。
+		 有一个问题是如果web项目和其他几个项目都作为一个大项目的模块被聚合在一起，而且都继承某个parent pom.xml，
+		 那么如何用一个Maven命令就能编译所有的模块，部署到nexus私服，
+		 而且将web项目发布到Glassfish或者Tomcat上。
+		 还正在研究，希望能够够通过Maven来实现这个功能。
+
+6.一个Jenkins上的多个project之间的顺序执行
+		这个很简单，Jenkins的project配置里面可以设置在某个project之后build，或者在本project build之后build other project.
+
+7.多个Jenkins之间的远程调用
+		S1上的Jenkins A调用某个shell脚本，比如curl http://S2/job/test/build
+		S2上的Jenkins B的test project就会被触发
+		来个复杂的例子，Jenkins A调用JenkinsB 并传递参数，参数必须是json格式，因此根据curl的语法，应该写成这样：
+		curl http://10.112.18.110:8080/jenkins/job/upland-install/build -d token=zorn --data-ascii json="{'parameter':[{'name':'number','value':${BUILD_NUMBER}}]}"  
+		而Jenkins B项目中，选择This build is parameterized
+		然后设置参数名称和默认值。之后用%number%的形式引用参数。
+		
+		
+		
+		
