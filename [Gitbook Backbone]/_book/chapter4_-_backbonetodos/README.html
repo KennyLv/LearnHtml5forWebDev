@@ -1,0 +1,1185 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <title>Chapter4 - Backbone实例之TODOS | Backbone.js入门</title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 1.0.3">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    
+    <link rel="next" href="../chapter5_-_backbonewebchat/README.html" />
+    
+    
+    <link rel="prev" href="../chapter3_-_backbonecomponent/backboneview.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+<link rel="stylesheet" href="../gitbook/style.css">
+
+
+        
+    <div class="book"  data-level="4" data-basepath=".." data-revision="1422607915792">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="1" data-path="chapter1-backbonejs/README.html">
+            
+                
+                    <a href="../chapter1-backbonejs/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         Chapter1 - 初识backbone
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="2" data-path="chapter2_-_helloworld/README.html">
+            
+                
+                    <a href="../chapter2_-_helloworld/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         Chapter2 - HelloWorld
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="3" data-path="chapter3_-_backbonecomponent/README.html">
+            
+                
+                    <a href="../chapter3_-_backbonecomponent/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.</b>
+                        
+                         Chapter3 - Backbone组件
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        
+        <li class="chapter " data-level="3.1" data-path="chapter3_-_backbonecomponent/backbonemodel.html">
+            
+                
+                    <a href="../chapter3_-_backbonecomponent/backbonemodel.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.</b>
+                        
+                         Backbone中的Model
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        
+        <li class="chapter " data-level="3.1.1" data-path="chapter3_-_backbonecomponent/backbone__data_validation.html">
+            
+                
+                    <a href="../chapter3_-_backbonecomponent/backbone__data_validation.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.1.1.</b>
+                        
+                         Backbone 数据验证 Data Validation
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="3.2" data-path="chapter3_-_backbonecomponent/backbonecollection.html">
+            
+                
+                    <a href="../chapter3_-_backbonecomponent/backbonecollection.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.2.</b>
+                        
+                         Backbone中的Collection
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="3.3" data-path="chapter3_-_backbonecomponent/backbonerouter.html">
+            
+                
+                    <a href="../chapter3_-_backbonecomponent/backbonerouter.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.3.</b>
+                        
+                         Backbone中的Router
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="3.4" data-path="chapter3_-_backbonecomponent/backboneview.html">
+            
+                
+                    <a href="../chapter3_-_backbonecomponent/backboneview.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>3.4.</b>
+                        
+                         Backbone中的View
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="4" data-path="chapter4_-_backbonetodos/README.html">
+            
+                
+                    <a href="../chapter4_-_backbonetodos/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>4.</b>
+                        
+                         Chapter4 - Backbone实例之TODOS
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="5" data-path="chapter5_-_backbonewebchat/README.html">
+            
+                
+                    <a href="../chapter5_-_backbonewebchat/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.</b>
+                        
+                         Chapter5 - Backbone实战之Webchat
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        
+        <li class="chapter " data-level="5.1" data-path="chapter5_-_backbonewebchat/webchat_1.html">
+            
+                
+                    <a href="../chapter5_-_backbonewebchat/webchat_1.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.1.</b>
+                        
+                         Webchat (1) 功能分析
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="5.2" data-path="chapter5_-_backbonewebchat/webchat_2.html">
+            
+                
+                    <a href="../chapter5_-_backbonewebchat/webchat_2.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.2.</b>
+                        
+                         Webchat (2) 详细设计
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="5.3" data-path="chapter5_-_backbonewebchat/webchat_3.html">
+            
+                
+                    <a href="../chapter5_-_backbonewebchat/webchat_3.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.3.</b>
+                        
+                         Webchat (3) 前端开发
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="5.4" data-path="chapter5_-_backbonewebchat/webchat_4.html">
+            
+                
+                    <a href="../chapter5_-_backbonewebchat/webchat_4.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>5.4.</b>
+                        
+                         Webchat (4) 后端开发
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="6" data-path="chapter6_-_summary/README.html">
+            
+                
+                    <a href="../chapter6_-_summary/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.</b>
+                        
+                         Chapter6 - Summary总结
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        
+        <li class="chapter " data-level="6.1" data-path="chapter6_-_summary/reference.html">
+            
+                
+                    <a href="../chapter6_-_summary/reference.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.1.</b>
+                        
+                         Reference 参考
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="6.2" data-path="chapter6_-_summary/appendix_-.html">
+            
+                
+                    <a href="../chapter6_-_summary/appendix_-.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>6.2.</b>
+                        
+                         Appendix - 附录
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Published using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">Twitter</button>
+                <button type="button" data-sharing="google-plus" class="button">Google</button>
+                <button type="button" data-sharing="facebook" class="button">Facebook</button>
+                <button type="button" data-sharing="weibo" class="button">Weibo</button>
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" >Backbone.js入门</a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_254">
+                    
+                        <h1 id="chapter4---todos">Chapter4 - TODOS实例分析</h1>
+<p>经过前面的几篇文章，backbone中的model，collection，router，view，都简单的讲了一下，我觉得看完这几篇文章，你应该达到的水平，或者说我要达到的目的就是：已经能够在自己的web项目或者是平时的练习中用的上backbone了。</p>
+<p>其实对于一个web开发老手来说，基本上看完前面的内容，你已经可以把backbone的使用和自己的开发经验结合起来进行应用了，要想更进一步的话需要去看backbone的官方文档，或者去看官方实例。</p>
+<p>这里我就backbone官网上的实例todos进行下分析，毕竟人家自己的东西，自己写出来应该能够把backbone的特性发挥的淋漓尽致，并且代码应该也是足够优秀的，不然也会放出来让大家参考。</p>
+<p>好了，废话这么多，下面开始正题。todos的代码这里下载：<a href="https://github.com/documentcloud/backbone/" target="_blank">https://github.com/documentcloud/backbone/</a></p>
+<p>首先应该来看下这个Todos有哪些功能：</p>
+<p>1、添加任务。</p>
+<p>2、修改任务（包括内容，状态）。</p>
+<p>3、删除任务。</p>
+<p>4、任务完成情况统计。</p>
+<p>总体上就这四项功能。</p>
+<p>这个项目仅仅是在web端运行的，没有服务器进行支持，所以项目中使用了一个叫做backbone-localstorage的js库，用来把数据存储到前端。</p>
+<p>因为backbone为mvc模式，根据对这种模式的使用经验，我们应该从分析其数据模型开始。当然，你也可以从其他地方入手。</p>
+<p><strong>一、Model与Controller</strong></p>
+<p>这里我们显然是可以看到它的源代码的，所以直接来看其model层，：</p>
+<pre><code>  /**
+   *基本的Todo模型，属性为：content,order,done。
+  **/
+
+  var Todo = Backbone.Model.extend({
+    // 设置默认的属性
+    defaults: {
+      content: &quot;empty todo...&quot;,
+      done: false
+    },
+
+    //确保每一个content都不为空
+    initialize: function() {
+      if (!this.get(&quot;content&quot;)) {
+        this.set({&quot;content&quot;: this.defaults.content});
+      }
+    },
+
+    // 将一个任务的完成状态置为逆状态
+    toggle: function() {
+      this.save({done: !this.get(&quot;done&quot;)});
+    },
+
+    //从localStorage中删除一个条目
+    clear: function() {
+      this.destroy();
+    }
+  });
+</code></pre><p>这段代码是很好理解的，这个Todo显然就是对应页面上的每一个任务条目。</p>
+<p>那么显然应该有一个collection来统治（管理）所有的任务，所以再来看collection：</p>
+<pre><code>  /**
+   *Todo的一个集合，数据通过localStorage存储在本地。
+   **/
+
+  var TodoList = Backbone.Collection.extend({
+
+    //设置Collection的模型为Todo
+    model: Todo,
+
+    //存储到本地，以todos-backbone命名的空间中
+    localStorage: new Store(&quot;todos-backbone&quot;),
+
+    //获取所有已经完成的任务数组
+    done: function() {
+      return this.filter(function(todo){ return todo.get(&#39;done&#39;); });
+    },
+
+    //获取任务列表中未完成的任务数组
+    remaining: function() {
+      return this.without.apply(this, this.done());
+    },
+
+    //获得下一个任务的排序序号，通过数据库中的记录数加1实现。
+    nextOrder: function() {
+      if (!this.length) return 1;
+      return this.last().get(&#39;order&#39;) + 1;
+    },
+
+    //Backbone内置函数，根据todo对象的加入顺序进行排列
+    comparator: function(todo) {
+      return todo.get(&#39;order&#39;);
+    }
+  });
+</code></pre><p>collection的主要功能有以下几个：</p>
+<ol>
+<li>按序存放Todo对象;</li>
+<li>获取完成的任务数目;</li>
+<li>获取未完成的任务数目;</li>
+<li>获取下一个要插入数据的序号。</li>
+</ol>
+<p>这里面有三个新的函数需要解释下：</p>
+<blockquote>
+<p>第一个是comparator，这是backbone的内置函数，起作用就是collection中数据的排序依据。文档参考这里：<a href="http://documentcloud.github.com/backbone/#Collection-comparator" target="_blank">http://documentcloud.github.com/backbone/#Collection-comparator</a></p>
+<p>第二个是获取完成任务数目时调用的this.filter 这个函数，它是underscore的内置函数，作用是遍历当前对象，然后过滤出对象中指定内容为True的对象，并将这些对象放到数组中返回。
+参考文档：<a href="http://documentcloud.github.com/underscore/#filter" target="_blank">http://documentcloud.github.com/underscore/#filter</a></p>
+<p>第三个是获取未完成任务数据是调用的 this.without.apply(this, this.done())这个函数，without也是underscore里面的函数。而后面的那个apply是javascript的内置函数，作用是把当前的上下文传入到函数中。这段代码的意思其实就是从this（也就是collection中），排除已经完成的任务（this.done()）,返回数组。
+参考：<a href="http://stackoverflow.com/questions/9137398/backbone-js-todo-collection-what-exactly-is-happening-in-this-return-stateme" target="_blank">http://stackoverflow.com/questions/9137398/backbone-js-todo-collection-what-exactly-is-happening-in-this-return-stateme</a></p>
+</blockquote>
+<p><strong>二、view的应用 </strong></p>
+<p>我们把todos这个实例的数据模型进行了简单的分析，有关于数据模型的操作也都知道了。接着我们来看剩下的两个view的模型，以及它们对页面的操作。</p>
+<p>首先要分析下，这个俩view是用来干嘛的。按照自己的想法，一个页面上的操作，直接用一个view来搞定不就行了吗，为何要用两个呢？</p>
+<p>我觉得这就是新手和老手的主要区别之一，喜欢在一个方法里面搞定一切，随着时间的推移，再逐渐重构，让代码变得灵活可扩展。但既然我们拿到一个成熟的代码，就应该吸取其中的精华。我觉得这里面的精华就是，将数据的展示和对数据的操作进行分离，也就是现在代码里面TodoView和AppView。</p>
+<p>前者的作用是展示数据模型中的数据到界面，并对数据本身进行管理;后者是对整体的一个控制，如所有数据的显示（调用TodoView），添加一个任务、统计多少完成任务等。</p>
+<p>有了上面的分析，让我们来一起看下代码：</p>
+<pre><code>// 首先是创建一个全局的Todo的collection对象
+
+  var Todos = new TodoList;
+
+  // 先来看TodoView，作用是控制任务列表
+  var TodoView = Backbone.View.extend({
+
+    //下面这个标签的作用是，把template模板中获取到的html代码放到这标签中。
+    tagName:  &quot;li&quot;,
+
+    // 获取一个任务条目的模板
+    template: _.template($(&#39;#item-template&#39;).html()),
+
+    // 为每一个任务条目绑定事件
+    events: {
+      &quot;click .check&quot;              : &quot;toggleDone&quot;,
+      &quot;dblclick label.todo-content&quot; : &quot;edit&quot;,
+      &quot;click span.todo-destroy&quot;   : &quot;clear&quot;,
+      &quot;keypress .todo-input&quot;      : &quot;updateOnEnter&quot;,
+      &quot;blur .todo-input&quot;          : &quot;close&quot;
+    },
+
+    //在初始化设置了todoview和todo的以一对一引用，这里我们可以把todoview看作是todo在界面的映射。
+    initialize: function() {
+      _.bindAll(this, &#39;render&#39;, &#39;close&#39;, &#39;remove&#39;);
+      this.model.bind(&#39;change&#39;, this.render);
+      this.model.bind(&#39;destroy&#39;, this.remove);   //这个remove是view的中的方法，用来清除页面中的dom
+    },
+
+    // 渲染todo中的数据到 item-template 中，然后返回对自己的引用this
+    render: function() {
+      $(this.el).html(this.template(this.model.toJSON()));
+      this.input = this.$(&#39;.todo-input&#39;);
+      return this;
+    },
+
+    // 控制任务完成或者未完成
+    toggleDone: function() {
+      this.model.toggle();
+    },
+
+    // 修改任务条目的样式
+    edit: function() {
+      $(this.el).addClass(&quot;editing&quot;);
+      this.input.focus();
+    },
+
+    // 关闭编辑界面，并把修改内容同步到界面
+    close: function() {
+      this.model.save({content: this.input.val()}); //会触发change事件
+      $(this.el).removeClass(&quot;editing&quot;);
+    },
+
+    // 按下回车之后，关闭编辑界面
+    updateOnEnter: function(e) {
+      if (e.keyCode == 13) this.close();
+    },
+
+    // 移除对应条目，以及对应的数据对象
+    clear: function() {
+      this.model.clear();
+    }
+  });
+
+//再来看AppView，功能是显示所有任务列表，显示整体的列表状态（如：完成多少，未完成多少）
+//以及任务的添加。主要是整体上的一个控制
+  var AppView = Backbone.View.extend({
+
+    //绑定页面上主要的DOM节点
+    el: $(&quot;#todoapp&quot;),
+
+    // 在底部显示的统计数据模板
+    statsTemplate: _.template($(&#39;#stats-template&#39;).html()),
+
+    // 绑定dom节点上的事件
+    events: {
+      &quot;keypress #new-todo&quot;:  &quot;createOnEnter&quot;,
+      &quot;keyup #new-todo&quot;:     &quot;showTooltip&quot;,
+      &quot;click .todo-clear a&quot;: &quot;clearCompleted&quot;,
+      &quot;click .mark-all-done&quot;: &quot;toggleAllComplete&quot;
+    },
+
+    //在初始化过程中，绑定事件到Todos上，当任务列表改变时会触发对应的事件。最后把存在localStorage中的数据取出来。
+    initialize: function() {
+      //下面这个是underscore库中的方法，用来绑定方法到目前的这个对象中，是为了在以后运行环境中调用当前对象的时候能够找到对象中的这些方法。
+      _.bindAll(this, &#39;addOne&#39;, &#39;addAll&#39;, &#39;render&#39;, &#39;toggleAllComplete&#39;);
+      this.input = this.$(&quot;#new-todo&quot;);
+      this.allCheckbox = this.$(&quot;.mark-all-done&quot;)[0];
+      Todos.bind(&#39;add&#39;,     this.addOne);
+      Todos.bind(&#39;reset&#39;,   this.addAll);
+      Todos.bind(&#39;all&#39;,     this.render);
+
+      Todos.fetch();
+    },
+
+    // 更改当前任务列表的状态
+    render: function() {
+      var done = Todos.done().length;
+      var remaining = Todos.remaining().length;
+
+      this.$(&#39;#todo-stats&#39;).html(this.statsTemplate({
+        total:      Todos.length,
+        done:       done,
+        remaining:  remaining
+      }));
+
+      //根据剩余多少未完成确定标记全部完成的checkbox的显示
+      this.allCheckbox.checked = !remaining;
+    },
+
+    //添加一个任务到页面id为todo-list的div/ul中
+    addOne: function(todo) {
+      var view = new TodoView({model: todo});
+      this.$(&quot;#todo-list&quot;).append(view.render().el);
+    },
+
+    // 把Todos中的所有数据渲染到页面,页面加载的时候用到
+    addAll: function() {
+      Todos.each(this.addOne);
+    },
+
+    //生成一个新Todo的所有属性的字典
+    newAttributes: function() {
+      return {
+        content: this.input.val(),
+        order:   Todos.nextOrder(),
+        done:    false
+      };
+    },
+
+    //创建一个任务的方法，使用backbone.collection的create方法。将数据保存到localStorage,这是一个html5的js库。需要浏览器支持html5才能用。
+    createOnEnter: function(e) {
+      if (e.keyCode != 13) return;
+      Todos.create(this.newAttributes());  //创建一个对象之后会在backbone中动态调用Todos的add方法，该方法已绑定addOne。
+      this.input.val(&#39;&#39;);
+    },
+
+    // 去掉所有已经完成的任务
+    clearCompleted: function() {
+      _.each(Todos.done(), function(todo){ todo.clear(); });
+      return false;
+    },
+
+    //用户输入新任务的时候提示，延时1秒钟
+    //处理逻辑是：首先获取隐藏的提示节点的引用，然后获取用户输入的值，
+    //先判断是否有设置显示的延时，如果有则删除，然后再次设置，因为这个事件是按键的keyup时发生的，所以该方法会被连续调用。
+    showTooltip: function(e) {
+      var tooltip = this.$(&quot;.ui-tooltip-top&quot;);
+      var val = this.input.val();
+      tooltip.fadeOut();
+      if (this.tooltipTimeout) clearTimeout(this.tooltipTimeout);
+      if (val == &#39;&#39; || val == this.input.attr(&#39;placeholder&#39;)) return;
+      var show = function(){ tooltip.show().fadeIn(); };
+      this.tooltipTimeout = _.delay(show, 1000);
+    },
+
+    //处理页面点击标记全部完成按钮
+    //处理逻辑：如果标记全部按钮已选，则所有都完成，如果未选，则所有的都未完成。
+    toggleAllComplete: function () {
+      var done = this.allCheckbox.checked;
+      Todos.each(function (todo) { todo.save({&#39;done&#39;: done}); });
+    }
+  });
+</code></pre><p>通过上面的代码，以及其中的注释，我们应该认识了其中的各个函数的作用。但是有一点没有说到的是template这个东西。</p>
+<p>在前几篇的view介绍中我们已经认识过了简单的模板使用，以及变量参数的传递：</p>
+<pre><code>&lt;script type=&quot;text/template&quot; id=&quot;search_template&quot;&gt;
+        &lt;label&gt;&lt;%= search_label %&gt;&lt;/label&gt;
+        &lt;input type=&quot;text&quot; id=&quot;search_input&quot; /&gt;
+        &lt;input type=&quot;button&quot; id=&quot;search_button&quot; value=&quot;Search&quot; /&gt;
+&lt;/script&gt;
+</code></pre><p>既然能定义变量，那么就能使用语法，如同django模板，那来看下带有语法的模板，也是上面的两个view用到的模板，我想这个是很好理解的。</p>
+<pre><code>&lt;script type=&quot;text/template&quot; id=&quot;item-template&quot;&gt;
+     &lt;div class=&quot;todo &lt;%= done ? &#39;done&#39; : &#39;&#39; %&gt;&quot;&gt;
+           &lt;div class=&quot;display&quot;&gt;
+                 &lt;input class=&quot;check&quot; type=&quot;checkbox&quot; &lt;%= done ? &#39;checked=&quot;checked&quot;&#39; : &#39;&#39; %&gt; /&gt;
+                 &lt;label class=&quot;todo-content&quot;&gt;&lt;%= content %&gt;&lt;/label&gt;
+                 &lt;span class=&quot;todo-destroy&quot;&gt;&lt;/span&gt;
+           &lt;/div&gt;
+           &lt;div class=&quot;edit&quot;&gt;
+                &lt;input class=&quot;todo-input&quot; type=&quot;text&quot; value=&quot;&lt;%= content %&gt;&quot; /&gt;
+           &lt;/div&gt;
+     &lt;/div&gt;
+&lt;/script&gt;
+
+&lt;script type=&quot;text/template&quot; id=&quot;stats-template&quot;&gt;
+     &lt;% if (total) { %&gt;
+       &lt;span class=&quot;todo-count&quot;&gt;
+             &lt;span class=&quot;number&quot;&gt;&lt;%= remaining %&gt;&lt;/span&gt;
+             &lt;span class=&quot;word&quot;&gt;&lt;%= remaining == 1 ? &#39;item&#39; : &#39;items&#39; %&gt;&lt;/span&gt; left.
+       &lt;/span&gt;
+     &lt;% } %&gt;
+
+     &lt;% if (done) { %&gt;
+       &lt;span class=&quot;todo-clear&quot;&gt;
+             &lt;a href=&quot;#&quot;&gt;
+               Clear &lt;span class=&quot;number-done&quot;&gt;&lt;%= done %&gt;&lt;/span&gt;
+               completed &lt;span class=&quot;word-done&quot;&gt;&lt;%= done == 1 ? &#39;item&#39; : &#39;items&#39; %&gt;&lt;/span&gt;
+             &lt;/a&gt;
+       &lt;/span&gt;
+     &lt;% } %&gt;
+&lt;/script&gt;
+</code></pre><p>简单的语法，上面的那个对应TodoView。</p>
+<p>这一篇文章就先到此为止，文章中我们了解到在todos这个实例中，view的使用，以及具体的TodoView和AppView中各个函数的作用，这意味着所有的肉和菜都已经放到你碗里了，下面就是如何吃下去的问题了。</p>
+<p><strong>三、TODOs总结 </strong></p>
+<p>我们已经对这个todos的功能、数据模型以及各个模块的实现细节进行了分析，这篇文章我们要对前面的分析进行一个整合。前面我们说过，有了肉和菜，剩下的就是要怎么吃。我个人倾向于菜和肉一起吃，这样不会觉得腻</p>
+<p>首先让我们来回顾一下我们分析的流程：先对页面功能进行了分析，然后又分析了数据模型，最后又对view的功能和代码进行了详解。你是不是觉得这个分析里面少了点什么？没错了，就知道经验丰富的你已经看出来了，这里面少了对于流程的分析。</p>
+<p>所以从我的分析中可以看的出来，我是先对各个原材料进行分析，然后再整体的分析（当然前提是我是理解流程的），这并不是分析代码的唯一方法，有时我也会采用跟着流程分析代码的方法。当然还有很多其他的分析方法，大家都是自己的套路嘛。</p>
+<p>下面简单的说说流程分析的方法。记得多年前在学vb的时候，分析一个完整项目代码的时候，习惯从程序的入口点开始分析。虽然web网站和桌面软件的实现不同，但是大致思路是一样的（同时也有网站即软件的说法，在RESTful架构中）。所以我们要先找到网站的入口点所在。</p>
+<p>和桌面应用项目的分析一样，网站的入口点就在于网页加载的时候。对于todos，自然就是加载所有的任务。所以对应着我们就可以发现这段代码</p>
+<p>首先是对AppView的一个实例化：</p>
+<p><code>var App = new AppView;</code></p>
+<p>实例化，自然就会调用构造函数：</p>
+<pre><code>//在初始化过程中，绑定事件到Todos上，当任务列表改变时会触发对应的事件。最后把存在localStorage中的数据取出来。
+initialize: function() {
+      //下面这个是underscore库中的方法，用来绑定方法到目前的这个对象中，是为了在以后运行环境中调用当前对象的时候能够找到对象中的这些方法。
+      _.bindAll(this, &#39;addOne&#39;, &#39;addAll&#39;, &#39;render&#39;, &#39;toggleAllComplete&#39;);
+      this.input = this.$(&quot;#new-todo&quot;);
+      this.allCheckbox = this.$(&quot;.mark-all-done&quot;)[0];
+      Todos.bind(&#39;add&#39;,     this.addOne);
+      Todos.bind(&#39;reset&#39;,   this.addAll);
+      Todos.bind(&#39;all&#39;,     this.render);
+
+      Todos.fetch();
+},
+</code></pre><p>注意其中的Todos.fetch()方法，前面说过，这个项目是在客户端保存数据，所以使用fetch方法并不会发送请求到服务器。</p>
+<p>另外在前面关于collection的单独讲解中我们也知道了collection中调用fetch方法之后就会触发reset这个方法。所以现在流程走向reset——&gt;addAll这个方法。</p>
+<p>来看addAll这个方法：</p>
+<pre><code>//添加一个任务到页面id为todo-list的div/ul中
+addOne: function(todo) {
+      var view = new TodoView({model: todo});
+      this.$(&quot;#todo-list&quot;).append(view.render().el);
+},
+
+// 把Todos中的所有数据渲染到页面,页面加载的时候用到
+addAll: function() {
+     Todos.each(this.addOne);
+},
+</code></pre><p>在addAll中调用addOne方法，关于Todos.each很好理解，就是语法糖（简化的for循环），到此，加载页面的整个流程也就完成了。关于addOne方法的细节下面介绍。</p>
+<p>然后再来看添加任务的流程，一个良好的代码命名风格始终是让人满心欢喜的。因为很显然，添加一个任务，自然就是addOne,其实你看events中的绑定也能知道，先看一下绑定：</p>
+<pre><code>// 绑定dom节点上的事件
+events: {
+      &quot;keypress #new-todo&quot;:  &quot;createOnEnter&quot;,
+      &quot;keyup #new-todo&quot;:     &quot;showTooltip&quot;,
+      &quot;click .todo-clear a&quot;: &quot;clearCompleted&quot;,
+      &quot;click .mark-all-done&quot;: &quot;toggleAllComplete&quot;
+},
+</code></pre><p>这里并没有addOne方法的绑定，但是却有createOnEnter，语意其实一样的，另外这里其实要说下关于showTooltip这个方法，在任务输入框中，按键弹起的时候执行这个方法，具体代码有详细的注释了，这里不多介绍。</p>
+<p>来看主线，createOnEnter这个方法：</p>
+<pre><code>
+//创建一个任务的方法，使用backbone.collection的create方法。将数据保存到localStorage,这是一个html5的js库。需要浏览器支持html5才能用。
+createOnEnter: function(e) {
+      if (e.keyCode != 13) return;
+      Todos.create(this.newAttributes());
+      //创建一个对象之后会在backbone中动态调用Todos的add方法，该方法已绑定addOne。
+      this.input.val(&#39;&#39;);
+},
+</code></pre><p>注释已写明，Todos.create会调用addOne这个方法。由此顺理成章的来到addOne里面：</p>
+<pre><code>//添加一个任务到页面id为todo-list的div/ul中
+addOne: function(todo) {
+      var view = new TodoView({model: todo});
+      this.$(&quot;#todo-list&quot;).append(view.render().el);
+},
+</code></pre><p>在里面实例化了一个TodoView类，前面我们说过，这个类是主管各个任务的显示的。具体代码就不细说了。</p>
+<p>有了添加再来看更新，关于单个任务的操作，我们直接找TodoView就ok了。所以直接找到</p>
+<pre><code>// The DOM events specific to an item.
+events: {
+      &quot;click .check&quot;              : &quot;toggleDone&quot;,
+      &quot;dblclick label.todo-content&quot; : &quot;edit&quot;,
+      &quot;click span.todo-destroy&quot;   : &quot;clear&quot;,
+      &quot;keypress .todo-input&quot;      : &quot;updateOnEnter&quot;,
+      &quot;blur .todo-input&quot;          : &quot;close&quot;
+},
+</code></pre><p>其中的edit事件的绑定就是更新的一个开头，而updateOnEnter就是更新的具体动作。所以只要搞清楚这俩方法的作用一切就明了了。这里同样不用细说。</p>
+<p>在往后还有删除一条记录以及清楚已有记录的功能，根据上面的分析过程，我想大家都很容易的去‘顺藤模瓜’。</p>
+<p>关于Todos的分析到此就算完成了，我注释过的整个代码在github上：<a href="https://github.com/the5fire/the5fire-todos" target="_blank">https://github.com/the5fire/the5fire-todos</a> ，供大家参考。</p>
+<p><strong>backbone实例todos扩展+web服务器</strong></p>
+<p>这里我们使用的是django+sqlite来进行实现。</p>
+<p>现在我们应该对应着建立server端的model。不过在此之前，为了方便不熟悉django的童鞋，简单的写下开发过程：</p>
+<p>1、创建工程</p>
+<p>根据上一篇中介绍的django的环境安装和使用，创建一个工程:django-admin.py startproject todos，然后在cd到todos文件夹中：python manage.py startapp todo，创建一个应用（称作模块也行）。</p>
+<p>2、配置文件</p>
+<p>在todos根目录的settings中，主要是数据配置：</p>
+<pre><code>DATABASES = {
+    &#39;default&#39;: {
+        &#39;ENGINE&#39;: &#39;django.db.backends.sqlite3&#39;, # Add &#39;postgresql_psycopg2&#39;, &#39;postgresql&#39;, &#39;mysql&#39;, &#39;sqlite3&#39; or &#39;oracle&#39;.
+        &#39;NAME&#39;: &#39;D:/mytodos&#39;, # Or path to database file if using sqlite3.
+        &#39;USER&#39;: &#39;&#39;, # Not used with sqlite3.
+        &#39;PASSWORD&#39;: &#39;&#39;, # Not used with sqlite3.
+        &#39;HOST&#39;: &#39;&#39;, # Set to empty string for localhost. Not used with sqlite3.
+        &#39;PORT&#39;: &#39;&#39;, # Set to empty string for default. Not used with sqlite3.
+    }
+}
+</code></pre><p>完整的配置最后贴出来供大家参考。有了上面的一个铺垫，开始创建model。打开todo文件夹中的models.py文件，写入以下代码：</p>
+<pre><code>from django.db import models
+
+class Todo(models.Model):
+    content = models.CharField(max_length=128)
+
+    done = models.CharField(max_length=1,default=&#39;N&#39;) #Y表示完成N表示未完成
+    order = models.IntegerField(blank=True)
+</code></pre><p>然后再来创建views代码，关于django的mvc模式这里不介绍，大家跟着操作进行。在todo下新建一个views_todos.py文件。</p>
+<p>这个views_todos文件是用来操作数据库的所有代码所在。关于数据库的操作，其实就是CRUD（create增加，request查询，update更新，delete删除），在django的基础上，很好写。</p>
+<p>这里是全部代码：</p>
+<pre><code>#coding=utf-8
+
+&#39;&#39;&#39;
+    author:huyang
+    date: 2012-3-26
+    blog:http://the5fire.com
+&#39;&#39;&#39;
+from models import Todo
+from django.http import HttpResponse
+from django.shortcuts import render_to_response
+from django.utils import simplejson
+
+&#39;&#39;&#39;
+public
+@desc 加载todo首页
+@param
+@return templates
+&#39;&#39;&#39;
+def index(request):
+    return render_to_response(&#39;todo/todos.html&#39;,{})
+
+&#39;&#39;&#39;
+public
+@desc 控制创建和读取方法的一个跳转
+@param
+@return
+&#39;&#39;&#39;
+def control_cr(request):
+    if request.method == &#39;POST&#39;:
+        return create(request)
+    elif request.method == &#39;GET&#39;:
+        return getAll(request)
+    else:
+        return HttpResponse(&#39;
+access deny
+
+&#39;)
+
+&#39;&#39;&#39;
+public
+@desc 控制更新和删除方法的一个跳转
+@param url中的todo对象id
+@return
+&#39;&#39;&#39;
+def control_ud(request, todo_id):
+    if request.method == &#39;PUT&#39;:
+        return update(request,todo_id)
+    elif request.method == &#39;DELETE&#39;:
+        return delete(request,todo_id)
+    else:
+        return HttpResponse(&#39;
+access deny
+
+&#39;)
+&#39;&#39;&#39;
+protect
+@desc 获取所有的todo对象，并转为json格式，返回
+@param
+@return json格式的todo列表
+&#39;&#39;&#39;
+def getAll(request):
+    todos = Todo.objects.all()
+    todo_dict = []
+    flag_dict = {&#39;Y&#39;:True,&#39;N&#39;:False}
+    for todo in todos:
+        todo_dict.append({&#39;id&#39;:todo.id,&#39;content&#39;:todo.content,&#39;done&#39;:flag_dict[todo.done],&#39;order&#39;:todo.order})
+    return HttpResponse(simplejson.dumps(todo_dict), mimetype = &#39;application/json&#39;)
+
+&#39;&#39;&#39;
+protect
+@desc 创建一个todo记录
+@param POST中的json格式todo对象
+@return json格式{&#39;success&#39;:True/False}
+&#39;&#39;&#39;
+def create(request):
+    req = simplejson.loads(request.raw_post_data)
+    content = req[&#39;content&#39;]
+    order = req[&#39;order&#39;]
+
+    if not content:
+        return HttpResponse(simplejson.dumps({&#39;success&#39;:False}), mimetype = &#39;application/json&#39;)
+    todo = Todo()
+    todo.content = content
+    todo.order = order
+    todo.save()
+    return HttpResponse(simplejson.dumps({&#39;success&#39;:True}), mimetype = &#39;application/json&#39;)
+
+&#39;&#39;&#39;
+protect
+@desc 更新一条todo记录
+@param POST中的json格式todo对象
+@return json格式{&#39;success&#39;:True/False}
+&#39;&#39;&#39;
+def update(request, todo_id):
+    req = simplejson.loads(request.raw_post_data)
+    content = req[&#39;content&#39;]
+    done = req[&#39;done&#39;]
+    order = req[&#39;order&#39;]
+    flag_dict = {True:&#39;Y&#39;,False:&#39;N&#39;}
+    todo = Todo.objects.get(id = todo_id)
+    todo.content = content
+    todo.done = flag_dict[done]
+    todo.order = order
+    todo.save()
+    return HttpResponse(simplejson.dumps({&#39;success&#39;:True}), mimetype = &#39;application/json&#39;)
+
+&#39;&#39;&#39;
+protect
+@desc 删除一条todo记录
+@param url中的todo对象id
+@return json格式{&#39;success&#39;:True/False}
+&#39;&#39;&#39;
+def delete(request, todo_id):
+    Todo.objects.get(id = todo_id).delete()
+    return HttpResponse(simplejson.dumps({&#39;success&#39;:True}), mimetype = &#39;application/json&#39;)
+</code></pre><p>上面的代码中除了有CRUD代码之后，还有两个重要的函数：control_cr和control_ud，从名字很容易看出来，前者是控制创建和查询的，后者是控制更新和删除的。为什么这么写呢，其原因在于使用backbone在web端进行CRUD操作的时候，对应的url并不一样，因此我写了两个函数。</p>
+<p>在control_cr中，根据GET和POST来判断是查询还是创建爱你，在control_ud中，根据PUST和DELETE来判断是更新还是删除。</p>
+<p>上面代码中其他函数就不详解了，都是很简单的语句。</p>
+<p>然后我们需要做的就是配置url，在todos下面的那个urls.py文件中的配置如下：</p>
+<pre><code>from django.conf.urls.defaults import patterns, include, url
+import settings
+
+from todo import views_todos
+
+urlpatterns = patterns(&#39;&#39;,
+
+    (r&#39;^site_media/(?P.*)$&#39;, &#39;django.views.static.serve&#39;,{&#39;document_root&#39;: settings.STATIC_DOC_ROOT,&#39;show_indexes&#39;: False}),
+
+    (r&#39;^todo/control/$&#39;, views_todos.control_cr),
+    (r&#39;^todo/control/(\d*)$&#39;, views_todos.control_ud),  #例如：http://127.0.0.1:8000/todo/control/1/ PUT就是更新，DELETE就是删除
+    (r&#39;^&#39;, views_todos.index),
+)
+</code></pre><p>当然web端我们直接使用前面分析过的todos的，只需要修改一下其中的代码。</p>
+<p>1、在Todo的模型中加入： urlRoot: &#39;/todo/control/&#39;</p>
+<p>2、在collection TodoList中加入：url: &#39;/todo/control/&#39;，并且去掉：localStorage: new Store(&quot;todos-backbone&quot;),</p>
+<p>这样就ok了。在django项目中还需要配置site_media和templates文件，结构如下：</p>
+<p><img src="http://www.the5fire.com/wp-content/uploads/2012/04/struct.png" alt="struct"></p>
+<p>我用的Komodo Edit这个IDE来开发的。你只要按照这样的结构来建立文件和文件夹就行了。</p>
+<p>最后给出settings的所有代码：</p>
+<pre><code># Django settings for testbackbone project.
+
+DEBUG = True
+TEMPLATE_DEBUG = DEBUG
+
+ADMINS = (
+    # (&#39;Your Name&#39;, &#39;your_email@example.com&#39;),
+)
+
+MANAGERS = ADMINS
+
+DATABASES = {
+    &#39;default&#39;: {
+        &#39;ENGINE&#39;: &#39;django.db.backends.sqlite3&#39;, # Add &#39;postgresql_psycopg2&#39;, &#39;postgresql&#39;, &#39;mysql&#39;, &#39;sqlite3&#39; or &#39;oracle&#39;.
+        &#39;NAME&#39;: &#39;D:/mytodos&#39;, # Or path to database file if using sqlite3.
+        &#39;USER&#39;: &#39;&#39;, # Not used with sqlite3.
+        &#39;PASSWORD&#39;: &#39;&#39;, # Not used with sqlite3.
+        &#39;HOST&#39;: &#39;&#39;, # Set to empty string for localhost. Not used with sqlite3.
+        &#39;PORT&#39;: &#39;&#39;, # Set to empty string for default. Not used with sqlite3.
+    }
+}
+
+# Local time zone for this installation. Choices can be found here:
+# http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
+# although not all choices may be available on all operating systems.
+# On Unix systems, a value of None will cause Django to use the same
+# timezone as the operating system.
+# If running in a Windows environment this must be set to the same as your
+# system time zone.
+TIME_ZONE = &#39;America/Chicago&#39;
+
+# Language code for this installation. All choices can be found here:
+# http://www.i18nguy.com/unicode/language-identifiers.html
+LANGUAGE_CODE = &#39;en-us&#39;
+
+SITE_ID = 1
+
+# If you set this to False, Django will make some optimizations so as not
+# to load the internationalization machinery.
+USE_I18N = True
+
+# If you set this to False, Django will not format dates, numbers and
+# calendars according to the current locale
+USE_L10N = True
+
+# Absolute filesystem path to the directory that will hold user-uploaded files.
+# Example: &quot;/home/media/media.lawrence.com/media/&quot;
+MEDIA_ROOT = &#39;&#39;
+
+# URL that handles the media served from MEDIA_ROOT. Make sure to use a
+# trailing slash.
+# Examples: &quot;http://media.lawrence.com/media/&quot;, &quot;http://example.com/media/&quot;
+MEDIA_URL = &#39;&#39;
+
+# Absolute path to the directory static files should be collected to.
+# Don&#39;t put anything in this directory yourself; store your static files
+# in apps&#39; &quot;static/&quot; subdirectories and in STATICFILES_DIRS.
+# Example: &quot;/home/media/media.lawrence.com/static/&quot;
+STATIC_ROOT = &#39;./site_media/&#39;
+
+# URL prefix for static files.
+# Example: &quot;http://media.lawrence.com/static/&quot;
+STATIC_URL = &#39;/site_media/&#39;
+
+
+# URL prefix for admin static files -- CSS, JavaScript and images.
+# Make sure to use a trailing slash.
+# Examples: &quot;http://foo.com/static/admin/&quot;, &quot;/static/admin/&quot;.
+ADMIN_MEDIA_PREFIX = &#39;/static/admin/&#39;
+
+# Additional locations of static files
+STATICFILES_DIRS = (
+    # Put strings here, like &quot;/home/html/static&quot; or &quot;C:/www/django/static&quot;.
+    # Always use forward slashes, even on Windows.
+    # Don&#39;t forget to use absolute paths, not relative paths.
+)
+
+# List of finder classes that know how to find static files in
+# various locations.
+STATICFILES_FINDERS = (
+    &#39;django.contrib.staticfiles.finders.FileSystemFinder&#39;,
+    &#39;django.contrib.staticfiles.finders.AppDirectoriesFinder&#39;,
+# &#39;django.contrib.staticfiles.finders.DefaultStorageFinder&#39;,
+)
+
+# Make this unique, and don&#39;t share it with anybody.
+SECRET_KEY = &#39;q4%c$1t0@x0iaco8!8eacy5-g8t)z1549$s4049xf^2y2#!0ef&#39;
+
+# List of callables that know how to import templates from various sources.
+TEMPLATE_LOADERS = (
+    &#39;django.template.loaders.filesystem.Loader&#39;,
+    &#39;django.template.loaders.app_directories.Loader&#39;,
+# &#39;django.template.loaders.eggs.Loader&#39;,
+)
+
+MIDDLEWARE_CLASSES = (
+    &#39;django.middleware.common.CommonMiddleware&#39;,
+    &#39;django.contrib.sessions.middleware.SessionMiddleware&#39;,
+    #&#39;django.middleware.csrf.CsrfViewMiddleware&#39;,
+    &#39;django.contrib.auth.middleware.AuthenticationMiddleware&#39;,
+    &#39;django.contrib.messages.middleware.MessageMiddleware&#39;,
+)
+
+ROOT_URLCONF = &#39;todos.urls&#39;
+import os
+TEMPLATE_DIRS = (
+    # Put strings here, like &quot;/home/html/django_templates&quot; or &quot;C:/www/django/templates&quot;.
+    # Always use forward slashes, even on Windows.
+    # Don&#39;t forget to use absolute paths, not relative paths.
+     os.path.join(os.path.dirname(__file__), &#39;templates&#39;).replace(&#39;\\&#39;,&#39;/&#39;),
+)
+
+INSTALLED_APPS = (
+    #&#39;django.contrib.auth&#39;,
+    #&#39;django.contrib.contenttypes&#39;,
+    #&#39;django.contrib.sessions&#39;,
+    ##&#39;django.contrib.sites&#39;,
+    #&#39;django.contrib.messages&#39;,
+    #&#39;django.contrib.staticfiles&#39;,
+    &#39;todos.todo&#39;,
+    # Uncomment the next line to enable the admin:
+    # &#39;django.contrib.admin&#39;,
+    # Uncomment the next line to enable admin documentation:
+    # &#39;django.contrib.admindocs&#39;,
+)
+
+STATIC_DOC_ROOT = &#39;./site_media&#39;
+
+# A sample logging configuration. The only tangible logging
+# performed by this configuration is to send an email to
+# the site admins on every HTTP 500 error.
+# See http://docs.djangoproject.com/en/dev/topics/logging for
+# more details on how to customize your logging configuration.
+LOGGING = {
+    &#39;version&#39;: 1,
+    &#39;disable_existing_loggers&#39;: False,
+    &#39;handlers&#39;: {
+        &#39;mail_admins&#39;: {
+            &#39;level&#39;: &#39;ERROR&#39;,
+            &#39;class&#39;: &#39;django.utils.log.AdminEmailHandler&#39;
+        }
+    },
+    &#39;loggers&#39;: {
+        &#39;django.request&#39;: {
+            &#39;handlers&#39;: [&#39;mail_admins&#39;],
+            &#39;level&#39;: &#39;ERROR&#39;,
+            &#39;propagate&#39;: True,
+        },
+    }
+}
+</code></pre><p>代码已经放到github上了，建议大家下载运行参考。<a href="https://github.com/the5fire/the5fire-servertodos" target="_blank">https://github.com/the5fire/the5fire-servertodos</a></p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../chapter3_-_backbonecomponent/backboneview.html" class="navigation navigation-prev " aria-label="Previous page: Backbone中的View"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../chapter5_-_backbonewebchat/README.html" class="navigation navigation-next " aria-label="Next page: Chapter5 - Backbone实战之Webchat"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="https://cdn.mathjax.org/mathjax/2.4-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

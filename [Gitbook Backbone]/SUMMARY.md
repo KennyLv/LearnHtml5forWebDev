@@ -5,6 +5,7 @@
 * [Chapter2 - HelloWorld](chapter2_-_helloworld/README.md)
 * [Chapter3 - Backbone组件](chapter3_-_backbonecomponent/README.md)
    * [Backbone中的Model](chapter3_-_backbonecomponent/backbonemodel.md)
+       * [Backbone 数据验证 Data Validation](chapter3_-_backbonecomponent/backbone__data_validation.md)
    * [Backbone中的Collection](chapter3_-_backbonecomponent/backbonecollection.md)
    * [Backbone中的Router](chapter3_-_backbonecomponent/backbonerouter.md)
    * [Backbone中的View](chapter3_-_backbonecomponent/backboneview.md)

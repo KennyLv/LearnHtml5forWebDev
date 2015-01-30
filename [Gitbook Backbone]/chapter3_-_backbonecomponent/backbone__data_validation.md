@@ -1,8 +1,31 @@
-# Chapter3 - Backbone组件
+
 # Backbone 数据验证 Data Validation
 
 **数据验证部分更新到backbone.js1.0.0**
 
+Backbone API上说在使用set方法时会先执行validate（自定义）方法，但是我看Backbone源代码上下面这一段似乎有些问题，
+
+```
+_validate: function(attrs, options) {
+    if (!options.validate || !this.validate) return true;
+    attrs = _.extend({}, this.attributes, attrs);
+    var error = this.validationError = this.validate(attrs, options) || null;
+    if (!error) return true;
+    this.trigger('invalid', this, error, _.extend(options || {}, {validationError: error}));
+    return false;
+}
+```
+它的第二行是判断options.validate和自定义的validate是否存在，当它们都存在时执行后面的语句，但是按照我们平常的写法：set({..})，options不存在，那么!options.validate一定是为true的，这样的话这个方法其实执行到第二行就执行完了，我们自定义的验证方法根本不执行。
+
+当我把if (!options.validate || !this.validate) 改成if (!options.validate && !this.validate) 后，方法可以继续执行，绑定error方法：
+
+```
+this.bind("error",function(model,error){
+    alert("initialize error:"+error);
+});
+```
+
+这里的error是个布尔值，并不是我在validate方法里面返回的值。这是否正常？
 
 经常有网友问说为啥你的代码不能执行，如果你是完全copy我的代码，那基本上不会出错，我的代码都是能正常运行之后才会放上来的。
 
