@@ -1,4 +1,6 @@
 
+[TOC]
+
 ## New in HTML5
 
 > Reference:
