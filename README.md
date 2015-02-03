@@ -1,11 +1,9 @@
 
-New feature in HTML5
--------------------
+## New feature in HTML5
 
-###### Reference:
-http://www.cnblogs.com/dxy1982/category/349848.html
+> Reference:
 
-
+>>http://www.cnblogs.com/dxy1982/category/349848.html
 
 > Canvas 
 
@@ -45,7 +43,9 @@ http://www.cnblogs.com/dxy1982/category/349848.html
 
 >>各种框架的收集贴：http://www.appcrews.com/2011/07/129.html
 
-> AngularJS
+## AngularJS
+
+> Reference
 
 >>如何学习 http://www.ng-newsletter.com/posts/how-to-learn-angular.html
 
