@@ -1,5 +1,5 @@
 
-## New feature in HTML5
+## New in HTML5
 
 > Reference:
 
