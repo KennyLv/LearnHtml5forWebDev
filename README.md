@@ -51,3 +51,12 @@
 
 >>一步一步学习http://www.ng-newsletter.com/posts/beginner2expert-how_to_start.html
 
+## NodeJs
+
+> Reference
+
+>> 从零开始nodejs系列文章 http://blog.fens.me/series-nodejs/
+>> 官方API文档 http://www.nodejs.org/api/all.html
+
+
+
