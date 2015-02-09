@@ -4,11 +4,10 @@
 
 [MongoDB](http://www.mongodb.org/) (from "humongous") is an open-source document database, and the leading NoSQL database. Written in C++, MongoDB features:
 
+> MongoDB部署实验系列文章http://blog.fens.me/series-mongodb/
 
 
 ### Redis
-
-
 
 [Redis](http://redis.io/)是REmote DIctionary Server的缩写。
 
@@ -26,5 +25,3 @@
 互联网数据目前基本使用两种方式来存储，关系数据库或者key value。但是这些互联网业务本身并不属于这两种数据类型，比如用户在社会化平台中的关系，它是一个list，如果要用关系数据库存储就需要转换成一种多行记录的形式，这种形式存在很多冗余数据，每一行需要存储一些重复信息。如果用key value存储则修改和删除比较麻烦，需要将全部数据读出再写入。
 
 Redis在内存中设计了各种数据类型，让业务能够高速原子的访问这些数据结构，并且不需要关心持久存储的问题，从架构上解决了前面两种存储需要走一些弯路的问题。
-
-

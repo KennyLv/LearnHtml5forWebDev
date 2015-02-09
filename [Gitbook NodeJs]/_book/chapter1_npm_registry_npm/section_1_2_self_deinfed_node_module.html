@@ -4,7 +4,7 @@
     <head>
         
         <meta charset="UTF-8">
-        <title>Chapter1 NPM Registry (NPM库) | About NodeJs</title>
+        <title>Section 1_2 Self Deinfed Node Module | About NodeJs</title>
         <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
         <meta name="description" content="">
         <meta name="generator" content="GitBook 1.0.3">
@@ -18,10 +18,10 @@
     
     
     
-    <link rel="next" href="../chapter1_npm_registry_npm/section_1_1_most_popular_node_modules.html" />
+    <link rel="next" href="../chapter1_npm_registry_npm/section_1_3_npm_-_module_install.html" />
     
     
-    <link rel="prev" href="../section_0_2_event-driven_programming.html" />
+    <link rel="prev" href="../chapter1_npm_registry_npm/section_1_1_most_popular_node_modules.html" />
     
 
         
@@ -33,7 +33,7 @@
 
 
         
-    <div class="book"  data-level="1" data-basepath=".." data-revision="1423105987229">
+    <div class="book"  data-level="1.2" data-basepath=".." data-revision="1423105987229">
     
 
 <div class="book-summary">
@@ -103,7 +103,7 @@
         </li>
     
         
-        <li class="chapter active" data-level="1" data-path="chapter1_npm_registry_npm/README.html">
+        <li class="chapter " data-level="1" data-path="chapter1_npm_registry_npm/README.html">
             
                 
                     <a href="../chapter1_npm_registry_npm/README.html">
@@ -136,7 +136,7 @@
         </li>
     
         
-        <li class="chapter " data-level="1.2" data-path="chapter1_npm_registry_npm/section_1_2_self_deinfed_node_module.html">
+        <li class="chapter active" data-level="1.2" data-path="chapter1_npm_registry_npm/section_1_2_self_deinfed_node_module.html">
             
                 
                     <a href="../chapter1_npm_registry_npm/section_1_2_self_deinfed_node_module.html">
@@ -363,120 +363,153 @@
                 <div class="page-inner">
                 
                 
-                    <section class="normal" id="section-gitbook_316">
+                    <section class="normal" id="section-gitbook_315">
                     
-                        <h1 id="npm-registry-npm">NPM Registry (NPM库)</h1>
+                        <h1 id="">发布自己的模块</h1>
+<p>之前的文章反复提及模块在node中的重要性。正因为有了模块，node才有了扩展性，才会有如此多的node社区成员参与进来，node才能如此迅速地发展。</p>
 <blockquote>
-<p><strong>转载自<a href="http://www.cnblogs.com/luics/" target="_blank">http://www.cnblogs.com/luics/</a> ，新浪微博@徐凯-鬼道</strong></p>
+<p>NPM（Node Packaged Module，之后简称module或模块）是node的内置功能，通过module的形式为node带来更多的API。其实node原生API也是通过模块的形式提供给开发者使用的。</p>
 </blockquote>
-<table>
-<thead>
-<tr>
-<th style="text-align:left">类别1</th>
-<th style="text-align:left">类别2</th>
-<th style="text-align:left">模块</th>
-</tr>
-</thead>
-<tbody>
-<tr>
-<td style="text-align:left">通用库</td>
-<td style="text-align:left">JS语言扩展</td>
-<td style="text-align:left">underscore jquery sprintf browserify validator canvas <strong>requirejs</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">JS流程控制</td>
-<td style="text-align:left"><strong>async</strong> <strong>q</strong> step seq</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">模板类</td>
-<td style="text-align:left">jade ejs mustache handlebars js-yaml hogan.js eco CSS    <strong>less</strong> stylus nib</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">命令行辅助</td>
-<td style="text-align:left"><strong>optimist</strong> commander nopt nconf prompt cli nomnom cli-color</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">调试辅助</td>
-<td style="text-align:left">debug <strong>winston</strong> eyes jsdom</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">部署</td>
-<td style="text-align:left">uglify-js <strong>grunt</strong> clean-css <strong>jshint</strong></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">其他</td>
-<td style="text-align:left">coffee-script node-uuid mime pkginfo marked npm htmlparser</td>
-</tr>
-<tr>
-<td style="text-align:left">IO库</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">网络IO</td>
-<td style="text-align:left"><strong>socket.io</strong> oauth http-proxy socket.io-client node-static</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">本地IO</td>
-<td style="text-align:left">mkdirp watch findit <strong>log4js</strong> bindings temp fstream</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">数据库IO</td>
-<td style="text-align:left"><strong>redis</strong> <strong>mongodb</strong> mongoose <strong>mysql</strong> hiredis knox pg</td>
-</tr>
-<tr>
-<td style="text-align:left">框架</td>
-<td style="text-align:left"></td>
-<td style="text-align:left"></td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">应用框架</td>
-<td style="text-align:left"><strong>express</strong> backbone</td>
-</tr>
-<tr>
-<td style="text-align:left"></td>
-<td style="text-align:left">测试框架</td>
-<td style="text-align:left"><strong>mocha</strong> qunit vows should nodeunit</td>
-</tr>
-</tbody>
-</table>
-<p><strong>常用库</strong></p>
-<ol>
-<li>underscore util库，Backbone.js项目的一部分</li>
-<li>request Http request method</li>
-<li>async 用同步的代码风格写异步代码</li>
-<li>coffee-script</li>
-<li>express 轻量Web App Framework，基于connect</li>
-<li>optimist 命令行辅助</li>
-<li>commander 命令行辅助</li>
-<li>colors 命令行着色辅助</li>
-<li>uglify-js 压缩</li>
-<li>connect Http Server中间件库</li>
-</ol>
-<ul>
-<li>项目管理：npm,grunt, bower, yeoman</li>
-<li>Web开发：express,ejs,hexo, socket.io, restify, cleaver, stylus, browserify,cheerio</li>
-<li>工具包：underscore,connet,later,log4js,passport,passport(oAuth),domain,require,reap,
-commander,retry</li>
-<li>数据库：mysql,mongoose,redis</li>
-<li>异步：async,wind</li>
-<li>部署：forever,pm2</li>
-<li>测试：jasmine,karma</li>
-<li>跨平台：rio,tty</li>
-<li>内核：cluster,http,request</li>
-<li>算法：ape-algorithm(快速排序),ape-algorithm(桶排序)</li>
-</ul>
+<h2 id="">模块</h2>
+<p>node实现了<a href="http://www.commonjs.org/specs/modules/1.0/" target="_blank">commonjs module规范</a>。下面的例子来自Module规范，修改了require输入参数以便能在node中运行，请参照注释分别保存至3个文件中，或者下载完整示例代码：</p>
+<pre><code>// 这段代码保存为文件math.js
+exports.add = function() {
+    var sum = 0, i = 0, args = arguments, l = args.length;
+    while (i &lt; l) {
+        sum += args[i++];
+    }
+    return sum;
+};
 
+// 这段代码保存为文件increment.js
+var add = require(&#39;./math&#39;).add;
+exports.increment = function(val) {
+    return add(val, 1);
+};
+
+// 这段代码保存为文件program.js
+var inc = require(&#39;./increment&#39;).increment;
+var a = 1;
+inc(a); // 2
+console.log(&#39;a=&#39;, inc(a));
+</code></pre><p><strong>模块分类</strong></p>
+<p>node中模块可分为核心模块(Core Module)和第三方模块，核心模块是node内置模块，通常存在于node安装路径lib目录下；第三方模块也就是本文讨论并期望创建的模块。</p>
+<p><strong>Require &amp; Module path</strong></p>
+<p>上面的代码中出现的require是node中加载模块的全局函数，node是如何寻找到对应模块的呢？简明规则如下：</p>
+<pre><code>路径为Y的module中使用 require(X)
+如果是X为核心模块，命中则结束
+如果X以‘./’、‘/’、‘../’开头时，加载第三方模块，命中则结束
+查找失败抛出异常
+</code></pre><p>这里能看到<a href="http://nodejs.org/api/modules.html#modules_all_together" target="_blank">完整描述</a>：</p>
+<pre><code>require(X) from module at path Y
+1. If X is a core module,
+   a. return the core module
+   b. STOP
+2. If X begins with &#39;./&#39; or &#39;/&#39; or &#39;../&#39;
+   a. LOAD_AS_FILE(Y + X)
+   b. LOAD_AS_DIRECTORY(Y + X)
+3. LOAD_NODE_MODULES(X, dirname(Y))
+4. THROW &quot;not found&quot;
+
+LOAD_AS_FILE(X)
+1. If X is a file, load X as JavaScript text.  STOP
+2. If X.js is a file, load X.js as JavaScript text.  STOP
+3. If X.node is a file, load X.node as binary addon.  STOP
+
+LOAD_AS_DIRECTORY(X)
+1. If X/package.json is a file,
+   a. Parse X/package.json, and look for &quot;main&quot; field.
+   b. let M = X + (json main field)
+   c. LOAD_AS_FILE(M)
+2. If X/index.js is a file, load X/index.js as JavaScript text.  STOP
+3. If X/index.node is a file, load X/index.node as binary addon.  STOP
+
+LOAD_NODE_MODULES(X, START)
+1. let DIRS=NODE_MODULES_PATHS(START)
+2. for each DIR in DIRS:
+   a. LOAD_AS_FILE(DIR/X)
+   b. LOAD_AS_DIRECTORY(DIR/X)
+
+NODE_MODULES_PATHS(START)
+1. let PARTS = path split(START)
+2. let ROOT = index of first instance of &quot;node_modules&quot; in PARTS, or 0
+3. let I = count of PARTS - 1
+4. let DIRS = []
+5. while I &gt; ROOT,
+   a. if PARTS[I] = &quot;node_modules&quot; CONTINUE
+   c. DIR = path join(PARTS[0 .. I] + &quot;node_modules&quot;)
+   b. DIRS = DIRS + DIR
+   c. let I = I - 1
+6. return DIRS
+</code></pre><h2 id="">模块结构</h2>
+<p>connect-header是笔者使用express期间写的一个小模块，足够简单且包含了第三方模块的诸多元素，比较适合作为入门示例。
+这里用connect-header作为示例，欢迎fork，同样可用下面命令安装：</p>
+<pre><code>$ npm install connect-header
+</code></pre><p><strong>文件结构</strong></p>
+<p>以下假设之前执行npm install的路径为X，我们看到connect-header被安装在X/node_modules/connect-header；X/node_modules是node安装第三方模块的默认位置;node已不推荐将模块<a href="http://nodejs.org/api/modules.html#modules_loading_from_the_global_folders" target="_blank">安装至全局路径</a>下，更推荐本地安装，可能是出于移植的考虑。</p>
+<pre><code>lib 模块代码
+    header.js 代码写在这里！
+    index.js node默认加载模块
+test Unit Test
+    header.js
+.npmignore 模块发布时本地文件忽略列表
+LICENSE 版权声明
+package.json 模块属性声明
+README.md 模块介绍
+test.js UT启动脚本
+</code></pre><p><strong>package.json</strong></p>
+<p>模块中最为重要的文件，申明了各种模块级别的属性，或称为元数据。这些元数据部分由npm程序读取，部分是npmjs.org上模块页面的数据源。完<a href="https://npmjs.org/doc/json.html" target="_blank">整文档请参考npm json</a>，网上找到的一个<a href="http://package.json.nodejitsu.com/" target="_blank">交互文档</a>也可参考。首次接触package.json可以使用”npm init”，这是个交互式package.json生成工具。</p>
+<pre><code>$ npm init
+</code></pre><p>针对connect-header的package.json，我们分析每个字段的意义（见注释）：</p>
+<pre><code>{
+  &quot;name&quot;:&quot;connect-header&quot;, //模块名称
+  &quot;version&quot;:&quot;0.0.5&quot;, //模块版本号
+  &quot;description&quot;:&quot;General header middleware for Connect.&quot;,
+  &quot;author&quot;:{ //模块作者信息
+    &quot;name&quot;:&quot;Luics&quot;,
+    &quot;email&quot;:&quot;luics.king@gmail.com&quot;,
+    &quot;url&quot;:&quot;http://github.com/luics&quot;
+  },
+  &quot;repository&quot;:{ //模块代码库
+    &quot;type&quot;:&quot;git&quot;,
+    &quot;url&quot;:&quot;https://github.com/luics/connect-header.git&quot;
+  },
+  &quot;bugs&quot;:{ //Bug提交页面
+    &quot;url&quot;:&quot;http://github.com/luics/connect-header/issues&quot;
+  },
+  &quot;main&quot;:&quot;./lib&quot;, //模块入口
+  &quot;dependencies&quot;:{
+  },
+  &quot;devDependencies&quot;:{ //开发依赖模块
+    &quot;qunit&quot;:&quot;*&quot; //用于unit test
+  },
+  &quot;scripts&quot;:{ //unit test脚本
+    &quot;test&quot;:&quot;node test&quot;
+  },
+  &quot;engines&quot;:{ //依赖的node版本
+    &quot;node&quot;:&quot;&gt;= 0.4.0&quot;
+  },
+  &quot;licenses&quot;:[ //版权信息
+    {
+      &quot;type&quot;:&quot;MIT&quot;,
+      &quot;url&quot;:&quot;http://www.opensource.org/licenses/MIT&quot;
+    }
+  ],
+  &quot;keywords&quot;:[&quot;connect&quot;, &quot;express&quot;, &quot;header&quot;, &quot;general&quot;]
+}
+</code></pre><p><strong>README</strong></p>
+<p>主要包括模块背景介绍，使用说明，sample代码，资源连接；是其他人了解模块的主要途径，一般高质量的模块都会有一个结构清晰、介绍详尽的README；npmjs和github上的都支持markdown格式的README，一般文件后缀为mk、markdown。</p>
+<p><strong>Unit Test</strong></p>
+<p>UT是其他开发者了解模块的一个窗口，比起README，UT更加接近模块的实现细节；通常高质量的模块也会有高质量的UT代码；UT的质量可以通过覆盖率等衡量..</p>
+<h2 id="">模块发布</h2>
+<p>下面的命令用于发布模块：</p>
+<pre><code>$ npm publish
+</code></pre><p>首次使用“npm publish”会失败，提示需要先使用“npm adduser”添加一<a href="https://www.npmjs.com/" target="_blank">个npmjs.org</a>的账号。之后每次使用“npm publish”需要手动更新package.json的version字段。</p>
+<h2 id="">更多资源</h2>
+<p><a href="https://github.com/luics/markdown-util" target="_blank">markdown-util</a>是笔者写的另一个模块，同样比较简单，用于将markdown源文件生成html文件，并提供了2套皮肤（github、default），支持自定义皮肤模板。</p>
+<p>更多优质资源自然都在NPM Registry中，日后也会挑出不同类型的典型模块详细分析。</p>
+<pre><code>$ npm install markdown-util
+</code></pre>
                     
                     </section>
                 
@@ -486,10 +519,10 @@ commander,retry</li>
         </div>
 
         
-        <a href="../section_0_2_event-driven_programming.html" class="navigation navigation-prev " aria-label="Previous page: Section 0_2 Event-Driven programming"><i class="fa fa-angle-left"></i></a>
+        <a href="../chapter1_npm_registry_npm/section_1_1_most_popular_node_modules.html" class="navigation navigation-prev " aria-label="Previous page: Section 1_1 Most Popular Node Modules"><i class="fa fa-angle-left"></i></a>
         
         
-        <a href="../chapter1_npm_registry_npm/section_1_1_most_popular_node_modules.html" class="navigation navigation-next " aria-label="Next page: Section 1_1 Most Popular Node Modules"><i class="fa fa-angle-right"></i></a>
+        <a href="../chapter1_npm_registry_npm/section_1_3_npm_-_module_install.html" class="navigation navigation-next " aria-label="Next page: Section 1_3 NPM - Install Error"><i class="fa fa-angle-right"></i></a>
         
     </div>
 </div>
