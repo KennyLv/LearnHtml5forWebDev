@@ -33,7 +33,7 @@
 
 
         
-    <div class="book"  data-level="1.3" data-basepath=".." data-revision="1423105987229">
+    <div class="book"  data-level="1.3" data-basepath=".." data-revision="1423721745546">
     
 
 <div class="book-summary">
@@ -363,16 +363,26 @@
                 <div class="page-inner">
                 
                 
-                    <section class="normal" id="section-gitbook_317">
+                    <section class="normal" id="section-gitbook_359">
                     
-                        <h1 id="npm-no-compatible-version-found">NPM下载出错 &quot;No compatible version found&quot;</h1>
+                        <h3 id="npm">NPM远程服务器连接缓慢</h3>
+<p>使用NPM的国内镜像服务器，有三种方法：</p>
+<p><strong>1）使用config命令</strong></p>
+<pre><code>npm config set registry http://registry.cnpmjs.org
+npm info underscore （如果上面配置正确这个命令会有字符串response）
+</code></pre><p><strong> 2）命令行指定 </strong></p>
+<pre><code>npm --registry http://registry.cnpmjs.org info underscore
+</code></pre><p><strong> 3）编辑 ~/.npmrc 加入以下内容：</strong></p>
+<pre><code>registry = http://registry.cnpmjs.org
+</code></pre><hr>
+<h3 id="npm-no-compatible-version-found">NPM下载出错 &quot;No compatible version found&quot;</h3>
 <blockquote>
 <p>转载自 <a href="http://blog.fens.me/nodejs-npm-no-compatible-version" target="_blank">http://blog.fens.me/nodejs-npm-no-compatible-version</a></p>
 <p>张丹(Conan), 程序员Java,R,PHP,Javascript</p>
 <p>weibo：@Conan_Z</p>
 <p>blog: <a href="http://blog.fens.me" target="_blank">http://blog.fens.me</a></p>
 </blockquote>
-<h2 id="">前言</h2>
+<h4 id="">前言</h4>
 <p>NPM大家都熟，天天都在用。最近，NPM不断出现的下载出错 “npm ERR! Error: No compatible version found” ，已经影响到正常的开发工作，到了不得不解决的地步了。网上到处都是这个错误的问题，但解决问题的文章很难找到。我有必要来写一下。</p>
 <p>我的系统环境</p>
 <pre><code>Win7 64bit
@@ -458,7 +468,7 @@ npm ERR!
 npm ERR! Additional logging details can be found in:
 npm ERR!     D:\workspace\javascript\nodejs-cnpm\npm-debug.log
 npm ERR! not ok code 0
-</code></pre><h2 id="">官方解决方案</h2>
+</code></pre><h4 id="">官方解决方案</h4>
 <p>查看NPM官方的说明Issue列表( <a href="https://github.com/npm/npm/issues/4984" target="_blank">https://github.com/npm/npm/issues/4984</a> )，这个问题已经被解决，但解决办法确实很不友好。</p>
 <ul>
 <li><p>如果在Linux系统中，通过一条命令更新npm可以解决。<code>npm install -g npm</code></p>
@@ -535,9 +545,7 @@ gulp-jshint@1.8.4 node_modules\gulp-jshint
 ├── through2@0.5.1 (xtend@3.0.0, readable-stream@1.0.31)
 └── jshint@2.5.5 (strip-json-comments@0.1.3, underscore@1.6.0, exit@0.1.2, console-browserify@1.1.0, shelljs@0.3.0, cli@0.6.4, htmlparser2@3.7.3)
 </code></pre><p>向这种强制性的升级，对于开发者来说是很不友好的、很难接受的。一个稳定运行的应用，只是为了改动一个小功能，被这种霸王的条件强制升级，有可能应用的整个环境都被破坏了，其他的很多包也要跟着升级，代价很大啊！</p>
-<ol>
-<li>其他解决方案</li>
-</ol>
+<h4 id="">其他解决方案</h4>
 <p>我在测试中发现了，除了强制升级NPM以外，还有一种解决方案，就是利用CNPM代替NPM来进行依赖管理，也能够正常地下载依赖包。</p>
 <p>CNPM 是一个Nodejs的库，致力于打造私有的 NPM 注册服务。当然，除了私有库功能以外，CNPM官网还提供了NPM同步的服务。CNPM的配置及使用，将在下一篇文章中介绍，请参考文章<a href="http://blog.fens.me/nodejs-cnpm-npm/" target="_blank">CNPM搭建私有的NPM服务</a>。</p>
 <p>让我们远离NPM包下载的错误吧，专心写好程序才是重点！</p>

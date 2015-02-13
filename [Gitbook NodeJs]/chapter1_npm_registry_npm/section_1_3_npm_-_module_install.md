@@ -1,4 +1,30 @@
-# NPM下载出错 "No compatible version found"
+### NPM远程服务器连接缓慢
+
+使用NPM的国内镜像服务器，有三种方法：
+
+**1）使用config命令**
+```
+npm config set registry http://registry.cnpmjs.org
+npm info underscore （如果上面配置正确这个命令会有字符串response）
+```
+
+** 2）命令行指定 **
+```
+npm --registry http://registry.cnpmjs.org info underscore
+```
+
+** 3）编辑 ~/.npmrc 加入以下内容：**
+```
+registry = http://registry.cnpmjs.org
+```
+--------------------------
+
+
+
+
+
+--------------------------
+### NPM下载出错 "No compatible version found"
 
 > 转载自 http://blog.fens.me/nodejs-npm-no-compatible-version
 
@@ -8,8 +34,7 @@
 
 > blog: http://blog.fens.me
 
-
-## 前言
+#### 前言
 
 NPM大家都熟，天天都在用。最近，NPM不断出现的下载出错 “npm ERR! Error: No compatible version found” ，已经影响到正常的开发工作，到了不得不解决的地步了。网上到处都是这个错误的问题，但解决问题的文章很难找到。我有必要来写一下。
 
@@ -112,7 +137,7 @@ npm ERR!     D:\workspace\javascript\nodejs-cnpm\npm-debug.log
 npm ERR! not ok code 0
 ```
 
-##  官方解决方案
+####  官方解决方案
 
 查看NPM官方的说明Issue列表( https://github.com/npm/npm/issues/4984 )，这个问题已经被解决，但解决办法确实很不友好。
 
@@ -195,7 +220,7 @@ gulp-jshint@1.8.4 node_modules\gulp-jshint
 ```
 向这种强制性的升级，对于开发者来说是很不友好的、很难接受的。一个稳定运行的应用，只是为了改动一个小功能，被这种霸王的条件强制升级，有可能应用的整个环境都被破坏了，其他的很多包也要跟着升级，代价很大啊！
 
-3. 其他解决方案
+#### 其他解决方案
 
 我在测试中发现了，除了强制升级NPM以外，还有一种解决方案，就是利用CNPM代替NPM来进行依赖管理，也能够正常地下载依赖包。
 
