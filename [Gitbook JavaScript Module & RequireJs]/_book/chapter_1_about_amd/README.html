@@ -1,0 +1,343 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <title>Chapter 1 About AMD | </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 1.0.3">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    
+    <link rel="next" href="../chapter_2_requirejs/README.html" />
+    
+    
+    <link rel="prev" href="../section_02_js_module_pattern_-_cn.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+<link rel="stylesheet" href="../gitbook/style.css">
+
+
+        
+    <div class="book"  data-level="1" data-basepath=".." data-revision="1424855638108">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         Introduction
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        
+        <li class="chapter " data-level="0.1" data-path="section_01_js_module_pattern.html">
+            
+                
+                    <a href="../section_01_js_module_pattern.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>0.1.</b>
+                        
+                         Section 0.1 JS Module Pattern
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="0.2" data-path="section_02_js_module_pattern_-_cn.html">
+            
+                
+                    <a href="../section_02_js_module_pattern_-_cn.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>0.2.</b>
+                        
+                         Section 0.2 JS Module Pattern - cn
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="1" data-path="chapter_1_about_amd/README.html">
+            
+                
+                    <a href="../chapter_1_about_amd/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         Chapter 1 About AMD
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="2" data-path="chapter_2_requirejs/README.html">
+            
+                
+                    <a href="../chapter_2_requirejs/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         Chapter 2 RequireJs
+                    </a>
+                
+            
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Published using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">Twitter</button>
+                <button type="button" data-sharing="google-plus" class="button">Google</button>
+                <button type="button" data-sharing="facebook" class="button">Facebook</button>
+                <button type="button" data-sharing="weibo" class="button">Weibo</button>
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" ></a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_8">
+                    
+                        <h2 id="about-amd">About AMD</h2>
+<p>为实现与Node.js相同方式的模块写法，大牛们做了很多努力。</p>
+<p>但浏览器环境不同于服务器端，它的模块有一个HTTP请求过程(而Node.js的模块文件就在本地)，这个请求过程多数使用script tag，script 默认的异步性导致很难实现与Node.js一模一样的模块格式。</p>
+<p>Modules/Wrappings 使得实现变为现实。虽然和Node.js的模块写法不完全一致，但也有很多相似之处，使得熟悉Node.js的程序员有一些亲切感。</p>
+<p>但Node.js终究是服务器端的JavaScript，没有必要把这些条条框框放到浏览器JavaScript环境中。</p>
+<p>这时AMD 诞生了，它的全称为异步模块定义。从名称上看便知它是适合script tag的。也可以说AMD是专门为浏览器中JavaScript环境设计的规范。它吸取了CommonJS的一些优点，但又不照搬它的格式。开始AMD作为CommonJS的transport format存在，因无法与CommonJS开发者达成一致而独立出来。它有自己的wiki 和讨论组 。</p>
+<p>AMD设计出一个简洁的写模块API：</p>
+<pre><code>define(id?, dependencies?, factory);
+</code></pre><p>其中：</p>
+<ul>
+<li>id: 模块标识，可以省略。</li>
+<li>dependencies: 所依赖的模块，可以省略。</li>
+<li>factory: 模块的实现，或者一个JavaScript对象。</li>
+</ul>
+<p>id遵循CommonJS Module Identifiers 。dependencies元素的顺序和factory参数一一对应。</p>
+<p>以下是使用AMD模式开发的简单三层结构（基础库/UI层/应用层）：</p>
+<pre><code>// base.js
+define(function() {
+    return {
+        mix: function(source, target) {
+        }
+    };
+});
+
+// ui.js
+define([&#39;base&#39;], function(base) {
+    return {
+        show: function() {
+            // todo with module base
+        }
+    }
+});
+
+// page.js
+define([&#39;data&#39;, &#39;ui&#39;], function(data, ui) {
+    // init here
+});
+
+// data.js
+define({
+    users: [],
+    members: []
+});
+</code></pre><p>以上同时演示了define的三种用法</p>
+<ul>
+<li>1, 定义无依赖的模块（base.js）</li>
+<li>2, 定义有依赖的模块（ui.js，page.js）</li>
+<li>3, 定义数据对象模块（data.js）</li>
+</ul>
+<p>细心的会发现，还有一种没有出现，即具名模块</p>
+<ul>
+<li>4, 具名模块</li>
+</ul>
+<pre><code>define(&#39;index&#39;, [&#39;data&#39;,&#39;base&#39;], function(data, base) {
+    // todo
+});
+</code></pre><p>具名模块多数时候是不推荐的，一般由打包工具合并多个模块到一个js文件中时使用。</p>
+<p>前面提到dependencies元素的顺序和factory一一对应，其实不太严谨。AMD开始为摆脱CommonJS的束缚，开创性的提出了自己的模块风格。但后来又做了妥协，兼容了 CommonJS Modules/Wrappings 。即又可以这样写</p>
+<ul>
+<li>5，包装模块</li>
+</ul>
+<pre><code>define(function(require, exports, module) {
+    var base = require(&#39;base&#39;);
+    exports.show = function() {
+        // todo with module base
+    }
+});
+</code></pre><p>不考虑多了一层函数外，格式和Node.js是一样的：使用require获取依赖模块，使用exports导出API。</p>
+<p>除了define外，AMD还保留一个关键字require。require 作为规范保留的全局标识符，可以实现为 module loader，也可以不实现。</p>
+<p>目前，实现AMD的库有<a href="http://requirejs.org/" target="_blank">RequireJS</a> 、<a href="https://github.com/unscriptable/curl" target="_blank">curl</a> 、<a href="http://dojotoolkit.org/" target="_blank">Dojo</a> 、<a href="http://bdframework.org/bdLoad/" target="_blank">bdLoad</a>、<a href="http://wiki.commonjs.org/wiki/Implementations/JsDev" target="_blank">JSLocalnet</a> 、<a href="http://wiki.commonjs.org/wiki/Implementations/Nodules" target="_blank">Nodules</a> 等。
+也有很多库支持AMD规范，即将自己作为一个模块存在，如MooTools 、jQuery 、<a href="https://github.com/ded/qwery" target="_blank">qwery</a> 、bonzo  甚至还有 firebug 。</p>
+<p>相关：</p>
+<blockquote>
+<p><a href="http://groups.google.com/group/commonjs/browse_thread/thread/96a0963bcb4ca78f/cf73db49ce267ce1?lnk=gst" target="_blank">AMD No Longer A CommonJS Specification</a></p>
+<p><a href="http://www.cnblogs.com/snandy/archive/2012/03/19/2406596.html" target="_blank">UMD和ECMAScript模块</a></p>
+</blockquote>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../section_02_js_module_pattern_-_cn.html" class="navigation navigation-prev " aria-label="Previous page: Section 0.2 JS Module Pattern - cn"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../chapter_2_requirejs/README.html" class="navigation navigation-next " aria-label="Next page: Chapter 2 RequireJs"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="https://cdn.mathjax.org/mathjax/2.4-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

@@ -1,0 +1,419 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <title>Chapter 2 RequireJs | </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 1.0.3">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    
+    
+    <link rel="prev" href="../chapter_1_about_amd/README.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+<link rel="stylesheet" href="../gitbook/style.css">
+
+
+        
+    <div class="book"  data-level="2" data-basepath=".." data-revision="1424855638108">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         Introduction
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        
+        <li class="chapter " data-level="0.1" data-path="section_01_js_module_pattern.html">
+            
+                
+                    <a href="../section_01_js_module_pattern.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>0.1.</b>
+                        
+                         Section 0.1 JS Module Pattern
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="0.2" data-path="section_02_js_module_pattern_-_cn.html">
+            
+                
+                    <a href="../section_02_js_module_pattern_-_cn.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>0.2.</b>
+                        
+                         Section 0.2 JS Module Pattern - cn
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="1" data-path="chapter_1_about_amd/README.html">
+            
+                
+                    <a href="../chapter_1_about_amd/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         Chapter 1 About AMD
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="2" data-path="chapter_2_requirejs/README.html">
+            
+                
+                    <a href="../chapter_2_requirejs/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         Chapter 2 RequireJs
+                    </a>
+                
+            
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Published using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">Twitter</button>
+                <button type="button" data-sharing="google-plus" class="button">Google</button>
+                <button type="button" data-sharing="facebook" class="button">Facebook</button>
+                <button type="button" data-sharing="weibo" class="button">Weibo</button>
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" ></a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_10">
+                    
+                        <h2 id="javascript---requirejs">Javascript模块化编程 - require.js</h2>
+<blockquote>
+<p><a href="http://www.ruanyifeng.com/blog/2012/11/require_js.html" target="_blank">http://www.ruanyifeng.com/blog/2012/11/require_js.html</a></p>
+</blockquote>
+<h4 id="requirejs">一、为什么要用require.js</h4>
+<p>最早的时候，所有Javascript代码都写在一个文件里面，只要加载这一个文件就够了。后来，代码越来越多，一个文件不够了，必须分成多个文件，依次加载。下面的网页代码，相信很多人都见过。</p>
+<pre><code>　　&lt;script src=&quot;1.js&quot;&gt;&lt;/script&gt;
+　　&lt;script src=&quot;2.js&quot;&gt;&lt;/script&gt;
+　　&lt;script src=&quot;3.js&quot;&gt;&lt;/script&gt;
+　　&lt;script src=&quot;4.js&quot;&gt;&lt;/script&gt;
+　　&lt;script src=&quot;5.js&quot;&gt;&lt;/script&gt;
+　　&lt;script src=&quot;6.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>这段代码依次加载多个js文件。这样的写法有很大的缺点。</p>
+<p>首先，加载的时候，浏览器会停止网页渲染，加载文件越多，网页失去响应的时间就会越长；</p>
+<p>其次，由于js文件之间存在依赖关系，因此必须严格保证加载顺序（比如上例的1.js要在2.js的前面），依赖性最大的模块一定要放到最后加载，当依赖关系很复杂的时候，代码的编写和维护都会变得困难。</p>
+<p>require.js的诞生，就是为了解决这两个问题：</p>
+<ul>
+<li>实现js文件的异步加载，避免网页失去响应；</li>
+<li>管理模块之间的依赖性，便于代码的编写和维护。</li>
+</ul>
+<h4 id="requirejs">二、require.js的加载</h4>
+<p>使用require.js的第一步，是先去官方网站下载最新版本。
+下载后，假定把它放在js子目录下面，就可以加载了。</p>
+<pre><code>&lt;script src=&quot;js/require.js&quot;&gt;&lt;/script&gt;
+</code></pre><p>有人可能会想到，加载这个文件，也可能造成网页失去响应。解决办法有两个，一个是把它放在网页底部加载，另一个是写成下面这样：</p>
+<pre><code>&lt;script src=&quot;js/require.js&quot; defer async=&quot;true&quot; &gt;&lt;/script&gt;
+</code></pre><p>async属性表明这个文件需要异步加载，避免网页失去响应。IE不支持这个属性，只支持defer，所以把defer也写上。</p>
+<p>加载require.js以后，下一步就要加载我们自己的代码了。假定我们自己的代码文件是main.js，也放在js目录下面。那么，只需要写成下面这样就行了：</p>
+<pre><code>&lt;script src=&quot;js/require.js&quot; data-main=&quot;js/main&quot;&gt;&lt;/script&gt;
+</code></pre><p>data-main属性的作用是，指定网页程序的主模块。在上例中，就是js目录下面的main.js，这个文件会第一个被require.js加载。由于require.js默认的文件后缀名是js，所以可以把main.js简写成main。</p>
+<h4 id="">三、主模块的写法</h4>
+<p>上一节的main.js，我把它称为&quot;主模块&quot;，意思是整个网页的入口代码。它有点像C语言的main()函数，所有代码都从这儿开始运行。下面就来看，怎么写main.js。如果我们的代码不依赖任何其他模块，那么可以直接写入javascript代码。</p>
+<pre><code>// main.js
+alert(&quot;加载成功！&quot;);
+</code></pre><p>但这样的话，就没必要使用require.js了。真正常见的情况是，主模块依赖于其他模块，这时就要使用AMD规范定义的的require()函数。</p>
+<pre><code>    // main.js
+　　require([&#39;moduleA&#39;, &#39;moduleB&#39;, &#39;moduleC&#39;], function (moduleA, moduleB, moduleC){
+　　　　// some code here
+　　});
+</code></pre><p>require()函数接受两个参数。</p>
+<p>第一个参数是一个数组，表示所依赖的模块，上例就是[&#39;moduleA&#39;, &#39;moduleB&#39;, &#39;moduleC&#39;]，即主模块依赖这三个模块；</p>
+<p>第二个参数是一个回调函数，当前面指定的模块都加载成功后，它将被调用。加载的模块会以参数形式传入该函数，从而在回调函数内部就可以使用这些模块。</p>
+<p>require()异步加载moduleA，moduleB和moduleC，浏览器不会失去响应；它指定的回调函数，只有前面的模块都加载成功后，才会运行，解决了依赖性的问题。</p>
+<p>下面，我们看一个实际的例子。假定主模块依赖jquery、underscore和backbone这三个模块，main.js就可以这样写：</p>
+<pre><code>　　require([&#39;jquery&#39;, &#39;underscore&#39;, &#39;backbone&#39;], function ($, _, Backbone){
+　　　　// some code here
+　　});
+</code></pre><p>require.js会先加载jQuery、underscore和backbone，然后再运行回调函数。主模块的代码就写在回调函数中。</p>
+<h4 id="">四、模块的加载</h4>
+<p>上一节最后的示例中，主模块的依赖模块是[&#39;jquery&#39;, &#39;underscore&#39;, &#39;backbone&#39;]。默认情况下，require.js假定这三个模块与main.js在同一个目录，文件名分别为jquery.js，underscore.js和backbone.js，然后自动加载。</p>
+<p>使用require.config()方法，我们可以对模块的加载行为进行自定义。require.config()就写在主模块（main.js）的头部。参数就是一个对象，这个对象的paths属性指定各个模块的加载路径。</p>
+<pre><code>　　require.config({
+　　　　paths: {
+　　　　　　&quot;jquery&quot;: &quot;jquery.min&quot;,
+　　　　　　&quot;underscore&quot;: &quot;underscore.min&quot;,
+　　　　　　&quot;backbone&quot;: &quot;backbone.min&quot;
+　　　　}
+　　});
+</code></pre><p>上面的代码给出了三个模块的文件名，路径默认与main.js在同一个目录（js子目录）。如果这些模块在其他目录，比如js/lib目录，则有两种写法。一种是逐一指定路径。</p>
+<pre><code>　　require.config({
+　　　　paths: {
+　　　　　　&quot;jquery&quot;: &quot;lib/jquery.min&quot;,
+　　　　　　&quot;underscore&quot;: &quot;lib/underscore.min&quot;,
+　　　　　　&quot;backbone&quot;: &quot;lib/backbone.min&quot;
+　　　　}
+　　});
+</code></pre><p>另一种则是直接改变基目录（baseUrl）。</p>
+<pre><code>　　require.config({
+　　　　baseUrl: &quot;js/lib&quot;,
+　　　　paths: {
+　　　　　　&quot;jquery&quot;: &quot;jquery.min&quot;,
+　　　　　　&quot;underscore&quot;: &quot;underscore.min&quot;,
+　　　　　　&quot;backbone&quot;: &quot;backbone.min&quot;
+　　　　}
+　　});
+</code></pre><p>如果某个模块在另一台主机上，也可以直接指定它的网址，比如：</p>
+<pre><code>　　require.config({
+　　　　paths: {
+　　　　　　&quot;jquery&quot;: &quot;https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min&quot;
+　　　　}
+　　});
+</code></pre><p>require.js要求，每个模块是一个单独的js文件。这样的话，如果加载多个模块，就会发出多次HTTP请求，会影响网页的加载速度。因此，require.js提供了一个优化工具，当模块部署完毕以后，可以用这个工具将多个模块合并在一个文件中，减少HTTP请求数。</p>
+<h4 id="amd">五、AMD模块的写法</h4>
+<p>require.js加载的模块，采用AMD规范。也就是说，模块必须按照AMD的规定来写。
+具体来说，就是模块必须采用特定的define()函数来定义。如果一个模块不依赖其他模块，那么可以直接定义在define()函数之中。</p>
+<p>假定现在有一个math.js文件，它定义了一个math模块。那么，math.js就要这样写：</p>
+<pre><code>　　// math.js
+　　define(function (){
+　　　　var add = function (x,y){
+　　　　　　return x+y;
+　　　　};
+　　　　return {
+　　　　　　add: add
+　　　　};
+　　});
+</code></pre><p>加载方法如下：</p>
+<pre><code>　　// main.js
+　　require([&#39;math&#39;], function (math){
+　　　　alert(math.add(1,1));
+　　});
+</code></pre><p>如果这个模块还依赖其他模块，那么define()函数的第一个参数，必须是一个数组，指明该模块的依赖性。</p>
+<pre><code>　　define([&#39;myLib&#39;], function(myLib){
+　　　　function foo(){
+　　　　　　myLib.doSomething();
+　　　　}
+　　　　return {
+　　　　　　foo : foo
+　　　　};
+　　});
+</code></pre><p>当require()函数加载上面这个模块的时候，就会先加载myLib.js文件。</p>
+<h4 id="">六、加载非规范的模块</h4>
+<p>理论上，require.js加载的模块，必须是按照AMD规范、用define()函数定义的模块。但是实际上，虽然已经有一部分流行的函数库（比如jQuery）符合AMD规范，更多的库并不符合。那么，require.js是否能够加载非规范的模块呢？<strong>回答是可以的</strong>。</p>
+<p>这样的模块在用require()加载之前，要先用require.config()方法，定义它们的一些特征。
+举例来说，underscore和backbone这两个库，都没有采用AMD规范编写。如果要加载它们的话，必须先定义它们的特征。</p>
+<pre><code>　　require.config({
+　　　　shim: {
+
+　　　　　　&#39;underscore&#39;:{
+　　　　　　　　exports: &#39;_&#39;
+　　　　　　},
+　　　　　　&#39;backbone&#39;: {
+　　　　　　　　deps: [&#39;underscore&#39;, &#39;jquery&#39;],
+　　　　　　　　exports: &#39;Backbone&#39;
+　　　　　　}
+　　　　}
+　　});
+</code></pre><p>require.config()接受一个配置对象，这个对象除了有前面说过的paths属性之外，还有一个shim属性，专门用来配置不兼容的模块。具体来说，每个模块要定义</p>
+<ul>
+<li>（1）exports值（输出的变量名），表明这个模块外部调用时的名称；</li>
+<li>（2）deps数组，表明该模块的依赖性。</li>
+</ul>
+<p>比如，jQuery的插件可以这样定义：</p>
+<pre><code>　　shim: {
+　　　　&#39;jquery.scroll&#39;: {
+　　　　　　deps: [&#39;jquery&#39;],
+　　　　　　exports: &#39;jQuery.fn.scroll&#39;
+　　　　}
+　　}
+</code></pre><h4 id="requirejs">七、require.js插件</h4>
+<p>require.js还提供一系列插件，实现一些特定的功能。
+domready插件，可以让回调函数在页面DOM结构加载完成后再运行。</p>
+<pre><code>　　require([&#39;domready!&#39;], function (doc){
+　　　　// called once the DOM is ready
+　　});
+</code></pre><p>text和image插件，则是允许require.js加载文本和图片文件。</p>
+<pre><code>　　define([
+　　　　&#39;text!review.txt&#39;,
+　　　　&#39;image!cat.jpg&#39;
+　　　　],
+
+　　　　function(review,cat){
+　　　　　　console.log(review);
+　　　　　　document.body.appendChild(cat);
+　　　　}
+　　);
+</code></pre><p>类似的插件还有json和mdown，用于加载json文件和markdown文件。</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../chapter_1_about_amd/README.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Chapter 1 About AMD"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="https://cdn.mathjax.org/mathjax/2.4-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
