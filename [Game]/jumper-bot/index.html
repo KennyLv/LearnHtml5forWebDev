@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Jumper Bot</title>
+	<style type="text/css">
+	   * { margin: 0px; padding: 0px; }
+	</style>
+</head>
+<body>
+	<canvas id="swingbot"></canvas>
+	<script src="js/jumperbot.js"></script>
+
+	<script>
+		window.onload = function () {
+			var bot = new JumperBot();
+			bot.init();
+		}
+	</script>
+</body>
+</html>
