@@ -1,0 +1,462 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <title>Section 2.2 Configuration File | </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 1.0.3">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    
+    
+    <link rel="prev" href="../chapter_2_jasmine/section_21_how_it_works.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+<link rel="stylesheet" href="../gitbook/style.css">
+
+
+        
+    <div class="book"  data-level="2.2" data-basepath=".." data-revision="1425606830509">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="1" data-path="chapter_1_karma/README.html">
+            
+                
+                    <a href="../chapter_1_karma/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         Chapter 1 Karma
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="2" data-path="chapter_2_jasmine/README.html">
+            
+                
+                    <a href="../chapter_2_jasmine/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         Chapter 2 jasmine
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        
+        <li class="chapter " data-level="2.1" data-path="chapter_2_jasmine/section_21_how_it_works.html">
+            
+                
+                    <a href="../chapter_2_jasmine/section_21_how_it_works.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                         Section 2.1 How it works
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="2.2" data-path="chapter_2_jasmine/section_22_configuration_file.html">
+            
+                
+                    <a href="../chapter_2_jasmine/section_22_configuration_file.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.</b>
+                        
+                         Section 2.2 Configuration File
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Published using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">Twitter</button>
+                <button type="button" data-sharing="google-plus" class="button">Google</button>
+                <button type="button" data-sharing="facebook" class="button">Facebook</button>
+                <button type="button" data-sharing="weibo" class="button">Weibo</button>
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" ></a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_37">
+                    
+                        <h1 id="configuration-file">Configuration File</h1>
+<h4 id="overview">Overview</h4>
+<p>In order to serve you well, Karma needs to know about your project in order to test it and this is done via a configuration file. The easiest way to generate an initial configuration file is by using the karma init command. This page lists all of the available configuration options.</p>
+<blockquote>
+<p>Note: Most of the framework adapters, reporters, preprocessors and launchers needs to be loaded as plugins.</p>
+</blockquote>
+<p>The Karma configuration file can be written in JavaScript or CoffeeScript and is loaded as a regular Node.js module. Within the configuration file, the configuration code is put together by setting module.exports to point to a function which accepts one argument: the configuration object.</p>
+<pre><code>// karma.conf.js
+module.exports = function(config) {
+  config.set({
+    basePath: &#39;../..&#39;,
+    frameworks: [&#39;jasmine&#39;],
+    //...
+  });
+};
+# karma.conf.coffee
+module.exports = (config) -&gt;
+  config.set
+    basePath: &#39;../..&#39;
+    frameworks: [&#39;jasmine&#39;]
+    # ...
+</code></pre><h4 id="file-patterns">File Patterns</h4>
+<p>All of the configuration options, which specify file paths, use the minimatch library to facilitate flexible but concise file expressions so you can easily list all of the files you want to include and exclude.</p>
+<p>You can find details about each configuration option in the section below. The following options utilize minimatch expressions:</p>
+<ul>
+<li>exclude</li>
+<li>files</li>
+<li>preprocessors</li>
+</ul>
+<p>Examples:</p>
+<pre><code>**/*.js: All files with a &quot;js&quot; extension in all subdirectories
+
+**/!(jquery).js: Same as previous, but excludes &quot;jquery.js&quot;
+
+**/(foo|bar).js: In all subdirectories, all &quot;foo.js&quot; or &quot;bar.js&quot; files
+</code></pre><h4 id="configuration-options">Configuration Options</h4>
+<p>These are all of the available configuration options.</p>
+<h4 id="autowatch">autoWatch</h4>
+<p>Type: Boolean</p>
+<p>Default: true</p>
+<p>CLI: --auto-watch, --no-auto-watch</p>
+<p>Description: Enable or disable watching files and executing the tests whenever one of these files changes.</p>
+<h4 id="autowatchbatchdelay">autoWatchBatchDelay</h4>
+<p>Type: Number
+Default: 250
+Description: When Karma is watching the files for changes, it tries to batch multiple changes into a single run so that the test runner doesn&#39;t try to start and restart running tests more than it should. The configuration setting tells Karma how long to wait (in milliseconds) after any changes have occurred before starting the test process again.</p>
+<h4 id="basepath">basePath</h4>
+<p>Type: String
+Default: &#39;&#39;
+Description: The root path location that will be used to resolve all relative paths defined in files and exclude. If the basePath configuration is a relative path then it will be resolved to the __dirname of the configuration file.</p>
+<h4 id="browserdisconnecttimeout">browserDisconnectTimeout</h4>
+<p>Type: Number
+Default: 2000
+Description: How long does Karma wait for a browser to reconnect (in ms).
+With a flaky connection it is pretty common that the browser disconnects, but the actual test execution is still running without any problems. Karma does not treat a disconnection as immediate failure and will wait browserDisconnectTimeout (ms). If the browser reconnects during that time, everything is fine.</p>
+<h4 id="browserdisconnecttolerance">browserDisconnectTolerance</h4>
+<p>Type: Number
+Default: 0
+Description: The number of disconnections tolerated.
+The disconnectTolerance value represents the maximum number of tries a browser will attempt in the case of a disconnection. Usually any disconnection is considered a failure, but this option allows you to define a tolerance level when there is a flaky network link between the Karma server and the browsers.</p>
+<h4 id="browsernoactivitytimeout">browserNoActivityTimeout</h4>
+<p>Type: Number
+Default: 10000
+Description: How long will Karma wait for a message from a browser before disconnecting from it (in ms).
+If, during test execution, Karma does not receive any message from a browser within browserNoActivityTimeout (ms), it will disconnect from the browser.</p>
+<h4 id="browsers">browsers</h4>
+<p>Type: Array
+Default: []
+CLI: --browsers Chrome,Firefox
+Possible Values:
+Chrome (launcher comes installed with Karma)
+ChromeCanary (launcher comes installed with Karma)
+PhantomJS (launcher comes installed with Karma)
+Firefox (launcher requires karma-firefox-launcher plugin)
+Opera (launcher requires karma-opera-launcher plugin)
+Internet Explorer (launcher requires karma-ie-launcher plugin)
+Safari (launcher requires karma-safari-launcher plugin)
+Description: A list of browsers to launch and capture. When Karma starts up, it will also start up each browser which is placed within this setting. Once Karma is shut down, it will shut down these browsers as well. You can capture any browser manually by opening the browser and visiting the URL where the Karma web server is listening (by default it is <a href="http://localhost:9876/" target="_blank">http://localhost:9876/</a>).
+See config/browsers for more information. Additional launchers can be defined through plugins.</p>
+<h4 id="capturetimeout">captureTimeout</h4>
+<p>Type: Number
+Default: 60000
+Description: Timeout for capturing a browser (in ms).
+The captureTimeout value represents the maximum boot-up time allowed for a browser to start and connect to Karma. If any browser does not get captured within the timeout, Karma will kill it and try to launch it again and, after three attempts to capture it, Karma will give up.</p>
+<h4 id="clientargs">client.args</h4>
+<p>Type: Array
+Default: undefined
+CLI: All arguments after -- (only when using karma run)
+Description: When karma run is passed additional arguments on the command-line, they are passed through to the test adapter as karma.config.args (an array of strings). The client.args option allows you to set this value for actions other than run.
+How this value is used is up to your test adapter - you should check your adapter&#39;s documentation to see how (and if) it uses this value.</p>
+<h4 id="colors">colors</h4>
+<p>Type: Boolean
+Default: true
+CLI: --colors, --no-colors
+Description: Enable or disable colors in the output (reporters and logs).</p>
+<h4 id="exclude">exclude</h4>
+<p>Type: Array
+Default: []
+Description: List of files/patterns to exclude from loaded files.</p>
+<h4 id="files">files</h4>
+<p>Type: Array
+Default: []
+Description: List of files/patterns to load in the browser.
+See config/files for more information.</p>
+<h4 id="frameworks">frameworks</h4>
+<p>Type: Array
+Default: []
+Description: List of test frameworks you want to use. Typically, you will set this to [&#39;jasmine&#39;], [&#39;mocha&#39;] or [&#39;qunit&#39;]...
+Please note just about all frameworks in Karma require an additional plugin/framework library to be installed (via NPM).
+Additional information can be found in plugins.</p>
+<h4 id="hostname">hostname</h4>
+<p>Type: String
+Default: &#39;localhost&#39;
+Description: Hostname to be used when capturing browsers.</p>
+<h4 id="loglevel">logLevel</h4>
+<p>Type: Constant
+Default: config.LOG_INFO
+CLI: --log-level debug
+Possible values:
+config.LOG_DISABLE
+config.LOG_ERROR
+config.LOG_WARN
+config.LOG_INFO
+config.LOG_DEBUG
+Description: Level of logging.</p>
+<h4 id="loggers">loggers</h4>
+<p>Type: Array
+Default: [{type: &#39;console&#39;}]
+Description: A list of log appenders to be used. See the documentation for log4js for more information.</p>
+<h4 id="plugins">plugins</h4>
+<p>Type: Array
+Default: [&#39;karma-<em>&#39;]
+Description: List of plugins to load. A plugin can be a string (in which case it will be required by Karma) or an inlined plugin - Object. By default, Karma loads all sibling NPM modules which have a name starting with karma-</em>.
+Note: Just about all plugins in Karma require an additional library to be installed (via NPM).
+See plugins for more information.</p>
+<h4 id="port">port</h4>
+<p>Type: Number
+Default: 9876
+CLI: --port 9876
+Description: The port where the web server will be listening.</p>
+<h4 id="preprocessors">preprocessors</h4>
+<p>Type: Object
+Default: {&#39;<em>*/</em>.coffee&#39;: &#39;coffee&#39;}
+Description: A map of preprocessors to use.
+Preprocessors can be loaded through plugins.
+Note: Just about all preprocessors in Karma (other than CoffeeScript and some other defaults) require an additional library to be installed (via NPM).
+Be aware that preprocessors may be transforming the files and file types that are available at run time. For instance, if you are using the &quot;coverage&quot; preprocessor on your source files, if you then attempt to interactively debug your tests, you&#39;ll discover that your expected source code is completely changed from what you expected. Because of that, you&#39;ll want to engineer this so that your automated builds use the coverage entry in the &quot;reporters&quot; list, but your interactive debugging does not.
+Click here for more information.</p>
+<h4 id="proxies">proxies</h4>
+<p>Type: Object
+Default: {}
+Description: A map of path-proxy pairs.
+Example:
+proxies: {
+&#39;/static&#39;: &#39;<a href="http://gstatic.com" target="_blank">http://gstatic.com</a>&#39;,
+&#39;/web&#39;: &#39;<a href="http://localhost:9000" target="_blank">http://localhost:9000</a>&#39;
+},</p>
+<h4 id="proxyvalidatessl">proxyValidateSSL</h4>
+<p>Type: Boolean
+Default: true
+Description: Whether or not Karma or any browsers should raise an error when an inavlid SSL certificate is found.</p>
+<h4 id="reportslowerthan">reportSlowerThan</h4>
+<p>Type: Number
+Default: 0
+Description: Karma will report all the tests that are slower than given time limit (in ms). This is disabled by default (since the default value is 0).</p>
+<h4 id="reporters">reporters</h4>
+<p>Type: Array
+Default: [&#39;progress&#39;]
+CLI: --reporters progress,growl
+Possible Values:
+dots
+progress
+Description: A list of reporters to use.
+Additional reporters, such as growl, junit, teamcity or coverage can be loaded through plugins.
+Note: Just about all additional reporters in Karma (other than progress) require an additional library to be installed (via NPM).</p>
+<h4 id="singlerun">singleRun</h4>
+<p>Type: Boolean
+Default: false
+CLI: --single-run, no-single-run
+Description: Continuous Integration mode.
+If true, Karma will start and capture all configured browsers, run tests and then exit with an exit code of 0 or 1 depending on whether all tests passed or any tests failed.</p>
+<h4 id="transports">transports</h4>
+<p>Type: Array
+Default: [&#39;websocket&#39;, &#39;flashsocket&#39;, &#39;xhr-polling&#39;, &#39;jsonp-polling&#39;]
+Description: An array of allowed transport methods between the browser and testing server. This configuration setting is handed off to socket.io (which manages the communication between browsers and the testing server).</p>
+<h4 id="clientuseiframe">client.useIframe</h4>
+<p>Type: Boolean
+Default: true
+Description: Run the tests inside an iFrame or a new window
+If true, Karma runs the tests inside an iFrame. If false, Karma runs the tests in a new window. Some tests may not run in an iFrame and may need a new window to run.</p>
+<h4 id="clientcaptureconsole">client.captureConsole</h4>
+<p>Type: Boolean
+Default: true
+Description: Capture all console output and pipe it to the terminal.</p>
+<h4 id="urlroot">urlRoot</h4>
+<p>Type: String
+Default: &#39;/&#39;
+Description: The base url, where Karma runs.
+All of Karma&#39;s urls get prefixed with the urlRoot. This is helpful when using proxies, as sometimes you might want to proxy a url that is already taken by Karma.</p>
+
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../chapter_2_jasmine/section_21_how_it_works.html" class="navigation navigation-prev navigation-unique" aria-label="Previous page: Section 2.1 How it works"><i class="fa fa-angle-left"></i></a>
+        
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="https://cdn.mathjax.org/mathjax/2.4-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>

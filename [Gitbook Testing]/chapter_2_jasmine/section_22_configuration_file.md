@@ -30,14 +30,18 @@ All of the configuration options, which specify file paths, use the minimatch li
 
 You can find details about each configuration option in the section below. The following options utilize minimatch expressions:
 
-exclude
-files
-preprocessors
+* exclude
+* files
+* preprocessors
 
 Examples:
+```
 **/*.js: All files with a "js" extension in all subdirectories
+
 **/!(jquery).js: Same as previous, but excludes "jquery.js"
+
 **/(foo|bar).js: In all subdirectories, all "foo.js" or "bar.js" files
+```
 
 #### Configuration Options
 
@@ -45,8 +49,11 @@ These are all of the available configuration options.
 
 #### autoWatch
 Type: Boolean
+
 Default: true
+
 CLI: --auto-watch, --no-auto-watch
+
 Description: Enable or disable watching files and executing the tests whenever one of these files changes.
 
 #### autoWatchBatchDelay

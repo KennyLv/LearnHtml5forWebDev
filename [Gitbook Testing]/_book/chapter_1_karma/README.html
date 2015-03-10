@@ -1,0 +1,423 @@
+<!DOCTYPE HTML>
+<html lang="en-US" >
+    
+    <head>
+        
+        <meta charset="UTF-8">
+        <title>Chapter 1 Karma | </title>
+        <meta content="text/html; charset=utf-8" http-equiv="Content-Type">
+        <meta name="description" content="">
+        <meta name="generator" content="GitBook 1.0.3">
+        <meta name="HandheldFriendly" content="true"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+        <link rel="apple-touch-icon-precomposed" sizes="152x152" href="../gitbook/images/apple-touch-icon-precomposed-152.png">
+        <link rel="shortcut icon" href="../gitbook/images/favicon.ico" type="image/x-icon">
+        
+    
+    
+    
+    <link rel="next" href="../chapter_2_jasmine/README.html" />
+    
+    
+    <link rel="prev" href="../index.html" />
+    
+
+        
+    </head>
+    <body>
+        
+        
+<link rel="stylesheet" href="../gitbook/style.css">
+
+
+        
+    <div class="book"  data-level="1" data-basepath=".." data-revision="1425606830509">
+    
+
+<div class="book-summary">
+    <div class="book-search">
+        <input type="text" placeholder="Type to search" class="form-control" />
+    </div>
+    <ul class="summary">
+        
+    	
+    	
+    	
+
+        
+
+        
+    
+        
+        <li class="chapter " data-level="0" data-path="index.html">
+            
+                
+                    <a href="../index.html">
+                        <i class="fa fa-check"></i>
+                        
+                         Introduction
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter active" data-level="1" data-path="chapter_1_karma/README.html">
+            
+                
+                    <a href="../chapter_1_karma/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>1.</b>
+                        
+                         Chapter 1 Karma
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="2" data-path="chapter_2_jasmine/README.html">
+            
+                
+                    <a href="../chapter_2_jasmine/README.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.</b>
+                        
+                         Chapter 2 jasmine
+                    </a>
+                
+            
+            
+            <ul class="articles">
+                
+    
+        
+        <li class="chapter " data-level="2.1" data-path="chapter_2_jasmine/section_21_how_it_works.html">
+            
+                
+                    <a href="../chapter_2_jasmine/section_21_how_it_works.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.1.</b>
+                        
+                         Section 2.1 How it works
+                    </a>
+                
+            
+            
+        </li>
+    
+        
+        <li class="chapter " data-level="2.2" data-path="chapter_2_jasmine/section_22_configuration_file.html">
+            
+                
+                    <a href="../chapter_2_jasmine/section_22_configuration_file.html">
+                        <i class="fa fa-check"></i>
+                        
+                            <b>2.2.</b>
+                        
+                         Section 2.2 Configuration File
+                    </a>
+                
+            
+            
+        </li>
+    
+
+            </ul>
+            
+        </li>
+    
+
+
+        
+        <li class="divider"></li>
+        <li>
+            <a href="http://www.gitbook.io/" target="blank" class="gitbook-link">Published using GitBook</a>
+        </li>
+        
+    </ul>
+</div>
+
+    <div class="book-body">
+        <div class="body-inner">
+            <div class="book-header">
+    <!-- Actions Left -->
+    <a href="#" class="btn pull-left toggle-summary" aria-label="Toggle summary"><i class="fa fa-align-justify"></i></a>
+    <a href="#" class="btn pull-left toggle-search" aria-label="Toggle search"><i class="fa fa-search"></i></a>
+    
+    <div id="font-settings-wrapper" class="dropdown pull-left">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle font settings"><i class="fa fa-font"></i>
+        </a>
+        <div class="dropdown-menu font-settings">
+    <div class="dropdown-caret">
+        <span class="caret-outer"></span>
+        <span class="caret-inner"></span>
+    </div>
+
+    <div class="buttons">
+        <button type="button" id="reduce-font-size" class="button size-2">A</button>
+        <button type="button" id="enlarge-font-size" class="button size-2">A</button>
+    </div>
+
+    <div class="buttons font-family-list">
+        <button type="button" data-font="0" class="button">Serif</button>
+        <button type="button" data-font="1" class="button">Sans</button>
+    </div>
+
+    <div class="buttons color-theme-list">
+        <button type="button" id="color-theme-preview-0" class="button size-3" data-theme="0">White</button>
+        <button type="button" id="color-theme-preview-1" class="button size-3" data-theme="1">Sepia</button>
+        <button type="button" id="color-theme-preview-2" class="button size-3" data-theme="2">Night</button>
+    </div>
+</div>
+
+    </div>
+
+    <!-- Actions Right -->
+    
+    <div class="dropdown pull-right">
+        <a href="#" class="btn toggle-dropdown" aria-label="Toggle share dropdown"><i class="fa fa-share-alt"></i>
+        </a>
+        <div class="dropdown-menu font-settings dropdown-left">
+            <div class="dropdown-caret">
+                <span class="caret-outer"></span>
+                <span class="caret-inner"></span>
+            </div>
+            <div class="buttons">
+                <button type="button" data-sharing="twitter" class="button">Twitter</button>
+                <button type="button" data-sharing="google-plus" class="button">Google</button>
+                <button type="button" data-sharing="facebook" class="button">Facebook</button>
+                <button type="button" data-sharing="weibo" class="button">Weibo</button>
+                <button type="button" data-sharing="instapaper" class="button">Instapaper</button>
+            </div>
+        </div>
+    </div>
+    
+
+    
+    <a href="#" target="_blank" class="btn pull-right google-plus-sharing-link sharing-link" data-sharing="google-plus" aria-label="Share on Google Plus"><i class="fa fa-google-plus"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right facebook-sharing-link sharing-link" data-sharing="facebook" aria-label="Share on Facebook"><i class="fa fa-facebook"></i></a>
+    
+    
+    <a href="#" target="_blank" class="btn pull-right twitter-sharing-link sharing-link" data-sharing="twitter" aria-label="Share on Twitter"><i class="fa fa-twitter"></i></a>
+    
+    
+
+    <!-- Title -->
+    <h1>
+        <i class="fa fa-circle-o-notch fa-spin"></i>
+        <a href="../" ></a>
+    </h1>
+</div>
+
+            <div class="page-wrapper" tabindex="-1">
+                <div class="page-inner">
+                
+                
+                    <section class="normal" id="section-gitbook_34">
+                    
+                        <h2 id="karma">Karma的介绍</h2>
+<p>Karma是一个基于Node.js的JavaScript测试执行过程管理工具（Test Runner）。</p>
+<p>该工具可用于测试所有主流Web浏览器，也可集成到CI（Continuous integration）工具，也可和其他代码编辑器一起使用。</p>
+<p>这个测试工具的一个强大特性就是，它可以监控(Watch)文件的变化，然后自行执行，通过console.log显示测试结果。</p>
+<h2 id="karma">Karma的安装</h2>
+<pre><code># 安装Karma
+~ D:\workspace\javascript\karma&gt;npm install -g karma
+
+# Install plugins that your project needs:
+$ npm install karma-jasmine karma-chrome-launcher --save-dev
+
+# Typing ./node_modules/karma/bin/karma start sucks,
+# so you might find it useful to install karma-cli globally.
+$ npm install -g karma-cli
+
+# 测试是否安装成功
+~ D:\workspace\javascript\karma&gt;karma start
+</code></pre><p>从浏览器看到karam界面。</p>
+<h2 id="karma--with-jasmine">Karma 配置 (with Jasmine)</h2>
+<p>初始化karma配置文件 *.conf.js</p>
+<pre><code># using karma init:
+
+$ karma init my.conf.js
+
+Which testing framework do you want to use ?
+Press tab to list possible options. Enter to move to the next question.
+&gt; jasmine
+
+Do you want to use Require.js ?
+This will add Require.js plugin.
+Press tab to list possible options. Enter to move to the next question.
+&gt; no
+
+Do you want to capture a browser automatically ?
+Press tab to list possible options. Enter empty string to move to the next question.
+&gt; Chrome
+&gt; Firefox
+&gt;
+
+What is the location of your source and test files ?
+You can use glob patterns, eg. &quot;js/*.js&quot; or &quot;test/**/*Spec.js&quot;.
+Enter empty string to move to the next question.
+&gt; *.js
+&gt; test/**/*.js
+&gt;
+
+Should any of the files included by the previous patterns be excluded ?
+You can use glob patterns, eg. &quot;**/*.swp&quot;.
+Enter empty string to move to the next question.
+&gt;
+
+Do you want Karma to watch all the files and run the tests on change ?
+Press tab to list possible options.
+&gt; yes
+
+Config file generated at &quot;/Users/vojta/Code/karma/my.conf.js&quot;.
+</code></pre><p>安装集成包karma-jasmine</p>
+<pre><code>~ D:\workspace\javascript\karma&gt;npm install karma-jasmine
+</code></pre><h2 id="">自动化单元测试</h2>
+<ol>
+<li>创建源文件：用于实现某种业务逻辑的文件，就是我们平时写的js脚本</li>
+<li>创建测试文件：符合jasmineAPI的测试js脚本</li>
+<li>修改karma.conf.js配置文件</li>
+</ol>
+<p><strong>1). 创建源文件：</strong></p>
+<p>用于实现某种业务逻辑的文件，就是我们平时写的js脚本有一个需求，要实现单词倒写的功能。如：”ABCD” ==&gt; “DCBA”</p>
+<pre><code>~ vi src.js
+
+function reverse(name){
+    return name.split(&quot;&quot;).reverse().join(&quot;&quot;);
+}
+</code></pre><p><strong>2). 创建测试文件：</strong></p>
+<p>符合jasmineAPI的测试js脚本</p>
+<pre><code>describe(&quot;A suite of basic functions&quot;, function() {
+    it(&quot;reverse word&quot;,function(){
+        expect(&quot;DCBA&quot;).toEqual(reverse(&quot;ABCD&quot;));
+    });
+});
+</code></pre><p><strong>3). 修改karma.conf.js配置文件</strong></p>
+<p>我们这里需要修改：files和exclude变量</p>
+<pre><code>module.exports = function (config) {
+    config.set({
+        basePath: &#39;&#39;,
+        frameworks: [&#39;jasmine&#39;],
+        files: [&#39;*.js&#39;],
+        exclude: [&#39;karma.conf.js&#39;],
+        reporters: [&#39;progress&#39;],
+        port: 9876,
+        colors: true,
+        logLevel: config.LOG_INFO,
+        autoWatch: true,
+        browsers: [&#39;Chrome&#39;],
+        captureTimeout: 60000,
+        singleRun: false
+    });
+};
+</code></pre><p><strong>启动karma,单元测试全自动执行</strong></p>
+<pre><code>
+# karma start karma.conf.js
+
+// karma start my.conf.js --log-level debug --single-run
+// karma start --help
+INFO [karma]: Karma v0.10.2 server started at http://localhost:9876/
+INFO [launcher]: Starting browser Chrome
+WARN [launcher]: The path should not be quoted.
+  Normalized the path to C:\Program Files (x86)\Google\Chrome\Application\chrome.exe
+INFO [Chrome 28.0.1500 (Windows 7)]: Connected on socket bVGffDWpc1c7QNdYye_6
+INFO [Chrome 28.0.1500 (Windows 7)]: Connected on socket DtTdVbd4ZsgnMQrgye_7
+Chrome 28.0.1500 (Windows 7): Executed 1 of 1 SUCCESS (3.473 secs / 0.431 secs)
+Chrome 28.0.1500 (Windows 7): Executed 1 of 1 SUCCESS (0.068 secs / 0.021 secs)
+TOTAL: 2 SUCCESS
+</code></pre><p>浏览器会自动打开</p>
+<p><strong>更新自动执行</strong></p>
+<p>我们修改test.js</p>
+<pre><code>describe(&quot;A suite of basic functions&quot;, function() {
+    it(&quot;reverse word&quot;,function(){
+        expect(&quot;DCBA&quot;).toEqual(reverse(&quot;ABCD&quot;));
+        expect(&quot;Conan&quot;).toEqual(reverse(&quot;nano&quot;));
+    });
+});
+</code></pre><p>由于karma.conf.js配置文件中autoWatch: true, 所以test.js文件保存后，会自动执行单元测试。</p>
+<p>执行日志如下：提示我们单元测试出错了。</p>
+<pre><code>INFO [watcher]: Changed file &quot;D:/workspace/javascript/karma/test.js&quot;.
+Chrome 28.0.1500 (Windows 7) A suite of basic functions reverse word FAILED
+        Expected &#39;Conan&#39; to equal &#39;onan&#39;.
+        Error: Expected &#39;Conan&#39; to equal &#39;onan&#39;.
+            at null. (D:/workspace/javascript/karma/test.js:4:25)
+Chrome 28.0.1500 (Windows 7): Executed 1 of 1 (1 FAILED) ERROR (0.3 secs / 0.006 secs)
+</code></pre><h2 id="karmaistanbul">Karma和istanbul代码覆盖率</h2>
+<p>增加代码覆盖率检查和报告，增加istanbul依赖</p>
+<p><code>npm install karma-coverage</code></p>
+<p>修改karma.conf.js配置文件</p>
+<pre><code>reporters: [&#39;progress&#39;,&#39;coverage&#39;],
+preprocessors : {&#39;src.js&#39;: &#39;coverage&#39;},
+coverageReporter: {
+    type : &#39;html&#39;,
+    dir : &#39;coverage/&#39;
+}
+</code></pre><p>启动karma start，在工程目录下面找到index.html文件，coverage/chrome/index.html,打开后，我们看到代码测试覆盖绿报告 : 覆盖率是100%，说明我们完整了测试了src.js的功能。</p>
+<p>接下来，我们修改src.js，增加一个if分支</p>
+<pre><code>function reverse(name){
+    if(name==&#39;AAA&#39;) return &quot;BBB&quot;;
+    return name.split(&quot;&quot;).reverse().join(&quot;&quot;);
+}
+</code></pre><p>再看覆盖率报告，Statements：75%覆盖，Branches：50%覆盖。</p>
+<p>为了产品的质量我们要尽量达到更多的覆盖率，一般对于JAVA项目来说，能达到80%就是相当高的标准了。对于Javascript的代码测试及覆盖率研究，我还要做更多的验证。</p>
+<h2 id="other--karma">Other : Karma第一次启动时出现的问题</h2>
+<p>CHROME_BIN的环境变量问题</p>
+<pre><code>~ D:\workspace\javascript\karma&gt;karma start karma.conf.js
+INFO [karma]: Karma v0.10.2 server started at http://localhost:9876/
+INFO [launcher]: Starting browser Chrome
+ERROR [launcher]: Cannot start Chrome
+        Can not find the binary C:\Users\Administrator\AppData\Local\Google\Chrome\Application\chrome.exe
+        Please set env variable CHROME_BIN
+</code></pre><p>设置方法：找到系统中chrome的安装位置，找到chrome.exe文件</p>
+<pre><code>~ D:\workspace\javascript\karma&gt;set CHROME_BIN=&quot;C:\Program Files (x86)\Google\Chrome\Application\chrome.exe&quot;
+</code></pre>
+                    
+                    </section>
+                
+                
+                </div>
+            </div>
+        </div>
+
+        
+        <a href="../index.html" class="navigation navigation-prev " aria-label="Previous page: Introduction"><i class="fa fa-angle-left"></i></a>
+        
+        
+        <a href="../chapter_2_jasmine/README.html" class="navigation navigation-next " aria-label="Next page: Chapter 2 jasmine"><i class="fa fa-angle-right"></i></a>
+        
+    </div>
+</div>
+
+        
+<script src="../gitbook/app.js"></script>
+
+    
+    <script src="https://cdn.mathjax.org/mathjax/2.4-latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+
+    
+    <script src="../gitbook/plugins/gitbook-plugin-mathjax/plugin.js"></script>
+    
+
+<script>
+require(["gitbook"], function(gitbook) {
+    var config = {"fontSettings":{"theme":null,"family":"sans","size":2}};
+    gitbook.start(config);
+});
+</script>
+
+        
+    </body>
+    
+</html>
