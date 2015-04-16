@@ -1,0 +1,57 @@
+﻿<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>原生JS实现大图片按比例缩放</title>
+<script type="text/javascript">
+function DrawImage(ImgD, FitWidth, FitHeight) {
+    var image = new Image();
+    image.src = ImgD.src;
+    if (image.width > 0 && image.height > 0) 
+    {
+        if (image.width / image.height >= FitWidth / FitHeight) 
+        {
+            if (image.width > FitWidth) {
+                ImgD.width = FitWidth;
+                ImgD.height = (image.height * FitWidth) / image.width;
+            }
+            else {
+            ImgD.width = image.width;
+            ImgD.height = image.height;
+        }
+    }
+    else {
+        if (image.height > FitHeight) {
+            ImgD.height = FitHeight;
+            ImgD.width = (image.width * FitHeight) / image.height;
+        }
+        else {
+            ImgD.width = image.width;
+            ImgD.height = image.height;
+        }
+    }
+}
+}
+</script>  
+</head>
+
+<body>
+
+<div style="width:620px;margin:0 auto;">
+	<p>原图尺寸：</p>
+	<p><img src="1_b.jpg" width="400px" /></p>
+	
+	<p>1、调用方式：</p>
+	<p>&lt;img src=&quot;1_b.jpg&quot; alt=&quot;自动缩放后的效果&quot; onload=&quot;javascript:DrawImage(this,200,200);&quot; /&gt;</p>
+	<p><img src="1_b.jpg" alt="自动缩放后的效果" onload="javascript:DrawImage(this,200,200);" />  </p>
+	
+	<p>2、调用方式：如果图片较大，建议在图片标签里面同时设置期望的图片大小，这样不会导致页面在加载中撑开，该大小不会影响最终缩放效果。
+	可以修改上面的代码为：</p>
+	<p> &lt;img src=&quot;1_b.jpg&quot; alt=&quot;自动缩放后的效果&quot; width=&quot;200&quot; height=&quot;200&quot; onload=&quot;javascript:DrawImage(this,200,200);&quot; /&gt;</p>
+	<p><img src="1_b.jpg" alt="自动缩放后的效果" width="200" height="200" onload="javascript:DrawImage(this,200,200);" />  </p>
+	<p>&nbsp;</p>
+</div>
+<div style="text-align:center;margin:50px 0; font:normal 14px/24px 'MicroSoft YaHei';">
+</div>
+</body>
+</html>

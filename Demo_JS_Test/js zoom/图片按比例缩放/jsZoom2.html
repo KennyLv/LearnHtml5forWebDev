@@ -1,0 +1,131 @@
+﻿<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+    <head>
+        <title>等比缩放图片</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <script type="text/javascript">
+
+            /**
+             *定义缩放的数据结构
+             */
+            var scale={
+                width:null,
+                height:null
+            };
+
+            /**
+             *@see cn.hkm.web.Picture.java
+             *在指定宽度和高度范围内最大化缩放图片
+             *@param width  图片原始宽度
+             *@param height 图片原始高度
+             *@param outWidth  指定宽度范围
+             *@param outHeight 指定宽度范围
+             */
+
+            var scaleWH=function(width,height,outWidth,outHeight){
+                width=parseInt(width);
+                height=parseInt(height);
+                outWidth=parseInt(outWidth);
+                outHeight=parseInt(outHeight);
+
+                var h=width;
+                var w=height;
+                var r=height/width;
+                var rs=outHeight/outWidth;
+                if((width<=outWidth)&&(height<=outHeight)){
+                    w=width;
+                    h=height;
+                }
+                if((width<=outWidth)&&(height>outHeight)){
+                    w=parseInt(outHeight/r);
+                    h=outHeight;
+                }
+                if((width>outWidth)&&(height<=outHeight)){
+                    w=outWidth;
+                    h=parseInt(outWidth*r);
+                }
+                if((width>outWidth)&&(height>outHeight)){
+                    if(r<rs){
+                        w=outWidth;
+                        h=parseInt(outWidth*r);
+                    }
+                    if(r>rs){
+                        h=outHeight;
+                        w=parseInt(outHeight/r);
+                    }
+                    if(r==rs){
+                        w=outWidth;
+                        h=outHeight;
+                    }
+                }
+                scale.width=w;
+                scale.height=h;
+                return scale;
+            }
+
+            /**
+             *@see cn.hkm.web.Picture.java
+             *在指定宽度范围内最大化缩放图片
+             *@param width  图片原始宽度
+             *@param height 图片原始高度
+             *@param outWidth  指定宽度范围
+             */
+            var scaleW=function(width,height,outWidth){
+                width=parseInt(width);
+                height=parseInt(height);
+                outWidth=parseInt(outWidth);
+                if(width<outWidth){
+                    scale.width=width;
+                    scale.height=height;
+                }else{
+                    scale.width=outWidth;
+                    scale.height=parseInt(outWidth*height/width);
+                }
+                return scale;
+            }
+
+
+            /**
+             *@see cn.hkm.web.Picture.java
+             *在指定高度范围内最大化缩放图片
+             *@param width  图片原始宽度
+             *@param height 图片原始高度
+             *@param outWidth  指定宽度范围
+             */
+            var scaleH=function(width,height,outHeight){
+                width=parseInt(width);
+                height=parseInt(height);
+                outHeight=parseInt(outHeight);
+                if(height<outHeight){
+                    scale.width=width;
+                    scale.height=height;
+                }else{
+                    scale.width=parseInt(outHeight*width/height);
+                    scale.height=outHeight;
+                }
+                return  scale;
+            }
+
+            function see(){
+                scale=scaleWH(1366,768,600,600);
+                document.getElementById("byWH").innerHTML="<img src='1_b.jpg' width='"+scale.width+"px' height='"+scale.height+"px'  />";
+
+                scale=scaleW(1366,768,500);
+                document.getElementById("byW").innerHTML="<img src='1_b.jpg' width='"+scale.width+"px' height='"+scale.height+"px'  />";
+
+                scale=scaleH(1366,768,300);
+                document.getElementById("byH").innerHTML="<img src='1_b.jpg' width='"+scale.width+"px' height='"+scale.height+"px'  />";
+
+            }
+
+        </script>
+    </head>
+    <body onload="see()" >
+
+        <div id="byWH"></div>
+        <br/>
+        <div id="byW"></div>
+        <br/>
+        <div id="byH"></div>
+    </body>
+</html>

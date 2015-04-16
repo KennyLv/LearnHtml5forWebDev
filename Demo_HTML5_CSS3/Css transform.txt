@@ -1,0 +1,30 @@
+﻿下面我们从3个方面开始介绍：
+
+1、scale(x,y) 对元素进行缩放
+
+X表示水平方向缩放的倍数 | Y表示垂直方向的缩放倍数
+Y是一个可选参数，没有设置的话，则表示X，Y两个方向的缩放倍数是一样的。并以X为准。
+transform:scale(2,2.5);  
+ 
+2、scaleX(<number>) 元素只在X轴（水平方向）缩放元素。
+ 
+默认值是1，基点一样在元素的中心位置。可以通过transform-origin来改变基点
+transform:scaleX(2);  
+ 
+3、scaleY(<number>) 元素只在Y轴（垂直方向）缩放元素。
+ 
+基点一样在元素的中心位置。可以通过transform-origin来改变基点。
+transform:scaleY(2); 
+
+最后我们看看兼容性写法：
+
+
+代码如下:
+.test{ 
+-moz-transform:scale(2,2); 
+-webkit-transform:scale(2,2); 
+-o-transform:scale(2,2); 
+background:url(img/i.png) no-repeat; 
+width:198px; 
+height:133px; 
+} 

@@ -1,0 +1,277 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <meta content="width=device-width,user-scalable=no" name="viewport"/>
+        <title>Yang73137's Games</title>
+        <style>
+		#imagePanel{
+			position: relative;
+			width: 580px;
+			height: 580px;
+			background-color: gray;
+			float:left;
+		}
+		#imagePanel div.imgPanel{
+			position: relative;
+			width: 180px;
+			height: 180px;
+			margin:5px;
+			float: left;
+		}
+		
+		#imagePanel div.redposessed{
+			border-radius:90px;
+			background-color: red !important;
+		}
+		#imagePanel div.blueposessed{
+			border-radius:0px;
+			background-color: blue !important;
+		}
+		
+		#imagePanel.red div.imgPanel:not(.selected){
+			background-color: pink;
+		}
+		#imagePanel.blue div.imgPanel:not(.selected){
+			background-color: lightblue;
+		}
+		#imagePanel.red div.imgPanel.selected, #imagePanel.blue div.imgPanel.selected{
+			background-color: yellow;
+		}
+		
+		#imagePanel div.imgPanel div{
+			position: relative;
+			width: 50px;
+			height: 50px;
+			margin:5px;
+			float: left;
+		}
+		#imagePanel div.imgPanel div.white{
+			background-color: white;
+		}
+		#imagePanel div.imgPanel div.red{
+			background-color: red;
+			border-radius:25px;
+		}
+		#imagePanel div.imgPanel div.blue{
+			background-color: blue;
+			border-radius:0px;
+		}
+		#imagePanel.red div.imgPanel div:not(.selected){
+			border-radius:25px;
+		}
+		#imagePanel.blue div.imgPanel div:not(.selected){
+			border-radius:0px;
+		}
+		#imagePanel.zoomIn{ 
+			-moz-transform:scale(0.5,0.5); 
+			-webkit-transform:scale(0.5,0.5); 
+			-o-transform:scale(0.5,0.5); 
+			transform-origin: left top;
+			/*
+			transform-origin: center center;
+			transform-origin: right bottom;
+			*/
+		}
+	
+		#actionPanel{
+			position: relative;
+			width: 180px;
+			height: 180px;
+			float:left;
+		}
+		#actionPanel.red{
+			background-color: pink;
+		}
+		#actionPanel.blue{
+			background-color: lightblue;
+		}
+		
+		#actionPanel div{
+			width:50px;
+			height:50px;
+			margin:5px;
+			position: relative;
+			background-color:white;
+			float: left;
+		}
+		#actionPanel.red div{
+			border-radius:25px;
+		}
+		#actionPanel.blue div{
+			border-radius:0px;
+		}
+		
+		#actionPanel div.selected.red{
+			background-color:red;
+			
+			border-radius:25px;
+			behavior: url(border-radius.htc); /*border-radius.htc 通知IE浏览器调用脚本作用于'box'类 */
+		}
+		#actionPanel div.selected.blue{
+			border-radius:0px;
+			background-color:blue;
+		}
+        </style>
+    </head>
+<body>
+    <div id="imagePanel">
+
+    </div>
+    <div id="actionPanel">
+    </div>
+</body>
+<script>
+
+var colorMap = {"0" : "white", "3" : "red", "7" : "blue"};
+var lockforAction, onGoingData, onGoingTurnColor, onGoingImagePanelId;
+
+function initGame(_first){
+	//lockforAction = true;
+	onGoingTurnColor = _first;
+	onGoingData = [
+		[0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0],
+		[0,0,0,0,0,0,0,0,0]
+	];
+
+	
+	for(var i=0; i<onGoingData.length;i++){
+		var imagePanelDiv = document.createElement("div");
+		imagePanelDiv.id = "imgPanel_" + i;
+		imagePanelDiv.setAttribute("class", "imgPanel");
+		imagePanelDiv.addEventListener("click", onImagePanelDivClicked, false);
+		document.getElementById("imagePanel").appendChild(imagePanelDiv);
+		
+		for(var j=0; j<onGoingData[i].length;j++){
+			var extClass="";
+			var imagePanelSmallDiv = document.createElement("div");
+			imagePanelSmallDiv.setAttribute("id", "div" + i + "_" + j );
+			if(onGoingData[i][j] !=0){
+				extClass=" selected";
+			}
+			imagePanelSmallDiv.setAttribute("class", colorMap['' + onGoingData[i][j]] + extClass);
+			imagePanelDiv.appendChild(imagePanelSmallDiv);
+		}
+	}
+	
+	for(var ad=0; ad<9; ad++){
+		var actionDiv = document.createElement("div");
+		actionDiv.id = "action_div_" + ad;
+		if( actionDiv.addEventListener ){
+			actionDiv.addEventListener("click", onActionPanelDivClicked, false);
+		}else{
+			actionDiv.attachEvent("click", onActionPanelDivClicked);
+		}
+		document.getElementById("actionPanel").appendChild(actionDiv);
+	}
+	resetTheme();
+}
+
+function onActionPanelDivClicked(e){
+	//if(lockforAction){return;}
+	var selected_div = e.srcElement;
+	// updateImagePanelDiv() by id
+	e.srcElement.setAttribute("class", "selected " + onGoingTurnColor );
+	//update image panel div
+	var choosedDivId = e.srcElement.id.split("action_div_")[1];
+	document.getElementById("div" + onGoingImagePanelId + "_" + choosedDivId).setAttribute("class", "selected " + onGoingTurnColor );
+	//update data
+	onGoingData[onGoingImagePanelId][choosedDivId] = onGoingTurnColor == "red"? 3 : 7;
+	//console.log("onGoingImagePanelId is" + onGoingImagePanelId + "----------choosedDivId is " + choosedDivId);
+	
+	setTimeout(function(){
+		
+		// get selected panel info, check data
+		if( checkData()){
+			lockImagePanel(onGoingImagePanelId, onGoingTurnColor);
+			//
+			onGoingTurnColor = onGoingTurnColor== "red" ? "blue" : "red" ;
+			resetTheme();
+			//ask for choose.
+			onGoingImagePanelId = null;
+			//TODO : 
+			
+		}else{
+			onGoingTurnColor = onGoingTurnColor== "red" ? "blue" : "red" ;
+			resetTheme();
+			//TODO : remove previous selected imagePanel style
+			onGoingImagePanelId = choosedDivId;
+			//TODO : set current selected imagePanel style
+			updateActionPanelDiv();
+		}
+	},2000);
+}
+
+function onImagePanelDivClicked(e){
+	//TODO : remove previous selected imagePanel style
+	//lockforAction = false;
+	var selectedPanelId = e.srcElement.id;
+	console.log(e);// div1_8 	imagePanel_1
+	if( selectedPanelId.indexOf("imgPanel_") != -1){
+		onGoingImagePanelId = selectedPanelId.split("imgPanel_")[1];
+	}else{
+		onGoingImagePanelId = selectedPanelId.split("div")[1].split("_")[0];
+	}
+	console.log(onGoingImagePanelId);
+	//TODO : set current selected imagePanel style
+	updateActionPanelDiv();
+}
+
+
+function updateActionPanelDiv(){
+	var tempData = onGoingData[onGoingImagePanelId];
+	for(var t=0; t<tempData.length; t++){
+		if(tempData[t] !=0){
+			document.getElementById("action_div_" + t ).setAttribute("class", "selected " + colorMap['' + tempData[t]]);
+		}else{
+			document.getElementById("action_div_" + t ).removeAttribute("class");
+		}
+	}
+}
+
+function checkData(){
+	var _arrayData = onGoingData[onGoingImagePanelId];
+	
+	console.log(_arrayData);
+	if(_arrayData[0] != 0 && _arrayData[0] == _arrayData[1]  && _arrayData[1] == _arrayData[2]){
+		
+		return true;
+	}
+	return false;
+	if(_arrayData[3] == _arrayData[4] == _arrayData[5]){}
+	if(_arrayData[6] == _arrayData[7] == _arrayData[8]){}
+	
+	if(_arrayData[0] == _arrayData[3] == _arrayData[6]){}
+	if(_arrayData[1] == _arrayData[4] == _arrayData[7]){}
+	if(_arrayData[2] == _arrayData[5] == _arrayData[8]){}
+	
+	if(_arrayData[0] == _arrayData[4] == _arrayData[8]){}
+	if(_arrayData[2] == _arrayData[4] == _arrayData[6]){}
+}
+
+function lockImagePanel(_id, _color){
+	var _imgP = document.getElementById("imgPanel_" + _id);
+	_imgP.innerHTML="";
+	_imgP.setAttribute("class", _color + "posessed imgPanel");
+}
+
+
+
+function resetTheme(){
+	document.getElementById("imagePanel").setAttribute("class", "zoomIn " + onGoingTurnColor );
+	document.getElementById("actionPanel").setAttribute("class", onGoingTurnColor );
+}
+
+
+
+initGame("blue");
+
+
+</script>
+</html>
