@@ -4,23 +4,25 @@
         <meta content="width=device-width,user-scalable=no" name="viewport"/>
         <title>Yang73137's Games</title>
         <style>
+		body{
+			background-color: gainsboro;
+		}
 		#imagePanel{
 			position: relative;
-			width: 580px;
-			height: 580px;
-			background-color: gray;
+			width: 310px;
+			height: 310px;
 			float:left;
 		}
 		#imagePanel div.imgPanel{
 			position: relative;
-			width: 180px;
-			height: 180px;
+			width: 90px;
+			height: 90px;
 			margin:5px;
 			float: left;
 		}
 		
 		#imagePanel div.redposessed{
-			border-radius:90px;
+			border-radius:45px;
 			background-color: red !important;
 		}
 		#imagePanel div.blueposessed{
@@ -35,14 +37,14 @@
 			background-color: lightblue;
 		}
 		#imagePanel.red div.imgPanel.selected, #imagePanel.blue div.imgPanel.selected{
-			background-color: yellow;
+			background-color: coral;
 		}
 		
 		#imagePanel div.imgPanel div{
 			position: relative;
-			width: 50px;
-			height: 50px;
-			margin:5px;
+			width: 25px;
+			height: 25px;
+			margin:2.5px;
 			float: left;
 		}
 		#imagePanel div.imgPanel div.white{
@@ -50,18 +52,19 @@
 		}
 		#imagePanel div.imgPanel div.red{
 			background-color: red;
-			border-radius:25px;
+			border-radius:12.5px;
 		}
 		#imagePanel div.imgPanel div.blue{
 			background-color: blue;
 			border-radius:0px;
 		}
 		#imagePanel.red div.imgPanel div:not(.selected){
-			border-radius:25px;
+			border-radius:12.5px;
 		}
 		#imagePanel.blue div.imgPanel div:not(.selected){
 			border-radius:0px;
 		}
+		
 		#imagePanel.zoomIn{ 
 			-moz-transform:scale(0.5,0.5); 
 			-webkit-transform:scale(0.5,0.5); 
@@ -114,20 +117,28 @@
         </style>
     </head>
 <body>
-    <div id="imagePanel">
-
-    </div>
-    <div id="actionPanel">
-    </div>
+	<div id="imagePanel"> </div>
+	<!--
+	<select>
+		<option>执红先手</option>
+		<option>执蓝先手</option>
+	</select>
+	-->
+	<p id="msg"></p>
+	<div id="actionPanel"> </div>
 </body>
 <script>
 
 var colorMap = {"0" : "white", "3" : "red", "7" : "blue"};
-var lockforAction, onGoingData, onGoingTurnColor, onGoingImagePanelId;
+var onGoingData, onGoingTurnColor, onGoingImagePanelId;
+var lockforAction, lockforImgPanelReChoose;
+
+var possessedData = [0,0,0,0,0,0,0,0,0];
 
 function initGame(_first){
-	//lockforAction = true;
 	onGoingTurnColor = _first;
+	resetTheme();
+	
 	onGoingData = [
 		[0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0],
@@ -139,8 +150,17 @@ function initGame(_first){
 		[0,0,0,0,0,0,0,0,0],
 		[0,0,0,0,0,0,0,0,0]
 	];
+	reRenderImagePanel();
+	document.getElementById("msg").innerText= "执" + (_first=="red"? "红":"蓝") + "先手，请先在左侧选择一个格子，开始游戏。";
+	lockforImgPanelReChoose = false;
+}
 
-	
+function resetTheme(){
+	document.getElementById("imagePanel").setAttribute("class", onGoingTurnColor );
+	document.getElementById("actionPanel").setAttribute("class", onGoingTurnColor );
+}
+
+function reRenderImagePanel(){
 	for(var i=0; i<onGoingData.length;i++){
 		var imagePanelDiv = document.createElement("div");
 		imagePanelDiv.id = "imgPanel_" + i;
@@ -159,7 +179,10 @@ function initGame(_first){
 			imagePanelDiv.appendChild(imagePanelSmallDiv);
 		}
 	}
-	
+}
+
+function initActionPanel(){
+
 	for(var ad=0; ad<9; ad++){
 		var actionDiv = document.createElement("div");
 		actionDiv.id = "action_div_" + ad;
@@ -170,11 +193,34 @@ function initGame(_first){
 		}
 		document.getElementById("actionPanel").appendChild(actionDiv);
 	}
-	resetTheme();
+	
+}
+
+function onImagePanelDivClicked(e){
+	if(lockforImgPanelReChoose){return;}
+	if(onGoingImagePanelId == null){ // First time, setup the action panel
+		initActionPanel();
+		lockforImgPanelReChoose = true;
+	}else{
+		document.getElementById("imgPanel_" + onGoingImagePanelId).setAttribute("class", "imgPanel");
+	}
+	
+	//Clone the selected img panel to action panel 
+	var selectedPanelId = e.srcElement.id;
+	if( selectedPanelId.indexOf("imgPanel_") != -1){
+		onGoingImagePanelId = selectedPanelId.split("imgPanel_")[1];
+	}else{
+		onGoingImagePanelId = selectedPanelId.split("div")[1].split("_")[0];
+	}
+	console.log(onGoingImagePanelId);
+	document.getElementById("imgPanel_" + onGoingImagePanelId).setAttribute("class", "imgPanel selected");
+	updateActionPanelDiv();
+	
 }
 
 function onActionPanelDivClicked(e){
 	//if(lockforAction){return;}
+	
 	var selected_div = e.srcElement;
 	// updateImagePanelDiv() by id
 	e.srcElement.setAttribute("class", "selected " + onGoingTurnColor );
@@ -188,40 +234,43 @@ function onActionPanelDivClicked(e){
 	setTimeout(function(){
 		
 		// get selected panel info, check data
-		if( checkData()){
-			lockImagePanel(onGoingImagePanelId, onGoingTurnColor);
-			//
-			onGoingTurnColor = onGoingTurnColor== "red" ? "blue" : "red" ;
-			resetTheme();
-			//ask for choose.
-			onGoingImagePanelId = null;
-			//TODO : 
+		if( checkData(onGoingData[onGoingImagePanelId]) ){
+			var _imgP = document.getElementById("imgPanel_" + onGoingImagePanelId);
+			_imgP.innerHTML="";
+			_imgP.setAttribute("class", onGoingTurnColor + "posessed imgPanel");
 			
+			possessedData[onGoingImagePanelId] = onGoingTurnColor == "red" ? 3 : 7 ;
+			
+			if(checkData( possessedData )){
+				alert( (onGoingTurnColor =="red"? "红":"蓝") "方胜利！");
+				return;
+			};
 		}else{
-			onGoingTurnColor = onGoingTurnColor== "red" ? "blue" : "red" ;
-			resetTheme();
-			//TODO : remove previous selected imagePanel style
-			onGoingImagePanelId = choosedDivId;
-			//TODO : set current selected imagePanel style
+			// Just remove the selected class
+			document.getElementById("imgPanel_" + onGoingImagePanelId).setAttribute("class", "imgPanel");
+		}
+		onGoingTurnColor = onGoingTurnColor== "red" ? "blue" : "red" ;
+		resetTheme();
+		
+		onGoingImagePanelId = choosedDivId;
+		
+		if( possessedData[onGoingImagePanelId] != 0){
+			//目标格子被占
+			onGoingImagePanelId = null;
+			//
+			document.getElementById("msg").innerText= "目标格子已被占领，请重新在左侧选择一个格子，开始游戏。";
+			//
+			lockforImgPanelReChoose = false;
+			//
+			document.getElementById("actionPanel").innerHTML="";
+		}else{
+			//
+			document.getElementById("imgPanel_" + onGoingImagePanelId).setAttribute("class", "imgPanel selected");
 			updateActionPanelDiv();
 		}
 	},2000);
 }
 
-function onImagePanelDivClicked(e){
-	//TODO : remove previous selected imagePanel style
-	//lockforAction = false;
-	var selectedPanelId = e.srcElement.id;
-	console.log(e);// div1_8 	imagePanel_1
-	if( selectedPanelId.indexOf("imgPanel_") != -1){
-		onGoingImagePanelId = selectedPanelId.split("imgPanel_")[1];
-	}else{
-		onGoingImagePanelId = selectedPanelId.split("div")[1].split("_")[0];
-	}
-	console.log(onGoingImagePanelId);
-	//TODO : set current selected imagePanel style
-	updateActionPanelDiv();
-}
 
 
 function updateActionPanelDiv(){
@@ -235,9 +284,7 @@ function updateActionPanelDiv(){
 	}
 }
 
-function checkData(){
-	var _arrayData = onGoingData[onGoingImagePanelId];
-	
+function checkData(_arrayData){
 	console.log(_arrayData);
 	if(_arrayData[0] != 0 && _arrayData[0] == _arrayData[1]  && _arrayData[1] == _arrayData[2]){
 		
@@ -255,23 +302,7 @@ function checkData(){
 	if(_arrayData[2] == _arrayData[4] == _arrayData[6]){}
 }
 
-function lockImagePanel(_id, _color){
-	var _imgP = document.getElementById("imgPanel_" + _id);
-	_imgP.innerHTML="";
-	_imgP.setAttribute("class", _color + "posessed imgPanel");
-}
-
-
-
-function resetTheme(){
-	document.getElementById("imagePanel").setAttribute("class", "zoomIn " + onGoingTurnColor );
-	document.getElementById("actionPanel").setAttribute("class", onGoingTurnColor );
-}
-
-
-
 initGame("blue");
-
 
 </script>
 </html>
