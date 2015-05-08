@@ -1,0 +1,17 @@
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.0//EN"
+    "http://struts.apache.org/dtds/struts-2.0.dtd">
+
+<struts>
+
+	<constant name="struts.multipart.maxSize" value="2147483648" />
+	<package name="upload" extends="struts-default">
+		<action name="upload"
+			class="upload.action.UploadAction">			
+		</action>
+		<action name="toindex"
+			class="upload.action.ToIndexAction">
+			<result name="topage">/index.jsp</result>			
+		</action>
+	</package>
+</struts>
