@@ -1,0 +1,134 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=gb2312">
+<meta name="keywords" content="站长,网页特效,js特效,广告代码,zzjs,zzjs.net,sky,www.zzjs.net,站长特效 网" />
+<meta name="description" content="www.zzjs.net,站长特效网，站长必备js特效及广告代码。大量高质量js特效，提供高质量广告代码下载,尽在站长特效网" />
+<title>淡灰风格日历，sky整理收集，站长特效欢迎您。</title>
+<style type="text/css">
+.body,td{
+font-family:"Arial";
+font-size:8pt;
+color:#000000;
+}
+.TrOut{
+background:#dddddd;
+height:24;
+border:1 solid #999999;
+border-top-color:#f4f4f4;
+border-left-color:#f4f4f4;
+}
+.TdOver{
+background:#eeeeee;
+height:20;
+border:1 solid #ffffff;
+border-top-color:#9c9c9c;
+border-left-color:#9c9c9c;
+}
+.TdOut{
+background:#eeeeee;
+height:20;
+border:1 solid #9c9c9c;
+border-top-color:#ffffff;
+border-left-color:#ffffff;
+}
+</style>
+</head>
+<body>
+<a href="<#ZC_BLOG_HOST#>">站长特效网</a>,站长必备的高质量网页特效和广告代码。zzjs.net，站长js特效。<hr>
+<!--欢迎来到站长特效网，我们网站收集大量高质量js特效，提供许多广告代码下载，网址：www.zzjs.net，zzjs@msn.com,用.net打造靓站-->
+<script language="JScript">
+function TableFunction(){
+        this.GetDataStr=function(y,m){
+                this.DayArray=[];
+                for(var i=0;i<42;i++)this.DayArray[i]=" ";
+                for(var i=0;i<new Date(y,m,0).getDate();i++)this.DayArray[i+new Date(y,m-1,1).getDay()]=i+1;
+                return this.DayArray;
+                }
+        this.GetTableStr=function(y,m){
+                this.DateArray=["日","一","二","三","四","五","六"];
+                this.DStr="<table oncontextmenu='return false' onselectstart='return false' style='width:160;cursor:default;border:1 solid #9c9c9c;border-right:0;border-bottom:0;filter:progid:dximagetransform.microsoft.dropshadow(color=#e3e3e3,offx=3,offy=3,positive=true)' border='0' cellpadding='0' cellspacing='0'>\n"+
+                "<tr><td colspan='7' class='TrOut'>"+
+                "<table width='100%' height='100%'border='0' cellpadding='0' cellspacing='0'><tr align='center'>\n"+
+                "<td width='20' style='font-family:\"webdings\";font-size:9pt' onclick='TableFunction().JumpToRun(\"b\")' onmouseover='this.style.color=\"#ff9900\"' onmouseout='this.style.color=\"\"'>3</td>\n"+
+                "<td id='YearTD' width='70' onmouseover='this.style.background=\"#cccccc\"' onmouseout='this.style.background=\"\"' onclick='TableFunction().WriteSelect(this,this.innerText.split(\" \")[0],\"y\",false)'>"+y+" 年</td>\n"+
+                "<td id='MonthTD' width='47' onmouseover='this.style.background=\"#cccccc\"' onmouseout='this.style.background=\"\"' onclick='TableFunction().WriteSelect(this,this.innerText.split(\" \")[0],\"m\",false)'>"+m+" 月</td>\n"+
+                "<td width='20' style='font-family:\"webdings\";font-size:9pt' onclick='TableFunction().JumpToRun(\"n\")' onmouseover='this.style.color=\"#ff9900\"' onmouseout='this.style.color=\"\"'>4</td></tr></table>\n"+
+                "</td></tr>\n"+
+                "<tr align='center'>\n";
+                for(var i=0;i<7;i++)
+                this.DStr+="<td class='TrOut'>"+DateArray[i]+"</td>\n";
+                this.DStr+="</tr>\n";
+                for(var i=0;i<6;i++){
+                this.DStr+="<tr align='center'>\n";
+                for(var j=0;j<7;j++){
+                        var CS=new Date().getDate()==this.GetDataStr(y,m)[i*7+j]?"TdOver":"TdOut";
+                        this.DStr+="<td id='TD' class='"+CS+"' cs='"+CS+"' onmouseover='this.className=\"TdOver\"' onmouseout='if(this.cs!=\"TdOver\")this.className=\"TdOut\"'>"+this.GetDataStr(y,m)[i*7+j]+"</td>\n";
+                        }
+                this.DStr+="</tr>\n";
+                }
+                this.DStr+="</tabe>";
+                return this.DStr;
+                }
+        this.WriteSelect=function(obj,values,action,getobj){
+                if(values=="")return;
+                if(getobj){
+                        obj.innerHTML=values+(action=="y"?" 年":" 月");
+                        this.RewriteTableStr(YearTD.innerText.split(" ")[0],MonthTD.innerText.split(" ")[0]);
+                        return false;
+                        }
+                var StrArray=[];
+                if(action=="y"){
+                        for(var i=0;i<15;i++){
+                                var year=values-7+i;
+                                StrArray[i]="<option value='"+year+"' "+(values==year?"selected":"")+"> "+year+"年</option>\n";
+                                }
+                        obj.innerHTML="<select id='select1' onchange='TableFunction().WriteSelect(parentElement,this.value,\"y\",true)' onblur='YearTD.innerText=this.value+\" 年\"'>\n"+StrArray.join("")+"</select>";
+                        select1.focus();
+                        }
+                if(action=="m"){
+                        for(var i=1;i<13;i++)
+                                StrArray[i]="<option value='"+i+"' "+(i==values?"selected":"")+"> "+i+"月</option>\n";
+                        obj.innerHTML="<select id='select2' style='width:47' onchange='TableFunction().WriteSelect(parentElement,this.value,\"m\",true)' onblur='MonthTD.innerText=this.value+\" 月\"'>\n"+StrArray.join("")+"</select>";
+                        select2.focus();
+                        }
+                }
+        this.RewriteTableStr=function(y,m){
+                var TArray=this.GetDataStr(y,m);
+                for(var i=0;i<TArray.length;i++){
+                        TD[i].innerHTML=TArray[i];
+                        TD[i].className="TdOut";
+                        TD[i].cs="TdOut";
+                        if(new Date().getYear()==y&&new Date().getMonth()+1==m&&TArray[i]==new Date().getDate()){
+                                TD[i].className="TdOver";
+                                TD[i].cs="TdOver";
+                                }
+                        }
+                }
+        this.JumpToRun=function(action){
+                var YearNO=YearTD.innerText.split(' ')[0];
+                var MonthNO=MonthTD.innerText.split(' ')[0];
+                if(action=="b"){
+                        if(MonthNO=="1"){
+                                MonthNO=13;
+                                YearNO=YearNO-1;
+                                }
+                        MonthTD.innerText=MonthNO-1+" 月";
+                        YearTD.innerText=YearNO+" 年";
+                        this.RewriteTableStr(YearNO,MonthNO-1);
+                        }
+                if(action=="n"){
+                        if(MonthNO=="12"){
+                                MonthNO=0;
+                                YearNO=YearNO-(-1);
+                                }
+                        YearTD.innerText=YearNO+" 年";
+                        MonthTD.innerText=MonthNO-(-1)+" 月";
+                        this.RewriteTableStr(YearNO,MonthNO-(-1));
+                        }
+                }
+        return this;
+}//欢迎来到站长特效网，我们的网址是www.zzjs.net，很好记，zz站长，js就是js特效，本站收集大量高质量js代码，还有许多广告代码下载。
+document.write(TableFunction().GetTableStr(new Date().getYear(),new Date().getMonth()+1));
+</script>
+</body>
+</html>

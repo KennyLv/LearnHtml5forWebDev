@@ -1,0 +1,164 @@
+td,p,li,select,input,textarea {font-size:12px;color:#565656}
+.f14 {font-size:14px}
+
+body{ margin:5px;font-family:'Verdana','宋体';
+font-size:12px;}
+a{color:Blue}
+.aorange {
+	font-size: 20px;
+	font-family: "黑体",serif;
+	font-weight: bold;
+}
+.agreen {
+	font-size: 20px;
+	color: #55e8df;
+	font-weight: bold;
+}
+
+.one {
+	font-family: "黑体",serif;
+	font-size: 20px;
+	color: #000;
+	font-weight: normal;
+}
+
+#tablecal {
+	background-color: #f0f0f0;
+	margin-left:auto;
+	margin-right:auto;
+	width: 490px ;
+}
+
+
+#tablecal td{
+	background-color: #f0f0f0;
+	width:70px;
+	height:35px;
+	border:1px solid Teal;
+}
+#tablecalc{
+	width: 490px;
+}
+
+#tablecalc td {
+	width:70px;
+	height:35px;
+}
+
+.fontsd {
+	font-size: 28px;
+	font-family: "Arial Black";
+	line-height: 100%;
+}
+
+.fontld {
+	font-size:9pt;
+	font-family: "新宋体";
+}
+
+div,select,p {
+	font-size: 12px;
+	color:#000;
+	text-align: center; 
+}
+
+div#festival {
+	color: #d8f6f8; 
+	width: 150px; 
+	padding: 2px; 
+	margin: 0; 
+	background-color: #0978a6; 
+}
+div#datedetail {
+	width: 150px; 
+	border: 0; 
+	padding: 2px; 
+	margin: 0; 
+	background-color:#e8f5f9; 
+	text-align:right; 
+}
+div#datedetail span {
+	color: #0132B4;
+}
+div#detail {
+	position: absolute;
+	visibility: hidden;
+	margin:0;
+	border:1px solid #a6a8ab;
+}
+
+div#date {
+	font-size:12px;
+	padding:5px;
+	border: 0px solid #999; 
+	background-color: #f0f0f0;
+	color:Olive;
+}
+div#calendar {
+	float:left;
+	text-align:center;
+	width:490px;
+	border: 1px solid Teal; 
+	height:auto;
+}
+#calendarhead {
+	color: #fafbfb;
+	border:0;
+	padding:0;
+	margin:0;
+	background-color: #0978a6;
+}
+
+#calendarhead tr td {
+	width:70px;
+	font-weight:bold;
+	font-family:"黑体",serif;
+	font-size:20px;
+	padding:1px;
+}
+#keleyi{ float:left; 
+         width:160px;
+}
+#caltoday
+{
+	padding-top:8px;
+	height:30px;
+}
+
+div#panel {
+	margin:0;
+	padding:30px;
+	float:left;
+	}
+div#panel div 
+{
+	color:Maroon;
+	padding:3px 5px 3px 5px;
+	margin-top:20px;
+	background:#ccc;
+	border:1px solid #e0e0e0;
+	font-size:9pt;
+	cursor:pointer;
+}
+
+#week {
+	background-color: #fcfcfc;
+	border:0;
+	padding:0;
+	margin:0;
+}
+#week tr td {
+	padding:1px;
+	margin:0;
+	width:70px;
+	border-bottom: 1px solid #efefef;
+	border-left: 1px solid #efefef;
+}
+
+.tr2 td {
+	background-color: #e8f5f9;
+}
+
+.todyaColor {
+	BACKGROUND-COLOR: aqua
+}
