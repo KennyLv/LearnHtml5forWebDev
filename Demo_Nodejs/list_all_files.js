@@ -27,4 +27,4 @@ function explorer(path){
 		});    
 }
 
-explorer("D:\\00mytempwork\\abq\\hmi_git\\agile\\_vp2c-emulator\\tbp-hmiapps\\platform\\");
+explorer("D:\\icons\\");
