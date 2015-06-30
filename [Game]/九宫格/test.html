@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html>
+        <head>
+                <meta http-equiv="Content-Type" content="html/text,charset=utf-8" />
+                <meta name="viewport" content="width=device-width,inital-scale=1.0" />
+                <title>小时候沙地里玩“九宫格小游戏”----童年回忆----Mr.Yogo</title>
+                <style type="text/css">
+                        *{margin: 0px;padding: 0px;list-style-type: none;}
+                        body{
+                                background: url(img/1.jpg) repeat;
+                        }
+                        .main{position: relative;}
+                        #base,.main
+                        {
+                                width: 302px;
+                                margin: 100px auto 0px;
+                                height: 302px;
+                                
+                                
+                        }
+                        #base li
+                        {
+                                float: left;
+                                height: 100px;
+                                width: 100px;
+                                color: transparent;
+                        }
+                        .x
+                        {
+                                background: url(img/x.png) no-repeat left top;
+                        }
+                        .o
+                        {
+                                background: url(img/o.png) no-repeat left top;
+                        }
+                        #lock
+                        {
+                                height: 302px;
+                                width: 302px;
+                                left: 0px;
+                                top: 0px;
+                                z-index: 8;
+                                display: none;
+                                position: absolute;
+                        }
+
+
+
+                </style>
+
+        </head>
+        <body>
+                <h1 style="text-align:center;padding-top:50px;">九宫格小游戏</h1>
+                <div class="main">
+                        <ul id="base" >
+                                <li style="border-right:1px solid #855b27;border-bottom:1px solid #855b27;">0</li>
+                                <li style="border-right:1px solid #855b27;border-bottom:1px solid #855b27;">1</li>
+                                <li style="border-bottom:1px solid #855b27;">2</li>
+                                <li style="border-right:1px solid #855b27;border-bottom:1px solid #855b27;">3</li>
+                                <li style="border-right:1px solid #855b27;border-bottom:1px solid #855b27;">4</li>
+                                <li style="border-bottom:1px solid #855b27;">5</li>
+                                <li style="border-right:1px solid #855b27;">6</li>
+                                <li style="border-right:1px solid #855b27;">7</li>
+                                <li>8</li>
+                        </ul>
+                        <div id="lock"></div>
+                </div>
+                <a href="#" onclick="again();" style="display:block;padding:5px;font-weight:bold;color:white;text-align:center;line-height:150%;background:green;margin:40px auto;width:150px;">再来一次</a>
+                <script type="text/javascript">
+                /*
+                九宫格小游戏
+                1.8中结果
+                2.有结果的时候，至少有五颗子；
+                3.将甲乙两方各自的棋子index分别存在两个数组
+                4.把结果存有一个数组，然后跟棋子数组比较，只要对上一个结果，便赢--------Mr.Yogo
+                */
+                var classselect=0    //来决定下一步下棋的是哪一方
+        
+                        var lis=document.getElementsByTagName('li');  //格子对象
+                        var lock=document.getElementById('lock');   //用来在出结果之后不能下棋，得重新来过
+                        var win=[[0,1,2],[3,4,5],[6,7,8],[2,5,8],[1,4,7],[0,3,6],[0,4,8],[2,4,6]];   //赢的结果
+                        var x=[];    //放甲方下过的格子的index
+                        var o=[];      //放乙方下过的格子的index
+                        var winnum=0;    //用来帮助判断输出是否“平局”
+
+                        for(var i=0;i<lis.length;i++)
+                        {
+                                lis[i].onclick=function()
+                                {        
+                                        if(this.className=="")   //如果className为空，则说明这格子还是空
+                                        {
+                                                ++classselect;
+                                                if(classselect%2==0)
+                                                {
+                                                        this.className="x";
+                                                        x.push(this.innerHTML);       //获取当前点击的innerHTML ----因为里面存的就是index值
+                                                }
+                                                else if(classselect%2==1)
+                                                {
+                                                        this.className="o";
+                                                        o.push(this.innerHTML);
+                                                        
+                                                }
+                                        }
+                                        else   //防止重复
+                                        {
+                                                alert('这格已经有子了，请重新选择！');
+                                        }
+
+
+
+                                        if(classselect>4)    //因为在走到第五步子的时候才有可能有输赢，所有在第五步的时候开始判断
+                                        {
+                                                //因为是甲方先下，所有想判断甲方的棋子index数组中跟八个结果是否match
+                                                for(var h=0;h<win.length;h++)
+                                                {
+                                                        var num=0;
+                                                        for(var j=0;j<win[h].length;j++)
+                                                        {
+                                                                for(var k=0;k<o.length;k++)
+                                                                {
+                                                                        if(win[h][j]==o[k])
+                                                                        {
+                                                                                num++;
+                                                                        }
+                                                                }
+                                                        }
+                                                        if(num==3)
+                                                        {
+                                                                alert("o赢！");
+                                                                winnum=1;  //winnum为1的时候，不为平局，避免在第九个赢，然后输出赢的一方还有平局字眼
+                                                                lock.style.display="block";   //类似锁屏效果
+                                                                
+                                                        }
+                                                }
+
+                                                //判断乙方棋子数组是否跟八个结果match
+                                                for(var h=0;h<win.length;h++)
+                                                {
+                                                        var num=0;
+                                                        for(var j=0;j<win[h].length;j++)
+                                                        {
+                                                                for(var k=0;k<x.length;k++)
+                                                                {
+                                                                        if(win[h][j]==x[k])
+                                                                        {
+                                                                                num++;
+                                                                        }
+                                                                }
+                                                        }
+                                                        if(num==3)
+                                                        {
+                                                                alert("x赢！");
+                                                                winnum=1; //winnum为1的时候，不为平局，避免在第九个赢，然后输出赢的一方还有平局字眼
+                                                                lock.style.display="block";   //类似锁屏效果
+                                                                
+                                                        }
+                                                }
+
+                                        
+        
+                                        }
+                                        
+                                        //判断是否平局
+                                        if(classselect==9 && winnum !=1)
+                                        {
+                                                alert("平局");
+                                        }
+                                };
+                                
+                        }
+                        // 重来
+                        function again()
+                        {
+                                for(var i=0;i<lis.length;i++)
+                                {
+                                        lis[i].className="";
+                                        x=[];
+                                        o=[];
+                                        lock.style.display="none";
+                                        classselect=0;
+                    winnum=0;
+                                }
+                        }
+
+                        
+
+
+        
+                </script>
+        </body>
+</html>
