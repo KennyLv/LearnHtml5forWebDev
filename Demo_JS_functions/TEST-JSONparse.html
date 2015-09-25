@@ -1,0 +1,30 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+
+</head>
+<body>
+
+<script type="text/javascript">
+
+var response = {
+'headers':{'content-length':39, 'app-name':'kuwo', 'content-type':'application/JSON'}
+};
+			
+function resolve(o, p) {
+	o = Object.prototype.toString.call(o) === "[object Object]" ? o : {};
+	var delimiter = ".", path = String.prototype.split.call(p || "", delimiter);
+	return path.reduce(function (obj, key) {
+			return (obj !== undefined && obj !== null) ? obj[key] : obj;
+	}, o);
+};
+
+var appName = this.resolve(response, 'headers.app-name') || utils.resolve(response, 'headers.App-Name');
+
+console.log(String.valueOf(appName));
+	
+</script>
+
+</body>
+</html>
