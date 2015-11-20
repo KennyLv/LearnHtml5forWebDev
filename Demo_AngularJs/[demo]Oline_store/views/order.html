@@ -1,0 +1,40 @@
+<header>
+    <a ng-click="orderBack()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <h1>我的订单</h1>
+</header>
+<div class="content" zm-scroll="" scroll-lazyload="true">
+    <div style="margin:20px;text-align:center;" class="{{!isNoData?'ng-hide':''}}">
+        <img ng-src="images/search_no_results.png" style="width:100%" />
+    </div>
+    <a ng-repeat="order in orders" href="#/order/{{order.order_id}}">
+    <div class="my_order clearfix">
+        <span style="float: left;width: 54px;height: 54px;margin-right: 16px;" lazyload-src="{{order.artisan_avatar}}"></span><!--<img ng-src="{{order.artisan_avatar}}" alt="" class="order_logo">-->
+        <div class="cont">
+            <div class="tit clearfix">
+                <h3>{{order.artisan_nickname}}</h3>
+                <span>{{order.statusname}}</span>
+            </div>
+            <div class="pc_c">
+                <p class="book">预约时间：{{order.book_date}} {{order.book_hour}}:00</p>
+                <p class="daoTime {{order.order_stat<40&&order.order_stat!=0&&order.order_stat!=10?'':'ng-hide'}}">
+                    倒计时：<span>{{order.day}}</span>天<span>{{order.hour}}</span>时
+                </p>
+                <p class="daoTime {{order.is_pay_required==1?'':'ng-hide'}}" style="color:#FF6E9E;">
+                    <img ng-src="images/Order-State-Fails-to-pay.png" height="20" style="margin-top:-5px" />有未付款项
+                </p>
+                <span class="money">￥{{order.amount_rmb}}</span>
+            </div>			
+        </div>
+    </div>
+    </a>
+    
+    <div class="loadmore-box" ng-show="loadMore"><a ng-if="!loading" href="" class="btn" ng-click="loadmoreHandler()">获取更多</a></div>
+</div>
+
+<style>
+.my_order span img {
+border-radius: 27px;
+-webkit-border-radius: 27px;
+-moz-border-radius: 27px;
+}
+</style>

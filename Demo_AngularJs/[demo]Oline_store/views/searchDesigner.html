@@ -1,0 +1,41 @@
+<!--
+<header>
+	<a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+	<h1>搜索发型师</h1>
+</header>
+-->
+<form ng-submit="searchDesigner()">
+    <div class="search">
+        <input type='text' name="searchName" ng-model="formData.searchName" placeholder="请输入发型师名称" /><!--  -->
+        <!--<button type="submit">搜索</button>-->
+        <span ng-click="back()">取消</span>
+    </div>
+</form>
+<div class="content" zm-scroll="" scroll-lazyload="true">
+    <div ng-hide="isNull" class="searchNoResult">您搜索的发型师不存在！</div>
+    <a ng-repeat="designer in designers" href="#/designer/{{designer.artisan_id}}">
+    <div class="order-part clearfix">
+        <div class="order_price" style="position: absolute;right: 10px;">
+            <h3>剪发：￥{{designer.avg_price}}</h3>
+            <p>共接单{{designer.order_num}}次</p>
+        </div>
+        <div class="clearfix" style="position: relative;overflow: hidden;padding-right: 100px;">
+            <span style="float: left;margin-right: 16px;width: 54px;height: 54px;" lazyload-src="{{designer.avatar}}"></span>
+            <div class="cont">
+                <h4>{{designer.nickname}}
+                    <img ng-src="images/certification_safe.png" height="30" class="{{designer.is_i==1?'':'ng-hide'}}"/><img ng-src="images/certification_s.png" height="15" class="{{designer.is_s==1?'':'ng-hide'}}"/><img ng-src="images/certification_v.png" height="15" class="{{designer.is_v==1?'':'ng-hide'}}"/></h4>
+                <p class='heart'>
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<1}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<2}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<3}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<4}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<5}}">
+                </p>
+                <p ng-repeat="shop_id in designer.shop.length > 0 ? designer.shop[0].shop_id : ''" ng-click="showShop(shop_id);$event.preventDefault(); $event.stopPropagation();">{{designer.shop.length > 0 ? designer.shop[0].shop_name : ""}} ></p>
+            </div>
+        </div>
+
+    </div>
+    </a>
+    <div class="loadmore-box" ng-show="loadMore"><a ng-if="!loading" href="" class="btn" ng-click="loadmoreHandler()">获取更多</a></div>
+</div>

@@ -1,0 +1,27 @@
+<header>
+    <!--<img ng-src="images/arrow_right.png" alt="" class="order_right">-->
+    <h1>{{title}}</h1>
+    <a href="#/city"><div class="header_right">
+        <span class='city'>{{city}}</span>
+        <span class="arrow_down">
+        </span>
+    </div></a>
+</header>
+<div class="content product" zm-scroll="" scroll-lazyload="true">
+    <div class="price clearfix">
+        <span class="{{type==0?'cc':''}}" ng-click="loadDataDefault()">默认排序</span>
+        <span class="{{type==1?'cc':''}}" ng-click="loadDataAsc()">价格升序</span>
+        <span class="{{type==2?'cc':''}}" ng-click="loadDataDesc()">价格降序</span>
+    </div>
+    
+    <div style="margin:20px;text-align:center;" class="{{!isNoData?'ng-hide':''}}">
+        <img ng-src="images/search_no_results.png" style="width:100%" />
+    </div>
+    <ul class='clearfix'>
+        <li ng-repeat="product in products" class='{{product.className}}'><a href="#/product/{{product.product_id}}">
+            <span style="float: left;margin-right: 16px;width: 100%;min-height: 180px;" lazyload-src="{{product.img_cover}}"></span>
+            <div class='v clearfix'><span>￥{{product.price}}</span><div style="padding-right: 5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{product.product_name}}</div></div>
+        </a></li>
+    </ul>
+    <div class="loadmore-box" ng-show="loadMore"><a ng-if="!loading" href="" class="btn" ng-click="loadmoreHandler()">获取更多</a></div>
+</div>

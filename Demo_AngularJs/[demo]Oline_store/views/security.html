@@ -1,0 +1,56 @@
+<header>
+    <a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <h1>美甲师认证</h1>
+</header>
+
+<div class="content">
+    <div style="padding:10px 15px;text-align:center;">
+        <h3 style="color:#ACACAC;font-size: 14px;font-weight: inherit;">含有“<img ng-src="images/certification_v.png" height="20" />”标志的用户</h3>
+        <h2 style="color:#FF699A;font-size: 16px;font-weight: inherit;">为通过了官方认证的美甲师</h2>
+    </div>
+    <div style="background-color:#E2E2E2;margin:0 10px;height:1px;"></div>
+    <div style="padding:10px 15px;text-align:left;min-height:30px;">
+        <img ng-src="images/certification_safe.png" height="30" style="position: absolute;"/>
+        <img ng-src="images/Order-State-Success.png" width="15" style="position: absolute;right: 10px;margin-top: 10px;" class="{{!certificate&&!certificate.i?'ng-hide':''}}"/>
+        <div style="color: #9B9B9B;padding-left: 35px;font-size: 13px;" class="{{!certificate&&!certificate.i?'ng-hide':''}}">
+            <div>{{certificate.i.id_number}}</div>
+            <div>{{certificate.i.id_name}}</div>
+        </div>
+    </div>
+    <div style="background-color:#E2E2E2;margin:0 10px;height:1px;"></div>
+    <div style="padding:10px 15px;text-align:left;">
+        <h2 style="color:#4F4F4F;font-size: 16px;font-weight: inherit;">美甲师资料已记录</h2>
+        <img ng-src="images/Order-State-Success.png" width="15" style="position: absolute;right: 10px;margin-top: -18px;" class="{{!certificate&&!certificate.i?'ng-hide':''}}"/>
+    </div>
+    <div style="background-color:#E2E2E2;margin:0 10px;height:1px;"></div>
+    <div style="padding:10px 15px;text-align:left;">
+        <h2 style="color:#4F4F4F;font-size: 16px;font-weight: inherit;">美甲师电话已记录</h2>
+        <img ng-src="images/Order-State-Success.png" width="15" style="position: absolute;right: 10px;margin-top: -18px;" class="{{!certificate&&!certificate.i?'ng-hide':''}}"/>
+    </div>
+    
+    <div style="background-color:#E2E2E2;margin:0 10px;height:1px;"></div>
+    <div style="padding:10px 15px;text-align:center;">
+        <h3 style="color:#ACACAC;font-size: 14px;font-weight: inherit;">含有“<img ng-src="images/certification_s.png" height="20" />”标志的用户</h3>
+        <h2 style="color:#FF699A;font-size: 16px;font-weight: inherit;">为通过了官方资质认证</h2>
+    </div>
+    <div style="background-color:#E2E2E2;margin:0 10px;height:1px;"></div>
+    <div style="padding:10px 15px;text-align:center;">
+        <h2 style="color:#4F4F4F;font-size: 16px;font-weight: inherit;">官方资质认证包括</h2>
+    </div>
+    <div style="background-color:#E2E2E2;margin:0 10px;height:1px;"></div>
+    <div style="padding:10px 15px;text-align:left;">
+        <div style="width: 40px;height: 40px;position: absolute;margin: 5px;"><img ng-src="images/certification_back_icon.png" style="width:100%;height:100%"/></div>
+        <div style="padding-left: 55px;">
+            <h3 style="color: #4F4F4F;font-size: 15px;font-weight: inherit;">背景调查认证</h3>
+            <p style="color: #ACACAC;font-size: 14px;line-height: 20px;">已经正式过美甲师的从业资格和从业背景</p>
+        </div>
+    </div>
+    <div style="background-color:#E2E2E2;margin:0 10px;height:1px;"></div>
+    <div style="padding:10px 15px;text-align:left;">
+        <div style="width: 40px;height: 40px;position: absolute;margin: 5px;"><img ng-src="images/certification_real_icon.png" style="width:100%;height:100%"/></div>
+        <div style="padding-left: 55px;">
+            <h3 style="color: #4F4F4F;font-size: 15px;font-weight: inherit;">作品真实性认证</h3>
+            <p style="color: #ACACAC;font-size: 14px;line-height: 20px;">保证每幅作品都是真实拍摄</p>
+        </div>
+    </div>
+</div>

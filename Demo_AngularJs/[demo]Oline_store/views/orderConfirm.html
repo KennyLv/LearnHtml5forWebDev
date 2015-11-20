@@ -1,0 +1,58 @@
+<header>
+	<a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+	<h1>订单确认</h1>
+</header>
+
+<div class="content pi-order">
+    <a href="#/product/{{product.product_id}}">
+	<div class="order_tit">
+		<img ng-src="{{product.img_cover}}" alt="">
+		<div class="cont">
+			<h4>{{product.product_name}}</h4>
+			<p style="height:40px;overflow:hidden;">{{product.description}}</p>
+		</div>
+		<img ng-src="images/t_03.png" alt="" class="next">
+	</div>
+	</a>
+    
+	<div class="or_confirm">
+        <div class="or_confirm-part">
+            <div style="height: 45px;margin-left: 80px;"><input type="text" style="-webkit-appearance: none;border: none;width: 100%;height: 100%;font-size: 14px;background:none;" placeholder="请输入用户名" ng-model="username"  /></div>
+            <span style="position: absolute;float: left;margin-top: -45px;">用户姓名：</span>
+        </div>
+		<div class="or_confirm-part">
+			<span>手机号码：</span>{{orderData.mobile}}
+		</div>
+		<div class="or_confirm-part">
+			<span>预约时间：</span>{{orderData.date}} {{orderData.hour}}:00
+		</div>
+		<div class="or_confirm-part " style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+			<span>店铺名字：</span>{{orderData.addressInfo}}
+		</div>
+		<div class="or_confirm-part" style="overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">
+			<span> 店铺地址：</span>{{orderData.address}}
+		</div>
+        <div class="or_confirm-part or_confirm-part01">
+            <div style="height: 45px;margin-left: 80px;"><input type="text" style="-webkit-appearance: none;border: none;width: 100%;height: 100%;font-size: 14px;background:none;" placeholder="提醒发型师特别注意的事项。(选填)" ng-model="remark"  /></div>
+            <span style="position: absolute;float: left;margin-top: -45px;">备注信息：</span>
+        </div>
+	</div>
+		
+	<div class="discount clearfix">
+		<select style="border: none;width: 100%;height: 100%;position: absolute;left: 0;text-align: right;padding-left: 104px;font-size:14px;-webkit-appearance: none;background:none;" ng-options="coupon.title for coupon in coupons" ng-model="myCoupon">
+            <option value="">{{haveCoupon?'请选择优惠劵':'暂无可用优惠券'}}</option>
+        </select>
+        <span style="position: absolute;">使用优惠劵：</span>
+	</div>
+	<div class="total">
+		<span>合计：</span>￥{{total}}
+		<div class="com" ng-click="showSubmitConfirm()">确认订单</div>
+	</div>
+</div>
+
+
+<style >
+select option {
+    background:none;
+}
+</style>

@@ -1,0 +1,69 @@
+<header>
+    <a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <h1>我的收藏</h1>
+</header>
+<div class="f-tab clearfix">
+    <div class="l {{type==0?'lact':''}}" ng-click="setType(0)">
+        美甲师
+    </div>
+    <div class="r {{type!=0?'lact':''}}" ng-click="setType(1)">
+        作品
+    </div>
+</div>
+
+<div zm-scroll="" scroll-lazyload="true">
+
+<div class="content {{type==0?'':'ng-hide'}}">
+    <div style="margin:20px;text-align:center;" class="{{!isNoData?'ng-hide':''}}">
+        <img ng-src="images/no_content_manicurist.png" style="width:100%" />
+    </div>
+    <a ng-repeat="data in datas" href="#/designer/{{data.artisan_id}}">
+    <div class="order-part clearfix">
+        <div class="order_pic clearfix">
+            <span style="float: left;margin-right: 16px;width: 54px;height: 54px;" lazyload-src="{{data.avatar}}"></span>
+            <!--<img ng-src="{{data.avatar}}" alt="" class='order_logo'>-->
+            <div class="cont">
+                <h4>{{data.nickname}}</h4>
+                <!--<p class='heart'>
+                    <img ng-src="images/dd_{{data.levelType}}.png" alt="" ng-hide="{{data.level<1}}">
+                    <img ng-src="images/dd_{{data.levelType}}.png" alt="" ng-hide="{{data.level<2}}">
+                    <img ng-src="images/dd_{{data.levelType}}.png" alt="" ng-hide="{{data.level<3}}">
+                    <img ng-src="images/dd_{{data.levelType}}.png" alt="" ng-hide="{{data.level<4}}">
+                    <img ng-src="images/dd_{{data.levelType}}.png" alt="" ng-hide="{{data.level<5}}">
+                </p>-->
+                <!--<p>距离您{{data.distance}}公里</p>-->
+            </div>
+        </div>
+        <div class="order_price">
+            <h3>均价：￥{{data.avg_price}}</h3>
+            <p>共接单{{data.order_num}}次</p>
+        </div>
+    </div>
+    </a>
+    
+    <div class="loadmore-box" ng-show="loadMore"><a ng-if="!loading" href="" class="btn" ng-click="loadmoreHandler()">获取更多</a></div>
+</div>
+
+<div class="content product {{type!=0?'':'ng-hide'}}">
+    <div style="margin:20px;text-align:center;" class="{{!isNoData?'ng-hide':''}}">
+        <img ng-src="images/no_content_works.png" style="width:100%" />
+    </div>
+    <ul class='clearfix'>
+        <li ng-repeat="data in datas" class='{{data.className}}'><a href="#/product/{{data.product_id}}">
+            <span style="float: left;margin-right: 16px;width: 100%;min-height: 180px;" lazyload-src="{{data.img_cover}}"></span>
+            <div class='v clearfix'><span>￥{{data.price}}</span><div style="padding-right: 5px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;">{{data.product_name}}</div></div>
+        </a></li>
+    </ul>
+    
+    <div class="loadmore-box" ng-show="loadMore"><a ng-if="!loading" href="" class="btn" ng-click="loadmoreHandler()">获取更多</a></div>
+</div>
+
+</div>
+
+<style>
+.order_pic span img {
+border-radius: 27px;
+-webkit-border-radius: 27px;
+-moz-border-radius: 27px;
+}
+</style>

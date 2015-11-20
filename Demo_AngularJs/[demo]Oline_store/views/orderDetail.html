@@ -1,0 +1,357 @@
+<header>
+	<a ng-click="orderDetailBack()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <a href="#/order/comment/{{order.order_id}}" style="width: 50px;height: 100%;display: block;position: absolute;right: 0;color: #fff;" class="{{order.order_stat==70&&order.is_comment==0?'':'ng-hide'}}">评价</a>
+    <a href="javascript:;" style="width: 50px;height: 100%;display: block;position: absolute;right: 0;color: #fff;" class="{{order.order_stat==70&&order.is_comment!=0?'':'ng-hide'}}" ng-click="clickShowShare()">分享</a>
+    <a href="javascript:;" style="width: 50px;height: 100%;display: block;position: absolute;right: 0;color: #fff;" class="{{order.order_stat==0?'':'ng-hide'}}" ng-click="orderCancel()">取消</a>
+	<h1>订单状态</h1>
+</header>
+
+<div class="content pi-order">
+	<div class="order_num">
+		订单号:{{order.order_id}}
+	</div>
+    <span style="position: absolute;right: 10px;top: 40px;font-size: 14px;height: 46px;line-height: 46px;">下单时间:{{order.created_ts.substr(5,11)}}</span>
+	<a href="#/product/{{order.product_id}}"><div class="order_tit">
+		<img ng-src="{{order.product_img_cover}}" alt="">
+		<div class="cont">
+			<h4>{{order.product_name}}</h4>
+			<p style="height:40px;overflow:hidden;">{{order.product_des}}</p>
+		</div>
+		<img ng-src="images/t_03.png" alt="" class="next">
+		<div class="cash">￥{{order.amount}}</div>
+	</div></a>
+    
+    <div class="order_t clearfix">
+        <div class="order_t01">
+            <span>预约时间:</span>
+            {{order.book_date}} {{order.book_hour}}:00
+        </div>
+        <div class="order_t02">
+            <span>{{order.pay_stat==0?'应':'已'}}付金额:</span>
+            <span class='money1'>￥ {{order.amount}}</span>
+        </div>
+    </div>
+    
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==0">
+        <div class="order_ok">
+            <i><img ng-src="images/Order-State-Fails-to-pay.png" alt=""></i>未付款订单
+            <p class="tui">请在10分钟内完成支付，否则系统会自动取消订单。</p>
+        </div>
+        
+        <p class="chose_n">选择支付方式</p>
+        
+        <div class="wei_pay clearfix">
+            <img ng-src="images/Order-Payment-weixin.png" alt="">
+            <div class="cont">
+                <h4>微信支付</h4>
+                <p>推荐开通微信支付的用户使用</p>
+            </div>
+            <img ng-src="images/Order-Payment-pressed.png" alt="" class="kk_n">
+        </div>
+        <div class="ft_comm">
+        	<div class="can01 ypay" ng-click="orderWxPay()">支付</div>
+        </div>
+    </div>
+    
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==1">
+        <div class="order_ok">
+			<i><img ng-src="images/Order-State-Success.png" alt=""></i>您已经成功下单
+			<p class="tui">支付成功</p>
+		</div>
+
+		<div class="order_time clearfix">
+			<div class="order_time01">
+				<span>预约时间：</span>{{order.book_date}} {{order.book_hour}}:00
+			</div>
+			<div class="order_time02">
+				修改时间<i><img ng-src="images/t_03.png" alt=""></i>
+			</div>
+		</div>
+		<p class="distan">
+			离上门服务时间还有：<span>{{order.day}}</span>天<span>{{order.hour}}</span>小时
+		</p>
+
+		<div class="connect_now" ng-click="onPhone()">
+			<i><img ng-src="images/Order-Telephone.png" alt=""></i>有事要提前联系哦~
+		</div>
+
+		<div class="ft_comm">
+        	<div class="can01" ng-click="orderCancel()">取消订单</div>
+        </div>
+    </div>
+    
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==10">
+        <div class="order_ok">
+			<i><img ng-src="images/Order-State-Success.png" alt=""></i>您已成功付款
+			<p class="tui">等待发型师确认~</p>
+		</div>
+
+		<div class="order_time clearfix" ng-click="modifyTime()">
+			<div class="order_time01">
+				<span>预约时间：</span>{{order.book_date}} {{order.book_hour}}:00
+			</div>
+			<div class="order_time02">
+				修改时间<i><img ng-src="images/t_03.png" alt=""></i>
+			</div>
+		</div>
+		<!--<p class="distan">
+			离上门服务时间还有：<span>{{order.day}}</span>天<span>{{order.hour}}</span>小时
+		</p>-->
+
+		<div class="connect_now" ng-click="onPhone()">
+			<i><img ng-src="images/Order-Telephone.png" alt=""></i>有事要提前联系哦~
+		</div>
+
+		<div class="ft_comm">
+        	<div class="can01" ng-click="orderCancel()">取消订单</div>
+        </div>
+    </div>
+    
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==20">
+        <div class="order_ok">
+			<i><img ng-src="images/Order-State-Success.png" alt=""></i>您已经成功下单
+			<p class="tui">发型师已确认</p>
+		</div>
+
+		<div class="order_time clearfix"  ng-click="modifyTime()">
+			<div class="order_time01">
+				<span>预约时间：</span>{{order.book_date}} {{order.book_hour}}:00
+			</div>
+			<div class="order_time02">
+				修改时间<i><img ng-src="images/t_03.png" alt=""></i>
+			</div>
+		</div>
+		<p class="distan">
+			离上门服务时间还有：<span>{{order.day}}</span>天<span>{{order.hour}}</span>小时
+		</p>
+
+		<div class="connect_now" ng-click="onPhone()">
+			<i><img ng-src="images/Order-Telephone.png" alt=""></i>有事要提前联系哦~
+		</div>
+
+		<div class="ft_comm">
+        	<div class="can01" ng-click="orderCancel()">取消订单</div>
+        </div>
+    </div>
+    
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==30">
+        <div class="order_ok">
+			<i><img ng-src="images/Order-State-Success.png" alt=""></i>发型师已出发
+		</div>
+
+		<div class="connect_now" ng-click="onPhone()">
+			<i><img ng-src="images/Order-Telephone.png" alt=""></i>有事要提前联系哦~
+		</div>
+
+		<div class="ft_comm">
+        	<div class="can01" ng-click="orderCancel()">取消订单</div>
+        </div>
+    </div>
+    
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==40">
+        <div class="order_ok">
+			<i><img ng-src="images/Order-State-Success.png" alt=""></i>发型师已到达
+			<p class="tui">发型师小伙伴就在您身边了，一起愉快的交流吧~</p>
+		</div>
+        
+        <!--<div class="ft_comm">
+        	<div class="can01" ng-click="orderFinish()">确认完成</div>
+        </div>-->
+    </div>
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==50">
+        <div class="order_ok">
+			<i><img ng-src="images/Order-State-Success.png" alt=""></i>服务中
+			<p class="tui" ng-repeat="list in order.order_additional_list">{{list.type==1?'增加费用：':'减免费用：'}}{{list.title}} ￥{{list.amount}}</p>
+		</div>
+        
+        <div class="{{order.is_need_pay?'':'ng-hide'}}">
+            <p class="chose_n">选择支付方式</p>
+            
+            <div class="wei_pay clearfix">
+                <img ng-src="images/Order-Payment-weixin.png" alt="">
+                <div class="cont">
+                    <h4>微信支付</h4>
+                    <p>推荐开通微信支付的用户使用</p>
+                </div>
+                <img ng-src="images/Order-Payment-pressed.png" alt="" class="kk_n">
+            </div>
+        </div>
+        
+        <div class="connect_now" ng-click="onPhone()">
+			<i><img ng-src="images/Order-Telephone.png" alt=""></i>有事要提前联系哦~
+		</div>
+        
+        <div class="{{order.is_need_pay?'':'ng-hide'}}">
+            <div class="ft_comm">
+                <div class="can01 ypay" ng-click="orderWxPay()">支付</div>
+            </div>
+        </div>
+        <!--<div class="ft_comm">
+        	<div class="can01" ng-click="orderFinish()">确认完成</div>
+        </div>-->
+    </div>
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==60">
+        <div class="order_ok">
+            <i><img ng-src="images/Order-State-Fails-to-pay.png" alt=""></i>服务已完成
+            <div ng-show="{{order.is_need_pay}}">
+            <p class="tui" ng-repeat="list in order.order_additional_list" >{{list.type==1?'增加费用：':'减免费用：'}}{{list.title}} ￥{{list.amount}}</p>
+            </div>
+            <div ng-show="{{order.order_additional>0&&!order.is_need_pay}}">
+            <p class="tui">首次支付：￥{{order.amount_rmb}}</p>
+            <p class="tui" ng-repeat="list in order.order_additional_list" >{{list.type==1?'二次支付：':'减免费用：'}}{{list.title}} ￥{{list.amount}}</p>
+            </div>
+            <div ng-show="{{order.order_additional==0&&!order.is_need_pay}}">
+                <p class="tui">期待您的确认和评价</p>
+            </div>
+        </div>
+        
+        <div class="{{order.is_need_pay?'':'ng-hide'}}">
+            <p class="chose_n">选择支付方式</p>
+            
+            <div class="wei_pay clearfix">
+                <img ng-src="images/Order-Payment-weixin.png" alt="">
+                <div class="cont">
+                    <h4>微信支付</h4>
+                    <p>推荐开通微信支付的用户使用</p>
+                </div>
+                <img ng-src="images/Order-Payment-pressed.png" alt="" class="kk_n">
+            </div>
+        </div>
+        
+        <div class="connect_now" ng-click="onPhone()">
+			<i><img ng-src="images/Order-Telephone.png" alt=""></i>有事要提前联系哦~
+		</div>
+        
+        <div class="{{order.is_need_pay?'':'ng-hide'}}">
+            <div class="ft_comm">
+                <div class="can01 ypay" ng-click="orderWxPay()">支付</div>
+            </div>
+        </div>
+        <div class="ft_comm" ng-show="{{!order.is_need_pay&&order.order_additional>0&&order.addition.stat==0}}">
+        	<div class="can01" ng-click="orderFinish()">申请退款</div>
+        </div>
+        <div class="ft_comm" ng-show="{{!order.is_need_pay&&!(order.order_additional>0&&order.addition.stat==0)}}">
+        	<div class="can01" ng-click="orderFinish()">确认完成服务</div>
+        </div>
+    </div>
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==70">
+        <div class="step_part" style="color:#666666">
+			<i><img ng-src="images/sp01.png" alt=""></i>
+			<span class='timx'>{{order.artisan_state.confirmed_ts}}</span>发型师已确认
+		</div>
+		<div class="step_part" style="color:#666666">
+			<i><img ng-src="images/sp01.png" alt=""></i>
+			<span class='timx'>{{order.artisan_state.started_ts}}</span>发型师已出发
+		</div>
+		<div class="step_part down" style="color:#666666">
+			<i><img ng-src="images/sp01.png" alt=""></i>
+			<span class='timx'>{{order.artisan_state.arrived_ts}}</span>发型师已到达
+		</div>
+        <div class="step_part" style="color:#666666">
+			<i><img ng-src="images/sp01.png" alt=""></i>
+			<span class='timx'>{{order.artisan_state.serviced_ts}}</span>美发师服务中
+		</div>
+		<div class="step_part down">
+			<i><img ng-src="images/step02.png" alt=""></i>
+			<span class='timx'>{{order.artisan_state.completed_ts}}</span>交易已完成
+		</div>
+        
+        <div class="order_ok">
+            实际消费：￥{{order.total}}
+            <div>
+            <p class="tui">首次支付：￥{{order.amount_rmb}}</p>
+            <p class="tui {{order.order_additional>0?'':'ng-hide'}}" ng-repeat="list in order.order_additional_list">{{list.type==1?'二次支付：':'减免费用：'}}￥{{list.amount}}</p>
+            </div>
+        </div>
+        
+        <div class="connect_now" ng-click="onPhone()">
+			<i><img ng-src="images/Order-Telephone.png" alt=""></i>有事要提前联系哦~
+		</div>
+            
+        <div class="ft_comm">
+        	<a href="#/product/{{order.product_id}}"><div class="can01">再次预约</div></a>
+        </div>
+    </div>
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==80">
+        <div class="order_ok">
+			<i><img ng-src="images/Order-State-Success.png" alt=""></i>订单已申请取消
+            <p class="tui">申请退款中~</p>
+            <p class="tui">（客服将在48小时内为您办理退款，请注意查收）</p>
+		</div>
+        
+        <div class="connect_now" ng-click="onPhone()">
+			<i><img ng-src="images/Order-Telephone.png" alt=""></i>有事要提前联系哦~
+		</div>
+        
+        <div class="ft_comm">
+        	<a href="#/product/{{order.product_id}}"><div class="can01">再次预约</div></a>
+        </div>
+    </div>
+    <!--0已下单，1支付确认中，10已预约，20发型师已确认，30发型师已出发，40发型师已到达，50正在美甲，60服务完毕，70已确认，80待取消，81已取消-->
+    <div ng-if="order.order_stat==81">
+        <div class="order_ok">
+			<i><img ng-src="images/Order-State-Success.png" alt=""></i>订单已取消
+            <p class="tui" ng-repeat="str in order.cancelStrings">{{str}}</p>
+		</div>
+
+        <div class="ft_comm">
+        	<a href="#/product/{{order.product_id}}"><div class="can01">再次预约</div></a>
+        </div>
+    </div>
+    
+</div>
+<div class="mask {{showShare!=0?'':'ng-hide'}}" style="z-index:999" ng-click="clickShowShare()"></div>
+<div class="ti {{showShare!=0?'':'ng-hide'}}" style="z-index:999" ng-click="clickShowShare()">
+	<img src="images/share_tips.png" alt="">
+</div>
+
+<style>
+.ft_comm .can01 {
+    display: block;
+    width: 95%;
+    margin: 0 auto;
+    height: 40px;
+    line-height: 40px;
+    background: #1bb7ac;
+    color: #fff;
+    text-align: center;
+    font-size: 18px;
+    border-radius: 3px;
+}
+</style>
+
+
+<div class="ptime_cover {{!showTime?'ng-hide':''}}" ng-click="showTime=false" ng-init="showTime=false"></div>
+<div class="ptime {{!showTime?'ng-hide':''}}" >
+    <div style="text-align:center;background-color: #FFF;">选择预约时间</div>
+    <div class="ptime_box">
+        <div ng-repeat="time in timeList" class="list {{$index==current?'active':''}}" ng-click="setCurrent($index)"><div class="border">{{time.title}}({{time.status==1?'忙':'闲'}})</div></div>
+    </div>
+    <div class="poption_box">
+        <div ng-repeat="time in currentTimes" class="list {{time.status==1?'active':''}}" ng-click="timeSelect($index)"><div class="border">{{time.name}}:00</div></div>
+    </div>
+</div>
+
+<style>
+.ptime_cover {position: absolute;left: 0;top: 0;width:100%;height:100%;z-index:20;}
+.ptime {position: fixed;left: 0;bottom: 0;width:100%;z-index:21;background-color: #fff;}
+.ptime_box{height:40px;line-height:40px;color:#4B927E;}
+.ptime_box .list{width:25%;text-align:center;height:100%;float:left;background-color:#D2E0E1;}
+.ptime_box .list .border{height:100%;border: solid 1px #18C272;border-left:none;}
+.ptime_box .active {background-color: #FFF;color: #000;}
+.poption_box{line-height:50px;}
+.poption_box .list {width:25%;text-align:center;height:100%;float:left;background-color: #FFF;}
+.poption_box .list .border{height:100%;border: solid 1px #18C272;border-left:none;border-top:none;}
+
+.poption_box .active {background-color: #3CD72B;color: white;}
+</style>

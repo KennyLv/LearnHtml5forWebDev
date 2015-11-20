@@ -1,0 +1,103 @@
+<header>
+	<a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+	<h1>用户评价</h1>
+</header>
+
+<div class="content pi-order orderIc">
+	<a href="#/product/{{order.product_id}}"><div class="order_tit">
+		<img ng-src="{{order.product_img_cover}}" alt="">
+		<div class="cont">
+			<h4>{{order.product_name}}</h4>
+			<p>{{order.product_des}}</p>
+		</div>
+		<img ng-src="images/t_03.png" alt="" class="next">
+		<div class="cash">￥{{order.amount}}</div>
+	</div></a>
+		
+	<div class="ping01 order_suc clearfix" style="display: none;">
+        <div >
+		<div class="lt order_suc01">
+			选择评价
+		</div>
+		<div class="lt">
+			<div class="lt_in {{score==1?'':'li_out'}}" ng-click="score=1" ng-init="score=1">
+				<i><img ng-src="images/Comment-good.png" alt=""></i>
+				好评
+			</div>
+		</div>
+		<div class="lt">
+			<div class="lt_in {{score==0?'':'li_out'}}" ng-click="score=0">
+				<i><img ng-src="images/Comment-general.png" alt=""></i>
+				中评
+			</div>
+		</div>
+		<div class="lt">
+			<div class="lt_in {{score==-1?'':'li_out'}}" ng-click="score=-1">
+				<i><img ng-src="images/Comment-bad.png" alt=""></i>
+				差评
+			</div>
+		</div>
+        </div>
+	</div>
+
+
+	<div class="write" style="padding: 0 10px;margin-top: 20px;">
+        <input type="text" placeholder="写点评价吧，对其他人帮助很大哦！" style="width:100%;height:100%;border:none;background: none;" ng-model="content"/>
+	</div>
+
+	<!--<div class="write_list">
+		<div class="write_list_in" style="height:75px;">
+            <div style="width:75px;height:75px;float:left;margin-right:10px;">
+                <input type="file" style="filter:alpha(opacity=0); opacity:0; cursor: pointer;position: absolute;width: 75px;height: 75px;" onchange="selectFile(this)" />
+                <img ng-src="images/Comment-add-pic.png" alt="" width="75" height="75">
+            </div>
+            <div style="width:75px;height:75px;float:left;margin-right:10px;">
+                <input type="file" style="filter:alpha(opacity=0); opacity:0; cursor: pointer;position: absolute;width: 75px;height: 75px;" />
+                <img ng-src="images/Comment-add-pic.png" alt="" width="75" height="75">
+            </div>
+            <div style="width:75px;height:75px;float:left;margin-right:10px;">
+                <input type="file" style="filter:alpha(opacity=0); opacity:0; cursor: pointer;position: absolute;width: 75px;height: 75px;" />
+                <img ng-src="images/Comment-add-pic.png" alt="" width="75" height="75">
+            </div>
+		</div>
+	</div>-->
+    
+    <div>
+        <p style="text-align: center;margin-top: 30px;">给发型师评分</p>   
+    </div>
+	
+    <center>
+    <div class="profe clearfix" style="margin-top: 15px;margin-bottom: 40px;">
+     	<span class='pro_01' style="display: none;">专业</span>
+     	<span class="star1" ng-click="setProfessional(1)"><img ng-src="images/Comment-Heart-{{professional>=1?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setProfessional(2)"><img ng-src="images/Comment-Heart-{{professional>=2?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setProfessional(3)"><img ng-src="images/Comment-Heart-{{professional>=3?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setProfessional(4)"><img ng-src="images/Comment-Heart-{{professional>=4?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setProfessional(5)"><img ng-src="images/Comment-Heart-{{professional>=5?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="yi" style="display: none;">{{getProfessionalTitle()}}</span>
+     </div>
+     <div class="profe clearfix" style="display: none;">
+     	<span class='pro_01'>守时</span>
+     	<span class="star1" ng-click="setPunctuality(1)"><img ng-src="images/Comment-Heart-{{punctuality>=1?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setPunctuality(2)"><img ng-src="images/Comment-Heart-{{punctuality>=2?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setPunctuality(3)"><img ng-src="images/Comment-Heart-{{punctuality>=3?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setPunctuality(4)"><img ng-src="images/Comment-Heart-{{punctuality>=4?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setPunctuality(5)"><img ng-src="images/Comment-Heart-{{punctuality>=5?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="yi">{{getPunctualityTitle()}}</span>
+     </div>
+     <div class="profe clearfix" style="display: none;">
+     	<span class='pro_01'>沟通</span>
+     	<span class="star1" ng-click="setCommunication(1)"><img ng-src="images/Comment-Heart-{{communication>=1?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setCommunication(2)"><img ng-src="images/Comment-Heart-{{communication>=2?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setCommunication(3)"><img ng-src="images/Comment-Heart-{{communication>=3?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setCommunication(4)"><img ng-src="images/Comment-Heart-{{communication>=4?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="star1" ng-click="setCommunication(5)"><img ng-src="images/Comment-Heart-{{communication>=5?'pressed':'defoult'}}.png" alt=""></span>
+     	<span class="yi">{{getCommunicationTitle()}}</span>
+     </div>
+     </center>
+     <div class="line"></div>
+
+    <div class="ft_comm">
+    	<a href="javascript:;" class="can01" ng-click="onsubmit()">发表评论</a>
+    </div>		
+</div>

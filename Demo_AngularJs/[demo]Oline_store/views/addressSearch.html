@@ -1,0 +1,23 @@
+<header>
+    <a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <h1>地址搜索</h1>
+</header>
+<div class="content">
+    <div class="book-cont" style="padding: 0px 12px;border-bottom:solid 1px #C4C4C4;padding-bottom: 10px;">
+        <div class="book-cont_wrap" style="margin: 0px;margin-top: 10px;">
+            <img ng-src="images/appointment-position.png" alt="" class="icon_book01">
+            <div style="margin-left:40px;"><input type="text" placeholder='请输入搜索内容' ng-model="keyword" ng-change="change()" auto-focus-when="keywordFocus" id="keyword"></div>
+        </div>
+    </div>
+    <div id="allmap" class="ng-hide"></div>
+    <div class="address_list" ng-repeat="search in searchs" ng-click="itemSelect($index)">
+        <div class="title">{{search.title}}</div>
+        <div class="desc">{{search.address}}</div>
+    </div>
+</div>
+
+<style>
+.address_list {border-bottom:solid 1px #C4C4C4; height:80px;padding:0px 12px;}
+.address_list .title {font-size: 16px;height: 40px;line-height: 40px;padding-top: 5px;overflow: hidden;}
+.address_list .desc {font-size: 13px;overflow: hidden;height: 20px;line-height: 20px;}
+</style>

@@ -1,0 +1,31 @@
+﻿<header>
+    <a ng-click="loginback()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <h1>绑定手机号</h1>
+</header>
+<!--<div class="content tie">
+    <div class="tie_cont" style="padding: 10px 15px;padding-top:30px">
+         <input type="text" placeholder='请输入您的手机号码' ng-model="mobile">
+    </div>  
+    <div class="tie_cont" style="padding: 10px 15px;">
+        <input type="text" placeholder='请输入您的密码' ng-model="password">
+    </div>
+    <div class="tie_cont" style="padding: 10px 15px;">
+         <a href="" class="sure" ng-click="login()">
+            登录
+         </a>
+    </div>
+</div>-->
+<div class="content tie">
+    <div class="tie_cont">
+         <input type="text" placeholder='请输入您的手机号码' ng-model="mobile">
+         <div class="checkb clearfix">
+             <input type="text" placeholder='请输入您的验证码' ng-model="snscode">
+             <a href="javascript:;" class="chex" style="{{times==0?'':'background: #6D6D6D;'}}" ng-click="getsnscode()">
+                 {{snsbtntitle}}
+             </a>
+         </div>
+         <a href="javascript:;" class="sure" ng-click="mobileLogin()">
+             确定
+         </a>
+    </div>  
+</div>

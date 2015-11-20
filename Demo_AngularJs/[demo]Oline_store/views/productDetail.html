@@ -1,0 +1,43 @@
+<header>
+    <a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <h1>{{title}}</h1>
+</header>
+<div zm-scroll="" scroll-lazyload="true">
+<div class="content colorful" ng-repeat="product in products">
+    <div class="wu" lazyload-src="{{product.img_cover}}" ng-click="imgpreview(product.img_cover,[product.img_cover])" style="text-align:center;height:auto;min-height:100px;"></div><!--<img ng-src="{{product.img_cover}}" alt="" class="wu" ng-click="imgpreview(product.img_cover,[product.img_cover])">-->
+    <div class="store">
+        <!-- <h3>￥{{product.price}}</h3> -->
+        <!-- <p>店面价：￥{{product.price_market}}  <img ng-src="images/line_03.png" alt="" class="line_03"></p> -->
+        <div style="padding-top: 15px;">
+            <span style="color: #1bb7ac;font-size: 25px;">￥{{product.price}}</span>
+        </div>
+        <div class="i-store" ng-click="onCollect()">
+            <img ng-src="images/collection-{{product.is_fav?'pressed':'defoult'}}.png" alt="" class="icon_store">
+            <em>收藏</em>
+        </div>
+    </div>
+    <div class="store-p1">
+        <h4>{{product.product_name}}</h4>
+        <p>{{product.description}}</p>
+    </div>
+    <div class="store-p2">
+        <a href="#/designer/{{designer.artisan_id}}">
+        <div class="store-p2_tit clearfix">
+            <span style="width: 54px;height: 54px;float: left;margin-right: 16px;border-radius: 27px;-webkit-border-radius: 27px;-moz-border-radius: 27px;" lazyload-src="{{designer.avatar}}"></span><!--<img ng-src="{{designer.avatar}}" alt="" class="tx">-->
+            <div class="cont">
+                <h3>{{designer.nickname}}</h3>
+                <p class="heart">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<1}}" style="{{designer.level<1?'display:none':''}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<2}}" style="{{designer.level<2?'display:none':''}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<3}}" style="{{designer.level<3?'display:none':''}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<4}}" style="{{designer.level<4?'display:none':''}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<5}}" style="{{designer.level<5?'display:none':''}}">
+                </p>
+            </div>
+            <img ng-src="images/Go-defoult.png" alt="" class="t_03">
+        </div>
+        </a>
+    </div>
+    <a href="#/{{'order/create/product/'+product.product_id+'/designer/'+designer.artisan_id}}" class="on">下单</a>
+</div>
+</div>

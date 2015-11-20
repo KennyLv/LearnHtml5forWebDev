@@ -1,0 +1,65 @@
+<header>
+	<a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+	<h1>发型师</h1>
+</header>
+<div class="content message" zm-scroll="" scroll-lazyload="true">
+	<div class="order-part clearfix">
+        <a href="#/designer/info/{{designer.artisan_id}}">
+		<div class="order_pic clearfix">
+			<span style="width: 54px;height: 54px;float: left;margin-right: 16px;border-radius: 27px;-webkit-border-radius: 27px;-moz-border-radius: 27px;" lazyload-src="{{designer.avatar}}"></span><!--<img src="images/aaa_03.png" alt="" class='order_logo'>-->
+			<div class="cont">
+				<h4>{{designer.nickname}}<img ng-src="images/certification_safe.png" height="30" class="{{designer.is_i==1?'':'ng-hide'}}"/><img ng-src="images/certification_s.png" height="15" class="{{designer.is_s==1?'':'ng-hide'}}"/><img ng-src="images/certification_v.png" height="15" class="{{designer.is_v==1?'':'ng-hide'}}"/</h4>
+				<p class='heart'>
+					<img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<1}}" style="{{designer.level<1?'display:none':''}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<2}}" style="{{designer.level<2?'display:none':''}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<3}}" style="{{designer.level<3?'display:none':''}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<4}}" style="{{designer.level<4?'display:none':''}}">
+                    <img ng-src="images/dd_{{designer.levelType}}.png" alt="" ng-hide="{{designer.level<5}}" style="{{designer.level<5?'display:none':''}}">
+				</p>
+				<p>剪发：￥{{designer.avg_price}}</p>
+			</div>
+		</div>
+        </a>
+		<div class="sxv" ng-click="onCollect()">
+			{{designer.is_fav?'已':''}}收藏
+		</div>
+	</div>
+	
+	<a href="#/shopdetail/{{designer.shop.length > 0 ? designer.shop[0].shop_id : ''}}">
+		<div class="ping-no-top-bottom-boarder shop-detail-name">
+			<span>{{designer.shop.length > 0 ? designer.shop[0].shop_name : ""}}</span>
+			<img src="images/Go-defoult.png" alt="" class="shop-detail-name-right">
+		</div>
+	</a>
+	
+    <a href="#/designer/comment/{{designer.artisan_id}}">
+	<div class="ping">
+		<div class="ping_left">
+			<h3>
+				总评:{{designer.comment_perfect_num+designer.comment_medium_num+designer.comment_bad_num}}
+			</h3>
+		</div>
+		<div class="ping_right">
+			<span><i><img src="images/Comment-good.png" alt=""></i>好评：{{designer.comment_perfect_num}}</span>
+			<span><i><img src="images/Comment-general.png" alt=""></i>中评：{{designer.comment_medium_num}}</span>
+			<span><i><img src="images/Comment-bad.png" alt=""></i>差评：{{designer.comment_bad_num}}</span>
+		</div>
+		<img src="images/Go-defoult.png" alt="" class="right">
+	</div>
+    </a>
+	<div class="price clearfix">
+		<span class="{{type==0?'cc':''}}" ng-click="loadDataDefault()">默认排序</span>
+        <span class="{{type==1?'cc':''}}" ng-click="loadDataAsc()">价格升序</span>
+        <span class="{{type==2?'cc':''}}" ng-click="loadDataDesc()">价格降序</span>
+	</div>
+	<div class="pic-list product">
+		<ul class="clearfix">
+            <li ng-repeat="product in products" class='{{product.className}}'><a href="#/product/{{product.product_id}}/artisan_id/{{designer.artisan_id}}">
+                <span style="float: left;margin-right: 16px;width: 100%;min-height: 180px;" lazyload-src="{{product.img_cover}}"></span>
+                <div class='v clearfix'>{{product.product_name.substr(0,3)}}<span>￥{{product.price}}</span></div>
+            </a></li>
+        </ul>
+	</div>
+    
+    <div class="loadmore-box" ng-show="loadMore"><a ng-if="!loading" href="" class="btn" ng-click="loadmoreHandler()">获取更多</a></div>
+</div>

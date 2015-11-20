@@ -1,0 +1,47 @@
+<header>
+    <a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <h1>我的优惠券</h1>
+    <span class="checkout" ng-click="exchangeShow=true">兑换</span>
+</header>
+<div class="f-tab clearfix">
+    <div class="l {{stat==12?'lact':''}}" ng-click="setStat(12)">
+        未使用
+    </div>
+    <div class="r {{stat==34?'lact':''}}" ng-click="setStat(34)">
+        已失效
+    </div>
+</div>
+
+<div class="content">
+    <div style="margin:20px;text-align:center;" class="{{!isNoData?'ng-hide':''}}">
+        <img ng-src="images/search_no_results.png" style="width:100%" />
+    </div>
+    
+    <div class="pe clearfix" ng-repeat="coupon in coupons">
+        <img ng-src="images/rr_0{{coupon.stat}}.png" alt="">
+        <div class="pe_left">
+            <h4><span>￥</span>{{coupon.amount}}</h4>
+        </div>
+        <div class="pe_right">
+            <p class='time'>{{coupon.date_start}}-{{coupon.date_end}}</p>
+            <p >{{coupon.description}}</p>
+            <p class="newfish">{{coupon.title}}</p>
+            
+        </div>
+    </div>
+    
+    <div class="loadmore-box" ng-show="loadMore"><a ng-if="!loading" href="" class="btn" ng-click="loadmoreHandler()">获取更多</a></div>
+</div>
+
+<div class="{{!exchangeShow?'ng-hide':''}}">
+    <div class="mask" ng-click="exchangeFail()"></div>
+    <div class="tie_box" style="top: 80px;margin-top: 0px;">
+        <h4 style="margin-bottom:5px;">红包兑换</h4>
+        <p>请输入兑换码</p>
+        <div style="padding: 10px 30px;height: 30px;"><input type="text" style="-webkit-appearance: none;border-radius: inherit;width:100%;height:100%" ng-model="exchange" placeholder="请输入兑换码" /></div>
+        <div class="btn_all">
+            <a href="javascript:;" class="can" ng-click="exchangeFail()">取消</a>
+            <a href="javascript:;" class="con" ng-click="exchangeSure()">确定</a>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,45 @@
+﻿<header>
+    <a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <h1>店铺详情</h1>
+</header>
+<div class="content message" zm-scroll="" scroll-lazyload="true">
+	<div class="shop-header clearfix">
+		<img style="width: 50px;height: 50px;float: left;margin-right: 16px;margin-left: 15px;margin-top: 10px;" src="{{shop.icon}}" />
+		<div class="shop-header-info">
+			<p class="shop-header-info-name">{{shop.shop_name}}</p>
+			<p class="shop-header-info-desc">主营:美发</p>
+		</div>
+	</div>
+	<div class="shop-info">
+		<div class="ping shop-info-ping" onclick="javascript:openMap()">
+			<img class="shop-info-ping-icon" src="./images/appointment-Address.png" />
+			<span class="ng-binding green-text">{{shop.address}}</span>
+		</div>
+
+		<a href="tel:{{shop.phone[0].number}}">
+			<div class="ping-no-top-boarder shop-info-ping">
+				<img class="shop-info-ping-icon" src="./images/Order-Telephone.png" />
+				<span class="ng-binding green-text">
+				<span ng-repeat="item in shop.phone">  {{item.title}}</span>
+				</span>
+			</div>
+		</a>
+	</div>
+	<div class="shop-desc">
+		<div class="shop-desc-title">
+			<p>营业时间:</p>
+		</div>
+		<div class="shop-desc-info">
+			<p>{{shop.des}}</p>
+		</div>
+	</div>
+	<div class="shop-desc">
+		<div class="shop-desc-title">
+			<p>交通说明:</p>
+		</div>
+		<div class="shop-desc-info">
+			<p>{{shop.traffic}}</p>
+		</div>
+	</div>
+	
+</div>

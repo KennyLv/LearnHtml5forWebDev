@@ -1,0 +1,74 @@
+<header>
+    <a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+    <h1>预约下单</h1>
+</header>
+<div class="f-tab clearfix">
+    <div class="l {{isSelf?'lact':''}}" ng-click="isSelf=true">
+        给自己预约
+    </div>
+    <div class="r  {{!isSelf?'lact':''}}" ng-click="isSelf=false">
+        给别人预约
+    </div>
+</div>
+
+<div class="content">
+    <div class="book-cont">
+        <div class="{{isSelf?'ng-hide':''}}">
+        <div class="book-cont_wrap">
+            <img ng-src="images/appointment-name.png" alt="" class="icon_book01">
+            <div style="margin-left:40px;height:100%"><input type="text" placeholder='请输入联系人姓名' ng-model="username"></div>
+        </div>
+        <div class="book-cont_wrap">
+            <img ng-src="images/Login-number.png" alt="" class="icon_book01">
+            <div style="margin-left:40px;height:100%"><input type="text" placeholder='请输入联系人手机号码' ng-model="mobile"></div>
+        </div>
+        </div>
+        <div class="book-cont_wrap" ng-click="showTime=1">
+            <img ng-src="images/appointment-time.png" alt="" class="icon_book01" >
+            <div class="time">{{!selectTime||selectTime.length==0?'选择预约时间':selectTime}}</div>
+        </div>
+        <div class="book-cont_wrap" style="display: none">
+            <img ng-src="images/appointment-position.png" alt="" class="icon_book01">
+            <div class="time">{{!address||address.address==''?'请选择服务地址':address.address}}</div>
+        </div>
+        <div class="book-cont_wrap">
+            <img ng-src="images/appointment-Address.png" alt="" class="icon_book01">
+            <div class="time">
+                <span ng-model="adressInfo">{{!address||address.shop_name==''?'请选择服务地址':address.shop_name}}
+                </span>
+            </div>
+        </div>
+    </div>
+    
+    <div class="tie_cont sure" style="padding: 10px 15px;">
+         <div  style="display: block;width: 100%;height: 45px;line-height: 45px;text-align: center;background: #1bb7ac;color: #fff;border-radius: 4px;margin-top: 20px;" ng-click="orderCreate()">
+            确定
+         </div>
+    </div>
+</div>
+
+
+<div class="ptime_cover {{!showTime?'ng-hide':''}}" ng-click="showTime=0" ng-init="showTime=0" ng-show="{{showTime}}"></div>
+<div class="ptime {{!showTime?'ng-hide':''}}" >
+    <div style="text-align:center;background-color: #FFF;color:#9B968C">选择预约时间</div>
+    <div class="ptime_box">
+        <div ng-repeat="time in timeList" class="list {{$index==current?'active':''}}" ng-click="setCurrent($index)"><div class="border">{{time.title}}({{time.status==1?'忙':'闲'}})</div></div>
+    </div>
+    <div class="poption_box">
+        <div ng-repeat="time in currentTimes" class="list {{time.status==1?'active':''}}" ng-click="timeSelect($index)"><div class="border">{{time.name}}:00</div></div>
+    </div>
+</div>
+
+<style>
+.ptime_cover {position: absolute;left: 0;top: 0;width:100%;height:100%;z-index:20;}
+.ptime {position: fixed;left: 0;bottom: 0;width:100%;z-index:21;background-color: #fff;}
+.ptime_box{height:40px;line-height:40px;color:#4B927E;}
+.ptime_box .list{width:25%;text-align:center;height:100%;float:left;background-color:#D2E0E1;}
+.ptime_box .list .border{height:100%;border: solid 1px #18C272;border-left:none;}
+.ptime_box .active {background-color: #FFF;color: #000;}
+.poption_box{line-height:50px;}
+.poption_box .list {width:25%;text-align:center;height:100%;float:left;background-color: #FFF;}
+.poption_box .list .border{height:100%;border: solid 1px #18C272;border-left:none;border-top:none;}
+
+.poption_box .active {background-color: #3CD72B;color: white;}
+</style>

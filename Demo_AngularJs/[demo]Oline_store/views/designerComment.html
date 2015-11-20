@@ -1,0 +1,66 @@
+<header>
+		<a ng-click="back()" style="width: 50px;height: 100%;display: block;position: absolute;left: 0;" ><img ng-src="images/arrow_right.png" alt="" class="order_right"></a>
+		<h1>用户评论</h1>
+	</header>
+<div class="content person" zm-scroll="" scroll-lazyload="true">
+    
+    <div class="ping01 clearfix" style="padding: 0 5px;">
+		<div class="lt" ng-click="setType(0)">
+			<div class="lt_in {{type==0?'lt_in0':''}}" style="font-size: 10px;">
+				总评：{{designer.comment_perfect_num+designer.comment_medium_num+designer.comment_bad_num}}
+			</div>
+		</div>
+		<div class="lt" ng-click="setType(1)">
+			<div class="lt_in {{type==1?'lt_in0':''}}" style="font-size: 10px;">
+				<i><img src="images/Comment-good.png" alt=""></i>
+				好评：{{designer.comment_perfect_num}}
+			</div>
+		</div>
+		<div class="lt" ng-click="setType(2)">
+			<div class="lt_in {{type==2?'lt_in0':''}}" style="font-size: 10px;">
+				<i><img src="images/Comment-general.png" alt=""></i>
+				中评：{{designer.comment_medium_num}}
+			</div>
+		</div>
+		<div class="lt" ng-click="setType(3)">
+			<div class="lt_in {{type==3?'lt_in0':''}}" style="font-size: 10px;">
+				<i><img src="images/Comment-bad.png" alt=""></i>
+				差评：{{designer.comment_bad_num}}
+			</div>
+		</div>
+	</div>
+        
+    <div class="ping02" ng-repeat="comment in comments">
+        <span style="float: left;width: 54px;height: 54px;margin-right: 15px;" class="avatar_img_2" lazyload-src="{{comment.avatar}}"></span>
+        <div class="cont">
+            <h3>{{comment.mobile}}</h3>
+            <p class="date">{{comment.created_ts}}</p>
+            <p class="real" ng-hide="!comment.content">{{comment.content}}</p>
+            <div class="ping02_list" ng-hide="!comment.photo||comment.photo.length==0">
+                <span ng-repeat="pic in comment.photo"><b style="float:left;width: 65px;height: 65px;margin-right: 10px;border-radius: 4px;"  lazyload-src="{{pic}}" ng-click="imgpreview(pic,comment.photo)"></b></span>
+            </div>
+        </div>
+        <div class="tips">
+            <i ng-show="comment.score==1"><img ng-src="images/Comment-good.png" alt=""></i>
+            <i ng-show="comment.score==0"><img ng-src="images/Comment-general.png" alt=""></i>
+            <i ng-show="comment.score==-1"><img ng-src="images/Comment-bad.png" alt=""></i>
+            <span ng-show="comment.score==1">好评</span>
+            <span ng-show="comment.score==0">中评</span>
+            <span ng-show="comment.score==-1">差评</span>
+        </div>
+    </div>
+    <div class="loadmore-box" ng-show="loadMore"><a ng-if="!loading" href="" class="btn" ng-click="loadmoreHandler()">获取更多</a></div>
+</div>
+
+<style>
+.avatar_img img {
+border-radius: 35px;
+-webkit-border-radius: 35px;
+-moz-border-radius: 35px;
+}
+.avatar_img_2 img {
+border-radius: 27px;
+-webkit-border-radius: 27px;
+-moz-border-radius: 27px;
+}
+</style>
