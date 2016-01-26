@@ -1,0 +1,35 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST</title>
+</head>
+<body>
+
+<script type="text/javascript">
+
+var kuwoRespond = false;
+var connectKuwoIntervalKey = null;
+var connectKuwoRetryTimes = 0;
+
+var start = function () {
+	this.connectKuwoRetryTimes = 0;
+	this.kuwoRespond = false;
+	var ticker = 1;
+	this.connectKuwoIntervalKey = setInterval(function() {
+		console.log("=====connectKuwo====="+ ticker);
+		ticker ++;
+	}, 1000);
+}
+
+var connectKuwo = function (ticker) {
+	if (ticker < 5) {
+		console.log("=====connectKuwo=====" + ticker);
+		ticker ++;
+	}
+}
+this.start();
+
+</script>
+
+</body>
+</html>
