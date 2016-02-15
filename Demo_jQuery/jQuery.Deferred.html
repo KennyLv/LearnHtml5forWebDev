@@ -1,0 +1,119 @@
+﻿<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<title>$.Deferred</title>
+	<script type="text/javascript" src="../_Resource/jquery-2.2.0.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+console.log("-----$.Deferred-----done()---------");
+var deferred1 = $.Deferred();
+// done()返回的仍然是原来的Deferred对象
+var done_ret = deferred1.done(function(data){
+    console.log("deferred1.done : " + data);//5
+    return 2 * data;
+});
+done_ret.done(function(data){
+    console.log("deferred1.done.done : " + data);//5
+});
+console.log("done_ret == deferred1 : " + (done_ret == deferred1));//true
+console.log("deferred1.resolve : 5");
+deferred1.resolve( 5 );
+</script>
+
+
+<script type="text/javascript">
+console.log("-----$.Deferred-----then().done()------");
+var deferred2 = $.Deferred();
+
+// then()返回的是一个新Promise对象
+//then注册的回调函数的返回值将作为这个新Promise的参数
+var then_ret = deferred2.then(function(data){
+    console.log("deferred2.then : " + data);//5
+    return 3 * data;
+});
+then_ret.done(function(data){
+    console.log("deferred2.then.done : " + data);//3 * data
+});
+
+console.log("then_ret == deferred2 " + (then_ret == deferred2));//false
+console.log("deferred2.resolve : 5");
+deferred2.resolve( 5 );
+ 
+</script>
+
+
+<script type="text/javascript">
+console.log("-----$.Deferred-----then().fail()------");
+var deferred3 = $.Deferred();
+
+//同样地，Deferred.then也能够实现rejected和pending状态的回调函数过滤。
+var filtered = deferred3.then( null, function( data ) {
+  console.log("deferred3.then "  + data );
+	return data * 3;
+});
+filtered.fail(function( data ) {
+  console.log("deferred3.then.fail ( 3*6 = ) "  + data );
+});
+console.log("deferred3.reject 6");
+deferred3.reject( 6 );
+
+</script>
+
+<script type="text/javascript">
+
+console.log("-----$.Deferred---------DEMO----");
+var defered = $.Deferred();
+ 
+var promise1 = defered.then(function(data){
+    console.log(data);//0
+    return data+=1;
+});
+ 
+var promise2 = promise1.then(function(data){
+    console.log(data);//1
+    return data+=2;
+});
+ 
+var promise3 = promise2.then(function(data){
+    console.log(data);//3
+    return data+=3;
+});
+ 
+promise3.done(function(data){
+    console.log(data);//6
+});
+ 
+defered.resolve(0);
+
+</script>
+
+<script type="text/javascript">
+var dfd = $.Deferred();
+
+//第一步
+setTimeout(function() {
+    dfd.resolve(10);
+}, 1000);
+
+dfd.then(function(data) {
+//第二步等待第一步返回后执行
+    console.log('Step1 Result:' + data); //第一步的结果  10
+    var d2 = $.Deferred();          // [viyi]
+    setTimeout(function() {         // [viyi] 这里去掉了 Return
+        d2.resolve(data * data);    // [viyi]
+        // return data * data; //  第二步的结果 100   这里如何将100返回到第三步能用
+    }, 1000);
+
+    return d2.promise();            // [viyi]
+}).then(function(data) {
+//第三步等待第二部返回的结果执行
+    console.log('Step2 Result:' + data); 
+})
+
+
+</script>
+
+</body>
+</html>
