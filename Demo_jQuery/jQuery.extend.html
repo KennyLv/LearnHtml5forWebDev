@@ -1,0 +1,33 @@
+﻿<!doctype html>
+<head>
+	<meta charset="utf-8">
+	<title>$.extend</title>
+	<script type="text/javascript" src="../_Resource/jquery-2.2.0.js"></script>
+</head>
+<body>
+
+<script type="text/javascript">
+console.log("-----$.extend-----done()---------");
+var defaultRequestParams= {
+    "page":2,
+    "count": 20
+}
+$.extend(defaultRequestParams, {page:1})
+$.extend(defaultRequestParams, {})
+$.extend(defaultRequestParams, {test:'123456'})
+console.log(defaultRequestParams);
+$.extend({}, defaultRequestParams, {test:'123456'})
+console.log(defaultRequestParams);
+$.extend({}, defaultRequestParams, {test:'1234546554'})
+$.extend(true, {}, defaultRequestParams, {test:'1234546554'})
+console.log(defaultRequestParams);
+$.extend(true, {}, defaultRequestParams, {test:'1234546554sfdaf'})
+console.log(defaultRequestParams);
+$.extend(true, defaultRequestParams, {test:'123454sadsa6554sfdaf'})
+console.log(defaultRequestParams);
+$.extend(false, defaultRequestParams, {test:'123454sadsa6554sfdafsfdsadfsa'})
+console.log(defaultRequestParams);
+</script>
+
+</body>
+</html>
