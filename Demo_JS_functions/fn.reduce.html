@@ -1,0 +1,82 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml"1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST-MAP & Reduce</title>
+<script type="text/javascript">
+console.log("reduce()");
+// 当前的购物清单
+var items = [{price: 10}, {price: 120}, {price: 1000}];
+// reducer函数
+var reducer = function add(sumSoFar, nextPrice) {
+    return sumSoFar + nextPrice.price;
+};
+
+// 开始运行
+var total = items.reduce(reducer, 0);
+console.log(total);
+
+// 使用20优惠券
+var total1 = items.reduce(reducer, -20);
+console.log(total1);
+console.log("=================================");
+
+var convertReducers = {
+    totalInDollar: function(state, item) {
+        state.USA += item.price;
+        return state;
+    },
+    totalInEuros : function(state, item) {
+        state.BRAB += item.price * 0.897424392;
+        return state;
+    },
+    totalInPounds : function(state, item) {
+        state.ENG += item.price * 0.692688671;
+        return state;
+    },
+    totalInYen : function(state, item) {
+        state.YAN += item.price * 113.852;
+        return state;
+    }
+};
+/*
+var reducerFactory = function(reducers) {
+      return function(state, item) {
+            return Object.keys(reducers).reduce(
+                  function(nextState, key) {
+                        reducers[key](state, item);
+                        return state;
+                  },{}
+            );
+      }
+};
+console.log(reducerFactory(convertReducers));
+var totals2 = items.reduce( reducerFactory(convertReducers), {USA: 0, BRAB:0, YAN: 0, ENG: 0});
+*/
+var totals2 = items.reduce(function (state, item) {
+            return ["totalInDollar", "totalInEuros", "totalInPounds", "totalInYen"].reduce(
+                  function(nextState, key) {
+                        console.log("Key -           " + JSON.stringify(key));
+                        console.log("nextState -     " + JSON.stringify(nextState));
+                        console.log("Item -          " + JSON.stringify(item));
+                        console.log("State -         " + JSON.stringify(state));
+                        convertReducers[key](state, item);
+                        console.log("return State -  " + JSON.stringify(state));
+                        console.log("--------------------");
+                        return state;
+                  },{}
+            );
+      } , {USA: 0, BRAB:0, YAN: 0, ENG: 0});
+
+console.log(Object.keys(convertReducers));
+console.log(totals2);
+
+</script>
+
+
+</head>
+<body>
+reduce() 函数接收2个参数(M: 必填, O: 可选)：<br/>
+<span>(M) 回调reducer 函数 处理先前的结算结果和下一个元素直到序列结束。<br/></span>
+<span>(O) 初值，作为第一次调用回调时的第一个参数。</span>
+</body>
+</html>
