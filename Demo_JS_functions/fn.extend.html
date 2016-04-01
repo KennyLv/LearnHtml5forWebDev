@@ -1,0 +1,25 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml"1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>TEST-Extend</title>
+<script type="text/javascript">
+console.log("extend()");
+
+// 浅拷贝，同样的key会被replace
+function extend(destination, source) { 
+    for (var property in source) {
+       destination[property] = source[property]; 
+    }
+    return destination; 
+}
+
+// TODO：带结构的深拷贝
+
+</script>
+
+
+</head>
+<body>
+
+</body>
+</html>

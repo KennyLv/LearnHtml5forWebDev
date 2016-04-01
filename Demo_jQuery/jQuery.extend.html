@@ -10,8 +10,13 @@
 console.log("-----$.extend-----done()---------");
 var defaultRequestParams= {
     "page":2,
-    "count": 20
+    "count": 20,
+    "para":{
+        "key1": "abcdefg",
+        "key2": "213432554"
+    }
 }
+
 $.extend(defaultRequestParams, {page:1})
 $.extend(defaultRequestParams, {})
 $.extend(defaultRequestParams, {test:'123456'})
@@ -27,6 +32,10 @@ $.extend(true, defaultRequestParams, {test:'123454sadsa6554sfdaf'})
 console.log(defaultRequestParams);
 $.extend(false, defaultRequestParams, {test:'123454sadsa6554sfdafsfdsadfsa'})
 console.log(defaultRequestParams);
+
+$.extend(true , {}, defaultRequestParams, {"para":{"key1": "#@$%#$%", "key3":"sad1254dsa4d" }});
+console.log(defaultRequestParams);
+
 </script>
 
 </body>
