@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<!-- saved from url=(0033)http://www.webhek.com/pathfinding -->
+<html lang="en">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <!--<base href="http://www.webhek.com/apps/PathFinding/">--><base href=".">
+    <meta charset="UTF-8">
+    <title>动画展示各种路径搜索算法</title>
+    <meta name="description" content="十分形象的迷宫搜索算法，能看的计算机如何一步一步的探索路径，障碍物，最终确定最佳，最近的路线图">
+
+    <link rel="stylesheet" href="style.css">
+    <!--
+    <link rel="stylesheet" href="http://www.webhek.com/apps/PathFinding/lib/themes/jquery.ui.all.css">
+        @import url("jquery.ui.core.css");
+        @import url("jquery.ui.resizable.css");
+        @import url("jquery.ui.selectable.css");
+        @import url("jquery.ui.accordion.css");
+        @import url("jquery.ui.autocomplete.css");
+        @import url("jquery.ui.button.css");
+        @import url("jquery.ui.dialog.css");
+        @import url("jquery.ui.slider.css");
+        @import url("jquery.ui.tabs.css");
+        @import url("jquery.ui.datepicker.css");
+        @import url("jquery.ui.progressbar.css");
+    <script type="text/javascript" src="js/ckepop.js" charset="utf-8"></script>
+    <script type="text/javascript" src="js/ca-pub-9195052014444206.js" async=""></script>
+    <script type="text/javascript" src="js/analytics.js" async=""></script>
+    <script type="text/javascript" src="js/jia.js" async="" ></script>
+    -->
+    
+    
+    <script type="text/javascript" src="js/raphael-min.js"></script>
+    <script type="text/javascript" src="js/es5-shim.min.js"></script>
+    <script type="text/javascript" src="js/jquery-1.7.2.min.js"></script>
+    <script type="text/javascript" src="js/state-machine.min.js"></script>
+    <script type="text/javascript" src="js/async.min.js"></script>
+
+    <script type="text/javascript" src="js/jquery.ui.core.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.widget.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.mouse.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.draggable.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.accordion.min.js"></script>
+    <script type="text/javascript" src="js/jquery.ui.slider.min.js"></script>
+
+    <script type="text/javascript" src="js/pathfinding-browser.min.js"></script>
+
+    <script type="text/javascript" src="js/view.js"></script>
+    <script type="text/javascript" src="js/controller.js"></script>
+    <script type="text/javascript" src="js/panel.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+    <style type="text/css">
+        .ui-accordion .ui-accordion-header {
+            font-size: 14px;
+        }
+        .sub_options {
+            font-size: 13px;
+        }
+        #algorithm_panel {
+            top: 0;
+        }
+        button{
+            font-size: 12px; margin: 0
+        }
+        .panel, #stats{
+            position: absolute;
+        }
+        footer{
+            position: relative;
+        }
+        body{
+            overflow: visible;
+        }
+       <!-- #sharebar{ background-color: #eee; border-radius: 3px; padding: 30px; margin-top: 15px;}-->
+    </style>
+  </head>
+  <body style="cursor: auto;">
+    <div id="draw_area"></div>
+
+    <div id="instructions_panel" class="panel ui-draggable">
+      <header>
+        <h2 class="header_title">用法</h2>
+        <span id="hide_instructions">隐藏</span>
+      </header>
+      用鼠标按住并拖拽空白方格，画出阻拦搜索的路墙。<br>
+      拖拽<span class="green">绿色</span>方格设置搜索的出发点。<br>
+      拖拽<span class="red">红色</span>方格设置搜索的目标地。<br>
+      从右侧边栏中指定一种路径搜索算法。<br>
+      点击右下角的“开始搜索”按钮，开始动画演示搜索过程。
+    </div>
+
+    <div id="algorithm_panel" class="panel right_panel ui-draggable" style="left: 1149px; top: 0px;">
+      <header><h2 class="header_title">选择算法</h2></header>
+
+      <div class="accordion ui-accordion ui-widget ui-helper-reset ui-accordion-icons" role="tablist">
+        <h3 id="astar_header" class="ui-accordion-header ui-helper-reset ui-state-active ui-corner-top" role="tab" aria-expanded="true" aria-selected="true" tabindex="0">
+        <span class="ui-icon ui-icon-triangle-1-s"></span><a href="http://www.webhek.com/apps/PathFinding/#">A*</a>
+        </h3>
+        <div id="astar_section" class="finder_section ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom ui-accordion-content-active" role="tabpanel" style="height: 220px; display: block; overflow: auto; padding-top: 10px; padding-bottom: 10px;">
+          <header class="option_header">
+            <h3>数据分析算法</h3>
+          </header>
+          <div id="astar_heuristic" class="sub_options">
+            <input type="radio" name="astar_heuristic" value="manhattan" checked="">
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="astar_heuristic" value="euclidean">
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="astar_heuristic" value="octile">
+            <label class="option_label">Octile</label> <br>
+            <input type="radio" name="astar_heuristic" value="chebyshev">
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+
+          <header class="option_header">
+            <h3>选项</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked="">
+            <label class="option_label">允许走斜线</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">双向搜索</label> <br>
+            <input type="checkbox" class="dont_cross_corners">
+            <label class="option_label">不准切墙角走</label> <br>
+            <input class="spinner" name="astar_weight" value="1">
+            <label class="option_label">Weight</label> <br>
+          </div>
+        </div>
+
+        <h3 id="ida_header" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="http://www.webhek.com/apps/PathFinding/#">IDA*</a></h3>
+        <div id="ida_section" class="finder_section ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" role="tabpanel" style="height: 220px; overflow: auto; display: none; padding-top: 10px; padding-bottom: 10px;">
+          <header class="option_header">
+            <h3>数据分析算法</h3>
+          </header>
+          <div id="ida_heuristic" class="sub_options">
+            <input type="radio" name="ida_heuristic" value="manhattan" checked="">
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="ida_heuristic" value="euclidean">
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="ida_heuristic" value="octile">
+            <label class="option_label">Octile</label> <br>
+            <input type="radio" name="ida_heuristic" value="chebyshev">
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+          <header class="option_header">
+            <h3>选项</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked="">
+            <label class="option_label">允许走斜线</label> <br>
+            <input type="checkbox" class="dont_cross_corners">
+            <label class="option_label">不准切墙角走</label> <br>
+            <input class="spinner" name="astar_weight" value="1">
+            <label class="option_label">Weight</label> <br>
+            <input class="spinner" name="time_limit" value="10">
+            <label class="option_label">速度(秒)</label> <br>
+            <input type="checkbox" class="track_recursion" checked="">
+            <label class="option_label">动画递归过程</label> <br>
+          </div>
+        </div>
+
+        <h3 id="breadthfirst_header" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="http://www.webhek.com/apps/PathFinding/#">Breadth-First-Search<br>广度优先搜索</a></h3>
+        <div id="breadthfirst_section" class="finder_section ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" role="tabpanel" style="height: 220px; overflow: auto; display: none; padding-top: 10px; padding-bottom: 10px;">
+          <header class="option_header">
+            <h3>选项</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked="">
+            <label class="option_label">允许走斜线</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">双向搜索</label> <br>
+            <input type="checkbox" class="dont_cross_corners">
+            <label class="option_label">不准切墙角走</label> <br>
+          </div>
+        </div>
+
+        <h3 id="bestfirst_header" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="http://www.webhek.com/apps/PathFinding/#">Best-First-Search<br>最佳优先搜索</a></h3>
+        <div id="bestfirst_section" class="finder_section ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" role="tabpanel" style="height: 220px; display: none;">
+          <header class="option_header">
+            <h3>数据分析算法</h3>
+          </header>
+          <div id="bestfirst_heuristic" class="sub_options">
+            <input type="radio" name="bestfirst_heuristic" value="manhattan" checked="">
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="bestfirst_heuristic" value="euclidean">
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="bestfirst_heuristic" value="octile">
+            <label class="option_label">Octile</label> <br>
+            <input type="radio" name="bestfirst_heuristic" value="chebyshev">
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+
+          <header class="option_header">
+            <h3>选项</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked="">
+            <label class="option_label">允许走斜线</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">双向搜索</label> <br>
+            <input type="checkbox" class="dont_cross_corners">
+            <label class="option_label">不准切墙角走</label> <br>
+          </div>
+        </div>
+
+        <h3 id="dijkstra_header" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="http://www.webhek.com/apps/PathFinding/#">Dijkstra</a></h3>
+        <div id="dijkstra_section" class="finder_section ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" role="tabpanel" style="height: 220px; display: none;">
+          <header class="option_header">
+            <h3>选项</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="allow_diagonal" checked="">
+            <label class="option_label">允许走斜线</label> <br>
+            <input type="checkbox" class="bi-directional">
+            <label class="option_label">双向搜索</label> <br>
+            <input type="checkbox" class="dont_cross_corners">
+            <label class="option_label">不准切墙角走</label> <br>
+          </div>
+        </div>
+
+        <h3 id="jump_point_header" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="http://www.webhek.com/apps/PathFinding/#">Jump Point Search<br>跳点搜索</a></h3>
+        <div id="jump_point_section" class="finder_section ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" role="tabpanel" style="height: 220px; overflow: auto; display: none; padding-top: 10px; padding-bottom: 10px;">
+          <header class="option_header">
+            <h3>数据分析算法</h3>
+          </header>
+          <div id="jump_point_heuristic" class="sub_options">
+            <input type="radio" name="jump_point_heuristic" value="manhattan" checked="">
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="jump_point_heuristic" value="euclidean">
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="jump_point_heuristic" value="octile">
+            <label class="option_label">Octile</label> <br>
+            <input type="radio" name="jump_point_heuristic" value="chebyshev">
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+          <header class="option_header">
+            <h3>选项</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="track_recursion" checked="">
+            <label class="option_label">动画递归过程</label> <br>
+          </div>
+        </div>
+
+	<h3 id="orth_jump_point_header" class="ui-accordion-header ui-helper-reset ui-state-default ui-corner-all" role="tab" aria-expanded="false" aria-selected="false" tabindex="-1"><span class="ui-icon ui-icon-triangle-1-e"></span><a href="http://www.webhek.com/apps/PathFinding/#">Orthogonal Jump Point Search<br>正交跳点搜索</a></h3>
+        <div id="orth_jump_point_section" class="finder_section ui-accordion-content ui-helper-reset ui-widget-content ui-corner-bottom" role="tabpanel" style="height: 220px; display: none;">
+          <header class="option_header">
+            <h3>数据分析算法</h3>
+          </header>
+          <div id="orth_jump_point_heuristic" class="sub_options">
+            <input type="radio" name="orth_jump_point_heuristic" value="manhattan" checked="">
+            <label class="option_label">Manhattan</label> <br>
+            <input type="radio" name="orth_jump_point_heuristic" value="euclidean">
+            <label class="option_label">Euclidean</label> <br>
+            <input type="radio" name="orth_jump_point_heuristic" value="octile">
+            <label class="option_label">Octile</label> <br>
+            <input type="radio" name="orth_jump_point_heuristic" value="chebyshev">
+            <label class="option_label">Chebyshev</label> <br>
+          </div>
+          <header class="option_header">
+            <h3>选项</h3>
+          </header>
+          <div class="optional sub_options">
+            <input type="checkbox" class="track_recursion" checked="">
+            <label class="option_label">动画递归过程</label> <br>
+          </div>
+        </div>
+
+      </div><!-- .accordion -->
+    </div><!-- #algorithm_panel -->
+
+    <div id="play_panel" class="panel right_panel ui-draggable" style="top: 527px;">
+      <button id="button1" class="control_button">开始搜索</button>
+      <button id="button2" class="control_button" disabled="disabled">暂停搜索</button>
+      <button id="button3" class="control_button">清除路墙</button>
+    </div>
+
+    <div id="stats">
+
+    </div>
+
+    
+
+
+    <footer>
+      Project Hosted on <a href="http://github.com/qiao/PathFinding.js">Github</a>, translated by <a href="http://www.webhek.com/">WEBHEK</a>.
+    </footer>
+    <!-- Performance optimized by W3 Total Cache. Learn more: http://www.w3-edge.com/wordpress-plugins/
+    Page Caching using disk: enhanced
+     Served from: www.webhek.com @ 2016-05-12 13:34:11 by W3 Total Cache -->
+     <i title="Raphaël Colour Picker" style="display: none; color: yellow;"></i>
+ </body>
+ </html>
