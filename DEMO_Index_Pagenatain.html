@@ -1,0 +1,141 @@
+﻿
+<!DOCTYPE HTML>
+<html>
+<head>
+<meta charset="utf-8">
+<title>移动端单页分页实现</title>
+
+</head>
+
+<body>
+<script>
+var pagationForIndexs = function(){
+    var items_per_unit = 1, units_per_page = 10;
+    return {
+        init : function (item_count_per_unit, unit_count_per_page){
+            items_per_unit = item_count_per_unit;
+            units_per_page = unit_count_per_page;
+        },
+        getIndexPages : function (start, end){
+            var pageInfo = this._getPageInfo(start, end);
+            var units = [];
+            if (pageInfo.has_previous) {
+                var act_units_per_page = pageInfo.current_page > 2 ? units_per_page - 2 : units_per_page - 1;
+                units.push({
+                    "filter_event" : 'goToOtherPageOfIndex',
+                    "display_name": " << 1~" + (start-1),
+                    "parameters": {
+                        "start": start- items_per_unit*act_units_per_page,
+                        "end": end
+                    }
+                });
+            }
+            var page_unit_count =  Math.ceil((pageInfo.end_in_current_page - start + 1)/items_per_unit);
+            var unit_index_start = pageInfo.current_page > 1 ? (pageInfo.current_page - 1)*(units_per_page-2) + 2 : 1;
+            for (var i = 0; i < page_unit_count; i++) {
+                var unit_start = i*items_per_unit + start;
+                var unit_end = (i === (page_unit_count - 1)) ? pageInfo.end_in_current_page : (i+1)*items_per_unit + start - 1;
+                units.push({
+                    "filter_event" : "goToPage",
+                    "display_name": unit_start + "~" + unit_end,
+                    "parameters": {
+                        "page": unit_index_start + i
+                    }
+                });
+            }
+            if (pageInfo.has_next) {
+                units.push({
+                    "filter_event" : 'goToOtherPageOfIndex',
+                    "display_name": (pageInfo.end_in_current_page + 1) + "~" + end + " >>",
+                    "parameters": {
+                        "start": pageInfo.end_in_current_page + 1,
+                        "end": end
+                    }
+                });
+                
+            }
+            return units;
+        },
+        _getPagelocation : function (index) {
+            var tmp_total_count = Math.ceil(index/(items_per_unit*(units_per_page - 2)));
+            var location_page = tmp_total_count;
+            if (tmp_total_count > 1 ) {
+                var reduceUnitCount = tmp_total_count > 1 ? 2 : 1;
+                var mod = index % (items_per_unit*(units_per_page - 2));
+                if( mod !== 0 && mod <= items_per_unit*reduceUnitCount ){
+                    location_page = tmp_total_count - 1;
+                }
+            }
+            return location_page;
+        },
+        _getPageInfo : function (start, end){
+            var start_page = this._getPagelocation(start);
+            var end_page = this._getPagelocation(end);
+            var end_in_current_page = end;
+            if (start_page < end_page) {
+                if ( start > items_per_unit*((start_page - 1)*(units_per_page-2) + (units_per_page-1)) ) {
+                    start_page += 1;
+                }
+            }
+            if (start_page < end_page) {
+                end_in_current_page = items_per_unit*((start_page - 1)*(units_per_page-2) + (units_per_page-1));
+            }
+            var pagationInfo = {
+                "current_page" : start_page,
+                "end_in_current_page" : end_in_current_page,
+                "has_previous" : start_page > 1 ? true : false,
+                "has_next" : (start_page === end_page) ? false : true
+            };
+            return pagationInfo;
+        }
+    }
+}
+
+var listRender = function(){
+    return {
+        render: function (div, units){
+            div.clear();
+            var innerHtml = "";
+            for (var i= 0; i < units.length(); i++) {
+                
+            }
+            div.innerHtml = innerHtml;
+        }
+    }
+}
+</script>
+<div>
+    <div>
+      Total Count: <input type="text" name="fname" id="total_count" />
+      <input type="button" value="Go" onClick="initPage()" />
+    </div>
+    <div id = "renderArea">
+    <span>hh</span>
+    </div>
+
+<script>
+var P = new pagationForIndexs();
+var R = new listRender();
+function initPage(){
+    P.init(20,10);
+    var end = document.getElementById("total_count").value;
+    console.log(end);
+    goToOtherPageOfIndex(1, end);
+};
+
+
+function goToPage(page){
+    alert(page);
+};
+function goToOtherPageOfIndex(start, end){
+    R.render(document.getElementById("renderArea") , P.getIndexPages(start, end));
+};
+
+
+</script>
+    
+    
+</div>
+</body>
+</html>
+
