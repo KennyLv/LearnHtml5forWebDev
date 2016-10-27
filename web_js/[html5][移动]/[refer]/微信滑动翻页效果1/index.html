@@ -1,0 +1,354 @@
+<!doctype html>
+<html lang="zh-CN">
+	<head>
+		<meta charset="UTF-8">
+		<title>HI O2O Key</title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		<link rel="stylesheet" href="css/idangerous.swiper.css">
+	</head>
+	<body>
+		<div class="swiper-container">
+			<div class="swiper-wrapper">
+				<div class="swiper-slide head"></div>
+				<div class="swiper-slide num n2">
+					<div class="info"></div>
+				</div>
+				<div class="swiper-slide num n3">
+					<div class="info"></div>
+				</div>
+				<div class="swiper-slide num n4">
+					<div class="info"></div>
+				</div>
+				<div class="swiper-slide num n5">
+					<div class="info"></div>
+				</div>
+				<div class="swiper-slide num foot">
+					<div class="share"></div>
+				</div>
+			</div>
+			<div class="pagination"></div>
+			<div class="arrow"></div>
+		</div>
+
+		<script src="js/jquery-1.10.1.min.js"></script>
+		<script src="js/idangerous.swiper.min.js"></script>
+		<script type="text/javascript">
+			$(function() {
+
+				$('.headWord').addClass('headWord-show');
+
+				var mySwiper = new Swiper('.swiper-container', {
+					// pagination: '.pagination',
+					paginationClickable : true,
+					slidesPerView : 1,
+					mode : 'vertical',
+					onTouchEnd : function() {
+						var self = $(mySwiper.activeSlide()).find('.info');
+						// if(mySwiper.activeIndex==5){
+						// 	return
+						// }
+						// self.removeClass('info-fall');
+						$('.info').css({
+							'opacity' : '0',
+							'top' : '0px',
+						})
+						self.animate({
+							opacity : '1',
+							top : '50px',
+						}, 'normal')
+					}
+				})
+				var swiperNested5 = new Swiper('.num5 .swiper-nested-1', {
+					mode : 'horizontal',
+					// pagination: '.pagination-nested-1',
+					paginationClickable : true,
+					slidesPerView : 1,
+					loop : true,
+					onTouchEnd : function() {
+						var self = $(swiperNested5.activeSlide()).find('.info');
+						console.log(self);
+						$('.info').css({
+							'opacity' : '0',
+							'top' : '0px',
+						})
+						self.animate({
+							opacity : '1',
+							top : '50px',
+						})
+					}
+				});
+				$('.num5 .left').on('click', function(e) {
+					e.preventDefault();
+					swiperNested5.swipePrev();
+				});
+				$('.num5 .right').on('click', function(e) {
+					e.preventDefault();
+					swiperNested5.swipeNext();
+				});
+				/*
+				var swiperNested26 = new Swiper('.num26 .swiper-nested-1', {
+
+				mode : 'horizontal',
+
+				paginationClickable : true,
+
+				slidesPerView : 1,
+
+				loop : true
+
+				})
+
+				$('.num26 .left').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested26.swipePrev()
+
+				})
+
+				$('.num26 .right').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested26.swipeNext()
+
+				})
+				var swiperNested27 = new Swiper('.num27 .swiper-nested-1', {
+
+				mode : 'horizontal',
+
+				paginationClickable : true,
+
+				slidesPerView : 1,
+
+				loop : true
+
+				})
+
+				$('.num27 .left').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested27.swipePrev()
+
+				})
+
+				$('.num27 .right').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested27.swipeNext()
+
+				})
+				var swiperNested28 = new Swiper('.num28 .swiper-nested-1', {
+
+				mode : 'horizontal',
+
+				paginationClickable : true,
+
+				slidesPerView : 1,
+
+				loop : true
+
+				})
+
+				$('.num28 .left').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested28.swipePrev()
+
+				})
+
+				$('.num28 .right').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested28.swipeNext()
+
+				})
+				var swiperNested30 = new Swiper('.num30 .swiper-nested-1', {
+
+				mode : 'horizontal',
+
+				paginationClickable : true,
+
+				slidesPerView : 1,
+
+				loop : true
+
+				})
+
+				$('.num30 .left').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested30.swipePrev()
+
+				})
+
+				$('.num30 .right').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested30.swipeNext()
+
+				})
+				var swiperNested31 = new Swiper('.num31 .swiper-nested-1', {
+
+				mode : 'horizontal',
+
+				paginationClickable : true,
+
+				slidesPerView : 1,
+
+				loop : true
+
+				})
+
+				$('.num31 .left').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested31.swipePrev()
+
+				})
+
+				$('.num31 .right').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested31.swipeNext()
+
+				})
+				var swiperNested32 = new Swiper('.num32 .swiper-nested-1', {
+
+				mode : 'horizontal',
+
+				paginationClickable : true,
+
+				slidesPerView : 1,
+
+				loop : true
+
+				})
+
+				$('.num32 .left').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested32.swipePrev()
+
+				})
+
+				$('.num32 .right').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested32.swipeNext()
+
+				})
+				var swiperNested33 = new Swiper('.num33 .swiper-nested-1', {
+
+				mode : 'horizontal',
+
+				paginationClickable : true,
+
+				slidesPerView : 1,
+
+				loop : true
+
+				})
+
+				$('.num33 .left').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested33.swipePrev()
+
+				})
+
+				$('.num33 .right').on('click', function(e) {
+
+				e.preventDefault()
+
+				swiperNested33.swipeNext()
+
+				})*/
+				// window.ontouchstart = function(){
+				//     // $('audio').attr('autoplay','autoplay');
+				//     $('audio').get(0).play();
+				// }
+
+				$(window).one('touchstart', function() {
+					$('audio').get(0).play();
+					$('.music').addClass('on music-off');
+				});
+
+				$('.music').on('touchstart', function() {
+					if ($(this).hasClass('on')) {
+						$('audio').get(0).pause();
+						$(this).removeClass('on music-off');
+					} else {
+						$('audio').get(0).play();
+						$(this).addClass('on music-off');
+					}
+				});
+				$('.foot').click('touchstart', function() {
+					var box = $(this).find('.share');
+					if (box.is(":hidden")) {
+						box.show();
+					} else {
+						box.hide();
+					}
+				});
+
+			});
+
+		</script>
+		<script>
+			function _WXShare(img_url, img_width, img_height, title, desc, link, appid) {
+				img_width = img_width || 100;
+				img_height = img_height || 100;
+				title = title || document.title;
+				desc = desc || document.title;
+				link = link || document.location.href;
+				appid = appid || "";
+				document.addEventListener("WeixinJSBridgeReady", function k() {
+					WeixinJSBridge.on("menu:share:appmessage", function(l) {
+						WeixinJSBridge.invoke("sendAppMessage", {appid: appid, img_url: img_url ,img_width: , img_height:img_height,link:link,desc:desc,title:title
+					}, function(l) {
+						_report("send_msg", l.err_msg);
+					});
+				});
+				WeixinJSBridge.on("menu:share:timeline", function(l) {
+					WeixinJSBridge.invoke("shareTimeline", {
+						img_url : img_url,
+						img_width : img_width,
+						img_height : img_height,
+						link : link,
+						desc : desc,
+						title : title
+					}, function(l) {
+						_report("timeline", l.err_msg);
+					});
+				});
+				WeixinJSBridge.on("menu:share:weibo", function(l) {
+					WeixinJSBridge.invoke("shareWeibo", {
+						content : f,
+						url : link
+					}, function(l) {
+						_report("weibo", l.err_msg);
+					});
+				});
+			},false);
+
+			};
+			var url = "http://www.lxydog.com/test/index.html";
+			var icon = "http://www.lxydog.com/test/images/1.jpg";
+			_WXShare(icon, '100', '100', 'Hi O2O Key', '帮您打造\n消费者身边的O2O', url);
+		</script>
+
+	</body>
+
+</html>

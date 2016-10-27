@@ -1,0 +1,241 @@
+<!doctype html>
+<html lang="en">
+{% load staticfiles %}
+
+<head>
+    <meta charset="UTF-8">
+    <link rel="shortcut icon" href="{% static 'img/color_icon.ico' %}" type='image/png'>
+    <title>{{ title }}</title>
+    <style type="text/css">
+        .clearfix:after {
+            content: "";
+            display: block;
+            clear: both;
+        }
+        body {
+            margin: 0;
+        }
+        a {
+            color: #fff;
+            text-decoration: none;
+        }
+        .header {
+            margin: 0 0 50px 0;
+            padding-top: 10px;
+            padding-bottom: 10px;
+            /*            border-radius: 5px;*/
+            background-color: rgb(0, 157, 148);
+            color: #fff;
+            text-align: center;
+            font-weight: 100;
+        }
+        .card {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            margin: 0 auto;
+            padding-bottom: 50px;
+            text-align: center;
+            background-color: #fff;
+        }
+        .save_color {
+            max-width: 33.33333%;
+            height: 100%;
+            right: 30px;
+            margin: 0;
+            float: right;
+        }
+        .list_color {
+            width: 66.666667%;
+            /*            float: left;*/
+        }
+        .panel {
+            width: 100%;
+            float: right;
+            margin-right: 50px;
+            margin-bottom: 50px;
+        }
+        .messages {
+            color: #f00;
+        }
+        li {
+            width: 150px;
+            padding: 10px;
+            margin: 3px;
+            float: left;
+            color: #fff;
+            list-style-type: none;
+        }
+        .inputbox {
+            width: 200px;
+            height: 40px;
+            margin: 0;
+            float: right;
+        }
+        input[type="submit"] {
+            height: 46px;
+            padding: 10px 50px;
+            margin: 0;
+            /*            margin-bottom: 10px;*/
+            background-color: rgb(0, 157, 140);
+            border: none;
+            color: #fff;
+            float: right;
+        }
+        .hintMsg {
+            /*            clear: both;*/
+            /*            padding-top: 20px;*/
+            padding-left: 10px;
+            width: 192px;
+            text-align: left;
+            color: rgb(131, 145, 146);
+            float: left;
+            box-shadow: 1px 1px 5px #444;
+            line-height: 30px;
+        }
+        /*
+        span {
+            display: inline-block;
+            width: 115.99px;
+            margin: 10px 10px 0 0;
+        }
+*/
+        .ahead {
+            color: rgb(131, 145, 146);
+        }
+        .panel {
+            width: 331px;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="all_color card">
+        {% if all_color %}
+        <h3 class="header">您已保存了{{ all_color|length }}种颜色：</h3>
+
+        <div class="save_color clearfix">
+            <form class="panel" role="form" method="post" action="{% url 'color:color_form' %}">
+                <!--            <h2 class="header">保存颜色</h2>-->
+                {% csrf_token %} {% if messages %}
+                <div class="messages">
+                    {% for message in messages %}
+                    <p class="text-{{ message.tags }}">
+                        {{ message }}
+                    </p>
+                    {% endfor %}
+                </div>
+                {% endif %}
+
+                <input type="submit" value="保存">
+                <input type="text" name="name" class="inputbox" placeholder="输入要保存的颜色值" id="saveColor" autocomplete="off" onkeyup=saveColorHint(this.value,this.id)>
+                <div id="saveColorHint" class="hintMsg"></div>
+            </form>
+            <form class="panel" role="form" method="post" action="{% url 'color:search_color' %}">
+                {% csrf_token %}
+                <input type="submit" value="搜索">
+                <input type="text" name="color_name" class="inputbox" placeholder="输入要搜索的颜色值" id="searchColor" autocomplete="off" onkeyup=saveColorHint(this.value,this.id)>
+                <div id="searchColorHint" class="hintMsg"></div>
+            </form>
+        </div>
+
+        <!--        <div class="list_color clearfix">-->
+        <ul class="list_color clearfix">
+            {% for color in all_color %}
+
+            <li style="background-color:{{color}};"> <a href="{% url 'color:detail' color.id %}">{{color}}</a>
+            </li>
+
+            {% endfor %}
+        </ul>
+        {% else %} {% if color_detail %}
+        <ul>
+            <li style="background-color:{{color_detail}}">{{color_detail}}</li>
+        </ul>
+        {% endif %} {% endif %}
+        <!--        </div>-->
+    </div>
+    <script>
+        /*var saveColor = document.getElementById("saveColor"),
+            saveColorHint = document.getElementById("saveColotHint");
+        saveColor.onkeyup = function(){
+            var xhr;
+            if(saveColor.nodeValue().length == 0){
+                saveColorHint.innerHTML = "";
+            }
+            if(window.XMLHttpRequest){
+                xhr = new XMLHttpRequest();
+            }
+            else{
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhr.onreadystatechange = function(){
+                if(xhr.readyState == 4 &&　xhr.status == 200){
+                    saveColorHint.innerHTML = responseText;
+                }
+            }
+            xhr.open('GET','saveColorHint/?colorName='+saveColor.nodeValue(),true);
+            xhr.send(null);
+        }*/
+
+
+        function saveColorHint(val, id) { //传入id值，下文可根据 id+“Hint” 获取到点击事件相对应的<div>进行更新返回值。
+            var xhr, responseHtml = "";
+            if (val.length == 0) {
+                document.getElementById(id + "Hint").innerHTML = "";
+                return; //一定要return，否则会继续把 空字符 request到后台。
+            }
+            /*else if (val.length <= 4) {
+                document.getElementById(id + "Hint").innerHTML = "";
+                return;
+            }*/
+
+            if (window.XMLHttpRequest) {
+                xhr = new XMLHttpRequest();
+            } else {
+                xhr = new ActiveXObject("Microsoft.XMLHTTP");
+            }
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState == 4 && xhr.status == 200) {
+                    if (!xhr.responseText) {
+                        document.getElementById(id + "Hint").innerHTML = '数据库里没有相关记录';
+                    } else {
+                        var responseText = xhr.responseText.split("，"); //变为Array,以便对每个值添加tag。
+                        for (index in responseText) {
+                            responseHtml = responseHtml + "<li class='ahead'>" + responseText[index] + "</li>"
+                        } //这样可以实现对每个值添加一个tag，以便为其添加css。
+                        document.getElementById(id + "Hint").innerHTML = '<h3>数据库中已存在：</h3>' + responseHtml;
+
+                    }
+                }
+            }
+            xhr.open('GET', 'saveColorHint/?colorName=' + val, true);
+            xhr.send(null);debugger
+
+        }
+        !function(){
+            id.onblur = function (event) {
+                debugger
+                var ev = event || window.event,
+                    target = ev.target || ev.srcElement;
+                if (target.nodeName = "input") {
+                    document.getElementById(target.id + "Hint").innerHTML = "";
+                    return;
+                }
+            }
+            
+        }()
+
+        /*document.getElementById("saveColor").onblur = function (event) {
+            var ev = event || window.event,
+                target = ev.target || ev.srcElement;
+            if (target.nodeName = "input") {
+                document.getElementById(target.id + "Hint").innerHTML = "";
+                return;
+            }
+        }*/
+    </script>
+</body>
+
+</html>
